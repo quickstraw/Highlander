@@ -1,0 +1,3 @@
+displayName = Highlander
+author = Quickstraw
+version = 0.1
