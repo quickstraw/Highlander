@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Highlander.NPCs.HauntedHatter
@@ -51,12 +52,16 @@ namespace Highlander.NPCs.HauntedHatter
 		// Shoots 8 projectiles when killed.
 		public override void Kill(int timeLeft)
 		{
-			int type = ModContent.ProjectileType<GhostBlast>();
-			int damage = (int)(projectile.damage * 0.8333333f);
-			var curr = forward;
-			for (int i = 0; i < 8; i++) {
-				Projectile.NewProjectileDirect(projectile.Center, curr * 6, type, damage, 0.5f);
-				curr = curr.RotatedBy(MathHelper.PiOver4);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				int type = ModContent.ProjectileType<GhostBlast>();
+				int damage = (int)(projectile.damage * 0.8333333f);
+				var curr = forward;
+				for (int i = 0; i < 8; i++)
+				{
+					Projectile.NewProjectileDirect(projectile.Center, curr * 6, type, damage, 0.5f);
+					curr = curr.RotatedBy(MathHelper.PiOver4);
+				}
 			}
 		}
 

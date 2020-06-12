@@ -11,6 +11,7 @@ using Terraria.ModLoader.IO;
 
 namespace Highlander.Items
 {
+    
     class AbnormalItem : ModItem
     {
 
@@ -84,7 +85,6 @@ namespace Highlander.Items
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            Main.NewText(CurrentEffect);
             if (CurrentEffect != 0)
             {
                 TooltipLine line = new TooltipLine(mod, "AbnormalToolTip", "Abnormal effect is: " + CurrentEffect);
@@ -123,8 +123,7 @@ namespace Highlander.Items
 
         public override void UpdateVanity(Player player, EquipType type)
         {
-            Main.NewText(CurrentEffect);
-            PlayAbnormalEffect(player);
+            //PlayAbnormalEffect(player);
         }
 
         protected void PlayAbnormalEffect(Player player)

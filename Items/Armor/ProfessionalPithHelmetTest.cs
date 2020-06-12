@@ -10,6 +10,7 @@ using Terraria.ModLoader.IO;
 
 namespace Highlander.Items.Armor
 {
+    
     [AutoloadEquip(EquipType.Head)]
     class ProfessionalPithHelmetTest : AbnormalItem
     {

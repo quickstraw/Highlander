@@ -154,8 +154,11 @@ namespace Highlander.NPCs.HauntedHatter
                         break;
                 }
             }
-            dashTimer--;
-            moveTimer--;
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                dashTimer--;
+                moveTimer--;
+            }
         }
 
         public override void FindFrame(int frameHeight)
@@ -387,7 +390,7 @@ namespace Highlander.NPCs.HauntedHatter
                     dashDistance = distance.X;
                 }
                 Dash();
-                if (dashTimer <= -20)
+                if (dashTimer <= -20 && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     dashTimer = DASH_DEFAULT;
                 }
@@ -977,6 +980,7 @@ namespace Highlander.NPCs.HauntedHatter
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write((short)moveTimer);
+            writer.Write((short)dashTimer);
             writer.Write(flags);
             writer.Write((short)attackTimer2);
             writer.Write((short)attackTimer3);
@@ -985,6 +989,7 @@ namespace Highlander.NPCs.HauntedHatter
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             moveTimer = reader.ReadInt16();
+            dashTimer = reader.ReadInt16();
             flags = reader.ReadByte();
             attackTimer2 = reader.ReadInt16();
             attackTimer3 = reader.ReadInt16();
@@ -992,9 +997,13 @@ namespace Highlander.NPCs.HauntedHatter
 
         public override void NPCLoot()
         {
-            if(Main.netMode != NetmodeID.MultiplayerClient)
+            if (!HighlanderWorld.downedHauntedHatter)
             {
-
+                HighlanderWorld.downedHauntedHatter = true;
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.SendData(MessageID.WorldData); // Immediately inform clients of new world state.
+                }
             }
             if (Main.expertMode)
             {

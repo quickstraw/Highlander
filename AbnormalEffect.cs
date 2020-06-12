@@ -9,7 +9,7 @@ namespace Highlander
     public class RollTable
     {
         public List<float> Table;
-        public static RollTable AbnormalRollTable = new RollTable();
+        public static RollTable AbnormalRollTable;
         
         private RollTable()
         {
@@ -27,6 +27,11 @@ namespace Highlander
             Table.Add(5f); //Blizzardy Storm
             Table.Add(5f); //Stormy Storm
             Table.Add(5f); //Cloud 9
+        }
+
+        public static void MakeTable()
+        {
+            AbnormalRollTable = new RollTable();
         }
     }
     

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Highlander.Items.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace Highlander.Items.HauntedHatter
             List<int> items = new List<int>();
             items.Add(ItemType<SpiritShears>());
             items.Add(ItemType<EnchantedNeedleHook>());
+            items.Add(ItemType<AncientStoneBlaster>());
             int chance;
             chance = Main.rand.Next(0, items.Count);
             player.QuickSpawnItem(items[chance]);

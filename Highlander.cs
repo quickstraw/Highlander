@@ -1,5 +1,4 @@
 using Highlander.Items.Armor;
-using Highlander.UI;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -10,8 +9,6 @@ namespace Highlander
 {
 	public class Highlander : Mod
 	{
-		private UserInterface _exampleResourceBarUserInterface;
-		internal ExampleResourceBar ExampleResourceBar;
 
 		public Highlander()
 		{
@@ -23,6 +20,7 @@ namespace Highlander
 			};
 
 			Instance = this;
+			RollTable.MakeTable();
 		}
 
 		public override void Load()
@@ -90,40 +88,105 @@ namespace Highlander
 				AddItem(effect + "OlSnaggletooth", item);
 				AddEquipTexture(item, EquipType.Head, "OlSnaggletooth" + effect + "_Head", "Highlander/Items/Armor/OlSnaggletooth_Head");
 			}
-
-			if (!Main.dedServ)
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
 			{
-				ExampleResourceBar = new ExampleResourceBar();
-				_exampleResourceBarUserInterface = new UserInterface();
-				_exampleResourceBarUserInterface.SetState(ExampleResourceBar);
+				AbnormalEffect effect = (AbnormalEffect)i;
+				PyromancerMask item = new PyromancerMask(effect);
+				AddItem(effect + "PyromancerMask", item);
+				AddEquipTexture(item, EquipType.Head, "PyromancerMask" + effect + "_Head", "Highlander/Items/Armor/PyromancerMask_Head");
 			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				HongKongCone item = new HongKongCone(effect);
+				AddItem(effect + "HongKongCone", item);
+				AddEquipTexture(item, EquipType.Head, "HongKongCone" + effect + "_Head", "Highlander/Items/Armor/HongKongCone_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				KillerExclusive item = new KillerExclusive(effect);
+				AddItem(effect + "KillerExclusive", item);
+				AddEquipTexture(item, EquipType.Head, "KillerExclusive" + effect + "_Head", "Highlander/Items/Armor/KillerExclusive_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				BombBeanie item = new BombBeanie(effect);
+				AddItem(effect + "BombBeanie", item);
+				AddEquipTexture(item, EquipType.Head, "BombBeanie" + effect + "_Head", "Highlander/Items/Armor/BombBeanie_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				TartanTyrolean item = new TartanTyrolean(effect);
+				AddItem(effect + "TartanTyrolean", item);
+				AddEquipTexture(item, EquipType.Head, "TartanTyrolean" + effect + "_Head", "Highlander/Items/Armor/TartanTyrolean_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				ColdfrontCommander item = new ColdfrontCommander(effect);
+				AddItem(effect + "ColdfrontCommander", item);
+				AddEquipTexture(item, EquipType.Head, "ColdfrontCommander" + effect + "_Head", "Highlander/Items/Armor/ColdfrontCommander_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				SinnerShade item = new SinnerShade(effect);
+				AddItem(effect + "SinnerShade", item);
+				AddEquipTexture(item, EquipType.Head, "SinnerShade" + effect + "_Head", "Highlander/Items/Armor/SinnerShade_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				MightyMitre item = new MightyMitre(effect);
+				AddItem(effect + "MightyMitre", item);
+				AddEquipTexture(item, EquipType.Head, "MightyMitre" + effect + "_Head", "Highlander/Items/Armor/MightyMitre_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				CondorCap item = new CondorCap(effect);
+				AddItem(effect + "CondorCap", item);
+				AddEquipTexture(item, EquipType.Head, "CondorCap" + effect + "_Head", "Highlander/Items/Armor/CondorCap_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				SurgeonShako item = new SurgeonShako(effect);
+				AddItem(effect + "SurgeonShako", item);
+				AddEquipTexture(item, EquipType.Head, "SurgeonShako" + effect + "_Head", "Highlander/Items/Armor/SurgeonShako_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				ToySoldier item = new ToySoldier(effect);
+				AddItem(effect + "ToySoldier", item);
+				AddEquipTexture(item, EquipType.Head, "ToySoldier" + effect + "_Head", "Highlander/Items/Armor/ToySoldier_Head");
+			}
+			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			{
+				AbnormalEffect effect = (AbnormalEffect)i;
+				PatriotPeak item = new PatriotPeak(effect);
+				AddItem(effect + "PatriotPeak", item);
+				AddEquipTexture(item, EquipType.Head, "PatriotPeak" + effect + "_Head", "Highlander/Items/Armor/PatriotPeak_Head");
+			}
+
 		}
 
 		public override void Unload()
 		{
-
+			RollTable.AbnormalRollTable = null;
+			Instance = null;
 		}
 
 		public override void UpdateUI(GameTime gameTime)
 		{
-			_exampleResourceBarUserInterface?.Update(gameTime);
 		}
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
-
-			int resourceBarIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Resource Bars"));
-			if (resourceBarIndex != -1)
-			{
-				layers.Insert(resourceBarIndex, new LegacyGameInterfaceLayer(
-					"Highlander: Ammo Counter",
-					delegate {
-						_exampleResourceBarUserInterface.Draw(Main.spriteBatch, new GameTime());
-						return true;
-					},
-					InterfaceScaleType.UI)
-				);
-			}
 
 		}
 

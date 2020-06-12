@@ -124,5 +124,26 @@ namespace Highlander.Utilities
 
 
         });
+
+        public static readonly PlayerLayer bigHat = new PlayerLayer("Highlander", "AmmoGunCounter", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
+        {
+            string texPath = "Items/Armor/ToySoldier_Head";
+            int yOffset = 0;
+            float angle = 0;
+            Main.playerDrawData.Add(BigHatDrawData(drawInfo, texPath, yOffset, angle));
+        });
+
+        public static DrawData BigHatDrawData(PlayerDrawInfo drawInfo, string bigHatSprite, int yOffset, float angleInRadians)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            Mod mod = Highlander.Instance;
+            HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
+            float scale = 1f;
+            Texture2D texture = mod.GetTexture(bigHatSprite);
+            int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
+            int drawY = (int)(drawInfo.position.Y + yOffset + drawPlayer.height / 0.6f - Main.screenPosition.Y);
+            return new DrawData(texture, new Vector2(drawX, drawY), new Rectangle(0, 0, texture.Width, texture.Height), Color.White, angleInRadians, new Vector2(texture.Width / 2f, texture.Height / 2f), scale, SpriteEffects.None, 0);
+        }
     }
+
 }
