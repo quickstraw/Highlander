@@ -13,11 +13,10 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class TartanTyrolean : AbnormalBase
+    class TartanTyrolean : AbnormalItem
     {
-        public TartanTyrolean()
+        public TartanTyrolean() : base()
         {
-            CurrentEffect = 0;
         }
         public TartanTyrolean(AbnormalEffect effect) : base(effect)
         {
@@ -35,6 +34,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

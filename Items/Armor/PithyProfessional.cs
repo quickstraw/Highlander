@@ -13,11 +13,10 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class PithyProfessional : AbnormalBase
+    class PithyProfessional : AbnormalItem
     {
-        public PithyProfessional()
+        public PithyProfessional() : base()
         {
-            CurrentEffect = 0;
         }
         public PithyProfessional(AbnormalEffect effect) : base(effect)
         {
@@ -35,6 +34,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
 
         /**public override void UpdateVanity(Player player, EquipType type)

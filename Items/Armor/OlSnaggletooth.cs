@@ -9,11 +9,10 @@ using Terraria.ModLoader;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class OlSnaggletooth : AbnormalBase
+    class OlSnaggletooth : AbnormalItem
     {
-        public OlSnaggletooth()
+        public OlSnaggletooth() : base()
         {
-            CurrentEffect = 0;
         }
         public OlSnaggletooth(AbnormalEffect effect) : base(effect)
         {
@@ -42,6 +41,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

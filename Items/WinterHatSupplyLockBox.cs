@@ -83,9 +83,7 @@ namespace Highlander.Items
 
             if (isAbnormal)
             {
-                int effectChance = Main.rand.Next(0, (int)AbnormalEffect.Max);
-                AbnormalEffect effect = (AbnormalEffect)effectChance;
-                prefix = "" + effect;
+                prefix = "Unusual";
             }
 
             int chance;

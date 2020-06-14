@@ -64,7 +64,7 @@ namespace Highlander.Dusts
 
                 dust.alpha += 2;
 
-                if (timer > 10)
+                if (timer > 60)
                 {
                     dust.active = false;
                 }

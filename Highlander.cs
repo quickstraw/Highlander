@@ -1,3 +1,4 @@
+using Highlander.Items;
 using Highlander.Items.Armor;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -25,7 +26,89 @@ namespace Highlander
 
 		public override void Load()
 		{
-			for (int i = 1; i < (int)AbnormalEffect.Max; i++)
+			AbnormalEffect effect = 0;
+
+			AbnormalItem item = new PithyProfessional(effect);
+			AddItem("UnusualPithyProfessional", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualPithyProfessional_Head", "Highlander/Items/Armor/PithyProfessional_Head");
+
+			item = new LegendaryLid(effect);
+			AddItem("UnusualLegendaryLid", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualLegendaryLid_Head", "Highlander/Items/Armor/LegendaryLid_Head");
+
+			item = new BrassBucket(effect);
+			AddItem("UnusualBrassBucket", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualBrassBucket_Head", "Highlander/Items/Armor/BrassBucket_Head");
+
+			item = new TeamCaptain(effect);
+			AddItem("UnusualTeamCaptain", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualTeamCaptain_Head", "Highlander/Items/Armor/TeamCaptain_Head");
+
+			item = new StainlessPot(effect);
+			AddItem("UnusualStainlessPot", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualStainlessPot_Head", "Highlander/Items/Armor/StainlessPot_Head");
+
+			item = new Hotrod(effect);
+			AddItem("UnusualHotrod", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualHotrod_Head", "Highlander/Items/Armor/Hotrod_Head");
+
+			item = new StoutShako(effect);
+			AddItem("UnusualStoutShako", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualStoutShako_Head", "Highlander/Items/Armor/StoutShako_Head");
+
+			item = new SamurEye(effect);
+			AddItem("UnusualSamurEye", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualSamurEye_Head", "Highlander/Items/Armor/SamurEye_Head");
+
+			item = new OlSnaggletooth(effect);
+			AddItem("UnusualOlSnaggletooth", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualOlSnaggletooth_Head", "Highlander/Items/Armor/OlSnaggletooth_Head");
+
+			item = new PyromancerMask(effect);
+			AddItem("UnusualPyromancerMask", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualPyromancerMask_Head", "Highlander/Items/Armor/PyromancerMask_Head");
+
+			item = new HongKongCone(effect);
+			AddItem("UnusualHongKongCone", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualHongKongCone_Head", "Highlander/Items/Armor/HongKongCone_Head");
+
+			item = new KillerExclusive(effect);
+			AddItem("UnusualKillerExclusive", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualKillerExclusive_Head", "Highlander/Items/Armor/KillerExclusive_Head");
+
+			item = new TartanTyrolean(effect);
+			AddItem("UnusualTartanTyrolean", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualTartanTyrolean_Head", "Highlander/Items/Armor/TartanTyrolean_Head");
+
+			item = new ColdfrontCommander(effect);
+			AddItem("UnusualColdfrontCommander", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualColdfrontCommander_Head", "Highlander/Items/Armor/ColdfrontCommander_Head");
+
+			item = new SinnerShade(effect);
+			AddItem("UnusualSinnerShade", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualSinnerShade_Head", "Highlander/Items/Armor/SinnerShade_Head");
+
+			item = new MightyMitre(effect);
+			AddItem("UnusualMightyMitre", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualMightyMitre_Head", "Highlander/Items/Armor/MightyMitre_Head");
+
+			item = new CondorCap(effect);
+			AddItem("UnusualCondorCap", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualCondorCap_Head", "Highlander/Items/Armor/CondorCap_Head");
+
+			item = new SurgeonShako(effect);
+			AddItem("UnusualSurgeonShako", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualSurgeonShako_Head", "Highlander/Items/Armor/SurgeonShako_Head");
+
+			item = new ToySoldier(effect);
+			AddItem("UnusualToySoldier", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualToySoldier_Head", "Highlander/Items/Armor/ToySoldier_Head");
+
+			item = new PatriotPeak(effect);
+			AddItem("UnusualPatriotPeak", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualPatriotPeak_Head", "Highlander/Items/Armor/PatriotPeak_Head");
+
+			/**for (int i = 1; i < (int)AbnormalEffect.Max; i++)
 			{
 				AbnormalEffect effect = (AbnormalEffect)i;
 				PithyProfessional item = new PithyProfessional(effect);
@@ -171,7 +254,7 @@ namespace Highlander
 				PatriotPeak item = new PatriotPeak(effect);
 				AddItem(effect + "PatriotPeak", item);
 				AddEquipTexture(item, EquipType.Head, "PatriotPeak" + effect + "_Head", "Highlander/Items/Armor/PatriotPeak_Head");
-			}
+			}**/
 
 		}
 

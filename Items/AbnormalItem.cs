@@ -17,12 +17,15 @@ namespace Highlander.Items
 
         public AbnormalEffect CurrentEffect { get; set; }
         public int counter = 0;
-        public List<float> Table = RollTable.AbnormalRollTable.Table;
+        public List<AbnormalEffect> Table = RollTable.AbnormalRollTable.Table;
+        private bool roll = true;
 
         public override void SetDefaults()
         {
             item.accessory = true;
-            CurrentEffect = ReturnRollAbnormalEffect();
+            if (roll) {
+                CurrentEffect = ReturnRollAbnormalEffect();
+            }
             Save();
         }
         public override ModItem Clone()
@@ -32,29 +35,24 @@ namespace Highlander.Items
             return clone;
         }
 
+        public AbnormalItem()
+        {
+            roll = false;
+            CurrentEffect = 0;
+            // Dummy Constructor
+        }
+        public AbnormalItem(AbnormalEffect effect)
+        {
+            // Dummy Constructor
+        }
+
         /// <summary>
         /// Rolls a random float and determines what effect the Abnormal item gets.
         /// </summary>
         protected void RollAbnormalEffect()
         {
-            float totalChance = 0;
-            foreach(float f in Table)
-            {
-                totalChance += f;
-            }
-
-            float randFloat = Main.rand.NextFloat(0, totalChance);
-
-            for(int i = 0; i < Table.Count; i++)
-            {
-                randFloat -= Table[i];
-                if(randFloat <= 0)
-                {
-                    CurrentEffect = (AbnormalEffect)i;
-                    Save();
-                    break;
-                }
-            }
+            int rand = Main.rand.Next(0, Table.Count);
+            CurrentEffect = Table[rand];
         }
 
         /// <summary>
@@ -62,23 +60,8 @@ namespace Highlander.Items
         /// </summary>
         protected AbnormalEffect ReturnRollAbnormalEffect()
         {
-            float totalChance = 0;
-            foreach (float f in Table)
-            {
-                totalChance += f;
-            }
-
-            float randFloat = Main.rand.NextFloat(0, totalChance);
-
-            for (int i = 0; i < Table.Count; i++)
-            {
-                randFloat -= Table[i];
-                if (randFloat <= 0)
-                {
-                    return (AbnormalEffect)i;
-                }
-            }
-            return AbnormalEffect.Unknown;
+            int rand = Main.rand.Next(0, Table.Count);
+            return Table[rand];
         }
 
         public override bool CloneNewInstances => true;
@@ -127,6 +110,136 @@ namespace Highlander.Items
         }
 
         protected void PlayAbnormalEffect(Player player)
+        {
+            Vector2 headPosition;
+            float headHeight;
+            Dust currDust;
+            ModDustCustomData data;
+
+            switch (CurrentEffect)
+            {
+                case AbnormalEffect.Unknown:
+                    break;
+                case AbnormalEffect.None:
+                    break;
+                case AbnormalEffect.PurpleEnergy:
+                    headPosition = player.Center;
+                    headHeight = 2 * (player.height / 5);
+                    headPosition.Y -= headHeight - 14;
+                    headPosition.X -= 6 - 3;
+
+                    currDust = Dust.NewDustPerfect(headPosition, mod.DustType("PurpleEnergy"));
+                    data = new ModDustCustomData(player);
+                    currDust.customData = data;
+                    break;
+                case AbnormalEffect.GreenEnergy:
+                    headPosition = player.Center;
+                    headHeight = 2 * (player.height / 5);
+                    headPosition.Y -= headHeight - 14;
+                    headPosition.X -= 6 - 3;
+
+                    currDust = Dust.NewDustPerfect(headPosition, mod.DustType("GreenEnergy"));
+                    data = new ModDustCustomData(player);
+                    currDust.customData = data;
+                    break;
+                case AbnormalEffect.BurningFlames:
+                    headPosition = player.Center;
+                    headHeight = 2 * (player.height / 5);
+                    headPosition.Y -= headHeight + 16;
+                    headPosition.X -= player.width / 2 + 2;
+
+                    currDust = Dust.NewDustDirect(headPosition, player.width, player.height / 8 + 4, mod.DustType("BurningFlames"));
+                    data = new ModDustCustomData(player);
+                    currDust.customData = data;
+                    break;
+                case AbnormalEffect.ScorchingFlames:
+                    headPosition = player.Center;
+                    headHeight = 2 * (player.height / 5);
+                    headPosition.Y -= headHeight + 16;
+                    headPosition.X -= player.width / 2 + 2;
+
+                    currDust = Dust.NewDustDirect(headPosition, player.width, player.height / 8 + 4, mod.DustType("ScorchingFlames"));
+                    data = new ModDustCustomData(player);
+                    currDust.customData = data;
+                    break;
+                case AbnormalEffect.BlizzardyStorm:
+                    headPosition = player.Center;
+                    headHeight = 2 * (player.height / 5);
+                    headPosition.Y -= headHeight + 28;
+                    headPosition.X -= 2 * player.width / 3 - 4;
+
+                    if (counter % 5 == 0)
+                    {
+                        currDust = Dust.NewDustDirect(headPosition, player.width / 3, player.height / 8, mod.DustType("BlizzardyStorm"));
+                        data = new ModDustCustomData(player);
+                        currDust.customData = data;
+                    }
+                    else if (counter % 4 == 0)
+                    {
+                        headPosition.X += 0;
+                        headPosition.Y += 12;
+                        currDust = Dust.NewDustDirect(headPosition, player.width, player.height / 8, mod.DustType("BlizzardyStormParticle"));
+                        data = new ModDustCustomData(player);
+                        currDust.customData = data;
+                    }
+
+                    counter = (counter + 1) % 60;
+                    break;
+                case AbnormalEffect.StormyStorm:
+                    headPosition = player.Center;
+                    headHeight = 2 * (player.height / 5);
+                    headPosition.Y -= headHeight + 28;
+                    headPosition.X -= 2 * player.width / 3 - 4;
+
+                    if (counter % 5 == 0)
+                    {
+                        currDust = Dust.NewDustDirect(headPosition, player.width / 3, player.height / 8, mod.DustType("StormyStorm"));
+                        data = new ModDustCustomData(player);
+                        currDust.customData = data;
+                    }
+                    else if (counter % 4 == 0)
+                    {
+                        headPosition.X += 0;
+                        headPosition.Y += 12;
+                        currDust = Dust.NewDustDirect(headPosition, player.width, player.height / 8, mod.DustType("StormyStormParticle"));
+                        data = new ModDustCustomData(player);
+                        currDust.customData = data;
+                    }
+
+                    counter = (counter + 1) % 60;
+                    break;
+                case AbnormalEffect.Cloud9:
+                    headPosition = player.Center;
+                    headHeight = 2 * (player.height / 5);
+                    headPosition.Y -= headHeight + 12;
+                    headPosition.X -= player.width / 2 + 8;
+
+                    if (counter % 30 == 0)
+                    {
+                        currDust = Dust.NewDustDirect(headPosition, player.width + 16, player.height / 8 + 10, mod.DustType("Cloud9"));
+                        data = new ModDustCustomData(player);
+                        currDust.customData = data;
+                        var trailDust = Dust.NewDustPerfect(currDust.position - currDust.velocity, mod.DustType("Cloud9Trail"), currDust.velocity * 0.5f);
+                        data = new ModDustCustomData(player);
+                        trailDust.customData = data;
+                        trailDust.scale = 0.8f;
+                        trailDust = Dust.NewDustPerfect(currDust.position - currDust.velocity, mod.DustType("Cloud9Trail"), currDust.velocity * 0.25f);
+                        data = new ModDustCustomData(player);
+                        trailDust.customData = data;
+                        trailDust.scale = 0.4f;
+                        trailDust = Dust.NewDustPerfect(currDust.position - currDust.velocity, mod.DustType("Cloud9Trail"), currDust.velocity * 0.125f);
+                        data = new ModDustCustomData(player);
+                        trailDust.customData = data;
+                        trailDust.scale = 0.2f;
+                    }
+                    counter = (counter + 1) % 60;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        protected void PlayAbnormalEffect_Old(Player player)
         {
             Vector2 headPosition;
             float headHeight;

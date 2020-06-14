@@ -8,12 +8,11 @@ using Terraria.ModLoader;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class StainlessPot : AbnormalBase
+    class StainlessPot : AbnormalItem
     {
         
-        public StainlessPot()
+        public StainlessPot() : base()
         {
-            CurrentEffect = 0;
         }
         public StainlessPot(AbnormalEffect effect) : base(effect)
         {
@@ -31,6 +30,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
     }
 }

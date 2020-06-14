@@ -8,11 +8,10 @@ using Terraria.ModLoader;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class Hotrod : AbnormalBase
+    class Hotrod : AbnormalItem
     {
-        public Hotrod()
+        public Hotrod() : base()
         {
-            CurrentEffect = 0;
         }
         public Hotrod(AbnormalEffect effect) : base(effect)
         {
@@ -30,6 +29,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

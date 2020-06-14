@@ -13,15 +13,16 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class BrassBucket : AbnormalBase
+    class BrassBucket : AbnormalItem
     {
-        public BrassBucket()
+        public BrassBucket() : base()
         {
-            CurrentEffect = 0;
         }
+
         public BrassBucket(AbnormalEffect effect) : base(effect)
         {
         }
+
         public override string Texture => "Highlander/Items/Armor/BrassBucket";
 
         public override void SetStaticDefaults()
@@ -35,6 +36,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
 
         public override bool DrawHead()

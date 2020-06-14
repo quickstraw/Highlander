@@ -9,11 +9,10 @@ using Terraria.ModLoader;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class SamurEye : AbnormalBase
+    class SamurEye : AbnormalItem
     {
-        public SamurEye()
+        public SamurEye() : base()
         {
-            CurrentEffect = 0;
         }
         public SamurEye(AbnormalEffect effect) : base(effect)
         {
@@ -42,6 +41,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
     }
 }

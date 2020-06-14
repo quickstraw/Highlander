@@ -13,11 +13,10 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class CondorCap : AbnormalBase
+    class CondorCap : AbnormalItem
     {
-        public CondorCap()
+        public CondorCap() : base()
         {
-            CurrentEffect = 0;
         }
         public CondorCap(AbnormalEffect effect) : base(effect)
         {
@@ -35,6 +34,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

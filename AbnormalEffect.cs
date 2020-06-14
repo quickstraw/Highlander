@@ -8,25 +8,25 @@ namespace Highlander
 {
     public class RollTable
     {
-        public List<float> Table;
+        public List<AbnormalEffect> Table;
         public static RollTable AbnormalRollTable;
         
         private RollTable()
         {
-            Table = new List<float>();
+            Table = new List<AbnormalEffect>();
             AddChances();
         }
 
         private void AddChances()
         {
-            Table.Add(5f); //None
-            Table.Add(5f); //Purple Energy
-            Table.Add(5f); //Green Energy
-            Table.Add(5f); //Burning Flames
-            Table.Add(5f); //Scorching Flames
-            Table.Add(5f); //Blizzardy Storm
-            Table.Add(5f); //Stormy Storm
-            Table.Add(5f); //Cloud 9
+            //Table.Add(5f); //None
+            Table.Add(AbnormalEffect.PurpleEnergy); //Purple Energy
+            Table.Add(AbnormalEffect.GreenEnergy); //Green Energy
+            Table.Add(AbnormalEffect.BurningFlames); //Burning Flames
+            Table.Add(AbnormalEffect.ScorchingFlames); //Scorching Flames
+            Table.Add(AbnormalEffect.BlizzardyStorm); //Blizzardy Storm
+            Table.Add(AbnormalEffect.StormyStorm); //Stormy Storm
+            Table.Add(AbnormalEffect.Cloud9); //Cloud 9
         }
 
         public static void MakeTable()
@@ -35,7 +35,7 @@ namespace Highlander
         }
     }
     
-    enum AbnormalEffect : int
+    public enum AbnormalEffect : int
     {
         Unknown = -1,
         None = 0,

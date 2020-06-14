@@ -13,11 +13,10 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class ColdfrontCommander : AbnormalBase
+    class ColdfrontCommander : AbnormalItem
     {
-        public ColdfrontCommander()
+        public ColdfrontCommander() : base()
         {
-            CurrentEffect = 0;
         }
         public ColdfrontCommander(AbnormalEffect effect) : base(effect)
         {
@@ -35,6 +34,7 @@ namespace Highlander.Items.Armor
             item.height = 18;
             item.rare = 3;
             item.vanity = true;
+            base.SetDefaults();
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

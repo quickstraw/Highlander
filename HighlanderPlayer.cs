@@ -247,7 +247,7 @@ namespace Highlander
 									headPosition.Y -= headHeight + 28;
 									headPosition.X -= 2 * player.width / 3 - 4;
 
-									if (counter % 5 == 0)
+									if (counter % 20 == 0)
 									{
 										currDust = Dust.NewDustDirect(headPosition, player.width / 3, player.height / 8, mod.DustType("BlizzardyStorm"));
 										data = new ModDustCustomData(player);
