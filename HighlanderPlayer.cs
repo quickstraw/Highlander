@@ -22,6 +22,12 @@ namespace Highlander
 	{
 
 		public bool holdingAmmoGun = false;
+		public AbnormalEffect unusual = 0; 
+		public short unusualLayerTime = 0;
+		public short unusualLayerTime2 = 0;
+		public int unusualFrame = 0;
+		public int unusualFrame2 = 0;
+
 		public int maxAmmo = 0;
 		public int currentAmmo = 0;
 
@@ -31,6 +37,7 @@ namespace Highlander
 
 		public override void ResetEffects() {
 			holdingAmmoGun = false;
+			unusual = 0; 
 			maxAmmo = 0;
 			currentAmmo = 0;
 		}
@@ -190,6 +197,8 @@ namespace Highlander
 						if (player.armor[10].modItem.GetType().BaseType == typeof(AbnormalItem)) {
 							AbnormalItem item = (AbnormalItem)player.armor[10].modItem;
 
+							unusual = item.CurrentEffect;
+
 							Vector2 headPosition;
 							float headHeight;
 							Dust currDust;
@@ -202,24 +211,24 @@ namespace Highlander
 								case AbnormalEffect.None:
 									break;
 								case AbnormalEffect.PurpleEnergy:
-									headPosition = player.Center;
+									/**headPosition = player.Center;
 									headHeight = 2 * (player.height / 5);
 									headPosition.Y -= headHeight - 14;
 									headPosition.X -= 6 - 3;
 
 									currDust = Dust.NewDustPerfect(headPosition, mod.DustType("PurpleEnergy"));
 									data = new ModDustCustomData(player);
-									currDust.customData = data;
+									currDust.customData = data;**/
 									break;
 								case AbnormalEffect.GreenEnergy:
-									headPosition = player.Center;
+									/**headPosition = player.Center;
 									headHeight = 2 * (player.height / 5);
 									headPosition.Y -= headHeight - 14;
 									headPosition.X -= 6 - 3;
 
 									currDust = Dust.NewDustPerfect(headPosition, mod.DustType("GreenEnergy"));
 									data = new ModDustCustomData(player);
-									currDust.customData = data;
+									currDust.customData = data;**/
 									break;
 								case AbnormalEffect.BurningFlames:
 									headPosition = player.Center;
@@ -247,13 +256,7 @@ namespace Highlander
 									headPosition.Y -= headHeight + 28;
 									headPosition.X -= 2 * player.width / 3 - 4;
 
-									if (counter % 20 == 0)
-									{
-										currDust = Dust.NewDustDirect(headPosition, player.width / 3, player.height / 8, mod.DustType("BlizzardyStorm"));
-										data = new ModDustCustomData(player);
-										currDust.customData = data;
-									}
-									else if (counter % 4 == 0)
+									if (counter % 4 == 0)
 									{
 										headPosition.X += 0;
 										headPosition.Y += 12;
@@ -270,13 +273,7 @@ namespace Highlander
 									headPosition.Y -= headHeight + 28;
 									headPosition.X -= 2 * player.width / 3 - 4;
 
-									if (counter % 5 == 0)
-									{
-										currDust = Dust.NewDustDirect(headPosition, player.width / 3, player.height / 8, mod.DustType("StormyStorm"));
-										data = new ModDustCustomData(player);
-										currDust.customData = data;
-									}
-									else if (counter % 4 == 0)
+									if (counter % 4 == 0)
 									{
 										headPosition.X += 0;
 										headPosition.Y += 12;
@@ -356,22 +353,31 @@ namespace Highlander
 				AnimationHelper.ammoGunCounter.visible = true;
 				layers.Add(AnimationHelper.ammoGunCounter);
 			}
+			if (unusual != 0)
+			{
+				AnimationHelper.unusual.visible = true;
+				layers.Insert(0, AnimationHelper.unusual);
+				layers.Add(AnimationHelper.unusualFront);
+			}
 
 			int count = layers.Count;
+
+			
 
 			/**for(int i = 0; i < count; i++)
 			{
 				PlayerLayer layer = layers[i];
+				Main.NewText(layer.Name);
 				if (layer.Name == "Head")
 				{
 					//Main.NewText(layer.Name);
 					if (i != layers.Count - 1)
 					{
-						layers.Insert(i, AnimationHelper.bigHat);
+						layers.Insert(i, AnimationHelper.unusualFront);
 					}
 					else
 					{
-						layers.Add(AnimationHelper.bigHat);
+						layers.Add(AnimationHelper.unusualFront);
 					}
 					break;
 				}
