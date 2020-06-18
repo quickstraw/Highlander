@@ -1,5 +1,7 @@
 using Highlander.Items;
 using Highlander.Items.Armor;
+using Highlander.UnusualLayerEffects;
+using Highlander.Utilities;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -22,6 +24,7 @@ namespace Highlander
 
 			Instance = this;
 			RollTable.MakeTable();
+			AnimationHelper.dust = new List<FauxDust>();
 		}
 
 		public override void Load()
@@ -261,6 +264,7 @@ namespace Highlander
 		public override void Unload()
 		{
 			RollTable.AbnormalRollTable = null;
+			AnimationHelper.dust = null;
 			Instance = null;
 		}
 

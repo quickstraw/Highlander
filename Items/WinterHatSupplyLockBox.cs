@@ -1,11 +1,15 @@
 ﻿using Highlander.Items.Armor;
+using Highlander.Projectiles;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
@@ -81,14 +85,31 @@ namespace Highlander.Items
             names.Add("ToySoldier");
             names.Add("PatriotPeak");
 
-            if (isAbnormal)
-            {
-                prefix = "Unusual";
-            }
-
             int chance;
             chance = Main.rand.Next(0, names.Count);
             itemName = names[chance];
+
+            if (isAbnormal)
+            {
+                prefix = "Unusual";
+                string itemRead = Regex.Replace(itemName, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
+                string text = player.name + " unboxed an Unusual " + itemRead + "!";
+                if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    Main.NewText(text, Color.MediumPurple);
+                }
+                else
+                {
+                    NetworkText message = NetworkText.FromLiteral(text);
+                    NetMessage.BroadcastChatMessage(message, Color.MediumPurple);
+                }
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int type = ModContent.ProjectileType<UnusualFireworkProjectile>();
+                    var projectile = Projectile.NewProjectileDirect(new Vector2(player.position.X, player.position.Y + 20), new Vector2(), type, 0, 0.0f);
+                }
+            }
 
             player.QuickSpawnItem(mod.ItemType(prefix + itemName));
         }

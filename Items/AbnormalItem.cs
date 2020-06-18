@@ -25,6 +25,7 @@ namespace Highlander.Items
             item.accessory = true;
             if (roll) {
                 CurrentEffect = ReturnRollAbnormalEffect();
+                item.rare = 6;
             }
             Save();
         }

@@ -16,7 +16,7 @@ namespace Highlander.Utilities
     class AnimationHelper
     {
 
-        public static List<FauxDust> dust = new List<FauxDust>();
+        public static List<FauxDust> dust;
 
         public static readonly PlayerLayer ammoGunCounter = new PlayerLayer("Highlander", "AmmoGunCounter", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
         {
