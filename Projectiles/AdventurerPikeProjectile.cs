@@ -10,21 +10,21 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Projectiles
 {
-    class SpiritShearsProjectile : ModProjectile
+    class AdventurerPikeProjectile : ModProjectile
     {
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spirit Shears");
+			DisplayName.SetDefault("Adventurer's Pike");
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
+			projectile.width = 16;
+			projectile.height = 16;
 			projectile.aiStyle = 19;
 			projectile.penetrate = -1;
-			projectile.scale = 1.1f;
+			projectile.scale = 1.4f;
 			projectile.alpha = 0;
 
 			projectile.hide = true;
@@ -42,10 +42,26 @@ namespace Highlander.Projectiles
 			set => projectile.ai[0] = value;
 		}
 
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if (target.boss)
+			{
+				int netDamage = (damage - (target.defense)) / 2;
+				int extraDamage = damage - netDamage;
+				target.StrikeNPC(extraDamage, knockback, 0, crit);
+				projectile.netUpdate = true;
+			}
+			else
+			{
+				target.velocity *= 0.5f;
+			}
+		}
+
 		// It appears that for this AI, only the ai0 field is used!
 		public override void AI()
 		{
-			projectile.spriteDirection = projectile.direction; // Flips the projectile horizontally based on what direction it is facing.
+			//projectile.spriteDirection = projectile.direction; // Flips the projectile horizontally based on what direction it is facing.
+			//projectile.spriteDirection = 1;
 
 			// Since we access the owner player instance so much, it's useful to create a helper local variable for this
 			// Sadly, Projectile/ModProjectile does not have its own
@@ -57,6 +73,7 @@ namespace Highlander.Projectiles
 			projOwner.itemTime = projOwner.itemAnimation;
 			projectile.position.X = ownerMountedCenter.X - (float)(projectile.width  / 2);
 			projectile.position.Y = ownerMountedCenter.Y - (float)(projectile.height / 2);
+			projectile.position += forward * 120;
 			// As long as the player isn't frozen, the spear can move
 			if (!projOwner.frozen)
 			{
@@ -67,11 +84,11 @@ namespace Highlander.Projectiles
 				}
 				if (projOwner.itemAnimation < projOwner.itemAnimationMax / 3) // Somewhere along the item animation, make sure the spear moves back
 				{
-					movementFactor -= 2.8f;
+					movementFactor -= 1.8f;
 				}
 				else // Otherwise, increase the movement factor
 				{
-					movementFactor += 1.4f;
+					movementFactor += 1.0f;
 				}
 			}
 			// Change the spear position based off of the velocity and the movementFactor
@@ -87,7 +104,7 @@ namespace Highlander.Projectiles
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
 
 			// Offset by 90 degrees here
-			if (projectile.spriteDirection == -1)
+			/**if (projectile.spriteDirection == -1)
 			{
 				projectile.rotation -= MathHelper.ToRadians(90f);
 				float rotation = projectile.rotation - MathHelper.PiOver4;
@@ -103,7 +120,7 @@ namespace Highlander.Projectiles
 				forward.Normalize();
 
 				projectile.position += forward * 24;
-			}
+			}**/
 
 			// These dusts are added later, for the 'ExampleMod' effect
 			if (Main.rand.NextBool(3))
@@ -119,6 +136,25 @@ namespace Highlander.Projectiles
 				//	0, 0, 254, Scale: 0.3f);
 				//dust.velocity += projectile.velocity * 0.5f;
 				//dust.velocity *= 0.5f;
+			}
+		}
+
+		private Vector2 forward
+		{
+			get
+			{
+				float rotation = projectile.rotation;
+				if(projectile.spriteDirection == 1)
+				{
+					rotation -= 3 * MathHelper.PiOver4;
+				}
+				else
+				{
+					rotation -= 1 * MathHelper.PiOver4;
+				}
+				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
+				output.Normalize();
+				return output;
 			}
 		}
 

@@ -1,4 +1,5 @@
 ﻿using Highlander.Items;
+using Highlander.Items.Weapons;
 using Highlander.Projectiles;
 using System;
 using System.Collections.Generic;
@@ -14,21 +15,21 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.NPCs.HatSalesman
 {
     [AutoloadHead]
-    class HatSalesman : ModNPC
+    class VeteranExplorer : ModNPC
     {
 
-        public override string Texture => "Highlander/NPCs/HatSalesman/HatSalesman";
+        public override string Texture => "Highlander/NPCs/VeteranExplorer/VeteranExplorer";
 
         public override bool Autoload(ref string name)
         {
-            name = "Hat Salesman";
+            name = "Veteran Explorer";
             return mod.Properties.Autoload;
         }
 
         public override void SetStaticDefaults()
         {
             // DisplayName automatically assigned from .lang files, but the commented line below is the normal approach.
-            DisplayName.SetDefault("Hat Salesman");
+            DisplayName.SetDefault("Veteran Explorer");
             Main.npcFrameCount[npc.type] = 25;
             NPCID.Sets.ExtraFramesCount[npc.type] = 9;
             NPCID.Sets.AttackFrameCount[npc.type] = 4;
@@ -60,8 +61,7 @@ namespace Highlander.NPCs.HatSalesman
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money) //Whether or not the conditions have been met for this town NPC to be able to move into town.
         {
-
-            if (HighlanderWorld.downedHauntedHatter)  //so after the EoC is killed
+            if (NPC.downedBoss3)  //After Skeletron
             {
                 return true;
             }
@@ -73,33 +73,30 @@ namespace Highlander.NPCs.HatSalesman
             switch (WorldGen.genRand.Next(4))
             {
                 case 0:
-                    return "Clank";
+                    return "Hubert";
                 case 1:
-                    return "HatBot-5000";
+                    return "Alfonso";
                 case 2:
-                    return "Beepulon";
+                    return "Gregory";
                 default:
-                    return "SalesBot";
+                    return "Marco";
             }
         }
 
         public override string GetChat()
         {
             int partyGirl = NPC.FindFirstNPC(NPCID.PartyGirl);
-            if (partyGirl >= 0 && Main.rand.NextBool(4))
-            {
-                return "" + Main.npc[partyGirl].GivenName.ToUpper() + " can no longer use my hats for parties!";
-            }
+
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    return "*BEEP* Welcome to my shop!";
+                    return "Greetings! Tell me of your travels.";
                 case 1:
-                    return "Have you found anymore Hat Supply Crates?";
+                    return "I can spare you some of my extra supplies for a price.";
                 case 2:
-                    return "Would you like to purchase Hat Supply Keys?";
+                    return "You look like you need some help. I think I've got just what you need.";
                 default:
-                    return "Do my shiny keys catch your attention, human?";
+                    return "Have you found any treasure?";
             }
         }
 
@@ -118,9 +115,9 @@ namespace Highlander.NPCs.HatSalesman
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<HatSupplyKey>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AggressiveAle>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WinterHatSupplyKey>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AdventurerPike>());
             nextSlot++;
         }
 

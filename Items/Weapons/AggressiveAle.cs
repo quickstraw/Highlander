@@ -17,7 +17,7 @@ namespace Highlander.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Ale for throwing or for fun!");
+			Tooltip.SetDefault("'Ale for throwing or for fun!'");
 		}
 
 		public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace Highlander.Items.Weapons
 			item.noMelee = true;
 			item.thrown = true;
 
-			item.value = 200;
+			item.value = 80;
 		}
 
 		public override bool AltFunctionUse(Player player)

@@ -9,29 +9,30 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace Highlander.Items.HauntedHatter
+namespace Highlander.Items.Weapons
 {
-    class SpiritShears : ModItem
+    class AdventurerPike : ModItem
     {
 
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Perfect size for stabbing.");
+			DisplayName.SetDefault("Adventurer's Pike");
+			Tooltip.SetDefault("Long reach has trouble hitting close enemies but deals more damage to bosses");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
+			item.damage = 20;
 			item.useStyle = 5;
-			item.useAnimation = 18;
-			item.useTime = 18;
+			item.useAnimation = 28;
+			item.useTime = 28;
 			item.shootSpeed = 4.5f;
-			item.knockBack = 4.5f;
+			item.knockBack = 1.2f;
 			item.width = 32;
 			item.height = 32;
 			item.scale = 1f;
-			item.rare = 3;
-			item.crit = 4;
+			item.rare = ItemRarityID.Green;
+			//item.crit = 4;
 			item.value = Item.sellPrice(silver: 50);
 
 			item.melee = true;
@@ -40,7 +41,7 @@ namespace Highlander.Items.HauntedHatter
 			item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
 			item.UseSound = SoundID.Item1;
-			item.shoot = ProjectileType<SpiritShearsProjectile>();
+			item.shoot = ProjectileType<AdventurerPikeProjectile>();
 		}
 
 		public override bool CanUseItem(Player player)
