@@ -1,5 +1,6 @@
 ﻿using Highlander.Items.HauntedHatter;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,16 +24,29 @@ namespace Highlander.NPCs.HauntedHatter
         private const int UpdateRate = 30;
         private const int DASH_DEFAULT = 600;
         private const int BASE_DEF = 14;
+
+        Vector2 leftHand = new Vector2(-62, -15);
+        Vector2 rightHand = new Vector2(62, -15);
+        Vector2 currHand;
+
         private int moveTimer = UpdateRate;
         private int dashTimer = DASH_DEFAULT;
         private float dashDistance;
         private float attackTimer2 = 60;
         private float attackTimer3 = 60;
+        private byte leftArmTimer = 0;
+        private byte rightArmTimer = 0;
+        private byte leftFrame = 0;
+        private byte rightFrame = 0;
         private BitsByte flags = new BitsByte();
+        private Texture2D Hat;
+        private Texture2D Bottom;
+        private Texture2D Left;
+        private Texture2D Right;
 
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 12; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[npc.type] = 2; // make sure to set this for your modnpcs.
         }
 
         public override void SetDefaults()
@@ -44,7 +58,7 @@ namespace Highlander.NPCs.HauntedHatter
             npc.damage = 20;
             npc.defense = BASE_DEF;
             npc.knockBackResist = 0f;
-            npc.width = 80;
+            npc.width = 60;
             npc.height = 120;
             npc.npcSlots = 50f;
             npc.boss = true;
@@ -56,6 +70,11 @@ namespace Highlander.NPCs.HauntedHatter
             music = MusicID.Boss1;
             musicPriority = MusicPriority.BossMedium;
             bossBag = ItemType<HauntedHatterBag>();
+            Hat = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterHat");
+            Bottom = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterBottom");
+            Left = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterLeft");
+            Right = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterRight");
+            currHand = leftHand;
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -70,6 +89,14 @@ namespace Highlander.NPCs.HauntedHatter
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.TargetClosest(false);
+                if (!initialized)
+                {
+                    initialized = true;
+
+                    //NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<HauntedHatterHat>(), 0, 0, 0, npc.whoAmI);
+                    //NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<HauntedHatterBottom>(), 0, 0, 0, npc.whoAmI);
+                    npc.netUpdate = true;
+                }
             }
             if (npc.HasValidTarget)
             {
@@ -156,6 +183,30 @@ namespace Highlander.NPCs.HauntedHatter
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
+                FindPostFrame();
+
+                // Move timer
+                if (leftArm && leftArmTimer < 11)
+                {
+                    leftArmTimer++;
+                }
+                else if (!leftArm && leftArmTimer > 0)
+                {
+                    leftArmTimer--;
+                }
+
+                // Move timer
+                if (rightArm && rightArmTimer < 11)
+                {
+                    rightArmTimer++;
+                }
+                else if (!rightArm && rightArmTimer > 0)
+                {
+                    rightArmTimer--;
+                }
+            }
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
                 dashTimer--;
                 moveTimer--;
             }
@@ -163,71 +214,85 @@ namespace Highlander.NPCs.HauntedHatter
 
         public override void FindFrame(int frameHeight)
         {
-            if (!smiling)
-            {
-                if (altTimer >= 16)
-                {
-                    npc.frame.Y = frameHeight * 4;
-                }
-                else if (altTimer >= 11)
-                {
-                    npc.frame.Y = frameHeight * 3;
-                }
-                else if (altTimer >= 6)
-                {
-                    npc.frame.Y = frameHeight * 2;
-                }
-                else if (altTimer >= 1)
-                {
-                    npc.frame.Y = frameHeight;
-                }
-                else
-                {
-                    npc.frame.Y = 0;
-                }
-            }
+            npc.frame.Y = frameHeight;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Vector2 drawPos = npc.position - Main.screenPosition;
+
+            int HatFrameHeight = Hat.Height / 8;
+            int HatFrame = 0;
+            int BottomFrameHeight = Bottom.Height / 6;
+            int BottomFrame = 0;
+            int LeftFrameHeight = Left.Height / 5;
+            int RightFrameHeight = Right.Height / 5;
+
+            BottomFrame = (int)(BottomFrameHeight * (int)(npc.frameCounter / 10));
+
             if (smiling)
             {
+                HatFrame = (int)(HatFrameHeight * 1);
+
                 if (shooting)
                 {
-                    if (altTimer >= 24)
+                    if (altTimer >= 42)
                     {
-                        npc.frame.Y = frameHeight * 4;
+                        HatFrame = HatFrameHeight * 1;
                     }
-                    else if (altTimer >= 22)
+                    else if (altTimer >= 36)
                     {
-                        npc.frame.Y = frameHeight * 11;
+                        HatFrame = HatFrameHeight * 7;
                     }
-                    else if (altTimer >= 19)
+                    else if (altTimer >= 30)
                     {
-                        npc.frame.Y = frameHeight * 10;
+                        HatFrame = HatFrameHeight * 6;
                     }
-                    else if (altTimer >= 13)
+                    else if (altTimer >= 24)
                     {
-                        npc.frame.Y = frameHeight * 9;
+                        HatFrame = HatFrameHeight * 6;
                     }
-                    else if (altTimer >= 10)
+                    else if (altTimer >= 18)
                     {
-                        npc.frame.Y = frameHeight * 8;
+                        HatFrame = HatFrameHeight * 5;
                     }
-                    else if (altTimer >= 4)
+                    else if (altTimer >= 12)
                     {
-                        npc.frame.Y = frameHeight * 7;
+                        HatFrame = HatFrameHeight * 4;
                     }
-                    else if (altTimer >= 2)
+                    else if (altTimer >= 6)
                     {
-                        npc.frame.Y = frameHeight * 6;
+                        HatFrame = HatFrameHeight * 3;
                     }
                     else if (altTimer >= 0)
                     {
-                        npc.frame.Y = frameHeight * 5;
+                        HatFrame = HatFrameHeight * 2;
                     }
                 }
-                else
+            }
+            else
+            {
+                HatFrame = 0;
+
+                if(altTimer > 0)
                 {
-                    npc.frame.Y = frameHeight * 4;
+                    HatFrame = (int)(BottomFrameHeight * 1);
                 }
             }
+
+            Vector2 HatOrigin = new Vector2(Hat.Width / 2, HatFrameHeight / 2);
+            Vector2 BottomOrigin = new Vector2(Bottom.Width / 2, BottomFrameHeight / 2);
+            Vector2 LeftOrigin = new Vector2(Left.Width / 2, LeftFrameHeight / 2);
+
+            Vector2 HatDrawPos = drawPos + new Vector2(30, 60);
+            Vector2 BottomDrawPos = drawPos + new Vector2(30, 60);
+
+            spriteBatch.Draw(Hat, HatDrawPos, new Rectangle(0, HatFrame, Hat.Width, HatFrameHeight), drawColor, npc.rotation, HatOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Bottom, BottomDrawPos, new Rectangle(0, BottomFrame, Bottom.Width, BottomFrameHeight), drawColor, npc.rotation, BottomOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Left, BottomDrawPos, new Rectangle(0, leftFrame * LeftFrameHeight, Left.Width, LeftFrameHeight), drawColor, npc.rotation, LeftOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Right, BottomDrawPos, new Rectangle(0, rightFrame * RightFrameHeight, Right.Width, RightFrameHeight), drawColor, npc.rotation, LeftOrigin, 1.0f, 0, 0);
+
+            npc.frameCounter = (npc.frameCounter + 1.75) % 60;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -237,7 +302,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void HandlePhaseOneShooting()
         {
-            int ghostBlastTime = 45;
+            int ghostBlastTime = 90;
 
             switch (stage)
             {
@@ -250,9 +315,9 @@ namespace Highlander.NPCs.HauntedHatter
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        GhostBlast();
+                        GhostBlast(false);
                         npc.netUpdate = true;
-                        attackTimer2 += ghostBlastTime + Main.rand.Next(45);
+                        attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     break;
                 case 1:
@@ -264,9 +329,9 @@ namespace Highlander.NPCs.HauntedHatter
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        GhostBlast();
+                        GhostBlast(false);
                         npc.netUpdate = true;
-                        attackTimer2 += ghostBlastTime + Main.rand.Next(45);
+                        attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     break;
                 case 2:
@@ -278,9 +343,9 @@ namespace Highlander.NPCs.HauntedHatter
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        GhostBlast();
+                        GhostBlast(false);
                         npc.netUpdate = true;
-                        attackTimer2 += ghostBlastTime + Main.rand.Next(45);
+                        attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     break;
                 case 3:
@@ -292,14 +357,35 @@ namespace Highlander.NPCs.HauntedHatter
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        GhostBlast();
+                        GhostBlast(false);
                         npc.netUpdate = true;
-                        attackTimer2 += ghostBlastTime + Main.rand.Next(45);
+                        attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     break;
             }
+
+            if(attackTimer2 <= ghostBlastTime - 26)
+            {
+                leftArm = false;
+                rightArm = false;
+            }
+
             attackTimer -= 1;
             attackTimer2 -= 1;
+
+            if(attackTimer2 <= 20)
+            {
+                if (TargetDirection())
+                {
+                    currHand = rightHand;
+                    rightArm = true;
+                }
+                else
+                {
+                    currHand = leftHand;
+                    leftArm = true;
+                }
+            }
         }
 
         private void HandlePhaseTwoShooting()
@@ -341,9 +427,32 @@ namespace Highlander.NPCs.HauntedHatter
                     HandleShootingYarn(240);
                     break;
             }
+
+            if (attackTimer2 == ghostBlastTime - 26)
+            {
+                leftArm = false;
+                rightArm = false;
+                npc.netUpdate = true;
+            }
+
             attackTimer -= 1;
             attackTimer2 -= 1;
             attackTimer3 -= 1;
+
+            if (attackTimer2 == 20)
+            {
+                if (TargetDirection())
+                {
+                    currHand = rightHand;
+                    rightArm = true;
+                }
+                else
+                {
+                    currHand = leftHand;
+                    leftArm = true;
+                }
+                npc.netUpdate = true;
+            }
         }
 
         private void HandleShootingYarn(int time)
@@ -353,7 +462,7 @@ namespace Highlander.NPCs.HauntedHatter
                 shooting = true;
                 npc.netUpdate = true;
             }
-            if (!shot && shooting && altTimer > 16 && Main.netMode != NetmodeID.MultiplayerClient)
+            if (!shot && shooting && altTimer > 26 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 canShoot = true;
                 npc.netUpdate = true;
@@ -366,7 +475,7 @@ namespace Highlander.NPCs.HauntedHatter
                 attackTimer3 += time + Main.rand.Next(60);
                 npc.netUpdate = true;
             }
-            if (shooting && altTimer > 24 && Main.netMode != NetmodeID.MultiplayerClient)
+            if (shooting && altTimer > 42 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 shot = false;
                 shooting = false;
@@ -444,10 +553,10 @@ namespace Highlander.NPCs.HauntedHatter
             }
 
             // Lean when moving
-            if (npc.velocity.X < -1 && npc.rotation >= -0.3f)
+            if (npc.velocity.X < -1 && npc.rotation >= -0.15f)
             {
                 npc.rotation -= 0.01f;
-            } else if (npc.velocity.X > 1 && npc.rotation <= 0.3f)
+            } else if (npc.velocity.X > 1 && npc.rotation <= 0.15f)
             {
                 npc.rotation += 0.01f;
             } else
@@ -550,7 +659,11 @@ namespace Highlander.NPCs.HauntedHatter
             {
                 goreVelocity.X = -3;
             }
-            Gore.NewGore(npc.position, goreVelocity, mod.GetGoreSlot("Gores/HauntedHatterTopGore"), 1f);
+
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Gore.NewGore(npc.position, goreVelocity, mod.GetGoreSlot("Gores/HauntedHatterTopGore"), 1f);
+            }
 
             // Code adapted from ExampleMod
             // Fire Dust spawn
@@ -848,42 +961,51 @@ namespace Highlander.NPCs.HauntedHatter
         {
             int type = ModContent.ProjectileType<GhostBlast>();
 
+            Vector2 leftHand = new Vector2(-60, -10) + npc.Center;
+
             float expertMult = Main.expertMode ? EXPERT_DAMAGE : 1;
             int damage = (int)(BLAST_DAMAGE * expertMult);
 
             Player target = Main.player[npc.target];
 
-            float CoolAngle = (float)Math.Atan2(target.Center.Y - ghostHead.Y, target.Center.X - ghostHead.X) + MathHelper.PiOver2;
+            float CoolAngle = (float)Math.Atan2(target.Center.Y - leftHand.Y, target.Center.X - leftHand.X) + MathHelper.PiOver2;
 
             float rotation = CoolAngle - MathHelper.PiOver2;
             Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
             velocity.Normalize();
             velocity *= 8;
 
-            var projectile = Projectile.NewProjectileDirect(ghostHead + npc.velocity + new Vector2(0, -8), velocity, type, damage, 0.5f);
+            var projectile = Projectile.NewProjectileDirect(leftHand + npc.velocity + new Vector2(0, -8), velocity, type, damage, 0.5f);
 
             Main.PlaySound(SoundID.Item12, projectile.position);
         }
 
+        private void GhostBlast(bool isRight)
+        {
+            int type = ModContent.ProjectileType<GhostBlastCharge>();
+            
+            Vector2 hand = currHand + npc.Center;
+
+            float expertMult = Main.expertMode ? EXPERT_DAMAGE : 1;
+            int damage = (int)(BLAST_DAMAGE * expertMult);
+
+            int id = npc.whoAmI;
+            var projectile = Projectile.NewProjectileDirect(hand, new Vector2(), type, damage, 0.5f, 255, id, npc.target);
+            projectile.ai[0] = id;
+        }
+
         private void HugeGhostBlast()
         {
-            int type = ModContent.ProjectileType<HugeGhostBlast>();
+            int type = ModContent.ProjectileType<HugeGhostBlastCharge>();
+
+            Vector2 hand = currHand + npc.Center + new Vector2(0, -20);
 
             float expertMult = Main.expertMode ? EXPERT_DAMAGE : 1;
             int damage = (int)(BLAST_DAMAGE * 1.2f * expertMult);
 
-            Player target = Main.player[npc.target];
-
-            float CoolAngle = (float)Math.Atan2(target.Center.Y - ghostHead.Y, target.Center.X - ghostHead.X) + MathHelper.PiOver2;
-
-            float rotation = CoolAngle - MathHelper.PiOver2;
-            Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-            velocity.Normalize();
-            velocity *= 8;
-
-            var projectile = Projectile.NewProjectileDirect(ghostHead + npc.velocity + new Vector2(0, -8), velocity, type, damage, 0.5f);
-
-            Main.PlaySound(SoundID.Item12, projectile.position);
+            int id = npc.whoAmI;
+            var projectile = Projectile.NewProjectileDirect(hand, new Vector2(), type, damage, 0.5f, 255, id, npc.target);
+            projectile.ai[0] = id;
         }
 
         private int ClosestPlayerToPoint(Vector2 point)
@@ -904,6 +1026,75 @@ namespace Highlander.NPCs.HauntedHatter
                 closestPlayer = -1;
             }
             return closestPlayer;
+        }
+
+        /// <summary>
+        /// Returns true if right and false if left
+        /// </summary>
+        /// <returns></returns>
+        private bool TargetDirection()
+        {
+            Player player = Main.player[npc.target];
+            if(player.position.X > npc.Center.X)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void FindPostFrame()
+        {
+            byte newLeftFrame = 0;
+            byte newRightFrame = 0;
+
+            // Change Frames based on Timer
+            if (leftArmTimer > 0)
+            {
+                if (leftArmTimer > 10)
+                {
+                    newLeftFrame = 4;
+                }
+                else if (leftArmTimer >= 7)
+                {
+                    newLeftFrame = 3;
+                }
+                else if (leftArmTimer >= 4)
+                {
+                    newLeftFrame = 2;
+                }
+                else if (leftArmTimer >= 1)
+                {
+                    newLeftFrame = 1;
+                }
+            }
+
+            if (rightArmTimer > 0)
+            {
+                if (rightArmTimer > 10)
+                {
+                    newRightFrame = 4;
+                }
+                else if (rightArmTimer >= 7)
+                {
+                    newRightFrame = 3;
+                }
+                else if (rightArmTimer >= 4)
+                {
+                    newRightFrame = 2;
+                }
+                else if (rightArmTimer >= 1)
+                {
+                    newRightFrame = 1;
+                }
+            }
+
+            if(newRightFrame != rightFrame || newLeftFrame != leftFrame)
+            {
+                npc.netUpdate = true;
+                rightFrame = newRightFrame;
+                leftFrame = newLeftFrame;
+            }
+
         }
 
         private void UpdateDefense()
@@ -935,7 +1126,7 @@ namespace Highlander.NPCs.HauntedHatter
             set => npc.ai[2] = value;
         }
 
-        private bool smiling
+        public bool smiling
         {
             get => flags[0];
             set => flags[0] = value;
@@ -956,6 +1147,24 @@ namespace Highlander.NPCs.HauntedHatter
         {
             get => flags[3];
             set => flags[3] = value;
+        }
+
+        private bool initialized
+        {
+            get => flags[4];
+            set => flags[4] = value;
+        }
+
+        private bool leftArm
+        {
+            get => flags[5];
+            set => flags[5] = value;
+        }
+
+        private bool rightArm
+        {
+            get => flags[6];
+            set => flags[6] = value;
         }
 
         private Vector2 ghostHead {
@@ -984,6 +1193,10 @@ namespace Highlander.NPCs.HauntedHatter
             writer.Write(flags);
             writer.Write((short)attackTimer2);
             writer.Write((short)attackTimer3);
+            writer.Write(leftArmTimer);
+            writer.Write(rightArmTimer);
+            writer.Write(leftFrame);
+            writer.Write(rightFrame);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -993,6 +1206,10 @@ namespace Highlander.NPCs.HauntedHatter
             flags = reader.ReadByte();
             attackTimer2 = reader.ReadInt16();
             attackTimer3 = reader.ReadInt16();
+            leftArmTimer = reader.ReadByte();
+            rightArmTimer = reader.ReadByte();
+            leftFrame = reader.ReadByte();
+            rightFrame = reader.ReadByte();
         }
 
         public override void NPCLoot()
@@ -1027,4 +1244,5 @@ namespace Highlander.NPCs.HauntedHatter
 
 
     }
+
 }

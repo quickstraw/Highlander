@@ -24,6 +24,7 @@ namespace Highlander.NPCs.HauntedHatter
             projectile.height = 40;
             projectile.penetrate = -1;
             projectile.hostile = true;
+            projectile.scale = 0.4f;
             drawOriginOffsetY = -6;
             drawOffsetX = -6;
             projectile.hide = true;
@@ -31,6 +32,11 @@ namespace Highlander.NPCs.HauntedHatter
 
         public override void AI()
         {
+            if(projectile.scale < 1.0f)
+            {
+                projectile.scale += 0.01f;
+            }
+
             projectile.velocity.Y += 0.6f;
             //projectile.rotation += projectile.velocity.X / 20;
             if(projectile.velocity.X > 0)
@@ -66,6 +72,12 @@ namespace Highlander.NPCs.HauntedHatter
                 Main.PlaySound(SoundID.Item10, (int)projectile.position.X, (int)projectile.position.Y);
             }
             return kill;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            var gore = Gore.NewGoreDirect(projectile.position, projectile.velocity * 0.4f, mod.GetGoreSlot("Gores/EnchantedYarn"), 1f);
+            gore.rotation = projectile.rotation;
         }
 
         private float AngularVelocity
