@@ -11,19 +11,19 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Items.Weapons
 {
-    class AdventurerPike : ModItem
+    class RoyalClaw : ModItem
     {
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Adventurer's Pike");
-			Tooltip.SetDefault("Long reach has trouble hitting close enemies but deals more damage to bosses");
+			DisplayName.SetDefault("Royal Claw");
+			Tooltip.SetDefault("Inflicts pain upon enemies\nLong reach has trouble hitting close enemies but deals more damage to bosses");
 		}
 
 		public override void SetDefaults()
 		{
 			item.damage = 20;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 28;
 			item.useTime = 28;
 			item.shootSpeed = 4.5f;
@@ -37,11 +37,11 @@ namespace Highlander.Items.Weapons
 
 			item.melee = true;
 			item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
-			item.noUseGraphic = true; // Important, it's kind of wired if people see two spears at one time. This prevents the melee animation of this item.
+			item.noUseGraphic = true; // Important, it's kind of weird if people see two spears at one time. This prevents the melee animation of this item.
 			item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
 			item.UseSound = SoundID.Item1;
-			item.shoot = ProjectileType<AdventurerPikeProjectile>();
+			item.shoot = ProjectileType<RoyalClawProjectile>();
 		}
 
 		public override bool CanUseItem(Player player)

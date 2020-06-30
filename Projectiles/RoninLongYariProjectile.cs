@@ -10,18 +10,18 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Projectiles
 {
-    class AdventurerPikeProjectile : ModProjectile
+    class RoninLongYariProjectile : ModProjectile
     {
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Adventurer's Pike");
+			DisplayName.SetDefault("Ronin Long Yari");
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
+			projectile.width = 18;
+			projectile.height = 18;
 			projectile.aiStyle = 19;
 			projectile.penetrate = -1;
 			projectile.scale = 1.4f;
@@ -72,7 +72,7 @@ namespace Highlander.Projectiles
 			projOwner.itemTime = projOwner.itemAnimation;
 			projectile.position.X = ownerMountedCenter.X - (float)(projectile.width  / 2);
 			projectile.position.Y = ownerMountedCenter.Y - (float)(projectile.height / 2);
-			projectile.position += forward * 120;
+			projectile.position += forward * 106;
 			// As long as the player isn't frozen, the spear can move
 			if (!projOwner.frozen)
 			{

@@ -11,12 +11,12 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Items.Weapons
 {
-    class AdventurerPike : ModItem
+    class RoninLongYari : ModItem
     {
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Adventurer's Pike");
+			DisplayName.SetDefault("Ronin Long Yari");
 			Tooltip.SetDefault("Long reach has trouble hitting close enemies but deals more damage to bosses");
 		}
 
@@ -41,7 +41,7 @@ namespace Highlander.Items.Weapons
 			item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
 			item.UseSound = SoundID.Item1;
-			item.shoot = ProjectileType<AdventurerPikeProjectile>();
+			item.shoot = ProjectileType<RoninLongYariProjectile>();
 		}
 
 		public override bool CanUseItem(Player player)

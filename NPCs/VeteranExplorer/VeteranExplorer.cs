@@ -119,6 +119,11 @@ namespace Highlander.NPCs.HatSalesman
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<AdventurerPike>());
             nextSlot++;
+            if (Main.hardMode)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GreatPike>());
+                nextSlot++;
+            }
         }
 
 

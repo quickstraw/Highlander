@@ -1,27 +1,29 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Highlander.Buffs;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Projectiles
 {
-    class AdventurerPikeProjectile : ModProjectile
+    class RoyalClawProjectile : ModProjectile
     {
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Adventurer's Pike");
+			DisplayName.SetDefault("Royal Claw");
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
+			projectile.width = 18;
+			projectile.height = 18;
 			projectile.aiStyle = 19;
 			projectile.penetrate = -1;
 			projectile.scale = 1.4f;
@@ -54,6 +56,7 @@ namespace Highlander.Projectiles
 			else
 			{
 			}
+			target.AddBuff(ModContent.BuffType<Pain>(), 90);
 		}
 
 		// It appears that for this AI, only the ai0 field is used!
