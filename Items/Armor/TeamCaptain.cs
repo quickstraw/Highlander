@@ -25,7 +25,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Worn by the self-designated leader.");
+            //Tooltip.SetDefault("Worn by the self-designated leader.");
         }
 
         public override void SetDefaults()

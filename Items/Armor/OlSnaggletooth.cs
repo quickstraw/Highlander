@@ -24,7 +24,8 @@ namespace Highlander.Items.Armor
             if (CurrentEffect != 0)
             {
                 string name = "" + CurrentEffect;
-                name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
+                //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
+                name = "Unusual";
                 name = name + " Ol' Snaggletooth";
                 DisplayName.SetDefault(name);
             }
@@ -32,7 +33,7 @@ namespace Highlander.Items.Armor
             {
                 DisplayName.SetDefault("Ol' Snaggletooth");
             }
-            Tooltip.SetDefault("Made from a genuine crocodile.");
+            //Tooltip.SetDefault("Made from a genuine crocodile.");
         }
 
         public override void SetDefaults()

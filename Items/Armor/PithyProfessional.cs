@@ -25,7 +25,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Pith helmet worn by only the most professional of mercenaries.");
+            //Tooltip.SetDefault("Pith helmet worn by only the most professional of mercenaries.");
         }
 
         public override void SetDefaults()

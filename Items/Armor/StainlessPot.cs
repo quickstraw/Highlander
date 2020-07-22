@@ -21,7 +21,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Your head will smell delicious.");
+            //Tooltip.SetDefault("Your head will smell delicious.");
         }
 
         public override void SetDefaults()

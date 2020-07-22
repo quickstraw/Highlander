@@ -25,7 +25,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Eastern designed helmet that looks eerily like a lid.");
+            //Tooltip.SetDefault("Eastern designed helmet that looks eerily like a lid.");
         }
 
         public override void SetDefaults()

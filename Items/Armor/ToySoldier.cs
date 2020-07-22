@@ -20,7 +20,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Formal hat for a toy soldier.");
+            //Tooltip.SetDefault("Formal hat for a toy soldier.");
         }
 
         public override void SetDefaults()

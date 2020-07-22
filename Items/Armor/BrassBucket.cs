@@ -27,7 +27,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("For when you need to purge the corruption.");
+            //Tooltip.SetDefault("For when you need to purge the corruption.");
         }
 
         public override void SetDefaults()

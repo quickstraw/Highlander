@@ -20,7 +20,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Used to weld fine pieces of work.");
+            //Tooltip.SetDefault("Used to weld fine pieces of work.");
         }
 
         public override void SetDefaults()

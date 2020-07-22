@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.ID;
 
 namespace Highlander.Items
 {
@@ -25,7 +27,7 @@ namespace Highlander.Items
             item.accessory = true;
             if (roll) {
                 CurrentEffect = ReturnRollAbnormalEffect();
-                item.rare = 6;
+                item.rare = ItemRarityID.LightPurple;
             }
             Save();
         }
@@ -71,8 +73,11 @@ namespace Highlander.Items
         {
             if (CurrentEffect != 0)
             {
-                TooltipLine line = new TooltipLine(mod, "AbnormalToolTip", "Abnormal effect is: " + CurrentEffect);
-                line.overrideColor = Color.PaleVioletRed;
+                tooltips[0].overrideColor = Color.MediumPurple;
+                string name = "" + CurrentEffect;
+                name = Regex.Replace(name, "(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|(?<=[0-9])(?=[A-Z][a-z])|(?<=[a-zA-Z])(?=[0-9])", " ");
+                TooltipLine line = new TooltipLine(mod, "AbnormalToolTip", "Abnormal effect is: " + name);
+                line.overrideColor = Color.MediumPurple;
                 tooltips.Add(line);
             }
         }
@@ -112,7 +117,7 @@ namespace Highlander.Items
 
         protected void PlayAbnormalEffect(Player player)
         {
-            Vector2 headPosition;
+            /**Vector2 headPosition;
             float headHeight;
             Dust currDust;
             ModDustCustomData data;
@@ -237,7 +242,7 @@ namespace Highlander.Items
                     break;
                 default:
                     break;
-            }
+            }**/
         }
 
         protected void PlayAbnormalEffect_Old(Player player)
