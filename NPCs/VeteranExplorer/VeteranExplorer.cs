@@ -38,6 +38,8 @@ namespace Highlander.NPCs.HatSalesman
             NPCID.Sets.AttackTime[npc.type] = 90;
             NPCID.Sets.AttackAverageChance[npc.type] = 30;
             NPCID.Sets.HatOffsetY[npc.type] = 4;
+
+            NPCID.Sets.AttackType[npc.type] = 0;
         }
 
         public override void SetDefaults()
@@ -147,7 +149,7 @@ namespace Highlander.NPCs.HatSalesman
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ModContent.ProjectileType<WrenchProjectile>();
+            projType = ProjectileID.JavelinFriendly;
             attackDelay = 1;
         }
 
@@ -155,6 +157,13 @@ namespace Highlander.NPCs.HatSalesman
         {
             multiplier = 12f;
             randomOffset = 2f;
+        }
+
+        public override void DrawTownAttackGun(ref float scale, ref int item, ref int closeness)
+        {
+            scale = 1f;
+            item = ItemID.Musket;
+            closeness = 6;
         }
 
     }
