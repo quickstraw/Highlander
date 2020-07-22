@@ -22,18 +22,18 @@ namespace Highlander.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 20;
-			item.useStyle = 5;
+			item.damage = 14;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 28;
 			item.useTime = 28;
 			item.shootSpeed = 4.5f;
-			item.knockBack = 1.2f;
+			item.knockBack = 2.4f;
 			item.width = 32;
 			item.height = 32;
 			item.scale = 1f;
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.Blue;
 			//item.crit = 4;
-			item.value = Item.sellPrice(gold: 1, silver: 0);
+			item.value = Item.sellPrice(gold: 0, silver: 30);
 
 			item.melee = true;
 			item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

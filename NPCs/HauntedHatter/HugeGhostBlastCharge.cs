@@ -116,6 +116,10 @@ namespace Highlander.NPCs.HauntedHatter
 					Projectile.NewProjectileDirect(projectile.Center, curr * 6, type, damage, 0.5f);
 					curr = curr.RotatedBy(MathHelper.PiOver4);
 				}
+				if (Main.netMode != NetmodeID.Server)
+				{
+					Main.PlaySound(SoundID.Item72.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item72.Style, 0.60f, -0.2f);
+				}
 			}
 		}
 

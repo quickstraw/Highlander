@@ -40,7 +40,7 @@ namespace Highlander.Items.HauntedHatter
 			item.CloneDefaults(ItemID.DiamondHook);
 			item.shootSpeed = 13.5f; // how quickly the hook is shot.
 			item.shoot = ProjectileType<EnchantedNeedleProjectile>();
-			item.rare = 3;
+			item.rare = ItemRarityID.Expert;
 		}
 	}
 
@@ -80,7 +80,7 @@ namespace Highlander.Items.HauntedHatter
 					hooksOut++;
 				}
 			}
-			if (hooksOut > 3) // This hook can have 4 hooks out.
+			if (hooksOut > 3) // This hook can have 3 hooks out.
 			{
 				return false;
 			}
@@ -121,7 +121,7 @@ namespace Highlander.Items.HauntedHatter
 		// Amethyst Hook is 300, Static Hook is 600
 		public override float GrappleRange()
 		{
-			return 464f; // 29 blocks
+			return 352f; // 22 blocks
 		}
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)

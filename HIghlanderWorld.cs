@@ -59,9 +59,9 @@ namespace Highlander
 		public override void PostWorldGen()
 		{
 			// Place some items in Ice Chests
-			int[] itemsToPlaceInIceChests = { ItemType<ChariotWhip>() };
+			int[] itemsToPlaceInIceChests = { ItemType<ChariotWhip>(), ItemType<RoninLongYari>() };
 			int itemsToPlaceInIceChestsChoice = 0;
-			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+			for (int chestIndex = 0; chestIndex < Main.chest.Length; chestIndex++)
 			{
 				Chest chest = Main.chest[chestIndex];
 				// If you look at the sprite for Chests by extracting Tiles_21.xnb, you'll see that the 12th chest is the Ice Chest. Since we are counting from 0, this is where 11 comes from. 36 comes from the width of each tile including padding.
@@ -74,7 +74,7 @@ namespace Highlander
 				// 6 - Trash Can
 				if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36)
 				{
-					if (Main.rand.NextBool(10)) {
+					if (Main.rand.NextBool(8)) {
 						for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
 						{
 							if (chest.item[inventoryIndex].type == ItemID.None)

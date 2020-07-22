@@ -59,12 +59,22 @@ namespace Highlander.Projectiles
 		// It appears that for this AI, only the ai0 field is used!
 		public override void AI()
 		{
-			//projectile.spriteDirection = projectile.direction; // Flips the projectile horizontally based on what direction it is facing.
-			//projectile.spriteDirection = 1;
-
 			// Since we access the owner player instance so much, it's useful to create a helper local variable for this
 			// Sadly, Projectile/ModProjectile does not have its own
 			Player projOwner = Main.player[projectile.owner];
+
+			projectile.spriteDirection = projectile.direction; // Flips the projectile horizontally based on what direction it is facing.
+
+			// Apply proper rotation, with an offset of 135 degrees due to the sprite's rotation, notice the usage of MathHelper, use this class!
+			// MathHelper.ToRadians(xx degrees here)
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+
+			// Offset by 90 degrees here
+			if (projectile.spriteDirection == -1)
+			{
+				projectile.rotation -= MathHelper.ToRadians(90f);
+			}
+
 			// Here we set some of the projectile's owner properties, such as held item and itemtime, along with projectile direction and position based on the player
 			Vector2 ownerMountedCenter = projOwner.RotatedRelativePoint(projOwner.MountedCenter, true);
 			projectile.direction = projOwner.direction;
@@ -98,44 +108,7 @@ namespace Highlander.Projectiles
 			{
 				projectile.Kill();
 			}
-			// Apply proper rotation, with an offset of 135 degrees due to the sprite's rotation, notice the usage of MathHelper, use this class!
-			// MathHelper.ToRadians(xx degrees here)
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
 
-			// Offset by 90 degrees here
-			/**if (projectile.spriteDirection == -1)
-			{
-				projectile.rotation -= MathHelper.ToRadians(90f);
-				float rotation = projectile.rotation - MathHelper.PiOver4;
-				Vector2 forward = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-				forward.Normalize();
-
-				projectile.position += forward * 24;
-			}
-			else
-			{
-				float rotation = projectile.rotation - (MathHelper.PiOver2 + MathHelper.PiOver4);
-				Vector2 forward = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-				forward.Normalize();
-
-				projectile.position += forward * 24;
-			}**/
-
-			// These dusts are added later, for the 'ExampleMod' effect
-			if (Main.rand.NextBool(3))
-			{
-				//Dust dust = Dust.NewDustDirect(projectile.position, projectile.height, projectile.width, DustType<Sparkle>(),
-				//	projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 200, Scale: 1.2f);
-				//dust.velocity += projectile.velocity * 0.3f;
-				//dust.velocity *= 0.2f;
-			}
-			if (Main.rand.NextBool(4))
-			{
-				//Dust dust = Dust.NewDustDirect(projectile.position, projectile.height, projectile.width, DustType<Sparkle>(),
-				//	0, 0, 254, Scale: 0.3f);
-				//dust.velocity += projectile.velocity * 0.5f;
-				//dust.velocity *= 0.5f;
-			}
 		}
 
 		private Vector2 forward
