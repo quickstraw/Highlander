@@ -39,15 +39,16 @@ namespace Highlander.Items.HauntedHatter
             player.TryGettingDevArmor();
             List<int> items = new List<int>();
             items.Add(ItemType<SpiritShears>());
-            items.Add(ItemType<EnchantedNeedleHook>());
             items.Add(ItemType<AncientStoneBlaster>());
             int chance;
-            chance = Main.rand.Next(0, items.Count);
-            player.QuickSpawnItem(items[chance]);
-            items.RemoveAt(chance);
-            chance = Main.rand.Next(0, items.Count);
-            player.QuickSpawnItem(items[chance]);
-            items.RemoveAt(chance);
+            int drops = 1;
+            for (int i = 0; i < drops; i++)
+            {
+                chance = Main.rand.Next(0, items.Count);
+                player.QuickSpawnItem(items[chance]);
+                items.RemoveAt(chance);
+            }
+            player.QuickSpawnItem(ItemType<EnchantedNeedleHook>());
             player.QuickSpawnItem(ItemType<GhostlyGibus>());
         }
 

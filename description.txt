@@ -1,1 +1,6 @@
-Highlander adds some miscellanious items that I thought would be fun to have while still fitting within Terraria.
+Highlander is a content mod that focuses on adding mostly cosmetic items. There is currently a new boss and several new non-cosmetic items.
+
+Many cosmetic items added are based on Team Fortress 2 cosmetics. The Haunted Hatter must be killed to acquire these items.
+
+Non-cosmetic items added are rewards for beating the Haunted Hatter as well as some odd weapons I thought would fit well into Terraria.
+One of these weapons is the pike. There are 3 pike items added that serve as a long range melee weapons with a bonus versus bosses. They are not very good at close range combat.

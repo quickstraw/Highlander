@@ -1,4 +1,5 @@
 ﻿using Highlander.Items.HauntedHatter;
+using Highlander.Items.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -1222,6 +1223,12 @@ namespace Highlander.NPCs.HauntedHatter
                     NetMessage.SendData(MessageID.WorldData); // Immediately inform clients of new world state.
                 }
             }
+
+            if (Main.rand.NextBool(10))
+            {
+                Item.NewItem(npc.getRect(), ItemType<HauntedHatterTrophy>());
+            }
+
             if (Main.expertMode)
             {
                 npc.DropBossBags();
@@ -1231,6 +1238,10 @@ namespace Highlander.NPCs.HauntedHatter
                 if (Main.rand.NextBool(2))
                 {
                     Item.NewItem(npc.getRect(), ItemType<SpiritShears>());
+                }
+                else
+                {
+                    Item.NewItem(npc.getRect(), ItemType<AncientStoneBlaster>());
                 }
                 Item.NewItem(npc.getRect(), ItemType<GhostlyGibus>());
             }
