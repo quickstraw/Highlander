@@ -3,6 +3,7 @@ using Highlander.Items.Armor;
 using Highlander.UnusualLayerEffects;
 using Highlander.Utilities;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -275,6 +276,28 @@ namespace Highlander
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 
+		}
+
+		public override void PostSetupContent()
+		{
+			Mod bossChecklist = ModLoader.GetMod("BossChecklist");
+			if (bossChecklist != null)
+			{
+				bossChecklist.Call(
+					"AddBoss",
+					4.99f,
+					ModContent.NPCType<NPCs.HauntedHatter.HauntedHatter>(),
+					this, // Mod
+					"Haunted Hatter",
+					(Func<bool>)(() => HighlanderWorld.downedHauntedHatter),
+					ModContent.ItemType<Items.HauntedHatter.SpookyHeadwear>(),
+					new List<int> { ModContent.ItemType<Items.HauntedHatter.HauntedHatterTrophy>(), ModContent.ItemType<Items.HauntedHatter.GhostlyGibus>() },
+					new List<int> { ModContent.ItemType<Items.HauntedHatter.HauntedHatterBag>(), ModContent.ItemType<Items.HauntedHatter.EnchantedNeedleHook>()
+					, ModContent.ItemType<Items.HauntedHatter.SpiritShears>(), ModContent.ItemType<Items.Weapons.AncientStoneBlaster>()},
+					$"Spawns after using [i:{ModContent.ItemType<Items.HauntedHatter.SpookyHeadwear>()}] which can be crafted or dropped once after defeating the Eater of Worlds or the Brain of Cthulu.",
+					"Haunted Hatter spirited away the challengers");
+				// Additional bosses here
+			}
 		}
 
 		internal static Highlander Instance { get; private set; }
