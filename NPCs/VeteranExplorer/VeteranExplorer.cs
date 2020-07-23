@@ -12,7 +12,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace Highlander.NPCs.HatSalesman
+namespace Highlander.NPCs.VeteranExplorer
 {
     [AutoloadHead]
     class VeteranExplorer : ModNPC
