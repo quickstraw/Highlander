@@ -280,6 +280,7 @@ namespace Highlander
 
 		public override void PostSetupContent()
 		{
+			// Boss Checklist Support
 			Mod bossChecklist = ModLoader.GetMod("BossChecklist");
 			if (bossChecklist != null)
 			{
@@ -297,6 +298,18 @@ namespace Highlander
 					$"Spawns after using [i:{ModContent.ItemType<Items.HauntedHatter.SpookyHeadwear>()}] which can be crafted or dropped once after defeating the Eater of Worlds or the Brain of Cthulu.",
 					"Haunted Hatter spirited away the challengers");
 				// Additional bosses here
+			}
+
+			// Census Support
+			Mod censusMod = ModLoader.GetMod("Census");
+			if (censusMod != null)
+			{
+				// Here I am using Chat Tags to make my condition even more interesting.
+				// If you localize your mod, pass in a localized string instead of just English.
+				censusMod.Call("TownNPCCondition", ModContent.NPCType<NPCs.HatSalesman.HatSalesman>(),
+					$"When the Haunted Hatter has been defeated");
+				censusMod.Call("TownNPCCondition", ModContent.NPCType<NPCs.VeteranExplorer.VeteranExplorer>(),
+					$"When Skeletron has been defeated");
 			}
 		}
 
