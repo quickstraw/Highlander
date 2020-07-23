@@ -1,6 +1,9 @@
-Highlander is a content mod that focuses on adding mostly cosmetic items. There is currently a new boss and several new non-cosmetic items.
+Highlander is a content mod that focuses on adding mostly cosmetic items. There is currently a new boss and many cosmetic items along with a few non-cosmetic items.
 
-Many cosmetic items added are based on Team Fortress 2 cosmetics. The Haunted Hatter must be killed to acquire these items.
+Many cosmetic items added are inspired by Team Fortress 2 cosmetics. The Haunted Hatter must be killed to acquire these items. Hat Lockboxes will drop after the Haunted Hatter is killed.
+
+There are 2 Hat Lockboxes that can be opened to obtain different sets of hats. A Hat Lockbox must be opened with a key bought from the Hat Salesman. There is a small chance to obtain a hat with an unusual effect after opening a Hat Lockbox.
 
 Non-cosmetic items added are rewards for beating the Haunted Hatter as well as some odd weapons I thought would fit well into Terraria.
+
 One of these weapons is the pike. There are 3 pike items added that serve as a long range melee weapons with a bonus versus bosses. They are not very good at close range combat.
