@@ -49,7 +49,10 @@ namespace Highlander.Items.HauntedHatter
                 items.RemoveAt(chance);
             }
             player.QuickSpawnItem(ItemType<EnchantedNeedleHook>());
-            player.QuickSpawnItem(ItemType<GhostlyGibus>());
+            if (Main.rand.NextBool(7))
+            {
+                player.QuickSpawnItem(ItemType<GhostlyGibus>());
+            }
         }
 
         public override int BossBagNPC => NPCType<NPCs.HauntedHatter.HauntedHatter>();

@@ -15,18 +15,12 @@ namespace Highlander.Items.HauntedHatter
     [AutoloadEquip(EquipType.Head)]
     class GhostlyGibus : ModItem
     {
-        public GhostlyGibus()
-        {
-            //CurrentEffect = 0;
-        }
-        public GhostlyGibus(AbnormalEffect effect)// : base(effect)
-        {
-        }
         public override string Texture => "Highlander/Items/HauntedHatter/GhostlyGibus";
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Only those deemed worthy don the Ghostly Gibus.");
+            //DisplayName.SetDefault("Haunted Hat");
+            //Tooltip.SetDefault("Only those deemed worthy don the Ghostly Gibus.");
         }
 
         public override void SetDefaults()

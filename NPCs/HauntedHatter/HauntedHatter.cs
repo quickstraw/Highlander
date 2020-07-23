@@ -1243,7 +1243,10 @@ namespace Highlander.NPCs.HauntedHatter
                 {
                     Item.NewItem(npc.getRect(), ItemType<AncientStoneBlaster>());
                 }
-                Item.NewItem(npc.getRect(), ItemType<GhostlyGibus>());
+                if (Main.rand.NextBool(7))
+                {
+                    Item.NewItem(npc.getRect(), ItemType<GhostlyGibus>());
+                }
             }
         }
 
