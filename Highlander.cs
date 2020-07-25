@@ -112,6 +112,20 @@ namespace Highlander
 			AddItem("UnusualPatriotPeak", item);
 			AddEquipTexture(item, EquipType.Head, "UnusualPatriotPeak_Head", "Highlander/Items/Armor/PatriotPeak_Head");
 
+			item = new Globetrotter(effect);
+			AddItem("UnusualGlobetrotter", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualGlobetrotter_Head", "Highlander/Items/Armor/Globetrotter_Head");
+
+			item = new Anger(effect);
+			AddItem("UnusualAnger", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualAnger_Head", "Highlander/Items/Armor/Anger_Head");
+
+			// OG Hats
+
+			item = new PaperBag(effect);
+			AddItem("UnusualPaperBag", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualPaperBag_Head", "Highlander/Items/Armor/PaperBag_Head");
+
 			/**for (int i = 1; i < (int)AbnormalEffect.Max; i++)
 			{
 				AbnormalEffect effect = (AbnormalEffect)i;

@@ -13,15 +13,15 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class Globetrotter : AbnormalItem
+    class Anger : AbnormalItem
     {
-        public Globetrotter() : base()
+        public Anger() : base()
         {
         }
-        public Globetrotter(AbnormalEffect effect) : base(effect)
+        public Anger(AbnormalEffect effect) : base(effect)
         {
         }
-        public override string Texture => "Highlander/Items/Armor/Globetrotter";
+        public override string Texture => "Highlander/Items/Armor/Anger";
 
         public override void SetStaticDefaults()
         {
@@ -39,7 +39,7 @@ namespace Highlander.Items.Armor
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
-            drawAltHair = true;
+            drawAltHair = false;
         }
 
     }
