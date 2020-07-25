@@ -192,11 +192,11 @@ namespace Highlander.Utilities
 
                 if (modPlayer.unusual == AbnormalEffect.PurpleEnergy)
                 {
-                    dust.Add(new PurpleEnergyFaux(drawInfo, new Vector2(0, 16), tex, 2f));
+                    dust.Add(new PurpleEnergyFaux(drawInfo, new Vector2(0.5f, 16), tex, 2f));
                 }
                 else
                 {
-                    dust.Add(new GreenEnergyFaux(drawInfo, new Vector2(0, 16), tex, 2f));
+                    dust.Add(new GreenEnergyFaux(drawInfo, new Vector2(0.5f, 16), tex, 2f));
                 }
 
                 for(int i = 0; i < dust.Count; i++)
