@@ -126,6 +126,14 @@ namespace Highlander
 			AddItem("UnusualPaperBag", item);
 			AddEquipTexture(item, EquipType.Head, "UnusualPaperBag_Head", "Highlander/Items/Armor/PaperBag_Head");
 
+			item = new OpenMind(effect);
+			AddItem("UnusualOpenMind", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualOpenMind_Head", "Highlander/Items/Armor/OpenMind_Head");
+
+			item = new Headless(effect);
+			AddItem("UnusualHeadless", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualHeadless_Head", "Highlander/Items/Armor/Headless_Head");
+
 			/**for (int i = 1; i < (int)AbnormalEffect.Max; i++)
 			{
 				AbnormalEffect effect = (AbnormalEffect)i;
