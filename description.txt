@@ -7,3 +7,9 @@ There are 2 Hat Lock Boxes that can be opened to obtain different sets of hats. 
 Non-cosmetic items added are rewards for beating the Haunted Hatter as well as some odd weapons I thought would fit well into Terraria.
 
 One of these weapons is the pike. There are 3 pike items added that serve as a long-range melee weapons with a bonus versus bosses. They are not very good at close range combat.
+
+Changes:
+1.1.0 - Added Anger and Globetrotter. Improved art for Condor Cap. Hong Kong Cone, and Legendary Lid.
+
+Currently Working On:
+Make a Lock Box which includes new original hats by me.

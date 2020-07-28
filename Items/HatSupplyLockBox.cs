@@ -86,6 +86,7 @@ namespace Highlander.Items
             names.Add("TeamCaptain");
             names.Add("KillerExclusive");
             names.Add("HongKongCone");
+            names.Add("Anger");
 
             int chance;
             chance = Main.rand.Next(0, names.Count);

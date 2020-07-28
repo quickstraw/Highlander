@@ -84,6 +84,7 @@ namespace Highlander.Items
             names.Add("SurgeonShako");
             names.Add("ToySoldier");
             names.Add("PatriotPeak");
+            names.Add("Globetrotter");
 
             int chance;
             chance = Main.rand.Next(0, names.Count);
