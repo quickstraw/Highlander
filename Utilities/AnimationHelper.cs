@@ -148,7 +148,7 @@ namespace Highlander.Utilities
             return new DrawData(texture, new Vector2(drawX, drawY), new Rectangle(0, 0, texture.Width, texture.Height), Color.White, angleInRadians, new Vector2(texture.Width / 2f, texture.Height / 2f), scale, SpriteEffects.None, 0);
         }
 
-        public static readonly PlayerLayer unusual = new PlayerLayer("Highlander", "AmmoGunCounter", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
+        public static readonly PlayerLayer unusual = new PlayerLayer("Highlander", "Unusual", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
         {
             Mod mod = Highlander.Instance;
             Player drawPlayer = drawInfo.drawPlayer;
