@@ -20,7 +20,7 @@ namespace Highlander.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
+			item.damage = 12;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 28;
 			item.useTime = 28;
@@ -28,7 +28,7 @@ namespace Highlander.Items.Weapons
 			item.knockBack = 1.2f;
 			item.width = 32;
 			item.height = 32;
-			item.scale = 1.1f;
+			item.scale = 1.0f;
 			item.rare = ItemRarityID.Green;
 			item.crit = 4;
 			item.value = Item.sellPrice(gold: 1, silver: 0);
