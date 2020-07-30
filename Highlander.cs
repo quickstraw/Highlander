@@ -5,7 +5,10 @@ using Highlander.Utilities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -133,6 +136,26 @@ namespace Highlander
 			item = new Headless(effect);
 			AddItem("UnusualHeadless", item);
 			AddEquipTexture(item, EquipType.Head, "UnusualHeadless_Head", "Highlander/Items/Armor/Headless_Head");
+
+			item = new GuerrillaRebel(effect);
+			AddItem("UnusualGuerrillaRebel", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualGuerrillaRebel_Head", "Highlander/Items/Armor/GuerrillaRebel_Head");
+
+			item = new SkiMask(effect);
+			AddItem("UnusualSkiMask", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualSkiMask_Head", "Highlander/Items/Armor/SkiMask_Head");
+
+			item = new ImpregnableHelm(effect);
+			AddItem("UnusualImpregnableHelm", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualImpregnableHelm_Head", "Highlander/Items/Armor/ImpregnableHelm_Head");
+
+			item = new NinjaHeadband(effect);
+			AddItem("UnusualNinjaHeadband", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualNinjaHeadband_Head", "Highlander/Items/Armor/NinjaHeadband_Head");
+
+			item = new AutonomousOrb(effect);
+			AddItem("UnusualAutonomousOrb", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualAutonomousOrb_Head", "Highlander/Items/Armor/AutonomousOrb_Head");
 
 			/**for (int i = 1; i < (int)AbnormalEffect.Max; i++)
 			{
@@ -335,7 +358,34 @@ namespace Highlander
 			}
 		}
 
+		public override void PostUpdateEverything()
+		{
+		}
+
+		public override void HandlePacket(BinaryReader reader, int whoAmI)
+		{
+			HighlanderMessageType msgType = (HighlanderMessageType)reader.ReadByte();
+			switch (msgType)
+			{
+				case HighlanderMessageType.HighlanderPlayerSyncPlayer:
+					byte playernumber = reader.ReadByte();
+					HighlanderPlayer modPlayer = Main.player[playernumber].GetModPlayer<HighlanderPlayer>();
+					int unboxed = reader.ReadInt32();
+					modPlayer.unboxed = unboxed;
+					// SyncPlayer will be called automatically, so there is no need to forward this data to other clients.
+					break;
+				default:
+					Logger.WarnFormat("Highlander: Unknown Message type: {0}", msgType);
+					break;
+			}
+		}
+
 		internal static Highlander Instance { get; private set; }
+
+		internal enum HighlanderMessageType : byte
+		{
+			HighlanderPlayerSyncPlayer,
+		}
 
 	}
 }

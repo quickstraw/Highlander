@@ -1,4 +1,5 @@
 using Highlander.Items;
+using Highlander.Items.Armor;
 using Highlander.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,8 +11,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using static Highlander.Highlander;
 using static Terraria.ModLoader.ModContent;
 
 namespace Highlander
@@ -33,6 +36,11 @@ namespace Highlander
 
 		public Projectile bulletCounter;
 
+		public int unboxed = -1;
+
+		public short hatEffectTime = 0;
+		public bool wearingAutonomousOrb = false;
+
 		private int counter = 0;
 
 		public override void ResetEffects() {
@@ -40,6 +48,10 @@ namespace Highlander
 			unusual = 0; 
 			maxAmmo = 0;
 			currentAmmo = 0;
+
+			//unboxed = -1;
+
+			wearingAutonomousOrb = false;
 		}
 
 		public override void OnEnterWorld(Player player) {
@@ -59,10 +71,14 @@ namespace Highlander
 			HighlanderPlayer clone = clientClone as HighlanderPlayer;
 			// Here we would make a backup clone of values that are only correct on the local players Player instance.
 			// Some examples would be RPG stats from a GUI, Hotkey states, and Extra Item Slots
+			clone.unboxed = unboxed;
 		}
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer) {
 			ModPacket packet = mod.GetPacket();
+			packet.Write((byte)HighlanderMessageType.HighlanderPlayerSyncPlayer);
+			packet.Write((byte)player.whoAmI);
+			packet.Write(unboxed);
 			packet.Send(toWho, fromWho);
 		}
 
@@ -71,6 +87,9 @@ namespace Highlander
 			HighlanderPlayer clone = clientPlayer as HighlanderPlayer;
 			// Send a Mod Packet with the changes.
 			var packet = mod.GetPacket();
+			packet.Write((byte)HighlanderMessageType.HighlanderPlayerSyncPlayer);
+			packet.Write((byte)player.whoAmI);
+			packet.Write(unboxed);
 			packet.Send();
 		}
 
@@ -190,12 +209,25 @@ namespace Highlander
 		public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright) {
 			if (Main.netMode != NetmodeID.Server)
 			{
-				if(player.armor[10] != null && player.armor[10].modItem != null)
+				bool hasModItemArmor = player.armor[0] != null && player.armor[0].modItem != null;
+				bool hasModItemVanity = player.armor[10] != null && player.armor[10].modItem != null;
+				if (hasModItemVanity || hasModItemArmor)
 				{
-					if(player.armor[10].modItem.GetType().BaseType != null)
+					if(hasModItemVanity && player.armor[10].modItem.GetType().BaseType != null || hasModItemArmor && player.armor[0].modItem.GetType().BaseType != null)
 					{
-						if (player.armor[10].modItem.GetType().BaseType == typeof(AbnormalItem)) {
-							AbnormalItem item = (AbnormalItem)player.armor[10].modItem;
+						if (hasModItemVanity && player.armor[10].modItem.GetType().BaseType == typeof(AbnormalItem)
+							|| hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(AbnormalItem)) {
+							AbnormalItem item;
+
+							if (hasModItemVanity)
+							{
+								item = (AbnormalItem)player.armor[10].modItem;
+							}
+							else
+							{
+								item = (AbnormalItem)player.armor[0].modItem;
+							}
+							
 
 							unusual = item.CurrentEffect;
 
@@ -318,6 +350,10 @@ namespace Highlander
 
 						}
 					}
+					if (hasModItemVanity && player.armor[10].modItem.GetType() == typeof(AutonomousOrb) || hasModItemArmor && !hasModItemVanity && player.armor[0].modItem.GetType() == typeof(AutonomousOrb))
+					{
+						wearingAutonomousOrb = true;
+					}
 				}
 				else
 				{
@@ -348,10 +384,32 @@ namespace Highlander
 
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
+			int count = layers.Count;
+
 			if (holdingAmmoGun)
 			{
 				AnimationHelper.ammoGunCounter.visible = true;
 				layers.Add(AnimationHelper.ammoGunCounter);
+			}
+			if (wearingAutonomousOrb)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					PlayerLayer layer = layers[i];
+					if (layer.Name == "Head")
+					{
+						//Main.NewText(layer.Name);
+						if (i != layers.Count - 1)
+						{
+							layers.Insert(i + 1, HatEffects.AutonomousOrb);
+						}
+						else
+						{
+							layers.Add(HatEffects.AutonomousOrb);
+						}
+						break;
+					}
+				}
 			}
 			if (unusual != 0)
 			{
@@ -360,29 +418,22 @@ namespace Highlander
 				layers.Add(AnimationHelper.unusualFront);
 			}
 
-			int count = layers.Count;
+		}
 
-			
-
-			/**for(int i = 0; i < count; i++)
+		public override void PostUpdate()
+		{
+			if (unboxed != -1)
 			{
-				PlayerLayer layer = layers[i];
-				Main.NewText(layer.Name);
-				if (layer.Name == "Head")
-				{
-					//Main.NewText(layer.Name);
-					if (i != layers.Count - 1)
-					{
-						layers.Insert(i, AnimationHelper.unusualFront);
-					}
-					else
-					{
-						layers.Add(AnimationHelper.unusualFront);
-					}
-					break;
-				}
-			}**/
+				string text = player.name + " unboxed an " + ModContent.GetModItem(unboxed).item.Name + "!";
 
+				if (Main.netMode == NetmodeID.Server)
+				{
+					NetworkText message = NetworkText.FromLiteral(text);
+					NetMessage.BroadcastChatMessage(message, Color.MediumPurple);
+				}
+
+				unboxed = -1;
+			}
 		}
 
 	}

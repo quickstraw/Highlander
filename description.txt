@@ -10,6 +10,12 @@ One of these weapons is the pike. There are 3 pike items added that serve as a l
 
 Changes:
 1.1.0 - Added Anger and Globetrotter. Improved art for Condor Cap. Hong Kong Cone, and Legendary Lid.
+1.2.0 - Added the Reserve Hat Lock Box and 8 hats by me.
+1.2.3 - Made unboxing Unusuals in multiplayer work better. Not completely finished.
+1.2.4 - Enabled Reserve Hat Supply Lock Box in Hell.
+1.2.5 - Fixed Autonomous Orb and Unusual effects not showing when equipped in the armor slot with no vanity, fixed unboxing Unusuals in multiplayer, and nerfed Chariot's Whip.
 
 Currently Working On:
-Make a Lock Box which includes new original hats by me.
+Improving sprites
+Making more hats
+Checking for multiplayer bugs

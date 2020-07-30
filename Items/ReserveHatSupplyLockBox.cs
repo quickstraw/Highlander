@@ -15,13 +15,13 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Items
 {
-    class WinterHatSupplyLockBox : ModItem
+    class ReserveHatSupplyLockBox : ModItem
     {
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Winter Hat Supply Lock Box");
-            Tooltip.SetDefault("Right Click to open\nRequires a Winter Hat Supply Key");
+            DisplayName.SetDefault("Reserve Hat Supply Lock Box");
+            Tooltip.SetDefault("Right Click to open\nRequires a Hat Supply Key");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace Highlander.Items
 
             for (int i = 0; i < 58; i++)
             {
-                if (player.inventory[i].type == ModContent.ItemType<WinterHatSupplyKey>() && player.inventory[i].stack >= 1)
+                if (player.inventory[i].type == ModContent.ItemType<HatSupplyKey>() && player.inventory[i].stack >= 1)
                 {
                     hasKeys = true;
                     break;
@@ -52,11 +52,11 @@ namespace Highlander.Items
 
         public override void RightClick(Player player)
         {
-            if (player.HasItem(ModContent.ItemType<WinterHatSupplyKey>()))
+            if (player.HasItem(ModContent.ItemType<HatSupplyKey>()))
             {
                 for (int i = 0; i < 58; i++)
                 {
-                    if (player.inventory[i].type == ModContent.ItemType<WinterHatSupplyKey>() && player.inventory[i].stack >= 1)
+                    if (player.inventory[i].type == ModContent.ItemType<HatSupplyKey>() && player.inventory[i].stack >= 1)
                     {
                         player.inventory[i].stack -= 1;
                         break;
@@ -75,16 +75,14 @@ namespace Highlander.Items
             String itemName;
 
             List<String> names = new List<string>();
-            names.Add("BrassBucket");
-            names.Add("TartanTyrolean");
-            names.Add("ColdfrontCommander");
-            names.Add("SinnerShade");
-            names.Add("MightyMitre");
-            names.Add("CondorCap");
-            names.Add("SurgeonShako");
-            names.Add("ToySoldier");
-            names.Add("PatriotPeak");
-            names.Add("Globetrotter");
+            names.Add("GuerrillaRebel");
+            names.Add("SkiMask");
+            names.Add("ImpregnableHelm");
+            names.Add("NinjaHeadband");
+            names.Add("AutonomousOrb");
+            names.Add("Headless");
+            names.Add("OpenMind");
+            names.Add("PaperBag");
 
             int chance;
             chance = Main.rand.Next(0, names.Count);
@@ -108,7 +106,7 @@ namespace Highlander.Items
                 }
 
                 int type = ModContent.ProjectileType<UnusualFireworkProjectile>();
-                var projectile = Projectile.NewProjectile(new Vector2(player.position.X, player.position.Y + 20), new Vector2(), type, 0, 0.0f);
+                var projectile = Projectile.NewProjectile(new Vector2(player.position.X, player.position.Y - 20), new Vector2(), type, 0, 0.0f);
                 if (Main.netMode != NetmodeID.SinglePlayer)
                 {
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile);

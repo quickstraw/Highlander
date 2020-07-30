@@ -27,6 +27,10 @@ namespace Highlander.NPCs
                 {
                     Item.NewItem(npc.getRect(), ModContent.ItemType<WinterHatSupplyLockBox>());
                 }
+                else if(Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneUnderworldHeight)
+                {
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<ReserveHatSupplyLockBox>());
+                }
                 else
                 {
                     Item.NewItem(npc.getRect(), ModContent.ItemType<HatSupplyLockBox>());

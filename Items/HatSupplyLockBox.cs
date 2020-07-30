@@ -103,14 +103,19 @@ namespace Highlander.Items
                 }
                 else
                 {
-                    NetworkText message = NetworkText.FromLiteral(text);
-                    NetMessage.BroadcastChatMessage(message, Color.MediumPurple);
+                    var modPlayer = player.GetModPlayer<HighlanderPlayer>();
+                    modPlayer.unboxed = mod.ItemType(prefix + itemName);
+                    //NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI);
+                    //modPlayer.SyncPlayer(-1, -1, false);
+                    //NetworkText message = NetworkText.FromLiteral(text);
+                    //NetMessage.BroadcastChatMessage(message, Color.MediumPurple);
                 }
 
-                if(Main.netMode != NetmodeID.MultiplayerClient)
+                int type = ModContent.ProjectileType<UnusualFireworkProjectile>();
+                var projectile = Projectile.NewProjectile(new Vector2(player.position.X, player.position.Y - 20), new Vector2(), type, 0, 0.0f);
+                if(Main.netMode != NetmodeID.SinglePlayer)
                 {
-                    int type = ModContent.ProjectileType<UnusualFireworkProjectile>();
-                    var projectile = Projectile.NewProjectileDirect(new Vector2(player.position.X, player.position.Y - 20), new Vector2(), type, 0, 0.0f);
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile);
                 }
             }
 
