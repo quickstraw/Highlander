@@ -24,7 +24,7 @@ namespace Highlander.Projectiles
 			projectile.height = 12;
 			projectile.aiStyle = 19;
 			projectile.penetrate = -1;
-			projectile.scale = 1.15f;
+			projectile.scale = 1.0f;
 			projectile.alpha = 0;
 
 			projectile.hide = true;
@@ -80,7 +80,7 @@ namespace Highlander.Projectiles
 			projOwner.itemTime = projOwner.itemAnimation;
 			projectile.position.X = ownerMountedCenter.X - (float)(projectile.width / 2);
 			projectile.position.Y = ownerMountedCenter.Y - (float)(projectile.height / 2);
-			projectile.position += forward * 70;
+			projectile.position += forward * 60;
 			// As long as the player isn't frozen, the spear can move
 			if (!projOwner.frozen)
 			{
