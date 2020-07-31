@@ -90,14 +90,18 @@ namespace Highlander.NPCs.HatSalesman
             {
                 return "" + Main.npc[partyGirl].GivenName.ToUpper() + " can no longer use my hats for parties!";
             }
-            switch (Main.rand.Next(4))
+            switch (Main.rand.Next(6))
             {
                 case 0:
                     return "*BEEP* Welcome to my shop!";
                 case 1:
-                    return "Have you found anymore Hat Supply Crates?";
+                    return "Have you found anymore Hat Crates?";
                 case 2:
-                    return "Would you like to purchase Hat Supply Keys?";
+                    return "Would you like to purchase Hat Keys?";
+                case 3:
+                    return "Be careful trying to collect Reserve Hat Crates! It's dangerous down in the Underworld.";
+                case 4:
+                    return "Remember to wear a coat while looking for Winter Hat Crates. You don't want to freeze to death.";
                 default:
                     return "Do my shiny keys catch your attention, human?";
             }
