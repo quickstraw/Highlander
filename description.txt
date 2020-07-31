@@ -14,6 +14,8 @@ Changes:
 1.2.3 - Made unboxing Unusuals in multiplayer work better. Not completely finished.
 1.2.4 - Enabled Reserve Hat Supply Lock Box in Hell.
 1.2.5 - Fixed Autonomous Orb and Unusual effects not showing when equipped in the armor slot with no vanity, fixed unboxing Unusuals in multiplayer, and nerfed Chariot's Whip.
+1.2.6 - Improved Winter Hat Lock Box and Hat Lock Box art. Renamed Hat Supply Lock Boxes to Hat Lock Boxes.
+1.2.7 - Fixed crash with mods that have hats which have a base class that is not ModItem.
 
 Currently Working On:
 Improving sprites

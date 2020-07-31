@@ -219,13 +219,17 @@ namespace Highlander
 							|| hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(AbnormalItem)) {
 							AbnormalItem item;
 
-							if (hasModItemVanity)
+							if (hasModItemVanity && player.armor[10].modItem.GetType().BaseType == typeof(AbnormalItem))
 							{
 								item = (AbnormalItem)player.armor[10].modItem;
 							}
-							else
+							else if(hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(AbnormalItem))
 							{
 								item = (AbnormalItem)player.armor[0].modItem;
+							}
+							else
+							{
+								return;
 							}
 							
 

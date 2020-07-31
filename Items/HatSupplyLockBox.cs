@@ -20,8 +20,8 @@ namespace Highlander.Items
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hat Supply Lock Box");
-            Tooltip.SetDefault("Right Click to open\nRequires a Hat Supply Key");
+            DisplayName.SetDefault("Hat Lock Box");
+            Tooltip.SetDefault("Right Click to open\nRequires a Hat Key");
         }
 
         public override void SetDefaults()
