@@ -22,6 +22,11 @@ namespace Highlander.Items
         public List<AbnormalEffect> Table = RollTable.AbnormalRollTable.Table;
         private bool roll = true;
 
+        public override bool Autoload(ref string name)
+        {
+            return GetType() != typeof(AbnormalItem);
+        }
+
         public override void SetDefaults()
         {
             item.accessory = true;

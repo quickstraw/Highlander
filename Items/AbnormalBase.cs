@@ -18,6 +18,11 @@ namespace Highlander.Items
 
         public override bool CloneNewInstances => true;
 
+        public override bool Autoload(ref string name)
+        {
+            return GetType() != typeof(AbnormalBase);
+        }
+
         public AbnormalBase()
         {
             CurrentEffect = 0;
