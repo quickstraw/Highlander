@@ -21,6 +21,11 @@ namespace Highlander.NPCs.EnlightenmentIdol
         private byte floatTimer = 0;
         private bool dontDamage;
 
+        public override bool Autoload(ref string name)
+        {
+            return false;
+        }
+
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[npc.type] = 5; // make sure to set this for your modnpcs.
