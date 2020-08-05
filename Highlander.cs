@@ -157,6 +157,14 @@ namespace Highlander
 			AddItem("UnusualAutonomousOrb", item);
 			AddEquipTexture(item, EquipType.Head, "UnusualAutonomousOrb_Head", "Highlander/Items/Armor/AutonomousOrb_Head");
 
+			item = new MedicalMask(effect);
+			AddItem("UnusualMedicalMask", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualMedicalMask_Head", "Highlander/Items/Armor/MedicalMask_Head");
+
+			item = new BloodWarriorMask(effect);
+			AddItem("UnusualBloodWarriorMask", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualBloodWarriorMask_Head", "Highlander/Items/Armor/BloodWarriorMask_Head");
+
 			/**for (int i = 1; i < (int)AbnormalEffect.Max; i++)
 			{
 				AbnormalEffect effect = (AbnormalEffect)i;
