@@ -8,14 +8,7 @@ Non-cosmetic items added are rewards for beating the Haunted Hatter as well as s
 
 One of these weapons is the pike. There are 3 pike items added that serve as a long-range melee weapons with a bonus versus bosses. They are not very good at close range combat.
 
-Changes:
-1.1.0 - Added Anger and Globetrotter. Improved art for Condor Cap. Hong Kong Cone, and Legendary Lid.
-1.2.0 - Added the Reserve Hat Lock Box and 8 hats by me.
-1.2.3 - Made unboxing Unusuals in multiplayer work better. Not completely finished.
-1.2.4 - Enabled Reserve Hat Supply Lock Box in Hell.
-1.2.5 - Fixed Autonomous Orb and Unusual effects not showing when equipped in the armor slot with no vanity, fixed unboxing Unusuals in multiplayer, and nerfed Chariot's Whip.
-1.2.6 - Improved Winter Hat Lock Box and Hat Lock Box art. Renamed Hat Supply Lock Boxes to Hat Lock Boxes.
-1.2.7 - Fixed crash with mods that have hats which have a base class that is not ModItem.
+Recent Changes:
 1.3.0.0 - Changed versioning to better represent small bugfix updates. Added Medical Mask and Blood Warrior Mask to Reserve Hat Lock Box.
 1.3.0.1 - Haunted Hatter now properly despawns when there are no active players.
 
