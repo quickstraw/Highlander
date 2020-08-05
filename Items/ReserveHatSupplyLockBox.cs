@@ -29,7 +29,7 @@ namespace Highlander.Items
             item.width = 32;
             item.height = 22;
             item.maxStack = 99;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.value = Item.buyPrice(0, 1, 0, 0);
         }
 
@@ -83,6 +83,8 @@ namespace Highlander.Items
             names.Add("Headless");
             names.Add("OpenMind");
             names.Add("PaperBag");
+            names.Add("BloodWarriorMask");
+            names.Add("MedicalMask");
 
             int chance;
             chance = Main.rand.Next(0, names.Count);
