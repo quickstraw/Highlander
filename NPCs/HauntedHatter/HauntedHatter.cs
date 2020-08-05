@@ -32,6 +32,8 @@ namespace Highlander.NPCs.HauntedHatter
 
         private int moveTimer = UpdateRate;
         private int dashTimer = DASH_DEFAULT;
+        private int deathTimer = 0;
+        private byte alpha = 255;
         private float dashDistance;
         private float attackTimer2 = 60;
         private float attackTimer3 = 60;
@@ -101,6 +103,12 @@ namespace Highlander.NPCs.HauntedHatter
             }
             if (npc.HasValidTarget)
             {
+                if(deathTimer != 0)
+                {
+                    deathTimer = 0;
+                    alpha = 255;
+                    npc.netUpdate = true;
+                }
                 float percentHealth = ((float)npc.life / (float)npc.lifeMax);
                 switch (stage)
                 {
@@ -180,6 +188,19 @@ namespace Highlander.NPCs.HauntedHatter
                         break;
                     default:
                         break;
+                }
+            }
+            else
+            {
+                deathTimer++;
+                if(deathTimer > 240)
+                {
+                    alpha -= 2;
+                }
+                if(deathTimer > 360)
+                {
+                    npc.active = false;
+                    npc.netUpdate = true;
                 }
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -288,10 +309,10 @@ namespace Highlander.NPCs.HauntedHatter
             Vector2 HatDrawPos = drawPos + new Vector2(30, 60);
             Vector2 BottomDrawPos = drawPos + new Vector2(30, 60);
 
-            spriteBatch.Draw(Hat, HatDrawPos, new Rectangle(0, HatFrame, Hat.Width, HatFrameHeight), drawColor, npc.rotation, HatOrigin, 1.0f, 0, 0);
-            spriteBatch.Draw(Bottom, BottomDrawPos, new Rectangle(0, BottomFrame, Bottom.Width, BottomFrameHeight), drawColor, npc.rotation, BottomOrigin, 1.0f, 0, 0);
-            spriteBatch.Draw(Left, BottomDrawPos, new Rectangle(0, leftFrame * LeftFrameHeight, Left.Width, LeftFrameHeight), drawColor, npc.rotation, LeftOrigin, 1.0f, 0, 0);
-            spriteBatch.Draw(Right, BottomDrawPos, new Rectangle(0, rightFrame * RightFrameHeight, Right.Width, RightFrameHeight), drawColor, npc.rotation, LeftOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Hat, HatDrawPos, new Rectangle(0, HatFrame, Hat.Width, HatFrameHeight), drawColor * ((float) alpha / 255f), npc.rotation, HatOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Bottom, BottomDrawPos, new Rectangle(0, BottomFrame, Bottom.Width, BottomFrameHeight), drawColor * ((float) alpha / 255f), npc.rotation, BottomOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Left, BottomDrawPos, new Rectangle(0, leftFrame * LeftFrameHeight, Left.Width, LeftFrameHeight), drawColor * ((float) alpha / 255f), npc.rotation, LeftOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Right, BottomDrawPos, new Rectangle(0, rightFrame * RightFrameHeight, Right.Width, RightFrameHeight), drawColor * ((float) alpha / 255f), npc.rotation, LeftOrigin, 1.0f, 0, 0);
 
             npc.frameCounter = (npc.frameCounter + 1.75) % 60;
         }
@@ -1198,6 +1219,8 @@ namespace Highlander.NPCs.HauntedHatter
             writer.Write(rightArmTimer);
             writer.Write(leftFrame);
             writer.Write(rightFrame);
+            writer.Write((short)deathTimer);
+            writer.Write(alpha);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -1211,6 +1234,8 @@ namespace Highlander.NPCs.HauntedHatter
             rightArmTimer = reader.ReadByte();
             leftFrame = reader.ReadByte();
             rightFrame = reader.ReadByte();
+            deathTimer = reader.ReadInt16();
+            alpha = reader.ReadByte();
         }
 
         public override void NPCLoot()
