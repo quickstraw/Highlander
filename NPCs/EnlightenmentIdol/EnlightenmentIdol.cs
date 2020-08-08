@@ -35,7 +35,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public override bool Autoload(ref string name)
         {
-            return true;
+            return false;
         }
 
         public override void SetStaticDefaults()

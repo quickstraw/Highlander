@@ -12,6 +12,10 @@ namespace Highlander.Items.EnlightenmentIdol
 {
     class EnlightenmentIdolBag : ModItem
     {
+        public override bool Autoload(ref string name)
+        {
+            return false;
+        }
 
         public override void SetStaticDefaults()
         {
