@@ -23,6 +23,7 @@ namespace Highlander.UnusualLayerEffects
         public PlayerDrawInfo drawInfo;
 
         public bool active;
+        public bool front;
 
         public Vector2 origin => new Vector2(frame.Width / 2f, frame.Height / 2f);
         public Color Color;
@@ -69,9 +70,21 @@ namespace Highlander.UnusualLayerEffects
         public DrawData DrawData(PlayerDrawInfo info)
         {
             drawInfo = info;
+            Player drawPlayer = info.drawPlayer;
             int drawX = (int)(info.position.X + Player.width / 2f - Main.screenPosition.X);
             int drawY = (int)(info.position.Y + Player.height / 0.6f - Main.screenPosition.Y);
-            return new DrawData(texture, new Vector2(drawX, drawY - 65) + Offset, frame, Color, 0, origin, scale, SpriteEffects.None, 0);
+
+            if (drawPlayer.mount.Active)
+            {
+                Vector2 pos = new Vector2();
+                pos.Y += drawPlayer.mount.PlayerOffset;
+
+                pos += drawInfo.position;
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + 70 - Main.screenPosition.Y);
+            }
+
+            return new DrawData(texture, new Vector2(drawX, drawY - 65) + Offset, frame, Color * ((255 - alpha) / 255f), 0, origin, scale, SpriteEffects.None, 0);
         }
 
         public void FindColor()

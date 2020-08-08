@@ -156,6 +156,7 @@ namespace Highlander.Utilities
             string texPath = "";
             bool storm = false;
             bool energy = false;
+            bool flames = false;
 
             switch (modPlayer.unusual)
             {
@@ -174,6 +175,14 @@ namespace Highlander.Utilities
                 case AbnormalEffect.StormyStorm:
                     texPath = "UnusualLayerEffects/StormyStorm";
                     storm = true;
+                    break;
+                case AbnormalEffect.BurningFlames:
+                    texPath = "UnusualLayerEffects/BurningFlames";
+                    flames = true;
+                    break;
+                case AbnormalEffect.ScorchingFlames:
+                    texPath = "UnusualLayerEffects/ScorchingFlames";
+                    flames = true;
                     break;
                 default:
                     return;
@@ -203,28 +212,60 @@ namespace Highlander.Utilities
                 {
                     
                     FauxDust d = dust[i];
-                    //Main.NewText("1: " + d.Offset + d.Player.position);
-                    //Main.NewText("2: " + d.Offset + drawPlayer.position);
-                    d.Update();
-                    if (!d.active)
+                    if (d.Player == drawPlayer)
                     {
-                        dust.Remove(d);
-                        i--;
-                    }
-                    else
-                    {
-                        //Main.NewText("Player: " + d.Player.position);
-                        //Main.NewText(d.DrawData().texture);
-                        Main.playerDrawData.Add(d.DrawData(drawInfo));
-                        //Main.playerDrawData.Add(FauxDustDrawData(drawInfo, d, texPath, yOffset, angle));
+                        //Main.NewText("1: " + d.Offset + d.Player.position);
+                        //Main.NewText("2: " + d.Offset + drawPlayer.position);
+                        d.Update();
+                        if (!d.active)
+                        {
+                            dust.Remove(d);
+                            i--;
+                        }
+                        else
+                        {
+                            //Main.NewText("Player: " + d.Player.position);
+                            //Main.NewText(d.DrawData().texture);
+                            Main.playerDrawData.Add(d.DrawData(drawInfo));
+                            //Main.playerDrawData.Add(FauxDustDrawData(drawInfo, d, texPath, yOffset, angle));
+                        }
                     }
                 }
-                for(int i = 0; i < Main.playerDrawData.Count; i++)
+            } else
+            if (flames)
+            {
+                Texture2D tex = mod.GetTexture(texPath);
+
+                float randX = Main.rand.NextFloat(-drawPlayer.width / 2, drawPlayer.width / 2);
+                float randY = -Main.rand.NextFloat(-7, 6);
+
+                if (modPlayer.unusual == AbnormalEffect.BurningFlames)
                 {
-                    //Main.NewText(texPath);
-                    //Main.NewText(Main.playerDrawData[i].texture);
+                    dust.Add(new BurningFlamesFaux(drawInfo, new Vector2(randX, randY), tex, 1f));
                 }
-               
+                else
+                {
+                    dust.Add(new ScorchingFlamesFaux(drawInfo, new Vector2(randX, randY), tex, 1f));
+                }
+
+                for (int i = 0; i < dust.Count; i++)
+                {
+
+                    FauxDust d = dust[i];
+                    if (d.Player == drawPlayer && !d.front)
+                    {
+                        d.Update();
+                        if (!d.active)
+                        {
+                            dust.Remove(d);
+                            i--;
+                        }
+                        else
+                        {
+                            Main.playerDrawData.Add(d.DrawData(drawInfo));
+                        }
+                    }
+                }
             }
         });
 
@@ -237,6 +278,17 @@ namespace Highlander.Utilities
             Texture2D texture = mod.GetTexture(unusualSprite);
             int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
             int drawY = (int)(drawInfo.position.Y + yOffset + drawPlayer.height / 0.6f - Main.screenPosition.Y);
+
+            if (drawPlayer.mount.Active)
+            {
+                Vector2 pos = new Vector2();
+                pos.Y += drawPlayer.mount.PlayerOffset;
+
+                pos += drawInfo.position;
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + yOffset + 70 - Main.screenPosition.Y);
+            }
+
             int numFrames = 3;
 
             int cX = (int)(drawPlayer.position.X / 16f);
@@ -267,6 +319,17 @@ namespace Highlander.Utilities
             Texture2D texture = mod.GetTexture(unusualSprite);
             int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
             int drawY = (int)(drawInfo.position.Y + yOffset + drawPlayer.height / 0.6f - Main.screenPosition.Y);
+
+            if (drawPlayer.mount.Active)
+            {
+                Vector2 pos = new Vector2();
+                pos.Y += drawPlayer.mount.PlayerOffset;
+
+                pos += drawInfo.position;
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + yOffset + 70 - Main.screenPosition.Y);
+            }
+
             int numFrames = 3;
 
             int cX = (int)(drawPlayer.position.X / 16f);
@@ -297,6 +360,17 @@ namespace Highlander.Utilities
             Texture2D texture = mod.GetTexture(unusualSprite);
             int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
             int drawY = (int)(drawInfo.position.Y + yOffset + drawPlayer.height / 0.6f - Main.screenPosition.Y);
+
+            if (drawPlayer.mount.Active)
+            {
+                Vector2 pos = new Vector2();
+                pos.Y += drawPlayer.mount.PlayerOffset;
+
+                pos += drawInfo.position;
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + yOffset + 70 - Main.screenPosition.Y);
+            }
+
             int numFrames = 3;
 
             int cX = (int)(drawPlayer.position.X / 16f);
@@ -318,7 +392,7 @@ namespace Highlander.Utilities
             return new DrawData(d.texture, new Vector2(drawX + d.Offset.X, drawY + d.Offset.Y), d.frame, d.Color, angleInRadians, d.origin, d.scale, SpriteEffects.None, 0);
         }
 
-        public static readonly PlayerLayer unusualFront = new PlayerLayer("Highlander", "AmmoGunCounter", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
+        public static readonly PlayerLayer unusualFront = new PlayerLayer("Highlander", "UnusualFront", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
         {
             Mod mod = Highlander.Instance;
             Player drawPlayer = drawInfo.drawPlayer;
@@ -326,6 +400,7 @@ namespace Highlander.Utilities
             string texPath = "";
             bool storm = false;
             bool energy = false;
+            bool flames = false;
 
             switch (modPlayer.unusual)
             {
@@ -342,6 +417,14 @@ namespace Highlander.Utilities
                     break;
                 case AbnormalEffect.StormyStorm:
                     texPath = "UnusualLayerEffects/StormyStorm";
+                    break;
+                case AbnormalEffect.BurningFlames:
+                    texPath = "UnusualLayerEffects/BurningFlames";
+                    flames = true;
+                    break;
+                case AbnormalEffect.ScorchingFlames:
+                    texPath = "UnusualLayerEffects/ScorchingFlames";
+                    flames = true;
                     break;
                 default:
                     return;
@@ -360,15 +443,58 @@ namespace Highlander.Utilities
                 {
 
                     FauxDust d = dust[i];
-                    FauxDust newD = new PurpleEnergyFaux(d.drawInfo, d.Offset, d.texture, d.scale);
-                    newD.Color.R = 6;
-                    newD.Color.B = 6;
-                    newD.Color.G = 6;
-                    Main.playerDrawData.Add(newD.DrawData(drawInfo));
-                    //Main.playerDrawData.Add(FauxDustDrawData(drawInfo, newD, texPath, yOffset, angle));
+                    if (d.Player == drawPlayer)
+                    {
+                        FauxDust newD = new PurpleEnergyFaux(d.drawInfo, d.Offset, d.texture, d.scale);
+                        newD.Color.R = 6;
+                        newD.Color.B = 6;
+                        newD.Color.G = 6;
+                        Main.playerDrawData.Add(newD.DrawData(drawInfo));
+                        //Main.playerDrawData.Add(FauxDustDrawData(drawInfo, newD, texPath, yOffset, angle));
+                    }
                 }
-
             }
+            if (flames)
+            {
+                float randX = Main.rand.NextFloat(-drawPlayer.width / 2, drawPlayer.width / 2);
+                float randY = -Main.rand.NextFloat(-7, 6);
+
+                FauxDust newD;
+
+                if (modPlayer.unusual == AbnormalEffect.BurningFlames)
+                {
+                    newD = new BurningFlamesFaux(drawInfo, new Vector2(randX, randY), texPath, 1f);
+                    newD.front = true;
+                    newD.alpha = 200;
+                    dust.Add(newD);
+                }
+                else
+                {
+                    newD = new ScorchingFlamesFaux(drawInfo, new Vector2(randX, randY), texPath, 1f);
+                    newD.front = true;
+                    newD.alpha = 200;
+                    dust.Add(newD);
+                }
+            }
+
+            for (int i = 0; i < dust.Count; i++)
+            {
+                FauxDust d = dust[i];
+                if (d.Player == drawPlayer && d.front)
+                {
+                    d.Update();
+                    if (!d.active)
+                    {
+                        dust.Remove(d);
+                        i--;
+                    }
+                    else
+                    {
+                        Main.playerDrawData.Add(d.DrawData(drawInfo));
+                    }
+                }
+            }
+
         });
 
     }

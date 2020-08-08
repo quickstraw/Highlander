@@ -235,7 +235,19 @@ namespace Highlander
 
 							unusual = item.CurrentEffect;
 
-							Vector2 headPosition;
+							Vector2 headPosition = player.position;
+							headPosition.X += player.width / 2;
+
+							if (player.mount.Active)
+							{
+								headPosition.Y += (player.height - player.mount.PlayerOffset) / 2;
+								headPosition.Y += player.mount.PlayerOffset;
+							}
+							else
+							{
+								headPosition.Y += player.height / 2;
+							}
+
 							float headHeight;
 							Dust currDust;
 							ModDustCustomData data;
@@ -267,28 +279,27 @@ namespace Highlander
 									currDust.customData = data;**/
 									break;
 								case AbnormalEffect.BurningFlames:
-									headPosition = player.Center;
-									headHeight = 2 * (player.height / 5);
+									/**headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 16;
 									headPosition.X -= player.width / 2 + 2;
 
-									currDust = Dust.NewDustDirect(headPosition, player.width, player.height / 8 + 4, mod.DustType("BurningFlames"));
+									currDust = Dust.NewDustDirect(headPosition, player.width, 42 / 8 + 4, mod.DustType("BurningFlames"));
 									data = new ModDustCustomData(player);
-									currDust.customData = data;
+									currDust.customData = data;**/
+									Lighting.AddLight(headPosition, 0.58f, 0.41f, 0.01f);
 									break;
 								case AbnormalEffect.ScorchingFlames:
-									headPosition = player.Center;
-									headHeight = 2 * (player.height / 5);
+									/**headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 16;
 									headPosition.X -= player.width / 2 + 2;
 
-									currDust = Dust.NewDustDirect(headPosition, player.width, player.height / 8 + 4, mod.DustType("ScorchingFlames"));
+									currDust = Dust.NewDustDirect(headPosition, player.width, 42 / 8 + 4, mod.DustType("ScorchingFlames"));
 									data = new ModDustCustomData(player);
-									currDust.customData = data;
+									currDust.customData = data;**/
+									Lighting.AddLight(headPosition, 0.13f, 0.55f, 0.32f);
 									break;
 								case AbnormalEffect.BlizzardyStorm:
-									headPosition = player.Center;
-									headHeight = 2 * (player.height / 5);
+									headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 28;
 									headPosition.X -= 2 * player.width / 3 - 4;
 
@@ -296,7 +307,7 @@ namespace Highlander
 									{
 										headPosition.X += 0;
 										headPosition.Y += 12;
-										currDust = Dust.NewDustDirect(headPosition, player.width, player.height / 8, mod.DustType("BlizzardyStormParticle"));
+										currDust = Dust.NewDustDirect(headPosition, player.width, 42 / 8, mod.DustType("BlizzardyStormParticle"));
 										data = new ModDustCustomData(player);
 										currDust.customData = data;
 									}
@@ -304,8 +315,7 @@ namespace Highlander
 									counter = (counter + 1) % 60;
 									break;
 								case AbnormalEffect.StormyStorm:
-									headPosition = player.Center;
-									headHeight = 2 * (player.height / 5);
+									headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 28;
 									headPosition.X -= 2 * player.width / 3 - 4;
 
@@ -313,7 +323,7 @@ namespace Highlander
 									{
 										headPosition.X += 0;
 										headPosition.Y += 12;
-										currDust = Dust.NewDustDirect(headPosition, player.width, player.height / 8, mod.DustType("StormyStormParticle"));
+										currDust = Dust.NewDustDirect(headPosition, player.width, 42 / 8, mod.DustType("StormyStormParticle"));
 										data = new ModDustCustomData(player);
 										currDust.customData = data;
 									}
@@ -321,14 +331,13 @@ namespace Highlander
 									counter = (counter + 1) % 60;
 									break;
 								case AbnormalEffect.Cloud9:
-									headPosition = player.Center;
-									headHeight = 2 * (player.height / 5);
+									headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 12;
 									headPosition.X -= player.width / 2 + 8;
 
 									if (counter % 30 == 0)
 									{
-										currDust = Dust.NewDustDirect(headPosition, player.width + 16, player.height / 8 + 10, mod.DustType("Cloud9"));
+										currDust = Dust.NewDustDirect(headPosition, player.width + 16, 42 / 8 + 10, mod.DustType("Cloud9"));
 										data = new ModDustCustomData(player);
 										currDust.customData = data;
 										var trailDust = Dust.NewDustPerfect(currDust.position - currDust.velocity, mod.DustType("Cloud9Trail"), currDust.velocity * 0.5f);

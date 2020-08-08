@@ -44,11 +44,21 @@ namespace Highlander.Utilities
             float scale = 1f;
             Texture2D texture = mod.GetTexture(autonomousOrb);
             int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-            int drawY = (int)(drawInfo.position.Y + yOffset + drawPlayer.height / 0.6f - Main.screenPosition.Y);
+            int drawY = (int)(drawInfo.position.Y + yOffset + 70 - Main.screenPosition.Y);
             int numFrames = 1;
             int currFrame = 0;
 
-            if(timer <= 14)
+            if (drawPlayer.mount.Active)
+            {
+                Vector2 pos = new Vector2();
+                pos.Y += drawPlayer.mount.PlayerOffset;
+
+                pos += drawInfo.position;
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + yOffset + 70 - Main.screenPosition.Y);
+            }
+
+            if (timer <= 14)
             {
                 //currFrame = 0;
                 drawY -= 0;
@@ -71,7 +81,6 @@ namespace Highlander.Utilities
             int cX = (int)(drawPlayer.position.X / 16f);
             int cY = (int)((drawPlayer.position.Y) / 16f);
             Color color = Lighting.GetColor(cX, cY, Color.White);
-
             
             return new DrawData(texture, new Vector2(drawX, drawY), frame, color, angleInRadians, new Vector2(texture.Width / 2f, texture.Height / 2f), scale, SpriteEffects.None, 0);
         }
