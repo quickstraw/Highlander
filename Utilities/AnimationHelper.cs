@@ -154,9 +154,11 @@ namespace Highlander.Utilities
             Player drawPlayer = drawInfo.drawPlayer;
             HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
             string texPath = "";
+            string texPath2 = "";
             bool storm = false;
             bool energy = false;
             bool flames = false;
+            bool cloud9 = false;
 
             switch (modPlayer.unusual)
             {
@@ -184,6 +186,11 @@ namespace Highlander.Utilities
                     texPath = "UnusualLayerEffects/ScorchingFlames";
                     flames = true;
                     break;
+                case AbnormalEffect.Cloud9:
+                    texPath = "UnusualLayerEffects/Cloud9";
+                    texPath2 = "UnusualLayerEffects/Cloud9Trail";
+                    cloud9 = true;
+                    break;
                 default:
                     return;
             }
@@ -207,30 +214,6 @@ namespace Highlander.Utilities
                 {
                     dust.Add(new GreenEnergyFaux(drawInfo, new Vector2(0.5f, 16), tex, 2f));
                 }
-
-                for(int i = 0; i < dust.Count; i++)
-                {
-                    
-                    FauxDust d = dust[i];
-                    if (d.Player == drawPlayer)
-                    {
-                        //Main.NewText("1: " + d.Offset + d.Player.position);
-                        //Main.NewText("2: " + d.Offset + drawPlayer.position);
-                        d.Update();
-                        if (!d.active)
-                        {
-                            dust.Remove(d);
-                            i--;
-                        }
-                        else
-                        {
-                            //Main.NewText("Player: " + d.Player.position);
-                            //Main.NewText(d.DrawData().texture);
-                            Main.playerDrawData.Add(d.DrawData(drawInfo));
-                            //Main.playerDrawData.Add(FauxDustDrawData(drawInfo, d, texPath, yOffset, angle));
-                        }
-                    }
-                }
             } else
             if (flames)
             {
@@ -247,23 +230,48 @@ namespace Highlander.Utilities
                 {
                     dust.Add(new ScorchingFlamesFaux(drawInfo, new Vector2(randX, randY), tex, 1f));
                 }
-
-                for (int i = 0; i < dust.Count; i++)
+            } else
+            if (cloud9)
+            {
+                if (modPlayer.counter % 30 == 0)
                 {
+                    float randX = Main.rand.NextFloat(-drawPlayer.width / 2, drawPlayer.width / 2);
+                    float randY = -Main.rand.NextFloat(0, 8);
 
-                    FauxDust d = dust[i];
-                    if (d.Player == drawPlayer && !d.front)
+                    var currDust = new Cloud9Faux(drawInfo, new Vector2(randX, randY), texPath, 1f);
+
+                    dust.Add(currDust);
+
+                    FauxDust trail;
+
+                    trail = new Cloud9TrailFaux(drawInfo, currDust.Offset - currDust.velocity, texPath2, 1f);
+                    trail.velocity = currDust.velocity * 0.5f;
+                    trail.scale = 0.8f;
+                    dust.Add(trail);
+                    trail = new Cloud9TrailFaux(drawInfo, currDust.Offset - currDust.velocity, texPath2, 1f);
+                    trail.velocity = currDust.velocity * 0.25f;
+                    trail.scale = 0.4f;
+                    dust.Add(trail);
+                    trail = new Cloud9TrailFaux(drawInfo, currDust.Offset - currDust.velocity, texPath2, 1f);
+                    trail.velocity = currDust.velocity * 0.125f;
+                    trail.scale = 0.2f;
+                    dust.Add(trail);
+                }
+            }
+            for (int i = 0; i < dust.Count; i++)
+            {
+                FauxDust d = dust[i];
+                if (d.Player == drawPlayer && !d.front)
+                {
+                    d.Update();
+                    if (!d.active)
                     {
-                        d.Update();
-                        if (!d.active)
-                        {
-                            dust.Remove(d);
-                            i--;
-                        }
-                        else
-                        {
-                            Main.playerDrawData.Add(d.DrawData(drawInfo));
-                        }
+                        dust.Remove(d);
+                        i--;
+                    }
+                    else
+                    {
+                        Main.playerDrawData.Add(d.DrawData(drawInfo));
                     }
                 }
             }
@@ -398,6 +406,7 @@ namespace Highlander.Utilities
             Player drawPlayer = drawInfo.drawPlayer;
             HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
             string texPath = "";
+            string texPath2 = "";
             bool storm = false;
             bool energy = false;
             bool flames = false;
@@ -414,9 +423,13 @@ namespace Highlander.Utilities
                     break;
                 case AbnormalEffect.BlizzardyStorm:
                     texPath = "UnusualLayerEffects/BlizzardyStorm";
+                    texPath2 = "UnusualLayerEffects/BlizzardyStormParticle";
+                    storm = true;
                     break;
                 case AbnormalEffect.StormyStorm:
                     texPath = "UnusualLayerEffects/StormyStorm";
+                    texPath2 = "UnusualLayerEffects/StormyStormParticle";
+                    storm = true;
                     break;
                 case AbnormalEffect.BurningFlames:
                     texPath = "UnusualLayerEffects/BurningFlames";
@@ -434,8 +447,28 @@ namespace Highlander.Utilities
 
             if (storm)
             {
+
+                float randX = Main.rand.NextFloat(-drawPlayer.width / 2, drawPlayer.width / 2);
+                float randY = -Main.rand.NextFloat(8, 10);
+
+                FauxDust newD;
+
+                if (modPlayer.unusual == AbnormalEffect.BlizzardyStorm && modPlayer.counter % 4 == 0)
+                {
+                    newD = new BlizzardyStormParticleFaux(drawInfo, new Vector2(randX, randY), texPath2, 1f);
+                    newD.front = true;
+                    dust.Add(newD);
+                }
+                else if(modPlayer.unusual == AbnormalEffect.StormyStorm && modPlayer.counter % 4 == 0)
+                {
+                    newD = new StormyStormParticleFaux(drawInfo, new Vector2(randX, randY), texPath2, 1f);
+                    newD.front = true;
+                    dust.Add(newD);
+                }
+
                 Main.playerDrawData.Add(StormDrawData(drawInfo, texPath, yOffset, angle));
                 Main.playerDrawData.Add(StormDrawData2(drawInfo, texPath, yOffset, angle));
+
             }
             if (energy)
             {

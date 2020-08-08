@@ -41,7 +41,7 @@ namespace Highlander
 		public short hatEffectTime = 0;
 		public bool wearingAutonomousOrb = false;
 
-		private int counter = 0;
+		public int counter = 0;
 
 		public override void ResetEffects() {
 			holdingAmmoGun = false;
@@ -299,7 +299,7 @@ namespace Highlander
 									Lighting.AddLight(headPosition, 0.13f, 0.55f, 0.32f);
 									break;
 								case AbnormalEffect.BlizzardyStorm:
-									headHeight = 2 * (42 / 5);
+									/**headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 28;
 									headPosition.X -= 2 * player.width / 3 - 4;
 
@@ -311,10 +311,11 @@ namespace Highlander
 										data = new ModDustCustomData(player);
 										currDust.customData = data;
 									}
-
+									**/
 									counter = (counter + 1) % 60;
 									break;
 								case AbnormalEffect.StormyStorm:
+									/**
 									headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 28;
 									headPosition.X -= 2 * player.width / 3 - 4;
@@ -327,10 +328,11 @@ namespace Highlander
 										data = new ModDustCustomData(player);
 										currDust.customData = data;
 									}
-
+									**/
 									counter = (counter + 1) % 60;
 									break;
 								case AbnormalEffect.Cloud9:
+									/**
 									headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 12;
 									headPosition.X -= player.width / 2 + 8;
@@ -352,7 +354,7 @@ namespace Highlander
 										data = new ModDustCustomData(player);
 										trailDust.customData = data;
 										trailDust.scale = 0.2f;
-									}
+									}**/
 									counter = (counter + 1) % 60;
 									break;
 								default:
@@ -411,7 +413,6 @@ namespace Highlander
 					PlayerLayer layer = layers[i];
 					if (layer.Name == "Head")
 					{
-						//Main.NewText(layer.Name);
 						if (i != layers.Count - 1)
 						{
 							layers.Insert(i + 1, HatEffects.AutonomousOrb);
