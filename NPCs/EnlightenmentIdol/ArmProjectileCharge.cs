@@ -9,163 +9,136 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.NPCs.EnlightenmentIdol
 {
-    class ArmProjectile : ModProjectile
+    class ArmProjectileCharge : ModProjectile
     {
+
+		public override string Texture => "Highlander/NPCs/EnlightenmentIdol/ArmProjectile";
 
 		private Texture2D portalF;
 		private Texture2D portalB;
 		private Texture2D arm;
 		private Vector2 initPos = new Vector2();
 		private BitsByte flags;
-		private byte timer;
-		private byte timer2;
-		private byte waitTimer = 20;
+		private byte stopTimer;
+		//private byte portalTimer;
 
 		private bool flip;
-		private bool leader;
 
 		public override void SetStaticDefaults()
 		{
 			Main.projFrames[projectile.type] = 2;
-			DisplayName.SetDefault("Arm of the Idol");
+			DisplayName.SetDefault("Fist of the Idol");
 		}
 
 		public override void SetDefaults()
 		{
 			projectile.width = 36;
 			projectile.height = 36;
-			projectile.hostile = false;
+			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 			projectile.alpha = 0;
-			projectile.timeLeft = 180;
+			//projectile.timeLeft = 180;
 			projectile.penetrate = -1;
-			//drawOriginOffsetY = -4;
-			//drawOffsetX = -4;
 			portalF = GetTexture("Highlander/NPCs/EnlightenmentIdol/Portal_Front");
 			portalB = GetTexture("Highlander/NPCs/EnlightenmentIdol/Portal_Back");
 			arm = GetTexture("Highlander/NPCs/EnlightenmentIdol/ArmProjectile");
-			flip = (projectile.rotation > MathHelper.PiOver2 && projectile.rotation < 3 * MathHelper.PiOver2);
 		}
 
 		public override void AI()
 		{
-			flip = projectile.rotation > MathHelper.PiOver2 && projectile.rotation < 3 * MathHelper.PiOver2;
 			Init();
 
-			if (flags[3])
+			
+
+			if (!stopped) // Arm moves forward //
 			{
-				timer2--;
-				if(timer2 <= 0)
+				float length = projectile.velocity.Length();
+
+				if (projectile.ai[0] + length >= arm.Width) // Check if arm should stop
+				{
+					projectile.velocity = forward * (projectile.ai[0] + length - arm.Width);
+					projectile.ai[0] = arm.Width;
+
+					stopped = true;
+
+					projectile.netUpdate = true;
+				}
+				else
+				{
+					projectile.ai[0] += length;
+				}
+			} else if (stopped && stopTimer < 20) // Arm stops //
+			{
+				if(stopTimer <= 0)
+				{
+					projectile.velocity *= 0;
+
+					stopTimer++;
+
+					projectile.netUpdate = true;
+				}
+			} else if (stopTimer >= 20 && !finished) // Arm reverses //
+			{
+				if (!startReverse) // Initialize reverse
+				{
+					projectile.velocity = -forward * 12.0f;
+
+					startReverse = true;
+					projectile.netUpdate = true;
+				}
+
+				float length = projectile.velocity.Length();
+
+				if (projectile.ai[0] - length <= 0) // Check if arm has finished reversing
+				{
+					projectile.velocity = -forward * projectile.ai[0];
+					projectile.ai[0] = 0;
+					projectile.hostile = false;
+					finished = true;
+
+					projectile.netUpdate = true;
+				}
+				else
+				{
+					projectile.ai[0] -= length;
+				}
+			} else if (finished)
+			{
+				if (portalTimer <= 0)
 				{
 					projectile.Kill();
 				}
 			}
-			else if ((timer2 >= 10 || flags[2]) && waitTimer <= 0)
-			{
-				if (!flags[2])
-				{
-					flags[2] = true;
-					projectile.hostile = true;
-					projectile.netUpdate = true;
-				}
-				if ((int)projectile.ai[0] > arm.Width)
-				{
-					flags[4] = true;
-					projectile.velocity *= 0;
-					projectile.netUpdate = true;
-				}
-				if (flags[4])
-				{
-					timer++;
-				}
-				if (timer >= 20 || flags[0])
-				{
-					if (!flags[0])
-					{
-						flags[0] = true;
-						projectile.netUpdate = true;
-					}
-					projectile.velocity = -forward * 12.0f;
 
-					float length = projectile.velocity.Length();
-
-					if (projectile.ai[0] - length <= 0)
-					{
-						projectile.velocity = -forward * projectile.ai[0];
-						projectile.ai[0] = 0;
-						flags[3] = true;
-						projectile.hostile = false;
-						projectile.netUpdate = true;
-					}
-					else
-					{
-						projectile.ai[0] -= length;
-					}
-				}
-				else if (timer > 0)
-				{
-					projectile.velocity *= 0;
-				}
-				else
-				{
-					if (!flags[5])
-					{
-						flags[5] = true;
-						projectile.netUpdate = true;
-						if (Main.netMode != NetmodeID.Server)
-						{
-							Main.PlaySound(SoundID.Item1.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item1.Style, 0.70f, -0.9f);
-						}
-					}
-
-					//projectile.rotation += 0.01f;
-					projectile.velocity = forward * 16;
-					//projectile.velocity *= 1.05f;
-					projectile.ai[0] += projectile.velocity.Length();
-				}
-			}
-			else if (timer2 >= 10 && waitTimer > 0)
-			{
-				waitTimer--;
-			}
-			else
-			{
-				timer2++;
-			}
+			UpdateTimers();
 		}
 
 		private void Init()
 		{
 			if (!initialized)
 			{
+				Main.NewText("SPAWN: " + projectile.whoAmI);
 				initPos = projectile.position;
-
-				if (projectile.ai == null)
-				{
-					projectile.ai = new float[2]
-					{
-						0, projectile.ai[1]
-					};
-				}
+				portalTimer = 10;
 				initialized = true;
-				waitTimer = 20;
-				Player target = Main.player[(int)projectile.ai[1]];
-				if (!target.active)
-				{
-					Main.NewText("OOF");
-					projectile.ai[1] = ClosestPlayerToPoint(projectile.position);
-					target = Main.player[(int)projectile.ai[1]];
-					initPos = projectile.position;
-				}
-				//Main.NewText((int)projectile.ai[1] + ": " + Main.player[(int)projectile.ai[1]].name);
-				projectile.rotation = (float)Math.Atan2(target.Center.Y - projectile.Center.Y, target.Center.X - projectile.Center.X) + MathHelper.Pi;
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+
+				flip = projectile.rotation > MathHelper.PiOver2 && projectile.rotation < 3 * MathHelper.PiOver2;
+
 				projectile.netUpdate = true;
-				if (Main.netMode != NetmodeID.Server)
-				{
-					Main.PlaySound(SoundID.Item45.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item45.Style, 0.40f, -0.5f);
-				}
-				return;
+			}
+		}
+
+		private void UpdateTimers()
+		{
+			if (portalTimer > 0 && finished)
+			{
+				portalTimer--;
+			}
+			if (stopTimer > 0 && stopTimer < 20)
+			{
+				stopTimer++;
 			}
 		}
 
@@ -194,23 +167,29 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
 			if (initPos.LengthSquared() != 0)
 			{
-				portalPos = initPos - Main.screenPosition + new Vector2(projectile.width / 2, projectile.height / 2) + forward * 34;
-				spriteBatch.Draw(portalB, portalPos, new Rectangle(0, 0, portalB.Width, portalB.Height), Color.White, projectile.rotation, new Vector2(portalB.Width / 2, portalB.Height / 2), 0.1f + timer2 * 9f / 100f, 0, 0);
-				if (timer2 >= 10 && !flags[3])
+				portalPos = initPos - Main.screenPosition + new Vector2(projectile.width / 2, projectile.height / 2) + forward * 30;
+				spriteBatch.Draw(portalB, portalPos, new Rectangle(0, 0, portalB.Width, portalB.Height), Color.White, projectile.rotation, new Vector2(portalB.Width / 2, portalB.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
+				if (true || portalTimer >= 10 && !finished)
 				{
 					drawArm(spriteBatch, lightColor);//spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, projectile.rotation, new Vector2(22, 22), 1.0f, 0, 0);
 				}
-				spriteBatch.Draw(portalF, portalPos, new Rectangle(0, 0, portalF.Width, portalF.Height), Color.White, projectile.rotation, new Vector2(portalF.Width / 2, portalF.Height / 2), 0.1f + timer2 * 9f / 100f, 0, 0);
+				spriteBatch.Draw(portalF, portalPos, new Rectangle(0, 0, portalF.Width, portalF.Height), Color.White, projectile.rotation, new Vector2(portalF.Width / 2, portalF.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
 			}
 			else
 			{
-				if (timer2 >= 10 && !flags[3])
+				if (portalTimer >= 10 && !flags[3])
 				{
 					spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, projectile.rotation, new Vector2(22, 22), 1.0f, 0, 0);
 				}
 			}
 			
 			return false;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.NewText("KILL: " + projectile.whoAmI);
+			projectile.active = false;
 		}
 
 		private void drawArm(SpriteBatch spriteBatch, Color lightColor)
@@ -251,7 +230,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 				sourceX = arm.Width - drawLength;
 			}
 
-			if (timer2 >= 10 && !flags[3])
+			if (portalTimer >= 10 && !flags[3])
 			{
 				spriteBatch.Draw(arm, armPos, new Rectangle(sourceX, num * arm.Height / 2, drawLength, arm.Height / 2), lightColor, rotation, new Vector2(22, 22), 1.0f, 0, 0);
 			}
@@ -262,9 +241,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
 			//writer.Write(initPos.X);
 			//writer.Write(initPos.Y);
 			writer.Write(flags);
-			writer.Write(timer);
-			writer.Write(timer2);
-			//writer.Write(waitTimer);
+			writer.Write(stopTimer);
+			//writer.Write(portalTimer);
 			//writer.Write((short) (projectile.rotation * 10000));
 		}
 
@@ -273,9 +251,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
 			//initPos.X = reader.ReadByte();
 			//initPos.Y = reader.ReadByte();
 			flags = reader.ReadByte();
-			timer = reader.ReadByte();
-			timer2 = reader.ReadByte();
-			//waitTimer = reader.ReadByte();
+			stopTimer = reader.ReadByte();
+			//portalTimer = reader.ReadByte();
 			//projectile.rotation = (float)reader.ReadInt16() / 10000f;
 			
 		}
@@ -300,7 +277,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 			return closestPlayer;
 		}
 
-		private bool direction
+		private bool portal
 		{
 			get => flags[0];
 			set => flags[0] = value;
@@ -308,14 +285,37 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
 		private bool stopped
 		{
-			get => flags[2];
-			set => flags[2] = value;
+			get => flags[4];
+			set => flags[4] = value;
 		}
 
 		private bool initialized
 		{
 			get => flags[1];
 			set => flags[1] = value;
+		}
+		public bool finished
+		{
+			get => flags[3];
+			set => flags[3] = value;
+		}
+
+		private bool startForward
+		{
+			get => flags[5];
+			set => flags[5] = value;
+		}
+
+		private bool startReverse
+		{
+			get => flags[6];
+			set => flags[6] = value;
+		}
+
+		private float portalTimer
+		{
+			get => projectile.ai[1];
+			set => projectile.ai[1] = value;
 		}
 
 		private Vector2 forward
