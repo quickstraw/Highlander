@@ -26,6 +26,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
         private BitsByte flags = new BitsByte();
         private int clapTimer = 0;
         private int deathTimer = 0;
+        private int triangleTimer = 0;
         private byte fistTimer = 0;
         private byte floatTimer = 0;
         private byte blastTimer = 0;
@@ -35,7 +36,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public override bool Autoload(ref string name)
         {
-            return false;
+            return true;
         }
 
         public override void SetStaticDefaults()
@@ -208,19 +209,23 @@ namespace Highlander.NPCs.EnlightenmentIdol
             {
                 case 0:
                     blastTimer++;
-                    if (blastTimer > 150)
+                    if (blastTimer > 210)
+                    {
+                        triangleReady = true;
+                        blastTimer = 0;
+                        //triangleStance = false;
+                        npc.netUpdate = true;
+                    } else if (blastTimer > 180 && triangleReady)
+                    {
+                        triangleReady = false;
+                        npc.netUpdate = true;
+                        TriangleBlast();
+                    } else if (blastTimer > 150)
                     {
                         triangleStance = true;
-                        blastTimer = 0;
                         npc.netUpdate = true;
                     }
-                    if (triangleReady)
-                    {
-                        blastTimer = 0;
-                        npc.netUpdate = true;
-                        triangleReady = false;
-                        TriangleBlast();
-                    }
+                    
                     break;
                 case 1:
                     if (clapped)
@@ -496,7 +501,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                Main.PlaySound(SoundID.Item72.SoundId, (int)spawn.X, (int)spawn.Y, SoundID.Item72.Style, 0.60f, -0.2f);
+                Main.PlaySound(SoundID.Item72.SoundId, (int)spawn.X, (int)spawn.Y, SoundID.Item72.Style, 0.80f, -0.2f);
             }
         }
 
@@ -526,7 +531,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     clapped = true;
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        Main.PlaySound(SoundID.Item37.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.Item37.Style, 0.60f, -0.5f);
+                        Main.PlaySound(SoundID.Item37.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.Item37.Style, 0.90f, -0.5f);
                     }
                 }
                 npc.frameCounter++;
@@ -601,12 +606,6 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 else if (topArmsCounter < 44)
                 {
                     newTopFrame = 5;
-                    if (topArmsCounter > 30 && !gotReady)
-                    {
-                        gotReady = true;
-                        triangleReady = true;
-                        npc.netUpdate = true;
-                    }
                 }
                 else if (topArmsCounter < 48)
                 {
@@ -626,7 +625,6 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 }
                 else
                 {
-                    gotReady = false;
                     triangleStance = false;
                     npc.netUpdate = true;
                 }
@@ -676,6 +674,13 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 }
                 else if (middleArmsCounter < 33)
                 {
+                    if(middleArmsCounter == 29)
+                    {
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            Main.PlaySound(SoundLoader.customSoundType, (int)npc.Center.X, (int)npc.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Thunder"));
+                        }
+                    }
                     MiddleArmsFrame.Y = MiddleArmsFrameHeight * 6;
                 }
                 else if (middleArmsCounter < 38)
@@ -879,6 +884,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             writer.Write((short)clapTimer);
             writer.Write(blastTimer);
             writer.Write((short)deathTimer);
+            writer.Write((short)triangleTimer);
             writer.Write(topFrame);
         }
 
@@ -888,6 +894,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             clapTimer = (int) reader.ReadInt16();
             blastTimer = reader.ReadByte();
             deathTimer = (int)reader.ReadInt16();
+            triangleTimer = reader.ReadInt16();
             topFrame = reader.ReadByte();
         }
 

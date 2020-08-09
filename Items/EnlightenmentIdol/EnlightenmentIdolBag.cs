@@ -14,7 +14,7 @@ namespace Highlander.Items.EnlightenmentIdol
     {
         public override bool Autoload(ref string name)
         {
-            return false;
+            return true;
         }
 
         public override void SetStaticDefaults()

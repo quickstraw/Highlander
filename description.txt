@@ -9,9 +9,11 @@ Non-cosmetic items added are rewards for beating the Haunted Hatter as well as s
 One of these weapons is the pike. There are 3 pike items added that serve as a long-range melee weapons with a bonus versus bosses. They are not very good at close range combat.
 
 Recent Changes:
-1.3.0.0 - Changed versioning to better represent small bugfix updates. Added Medical Mask and Blood Warrior Mask to Reserve Hat Lock Box.
-1.3.0.1 - Haunted Hatter now properly despawns when there are no active players.
+1.3.1.0 - Reworked how some Unusual effects work.
+        - Improved Burning Flames and Scorching Flames. 
+        - Fixed Unusuals effects on mounts.
+        - Fixed some Unusual effects showing on multiple players.
 
 Currently Working On:
 New Boss
-Improving Hat Art
+Improving Art

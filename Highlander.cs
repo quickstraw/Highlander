@@ -29,6 +29,7 @@ namespace Highlander
 			Instance = this;
 			RollTable.MakeTable();
 			AnimationHelper.dust = new List<FauxDust>();
+			FauxDust.mod = this;
 		}
 
 		public override void Load()
@@ -319,6 +320,7 @@ namespace Highlander
 		{
 			RollTable.AbnormalRollTable = null;
 			AnimationHelper.dust = null;
+			FauxDust.mod = null;
 			Instance = null;
 		}
 
