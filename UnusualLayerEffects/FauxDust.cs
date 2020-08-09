@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 
 namespace Highlander.UnusualLayerEffects
 {
-    class FauxDust
+    public class FauxDust
     {
-        private static Mod mod = Highlander.Instance;
+        public static Mod mod = Highlander.Instance;
 
         public Vector2 Offset;
 
