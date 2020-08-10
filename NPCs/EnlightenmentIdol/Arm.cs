@@ -272,7 +272,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
 			if (portalTimer >= 10 && !flags[3])
 			{
-				spriteBatch.Draw(arm, armPos, new Rectangle(sourceX, num * arm.Height / 2, drawLength, arm.Height / 2), lightColor, rotation, new Vector2(22, 22), 1.0f, 0, 0);
+				spriteBatch.Draw(arm, armPos, new Rectangle(sourceX, num * arm.Height / 2, drawLength, arm.Height / 2), Color.White, rotation, new Vector2(22, 22), 1.0f, 0, 0);
 			}
 		}
 

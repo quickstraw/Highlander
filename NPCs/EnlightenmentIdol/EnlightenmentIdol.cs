@@ -236,7 +236,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         npc.netUpdate = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            FistAttackNew();
+                            FistAttack();
                         }
                     }
                     if (!clapping)
@@ -276,7 +276,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         npc.netUpdate = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            FistAttackNew();
+                            FistAttack();
                         }
                     }
                     if (!clapping)
@@ -362,7 +362,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         npc.netUpdate = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            FistAttackNewMulti();
+                            FistAttackMulti();
                         }
                     }
                     if (!clapping)
@@ -428,24 +428,6 @@ namespace Highlander.NPCs.EnlightenmentIdol
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Player target = Main.player[npc.target];
-                int type = ModContent.ProjectileType<ArmProjectileNew>();
-
-                // Get a random point with negative values and find its direction.
-                Vector2 rand = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 0));
-                rand.Normalize();
-
-                var projectile = Projectile.NewProjectile(target.position + rand * 200, new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                //projectile.ai = new float[2];
-                //projectile.ai[0] = 0;
-                //projectile.ai[1] = npc.target;
-            }
-        }
-
-        private void FistAttackNew()
-        {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
                 Vector2 up = new Vector2(0, -1);
                 Vector2 down = new Vector2(0, 1);
                 Vector2 left = new Vector2(-1, 0);
@@ -455,15 +437,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 float distance = (target.position - npc.position).Length();
                 if (distance < 1350)
                 {
-                    int type = ModContent.ProjectileType<PortalCharge>();
-
                     // Get a random point with negative values and find its direction.
                     float rand = Main.rand.NextFloat(0, MathHelper.TwoPi);
-                    /**
-                    var projectile = Projectile.NewProjectile(target.position + (up * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                    projectile = Projectile.NewProjectile(target.position + (down * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                    projectile = Projectile.NewProjectile(target.position + (left * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                    projectile = Projectile.NewProjectile(target.position + (right * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);**/
 
                     NPC.NewNPC((int)(target.position + (up * 250).RotatedBy(rand)).X, (int)(target.position + (up * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
                     NPC.NewNPC((int)(target.position + (down * 250).RotatedBy(rand)).X, (int)(target.position + (down * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
@@ -477,7 +452,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             }
         }
 
-        private void FistAttackNewMulti()
+        private void FistAttackMulti()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -493,15 +468,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
                             Vector2 left = new Vector2(-1, 0);
                             Vector2 right = new Vector2(1, 0);
 
-                            int type = ModContent.ProjectileType<PortalCharge>();
-
                             // Get a random point with negative values and find its direction.
                             float rand = Main.rand.NextFloat(0, MathHelper.TwoPi);
-
-                            /**var projectile = Projectile.NewProjectile(p.position + (up * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
-                            projectile = Projectile.NewProjectile(p.position + (down * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
-                            projectile = Projectile.NewProjectile(p.position + (left * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
-                            projectile = Projectile.NewProjectile(p.position + (right * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);**/
 
                             NPC.NewNPC((int)(target.position + (up * 250).RotatedBy(rand)).X, (int)(target.position + (up * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
                             NPC.NewNPC((int)(target.position + (down * 250).RotatedBy(rand)).X, (int)(target.position + (down * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
