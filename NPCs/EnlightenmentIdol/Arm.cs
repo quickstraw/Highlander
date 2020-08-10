@@ -9,7 +9,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.NPCs.EnlightenmentIdol
 {
-    class ArmProjectileCharge : ModProjectile
+    class Arm : ModNPC
     {
 
 		public override string Texture => "Highlander/NPCs/EnlightenmentIdol/ArmProjectile";
@@ -20,26 +20,30 @@ namespace Highlander.NPCs.EnlightenmentIdol
 		private Vector2 initPos = new Vector2();
 		private BitsByte flags;
 		private byte stopTimer;
-		//private byte portalTimer;
+		private byte portalTimer;
+		private byte waitTimer;
 
 		private bool flip;
 
 		public override void SetStaticDefaults()
 		{
-			Main.projFrames[projectile.type] = 2;
+			Main.npcFrameCount[npc.type] = 2; // make sure to set this for your modnpcs.
 			DisplayName.SetDefault("Fist of the Idol");
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 36;
-			projectile.hostile = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.alpha = 0;
-			//projectile.timeLeft = 180;
-			projectile.penetrate = -1;
+			npc.aiStyle = -1;
+			npc.lifeMax = 20;
+			npc.width = 36;
+			npc.height = 36;
+			npc.noGravity = true;
+			npc.noTileCollide = true;
+			//npc.alpha = 255;
+			//npc.timeLeft = 180;
+			npc.damage = 18;
+			npc.knockBackResist = 0f;
+			npc.dontTakeDamage = true;
 			portalF = GetTexture("Highlander/NPCs/EnlightenmentIdol/Portal_Front");
 			portalB = GetTexture("Highlander/NPCs/EnlightenmentIdol/Portal_Back");
 			arm = GetTexture("Highlander/NPCs/EnlightenmentIdol/ArmProjectile");
@@ -48,66 +52,93 @@ namespace Highlander.NPCs.EnlightenmentIdol
 		public override void AI()
 		{
 			Init();
-
-			
-
-			if (!stopped) // Arm moves forward //
+			if (npc.rotation == 0)
 			{
-				float length = 16;
+				initialized = false;
+				Init();
+			}
 
-				if (projectile.ai[0] + length >= 234) // Check if arm should stop
+			flip = npc.rotation > MathHelper.PiOver2 && npc.rotation < 3 * MathHelper.PiOver2;
+
+			if (!portal)
+			{
+				if (portalTimer >= 10)
 				{
-					projectile.velocity = forward * (projectile.ai[0] + length - 234);
-					projectile.ai[0] = 234;
+					portalTimer = 10;
+					portal = true;
+					npc.netUpdate = true;
+				}
+			} else if (waitTimer > 0){
+			} else if(waitTimer <= 0 && !startForward) // Arm spawns //
+			{
+				startForward = true;
+				npc.velocity = forward * 16;
+				//npc.hostile = true;
+				npc.netUpdate = true;
+				if (Main.netMode != NetmodeID.Server)
+				{
+					Main.PlaySound(SoundID.Item1.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.Item1.Style, 0.70f, -0.9f);
+				}
+			}
+
+			if (startForward && !stopped) // Arm moves forward //
+			{
+				float length = npc.velocity.Length();
+
+				if (npc.ai[0] + length >= arm.Width) // Check if arm should stop
+				{
+					npc.velocity = forward * (npc.ai[0] + length - arm.Width);
+					npc.ai[0] = arm.Width;
 
 					stopped = true;
 
-					projectile.netUpdate = true;
+					npc.netUpdate = true;
 				}
 				else
 				{
-					projectile.ai[0] += length;
+					npc.ai[0] += length;
 				}
 			} else if (stopped && stopTimer < 20) // Arm stops //
 			{
 				if(stopTimer <= 0)
 				{
-					projectile.velocity *= 0;
+					npc.velocity *= 0;
 
 					stopTimer++;
 
-					projectile.netUpdate = true;
+					npc.netUpdate = true;
 				}
 			} else if (stopTimer >= 20 && !finished) // Arm reverses //
 			{
 				if (!startReverse) // Initialize reverse
 				{
-					projectile.velocity = -forward * 12.0f;
+					npc.velocity = -forward * 12.0f;
 
 					startReverse = true;
-					projectile.netUpdate = true;
+					npc.netUpdate = true;
 				}
 
-				float length = projectile.velocity.Length();
+				float length = npc.velocity.Length();
 
-				if (projectile.ai[0] - length <= 0) // Check if arm has finished reversing
+				if (npc.ai[0] - length <= 0) // Check if arm has finished reversing
 				{
-					projectile.velocity = -forward * projectile.ai[0];
-					projectile.ai[0] = 0;
-					projectile.hostile = false;
+					npc.velocity = -forward * npc.ai[0];
+					npc.ai[0] = 0;
+					//npc.hostile = false;
 					finished = true;
 
-					projectile.netUpdate = true;
+					npc.netUpdate = true;
 				}
 				else
 				{
-					projectile.ai[0] -= length;
+					npc.ai[0] -= length;
 				}
 			} else if (finished)
 			{
-				if (portalTimer <= 0)
+				if (portalTimer <= 0 && npc.ai[0] == 0)
 				{
-					projectile.Kill();
+					npc.active = false;
+					npc.netUpdate = true;
 				}
 			}
 
@@ -118,22 +149,38 @@ namespace Highlander.NPCs.EnlightenmentIdol
 		{
 			if (!initialized)
 			{
-				initPos = projectile.position;
-				portalTimer = 10;
+				initPos = npc.position;
+
 				initialized = true;
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					waitTimer = 40;
+				}
+				Player target = Main.player[(int)npc.ai[1]];
 
-				flip = projectile.rotation > MathHelper.PiOver2 && projectile.rotation < 3 * MathHelper.PiOver2;
+				npc.ai[0] = 0;
 
-				projectile.netUpdate = true;
+				npc.rotation = (float)Math.Atan2(target.Center.Y - npc.Center.Y, target.Center.X - npc.Center.X) + MathHelper.Pi;
+				npc.netUpdate = true;
+				if (Main.netMode != NetmodeID.Server)
+				{
+					Main.PlaySound(SoundID.Item45.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.Item45.Style, 0.40f, -0.5f);
+				}
 			}
 		}
 
 		private void UpdateTimers()
 		{
-			if (portalTimer > 0 && finished)
+			if(portalTimer < 10 && !finished)
+			{
+				portalTimer++;
+			} else if (portalTimer > 0 && finished)
 			{
 				portalTimer--;
+			}
+			if (!startForward)
+			{
+				waitTimer--;
 			}
 			if (stopTimer > 0 && stopTimer < 20)
 			{
@@ -143,17 +190,17 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Vector2 drawPos = projectile.position - Main.screenPosition;
+			Vector2 drawPos = npc.position - Main.screenPosition;
 			Vector2 portalPos;
 
-			Vector2 armPos = drawPos + new Vector2(projectile.width / 2, projectile.height / 2);
+			Vector2 armPos = drawPos + new Vector2(npc.width / 2, npc.height / 2);
 
-			if(projectile.velocity.LengthSquared() == 0)
+			if(npc.velocity.LengthSquared() == 0)
 			{
 				armPos += forward * Main.rand.NextFloat(2, 4);
 			}
 
-			int drawLength = (int) projectile.ai[0];
+			int drawLength = (int) npc.ai[0];
 
 			if(drawLength > arm.Width)
 			{
@@ -166,19 +213,19 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
 			if (initPos.LengthSquared() != 0)
 			{
-				portalPos = initPos - Main.screenPosition + new Vector2(projectile.width / 2, projectile.height / 2) + forward * 30;
-				spriteBatch.Draw(portalB, portalPos, new Rectangle(0, 0, portalB.Width, portalB.Height), Color.White, projectile.rotation, new Vector2(portalB.Width / 2, portalB.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
+				portalPos = initPos - Main.screenPosition + new Vector2(npc.width / 2, npc.height / 2) + forward * 30;
+				spriteBatch.Draw(portalB, portalPos, new Rectangle(0, 0, portalB.Width, portalB.Height), Color.White, npc.rotation, new Vector2(portalB.Width / 2, portalB.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
 				if (true || portalTimer >= 10 && !finished)
 				{
-					drawArm(spriteBatch, lightColor);//spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, projectile.rotation, new Vector2(22, 22), 1.0f, 0, 0);
+					drawArm(spriteBatch, lightColor);//spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, npc.rotation, new Vector2(22, 22), 1.0f, 0, 0);
 				}
-				spriteBatch.Draw(portalF, portalPos, new Rectangle(0, 0, portalF.Width, portalF.Height), Color.White, projectile.rotation, new Vector2(portalF.Width / 2, portalF.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
+				spriteBatch.Draw(portalF, portalPos, new Rectangle(0, 0, portalF.Width, portalF.Height), Color.White, npc.rotation, new Vector2(portalF.Width / 2, portalF.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
 			}
 			else
 			{
 				if (portalTimer >= 10 && !flags[3])
 				{
-					spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, projectile.rotation, new Vector2(22, 22), 1.0f, 0, 0);
+					spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, npc.rotation, new Vector2(22, 22), 1.0f, 0, 0);
 				}
 			}
 			
@@ -189,18 +236,18 @@ namespace Highlander.NPCs.EnlightenmentIdol
 		{
 			int sourceX = 0;
 			int num = 0;
-			float rotation = projectile.rotation;
+			float rotation = npc.rotation;
 
 
-			Vector2 drawPos = projectile.position - Main.screenPosition;
-			Vector2 armPos = drawPos + new Vector2(projectile.width / 2, projectile.height / 2);
+			Vector2 drawPos = npc.position - Main.screenPosition;
+			Vector2 armPos = drawPos + new Vector2(npc.width / 2, npc.height / 2);
 
-			if (projectile.velocity.LengthSquared() == 0)
+			if (npc.velocity.LengthSquared() == 0)
 			{
 				armPos += forward * Main.rand.NextFloat(2, 4);
 			}
 
-			int drawLength = (int)projectile.ai[0];
+			int drawLength = (int)npc.ai[0];
 
 			if (drawLength > arm.Width)
 			{
@@ -235,8 +282,9 @@ namespace Highlander.NPCs.EnlightenmentIdol
 			//writer.Write(initPos.Y);
 			writer.Write(flags);
 			writer.Write(stopTimer);
-			//writer.Write(portalTimer);
-			//writer.Write((short) (projectile.rotation * 10000));
+			writer.Write(portalTimer);
+			writer.Write(waitTimer);
+			//writer.Write((short) (npc.rotation * 10000));
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -245,8 +293,9 @@ namespace Highlander.NPCs.EnlightenmentIdol
 			//initPos.Y = reader.ReadByte();
 			flags = reader.ReadByte();
 			stopTimer = reader.ReadByte();
-			//portalTimer = reader.ReadByte();
-			//projectile.rotation = (float)reader.ReadInt16() / 10000f;
+			portalTimer = reader.ReadByte();
+			waitTimer = reader.ReadByte();
+			//npc.rotation = (float)reader.ReadInt16() / 10000f;
 			
 		}
 
@@ -305,17 +354,11 @@ namespace Highlander.NPCs.EnlightenmentIdol
 			set => flags[6] = value;
 		}
 
-		private float portalTimer
-		{
-			get => projectile.ai[1];
-			set => projectile.ai[1] = value;
-		}
-
 		private Vector2 forward
 		{
 			get
 			{
-				float rotation = projectile.rotation - MathHelper.Pi;
+				float rotation = npc.rotation - MathHelper.Pi;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;

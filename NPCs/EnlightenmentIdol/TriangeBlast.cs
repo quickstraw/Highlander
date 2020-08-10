@@ -55,13 +55,13 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
 			if(projectile.alpha > 0)
 			{
-				if (projectile.alpha - 16 < 0) {
+				if (projectile.alpha - 32 < 0) {
 					projectile.alpha = 0;
 					projectile.netUpdate = true;
 				}
 				else
 				{
-					projectile.alpha -= 16;
+					projectile.alpha -= 32;
 				}
 			}
 		}

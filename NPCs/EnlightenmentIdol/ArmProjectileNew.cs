@@ -55,6 +55,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
 				Init();
 			}
 
+			projectile.active = true;
+
 			flip = projectile.rotation > MathHelper.PiOver2 && projectile.rotation < 3 * MathHelper.PiOver2;
 
 			if (!portal)

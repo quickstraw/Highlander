@@ -100,6 +100,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
                 HandleMoving();
                 HandleAttacking();
+
+                FindPostFrame();
             }
             else
             {
@@ -250,18 +252,23 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     break;
                 case 2:
                     blastTimer++;
-                    if (blastTimer > 150)
+                    if (blastTimer > 210)
                     {
-                        triangleStance = true;
+                        triangleReady = true;
                         blastTimer = 0;
+                        //triangleStance = false;
                         npc.netUpdate = true;
                     }
-                    if (triangleReady)
+                    else if (blastTimer > 180 && triangleReady)
                     {
-                        blastTimer = 0;
-                        npc.netUpdate = true;
                         triangleReady = false;
+                        npc.netUpdate = true;
                         TriangleBlast();
+                    }
+                    else if (blastTimer > 150)
+                    {
+                        triangleStance = true;
+                        npc.netUpdate = true;
                     }
                     if (clapped)
                     {
@@ -331,18 +338,23 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     }
 
                     blastTimer++;
-                    if (blastTimer > 80)
+                    if (blastTimer > 110)
                     {
-                        triangleStance = true;
+                        triangleReady = true;
                         blastTimer = 0;
+                        //triangleStance = false;
                         npc.netUpdate = true;
                     }
-                    if (triangleReady)
+                    else if (blastTimer > 80 && triangleReady)
                     {
-                        blastTimer = 0;
-                        npc.netUpdate = true;
                         triangleReady = false;
+                        npc.netUpdate = true;
                         TriangleBlast();
+                    }
+                    else if (blastTimer > 50)
+                    {
+                        triangleStance = true;
+                        npc.netUpdate = true;
                     }
                     if (clapped)
                     {
@@ -440,18 +452,28 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 Vector2 right = new Vector2(1, 0);
 
                 Player target = Main.player[npc.target];
-                int type = ModContent.ProjectileType<ArmProjectileNew>();
+                float distance = (target.position - npc.position).Length();
+                if (distance < 1350)
+                {
+                    int type = ModContent.ProjectileType<PortalCharge>();
 
-                // Get a random point with negative values and find its direction.
-                float rand = Main.rand.NextFloat(0, MathHelper.TwoPi);
+                    // Get a random point with negative values and find its direction.
+                    float rand = Main.rand.NextFloat(0, MathHelper.TwoPi);
+                    /**
+                    var projectile = Projectile.NewProjectile(target.position + (up * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
+                    projectile = Projectile.NewProjectile(target.position + (down * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
+                    projectile = Projectile.NewProjectile(target.position + (left * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
+                    projectile = Projectile.NewProjectile(target.position + (right * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);**/
 
-                var projectile = Projectile.NewProjectile(target.position + (up * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                projectile = Projectile.NewProjectile(target.position + (down * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                projectile = Projectile.NewProjectile(target.position + (left * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                projectile = Projectile.NewProjectile(target.position + (right * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                //projectile.ai = new float[2];
-                //projectile.ai[0] = 0;
-                //projectile.ai[1] = npc.target;
+                    NPC.NewNPC((int)(target.position + (up * 250).RotatedBy(rand)).X, (int)(target.position + (up * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
+                    NPC.NewNPC((int)(target.position + (down * 250).RotatedBy(rand)).X, (int)(target.position + (down * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
+                    NPC.NewNPC((int)(target.position + (left * 250).RotatedBy(rand)).X, (int)(target.position + (left * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
+                    NPC.NewNPC((int)(target.position + (right * 250).RotatedBy(rand)).X, (int)(target.position + (right * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
+
+                    //projectile.ai = new float[2];
+                    //projectile.ai[0] = 0;
+                    //projectile.ai[1] = npc.target;
+                }
             }
         }
 
@@ -462,20 +484,30 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 foreach (Player p in Main.player) {
                     if (p.active && !p.dead)
                     {
-                        Vector2 up = new Vector2(0, -1);
-                        Vector2 down = new Vector2(0, 1);
-                        Vector2 left = new Vector2(-1, 0);
-                        Vector2 right = new Vector2(1, 0);
+                        float distance = (p.position - npc.position).Length();
+                        if (distance < 1350) {
+                            Player target = p;
 
-                        int type = ModContent.ProjectileType<ArmProjectileNew>();
+                            Vector2 up = new Vector2(0, -1);
+                            Vector2 down = new Vector2(0, 1);
+                            Vector2 left = new Vector2(-1, 0);
+                            Vector2 right = new Vector2(1, 0);
 
-                        // Get a random point with negative values and find its direction.
-                        float rand = Main.rand.NextFloat(0, MathHelper.TwoPi);
+                            int type = ModContent.ProjectileType<PortalCharge>();
 
-                        var projectile = Projectile.NewProjectile(p.position + (up * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
-                        projectile = Projectile.NewProjectile(p.position + (down * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
-                        projectile = Projectile.NewProjectile(p.position + (left * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
-                        projectile = Projectile.NewProjectile(p.position + (right * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
+                            // Get a random point with negative values and find its direction.
+                            float rand = Main.rand.NextFloat(0, MathHelper.TwoPi);
+
+                            /**var projectile = Projectile.NewProjectile(p.position + (up * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
+                            projectile = Projectile.NewProjectile(p.position + (down * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
+                            projectile = Projectile.NewProjectile(p.position + (left * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);
+                            projectile = Projectile.NewProjectile(p.position + (right * 250).RotatedBy(rand), new Vector2(), type, HAND_DAMAGE, 9.5f, 255, 0, p.whoAmI);**/
+
+                            NPC.NewNPC((int)(target.position + (up * 250).RotatedBy(rand)).X, (int)(target.position + (up * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
+                            NPC.NewNPC((int)(target.position + (down * 250).RotatedBy(rand)).X, (int)(target.position + (down * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
+                            NPC.NewNPC((int)(target.position + (left * 250).RotatedBy(rand)).X, (int)(target.position + (left * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
+                            NPC.NewNPC((int)(target.position + (right * 250).RotatedBy(rand)).X, (int)(target.position + (right * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
+                        }
                     }
                 }
             }
@@ -583,6 +615,21 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
             int TopArmsFrameHeight = TopArms.Height / 6;
             Vector2 TopArmsOrigin = new Vector2(TopArms.Width / 2, TopArmsFrameHeight / 2);
+            
+            Rectangle TopArmsFrame = new Rectangle(0, topFrame * TopArmsFrameHeight, TopArms.Width, TopArmsFrameHeight);
+
+            spriteBatch.Draw(TopArms, drawPos, TopArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, TopArmsOrigin, 1.0f, 0, 0);
+
+            int MiddleArmsFrameHeight = MiddleArms.Height / 27;
+            Vector2 MiddleArmsOrigin = new Vector2(MiddleArms.Width / 2, MiddleArmsFrameHeight / 2);
+            Rectangle MiddleArmsFrame = new Rectangle(0, middleFrame * MiddleArmsFrameHeight, MiddleArms.Width, MiddleArmsFrameHeight);
+
+            spriteBatch.Draw(MiddleArms, drawPos, MiddleArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, MiddleArmsOrigin, 1.0f, 0, 0);
+
+        }
+
+        private void FindPostFrame()
+        {
             byte newTopFrame = 0;
 
             if (triangleStance)
@@ -642,146 +689,140 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 npc.netUpdate = true;
             }
 
-            Rectangle TopArmsFrame = new Rectangle(0, topFrame * TopArmsFrameHeight, TopArms.Width, TopArmsFrameHeight);
-
-            spriteBatch.Draw(TopArms, drawPos, TopArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, TopArmsOrigin, 1.0f, 0, 0);
-
-            int MiddleArmsFrameHeight = MiddleArms.Height / 27;
-            Vector2 MiddleArmsOrigin = new Vector2(MiddleArms.Width / 2, MiddleArmsFrameHeight / 2);
-            Rectangle MiddleArmsFrame = new Rectangle(0, 0, MiddleArms.Width, MiddleArmsFrameHeight);
+            byte newMiddleFrame = 0;
 
             if (charging)
             {
                 if (middleArmsCounter < 6)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight;
+                    newMiddleFrame = 1;
                 }
                 else if (middleArmsCounter < 12)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 2;
+                    newMiddleFrame = 2;
                 }
                 else if (middleArmsCounter < 17)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 3;
+                    newMiddleFrame = 3;
                 }
                 else if (middleArmsCounter < 23)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 4;
+                    newMiddleFrame = 4;
                 }
                 else if (middleArmsCounter < 28)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 5;
+                    newMiddleFrame = 5;
                 }
                 else if (middleArmsCounter < 33)
                 {
-                    if(middleArmsCounter == 29)
+                    if (middleArmsCounter == 29)
                     {
                         if (Main.netMode != NetmodeID.Server)
                         {
                             Main.PlaySound(SoundLoader.customSoundType, (int)npc.Center.X, (int)npc.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Thunder"));
                         }
                     }
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 6;
+                    newMiddleFrame = 6;
                 }
                 else if (middleArmsCounter < 38)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 7;
+                    newMiddleFrame = 7;
                 }
                 else if (middleArmsCounter < 45)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 8;
+                    newMiddleFrame = 8;
                 }
                 else if (middleArmsCounter < 50)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 9;
+                    newMiddleFrame = 9;
                 }
                 else if (middleArmsCounter < 55)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 10;
+                    newMiddleFrame = 10;
                 }
                 else if (middleArmsCounter < 60)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 11;
+                    newMiddleFrame = 11;
                 }
                 else if (middleArmsCounter < 65)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 12;
+                    newMiddleFrame = 12;
                 }
                 else if (middleArmsCounter < 72)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 13;
+                    newMiddleFrame = 13;
                 }
                 else if (middleArmsCounter < 77)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 14;
+                    newMiddleFrame = 14;
                 }
                 else if (middleArmsCounter < 82)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 15;
+                    newMiddleFrame = 15;
                 }
                 else if (middleArmsCounter < 87)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 16;
+                    newMiddleFrame = 16;
                 }
                 else if (middleArmsCounter < 92)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 17;
+                    newMiddleFrame = 17;
                 }
                 else if (middleArmsCounter < 97)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 18;
+                    newMiddleFrame = 18;
                 }
                 else if (middleArmsCounter < 104)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 19;
+                    newMiddleFrame = 19;
                 }
                 else if (middleArmsCounter < 109)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 20;
+                    newMiddleFrame = 20;
                 }
                 else if (middleArmsCounter < 114)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 21;
+                    newMiddleFrame = 21;
                 }
                 else if (middleArmsCounter < 119)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 22;
+                    newMiddleFrame = 22;
                 }
                 else if (middleArmsCounter < 126)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 23;
+                    newMiddleFrame = 23;
                 }
                 else if (middleArmsCounter < 131)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 24;
+                    newMiddleFrame = 24;
                 }
                 else if (middleArmsCounter < 136)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 25;
+                    newMiddleFrame = 25;
                 }
                 else if (middleArmsCounter < 141)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 26;
+                    newMiddleFrame = 26;
                 }
                 else if (middleArmsCounter < 146)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 5;
+                    newMiddleFrame = 5;
                 }
                 else if (middleArmsCounter < 151)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 4;
+                    newMiddleFrame = 4;
                 }
                 else if (middleArmsCounter < 156)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 3;
+                    newMiddleFrame = 3;
                 }
                 else if (middleArmsCounter < 162)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 2;
+                    newMiddleFrame = 2;
                 }
                 else if (middleArmsCounter < 168)
                 {
-                    MiddleArmsFrame.Y = MiddleArmsFrameHeight * 1;
+                    newMiddleFrame = 1;
                 }
                 else
                 {
@@ -792,12 +833,15 @@ namespace Highlander.NPCs.EnlightenmentIdol
             }
             else
             {
-                MiddleArmsFrame.Y = 0;
+                newMiddleFrame = 0;
                 middleArmsCounter = 0;
+                npc.netUpdate = true;
             }
-
-            spriteBatch.Draw(MiddleArms, drawPos, MiddleArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, MiddleArmsOrigin, 1.0f, 0, 0);
-
+            if (newMiddleFrame != middleFrame)
+            {
+                middleFrame = newMiddleFrame;
+                npc.netUpdate = true;
+            }
         }
 
         public override Color? GetAlpha(Color drawColor)
@@ -831,8 +875,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public bool triangleReady
         {
-            get => flags[4];
-            set => flags[4] = value;
+            get => !flags[4];
+            set => flags[4] = !value;
         }
 
         public bool gotReady

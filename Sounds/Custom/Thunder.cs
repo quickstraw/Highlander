@@ -9,9 +9,9 @@ namespace Highlander.Sounds.Custom
 		{
 			// By creating a new instance, this ModSound allows for overlapping sounds. Non-ModSound behavior is to restart the sound, only permitting 1 instance.
 			soundInstance = sound.CreateInstance();
-			soundInstance.Volume = volume * 0.4f;
+			soundInstance.Volume = volume * 0.2f;
 			soundInstance.Pan = pan;
-			soundInstance.Pitch = 0f;
+			soundInstance.Pitch = 0.2f;
 			return soundInstance;
 		}
 
