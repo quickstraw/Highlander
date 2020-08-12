@@ -41,7 +41,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 			npc.noTileCollide = true;
 			//npc.alpha = 255;
 			//npc.timeLeft = 180;
-			npc.damage = 18;
+			npc.damage = 48;
 			npc.knockBackResist = 0f;
 			npc.dontTakeDamage = true;
 			portalF = GetTexture("Highlander/NPCs/EnlightenmentIdol/Portal_Front");

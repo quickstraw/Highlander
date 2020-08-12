@@ -18,7 +18,7 @@ namespace Highlander.NPCs.HauntedHatter
     [AutoloadBossHead]
     class HauntedHatter : ModNPC
     {
-        private const float EXPERT_DAMAGE = 0.75f;
+        private const float EXPERT_DAMAGE = 0.8f;
         private const int NEEDLE_DAMAGE = 18;
         private const int BALL_DAMAGE = 22;
         private const int BLAST_DAMAGE = 14;
@@ -82,7 +82,7 @@ namespace Highlander.NPCs.HauntedHatter
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.6f);
+            npc.damage = (int)(npc.damage * 0.7f);
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Highlander.Items.EnlightenmentIdol;
+﻿using Highlander.Dusts;
+using Highlander.Items.EnlightenmentIdol;
 using Highlander.NPCs.HauntedHatter;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,11 +18,14 @@ namespace Highlander.NPCs.EnlightenmentIdol
     [AutoloadBossHead]
     class EnlightenmentIdol : ModNPC
     {
-        private const int BASE_DEF = 20;
-        private const int HAND_DAMAGE = 18;
+        private const float EXPERT_DAMAGE = 0.8f;
+        private const int BASE_DEF = 16;
+        private const int TRIANGLE_DAMAGE = 44;
+        private const int CHARGE_DAMAGE = 44;
         private const int SPHERE_RADIUS = 450;
         private Texture2D TopArms;
         private Texture2D MiddleArms;
+        private Texture2D ChargeBlast;
 
         private BitsByte flags = new BitsByte();
         private int clapTimer = 0;
@@ -32,7 +36,10 @@ namespace Highlander.NPCs.EnlightenmentIdol
         private byte blastTimer = 0;
         private byte topFrame;
         private byte middleFrame;
+        private byte chargeBlastFrame;
+        private byte chargeBlastCounter;
         private bool dontDamage;
+        private byte blastRadius;
 
         public override bool Autoload(ref string name)
         {
@@ -50,8 +57,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
             //npc.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
             drawOffsetY = 0;// -52;
             npc.aiStyle = -1;
-            npc.lifeMax = 3800;
-            npc.damage = 20;
+            npc.lifeMax = 38000;
+            npc.damage = 40;
             npc.defense = BASE_DEF;
             npc.knockBackResist = 0f;
             npc.width = 60;
@@ -60,7 +67,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
+            npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.value = 100000;
             npc.alpha = 0;
@@ -69,7 +76,14 @@ namespace Highlander.NPCs.EnlightenmentIdol
             bossBag = ItemType<EnlightenmentIdolBag>();
             TopArms = GetTexture("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Triangle");
             MiddleArms = GetTexture("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Charge");
+            ChargeBlast = GetTexture("Highlander/NPCs/EnlightenmentIdol/ChargeBlast");
         }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.7f);
+        }
+
 
         public override void AI()
         {
@@ -102,10 +116,47 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 HandleAttacking();
 
                 FindPostFrame();
+                if(blastRadius > 40)
+                {
+                    foreach(Player p in Main.player)
+                    {
+                        float lengthSquared = (p.Center - npc.Center).LengthSquared();
+                        int innerRadius = (blastRadius - 40) * 2;
+                        if(lengthSquared <= blastRadius * blastRadius * 4 && !(lengthSquared < innerRadius * innerRadius))
+                        {
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                int damage = CHARGE_DAMAGE;
+                                if (Main.expertMode)
+                                {
+                                    damage = (int)(damage * EXPERT_DAMAGE); // Should only ever be in expert
+                                }
+                                Projectile.NewProjectile(p.position, new Vector2(), ProjectileType<ChargeDummyProjectile>(), damage, 0);
+                                
+                                /**if (!p.immune) {
+                                    p.statLife -= 80 - (int)(p.statDefense * 0.75f);
+                                    Vector2 knockback = p.Center - npc.Center;
+                                    knockback.Normalize();
+                                    p.velocity += knockback * 4;
+                                    //p.immuneTime += 30;
+                                }**/
+                            }
+                            Vector2 knockback = p.Center - npc.Center;
+                            //HighlanderPlayer modP = p.GetModPlayer<HighlanderPlayer>();
+                            //modP.knockback = true;
+                            //modP.knockbackDir = knockback.ToRotation();
+                            knockback.Normalize();
+
+                            p.velocity *= 0;
+                            p.velocity += knockback * 16;
+                        }
+                    }
+                }
             }
             else
             {
                 npc.velocity *= 0.85f;
+                chargeBlastFrame = 0;
                 deathTimer++;
                 if (deathTimer > 240)
                 {
@@ -115,6 +166,13 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 {
                     npc.active = false;
                     npc.netUpdate = true;
+                }
+            }
+            if(Main.netMode != NetmodeID.Server)
+            {
+                if (Main.rand.NextBool(20))
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustType<EnlightenmentIdolDust>());
                 }
             }
         }
@@ -321,20 +379,23 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     }**/
                     break;
                 case 3:
-                    if (!charging)
+                    if (Main.expertMode)
                     {
-                        chargeTimer++;
-                    }
-                    if(chargeTimer > 600)
-                    {
-                        charging = true;
-                        chargeTimer = 0;
-                        npc.netUpdate = true;
-                    }
-                    if (charged)
-                    {
-                        charged = false;
-                        npc.netUpdate = true;
+                        if (!charging)
+                        {
+                            chargeTimer++;
+                        }
+                        if (chargeTimer > 540)
+                        {
+                            charging = true;
+                            chargeTimer = 0;
+                            npc.netUpdate = true;
+                        }
+                        if (charged)
+                        {
+                            charged = false;
+                            npc.netUpdate = true;
+                        }
                     }
 
                     blastTimer++;
@@ -342,7 +403,6 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     {
                         triangleReady = true;
                         blastTimer = 0;
-                        //triangleStance = false;
                         npc.netUpdate = true;
                     }
                     else if (blastTimer > 80 && triangleReady)
@@ -491,10 +551,15 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 int type = ModContent.ProjectileType<TriangleBlast>();
 
                 float rotation = (float)Math.Atan2(target.Center.Y - spawn.Y, target.Center.X - spawn.X) + MathHelper.PiOver2;
+                int damage = TRIANGLE_DAMAGE;
+                if (Main.expertMode)
+                {
+                    damage = (int) (damage * EXPERT_DAMAGE);
+                }
 
-                var projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation - 0.4f) * 0.5f, type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation + 0.4f) * 0.5f, type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
-                projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation) * 0.5f, type, HAND_DAMAGE, 9.5f, 255, 0, npc.target);
+                var projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation - 0.4f) * 0.5f, type, damage, 9.5f, 255, 0, npc.target);
+                projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation + 0.4f) * 0.5f, type, damage, 9.5f, 255, 0, npc.target);
+                projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation) * 0.5f, type, damage, 9.5f, 255, 0, npc.target);
                 //projectile.ai = new float[2];
                 //projectile.ai[0] = 0;
                 //projectile.ai[1] = npc.target;
@@ -561,7 +626,9 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 damage = 0;
                 crit = true;
                 dontDamage = false;
-                Main.PlaySound(npc.HitSound, npc.position);
+                Main.PlaySound(SoundID.NPCHit4.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.NPCHit4.Style, 1f, +0.3f);
+                //Main.PlaySound(SoundID.NPCHit42.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.NPCHit42.Style, 1f, 0.8f);
+                //Main.PlaySound(npc.HitSound, npc.position);
                 return false;
             }
             return true;
@@ -593,6 +660,13 @@ namespace Highlander.NPCs.EnlightenmentIdol
             Rectangle MiddleArmsFrame = new Rectangle(0, middleFrame * MiddleArmsFrameHeight, MiddleArms.Width, MiddleArmsFrameHeight);
 
             spriteBatch.Draw(MiddleArms, drawPos, MiddleArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, MiddleArmsOrigin, 1.0f, 0, 0);
+
+            int ChargeBlastFrameHeight = ChargeBlast.Height / 4;
+            int ChargeBlastFrameWidth = ChargeBlast.Width / 5;
+            Vector2 ChargeBlastOrigin = new Vector2(ChargeBlastFrameWidth / 2, ChargeBlastFrameHeight / 2);
+            Rectangle ChargeBlastFrame = new Rectangle(chargeBlastFrame % 5 * ChargeBlastFrameWidth, chargeBlastFrame / 5 * ChargeBlastFrameHeight, ChargeBlastFrameWidth, ChargeBlastFrameHeight);
+
+            spriteBatch.Draw(ChargeBlast, npc.Center - Main.screenPosition, ChargeBlastFrame, Color.White * ((float)(255 - npc.alpha) / 255f), 0f, ChargeBlastOrigin, 1.0f, 0, 0);
 
         }
 
@@ -758,6 +832,17 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 }
                 else if (middleArmsCounter < 126)
                 {
+                    if(middleArmsCounter == 120)
+                    {
+                        chargeBlast = true;
+                        npc.netUpdate = true;
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            //Main.PlaySound(SoundID.Item15.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item15.Style, 0.80f, +0.5f);
+                            //Main.PlaySound(SoundID.Item60.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item60.Style, 0.80f, +0.5f);
+                            Main.PlaySound(SoundID.Item74.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item74.Style, 0.90f, +0.5f);
+                        }
+                    }
                     newMiddleFrame = 23;
                 }
                 else if (middleArmsCounter < 131)
@@ -810,6 +895,128 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 middleFrame = newMiddleFrame;
                 npc.netUpdate = true;
             }
+
+            byte newChargeBlastFrame = 0;
+            byte newBlastRadius = 0;
+
+            if (chargeBlast)
+            {
+                if (chargeBlastCounter < 2)
+                {
+                    newChargeBlastFrame = 1;
+                    newBlastRadius = 8;
+                }
+                else if (chargeBlastCounter < 4)
+                {
+                    newChargeBlastFrame = 2;
+                    newBlastRadius = 10;
+                }
+                else if (chargeBlastCounter < 6)
+                {
+                    newChargeBlastFrame = 3;
+                    newBlastRadius = 12;
+                }
+                else if (chargeBlastCounter < 8)
+                {
+                    newChargeBlastFrame = 4;
+                    newBlastRadius = 14;
+                }
+                else if (chargeBlastCounter < 10)
+                {
+                    newChargeBlastFrame = 5;
+                    newBlastRadius = 16;
+                }
+                else if (chargeBlastCounter < 12)
+                {
+                    newChargeBlastFrame = 6;
+                    newBlastRadius = 24;
+                }
+                else if (chargeBlastCounter < 14)
+                {
+                    newChargeBlastFrame = 7;
+                    newBlastRadius = 32;
+                }
+                else if (chargeBlastCounter < 16)
+                {
+                    newChargeBlastFrame = 8;
+                    newBlastRadius = 40;
+                }
+                else if (chargeBlastCounter < 18)
+                {
+                    newChargeBlastFrame = 9;
+                    newBlastRadius = 48;
+                }
+                else if (chargeBlastCounter < 20)
+                {
+                    newChargeBlastFrame = 10;
+                    newBlastRadius = 56;
+                }
+                else if (chargeBlastCounter < 22)
+                {
+                    newChargeBlastFrame = 11;
+                    newBlastRadius = 64;
+                }
+                else if (chargeBlastCounter < 24)
+                {
+                    newChargeBlastFrame = 12;
+                    newBlastRadius = 80;
+                }
+                else if (chargeBlastCounter < 26)
+                {
+                    newChargeBlastFrame = 13;
+                    newBlastRadius = 96;
+                }
+                else if (chargeBlastCounter < 28)
+                {
+                    newChargeBlastFrame = 14;
+                    newBlastRadius = 112;
+                }
+                else if (chargeBlastCounter < 30)
+                {
+                    newChargeBlastFrame = 15;
+                    newBlastRadius = 128;
+                }
+                else if (chargeBlastCounter < 32)
+                {
+                    newChargeBlastFrame = 16;
+                    newBlastRadius = 152;
+                }
+                else if (chargeBlastCounter < 34)
+                {
+                    newChargeBlastFrame = 17;
+                    newBlastRadius = 174;
+                }
+                else if (chargeBlastCounter < 36)
+                {
+                    newChargeBlastFrame = 18;
+                    newBlastRadius = 198;
+                }
+                else if (chargeBlastCounter < 38)
+                {
+                    newChargeBlastFrame = 19;
+                    newBlastRadius = 220;
+                }
+                else
+                {
+                    newBlastRadius = 0;
+                    chargeBlast = false;
+                    npc.netUpdate = true;
+                }
+                chargeBlastCounter++;
+            }
+            else
+            {
+                newBlastRadius = 0;
+                newChargeBlastFrame = 0;
+                chargeBlastCounter = 0;
+                npc.netUpdate = true;
+            }
+            if (newChargeBlastFrame != chargeBlastFrame)
+            {
+                chargeBlastFrame = newChargeBlastFrame;
+                blastRadius = newBlastRadius;
+                npc.netUpdate = true;
+            }
         }
 
         public override Color? GetAlpha(Color drawColor)
@@ -847,7 +1054,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             set => flags[4] = !value;
         }
 
-        public bool gotReady
+        public bool chargeBlast
         {
             get => flags[5];
             set => flags[5] = value;
@@ -898,6 +1105,9 @@ namespace Highlander.NPCs.EnlightenmentIdol
             writer.Write((short)deathTimer);
             writer.Write((short)triangleTimer);
             writer.Write(topFrame);
+            writer.Write(chargeBlastFrame);
+            writer.Write(chargeBlastCounter);
+            writer.Write(blastRadius);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -908,10 +1118,18 @@ namespace Highlander.NPCs.EnlightenmentIdol
             deathTimer = (int)reader.ReadInt16();
             triangleTimer = reader.ReadInt16();
             topFrame = reader.ReadByte();
+            chargeBlastFrame = reader.ReadByte();
+            chargeBlastCounter = reader.ReadByte();
+            blastRadius = reader.ReadByte();
         }
 
         public override void NPCLoot()
         {
+            for(int i = 0; i < 8; i++)
+            {
+                var gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, mod.GetGoreSlot("Gores/IdolGore" + i), 1f);
+            }
+            
             if (!HighlanderWorld.downedEnlightenmentIdol)
             {
                 HighlanderWorld.downedEnlightenmentIdol = true;
@@ -923,7 +1141,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
             if (Main.rand.NextBool(10)) // Boss Trophy
             {
-                //Item.NewItem(npc.getRect(), ItemType<HauntedHatterTrophy>());
+                Item.NewItem(npc.getRect(), ItemType<EnlightenmentIdolTrophy>());
             }
 
             if (Main.expertMode)
@@ -942,7 +1160,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 }
                 if (Main.rand.NextBool(7)) // Boss Vanity
                 {
-                    //Item.NewItem(npc.getRect(), ItemType<GhostlyGibus>());
+                    Item.NewItem(npc.getRect(), ItemType<EnlightenedMask>());
                 }
             }
         }

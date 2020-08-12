@@ -44,7 +44,7 @@ namespace Highlander.Items.EnlightenmentIdol
             List<int> items = new List<int>();
             //items.Add(ItemType<AncientStoneBlaster>());
             int chance;
-            int drops = 1;
+            int drops = 0;
             for (int i = 0; i < drops; i++)
             {
                 chance = Main.rand.Next(0, items.Count);
@@ -54,7 +54,7 @@ namespace Highlander.Items.EnlightenmentIdol
             //player.QuickSpawnItem(ItemType<EnchantedNeedleHook>());
             if (Main.rand.NextBool(7))
             {
-                //player.QuickSpawnItem(ItemType<GhostlyGibus>());
+                player.QuickSpawnItem(ItemType<EnlightenedMask>());
             }
         }
 

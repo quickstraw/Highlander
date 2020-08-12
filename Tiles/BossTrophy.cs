@@ -1,4 +1,5 @@
-﻿using Highlander.Items.HauntedHatter;
+﻿using Highlander.Items.EnlightenmentIdol;
+using Highlander.Items.HauntedHatter;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -35,6 +36,9 @@ namespace Highlander.Tiles
 			{
 				case 0:
 					item = ItemType<HauntedHatterTrophy>();
+					break;
+				case 1:
+					item = ItemType<EnlightenmentIdolTrophy>();
 					break;
 			}
 			if (item > 0)
