@@ -11,25 +11,31 @@ using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ID;
 
-namespace Highlander.Items.HauntedHatter
+namespace Highlander.Items.Armor.Series2
 {
     [AutoloadEquip(EquipType.Head)]
-    class GhostlyGibus : ModItem
+    class FuriousFukaamigasa : AbnormalItem
     {
-        public override string Texture => "Highlander/Items/HauntedHatter/GhostlyGibus";
+        public FuriousFukaamigasa() : base()
+        {
+        }
+        public FuriousFukaamigasa(AbnormalEffect effect) : base(effect)
+        {
+        }
+        public override string Texture => "Highlander/Items/Armor/Series2/FuriousFukaamigasa";
 
         public override void SetStaticDefaults()
         {
-            //DisplayName.SetDefault("Haunted Hat");
-            //Tooltip.SetDefault("Only those deemed worthy don the Ghostly Gibus.");
+            //Tooltip.SetDefault("Eastern designed helmet that looks eerily like a lid.");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.rare = ItemRarityID.Blue;
+            item.rare = ItemRarityID.Orange;
             item.vanity = true;
+            base.SetDefaults();
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

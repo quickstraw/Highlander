@@ -15,12 +15,14 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Items
 {
-    class HatSupplyLockBox : ModItem
+    class HatLockBox2 : ModItem
     {
+
+        public override string Texture => "Highlander/Items/HatSupplyLockBox";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hat Lock Box #1");
+            DisplayName.SetDefault("Hat Lock Box #2");
             Tooltip.SetDefault("Right Click to open\nRequires a Hat Key");
         }
 
@@ -75,18 +77,15 @@ namespace Highlander.Items
             String itemName;
 
             List<String> names = new List<string>();
-            names.Add("Hotrod");
-            names.Add("LegendaryLid");
-            names.Add("OlSnaggletooth");
-            names.Add("PithyProfessional");
-            names.Add("PyromancerMask");
-            names.Add("SamurEye");
-            names.Add("StainlessPot");
-            names.Add("StoutShako");
-            names.Add("TeamCaptain");
-            names.Add("KillerExclusive");
-            names.Add("HongKongCone");
-            names.Add("Anger");
+            names.Add("FruitShoot");
+            names.Add("HeroHachimaki");
+            names.Add("HotDogger");
+            names.Add("Law");
+            names.Add("FuriousFukaamigasa");
+            names.Add("SurgeonStahlhelm");
+            names.Add("DeadCone");
+            names.Add("MediMask");
+            names.Add("JanissaryKetche");
 
             int chance;
             chance = Main.rand.Next(0, names.Count);

@@ -1,5 +1,6 @@
 using Highlander.Items;
 using Highlander.Items.Armor;
+using Highlander.Items.Armor.Series2;
 using Highlander.UnusualLayerEffects;
 using Highlander.Utilities;
 using Microsoft.Xna.Framework;
@@ -123,6 +124,44 @@ namespace Highlander
 			item = new Anger(effect);
 			AddItem("UnusualAnger", item);
 			AddEquipTexture(item, EquipType.Head, "UnusualAnger_Head", "Highlander/Items/Armor/Anger_Head");
+
+			// Series 2
+
+			item = new DeadCone(effect);
+			AddItem("UnusualDeadCone", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualDeadCone_Head", "Highlander/Items/Armor/Series2/DeadCone_Head");
+
+			item = new FruitShoot(effect);
+			AddItem("UnusualFruitShoot", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualFruitShoot_Head", "Highlander/Items/Armor/Series2/FruitShoot_Head");
+
+			item = new FuriousFukaamigasa(effect);
+			AddItem("UnusualFuriousFukaamigasa", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualFuriousFukaamigasa_Head", "Highlander/Items/Armor/Series2/FuriousFukaamigasa_Head");
+
+			item = new HeroHachimaki(effect);
+			AddItem("UnusualHeroHachimaki", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualHeroHachimaki_Head", "Highlander/Items/Armor/Series2/HeroHachimaki_Head");
+
+			item = new HotDogger(effect);
+			AddItem("UnusualHotDogger", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualHotDogger_Head", "Highlander/Items/Armor/Series2/HotDogger_Head");
+
+			item = new JanissaryKetche(effect);
+			AddItem("UnusualJanissaryKetche", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualJanissaryKetche_Head", "Highlander/Items/Armor/Series2/JanissaryKetche_Head");
+
+			item = new Law(effect);
+			AddItem("UnusualLaw", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualLaw_Head", "Highlander/Items/Armor/Series2/Law_Head");
+
+			item = new MediMask(effect);
+			AddItem("UnusualMediMask", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualMediMask_Head", "Highlander/Items/Armor/Series2/MediMask_Head");
+
+			item = new SurgeonStahlhelm(effect);
+			AddItem("UnusualSurgeonStahlhelm", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualSurgeonStahlhelm_Head", "Highlander/Items/Armor/Series2/SurgeonStahlhelm_Head");
 
 			// OG Hats
 
