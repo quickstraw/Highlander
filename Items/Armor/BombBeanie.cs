@@ -15,6 +15,12 @@ namespace Highlander.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     class BombBeanie : AbnormalBase
     {
+
+        public override bool Autoload(ref string name)
+        {
+            return false;
+        }
+
         public BombBeanie() : base()
         {
         }

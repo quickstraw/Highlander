@@ -1,19 +1,22 @@
-Highlander is a content mod that focuses on adding mostly cosmetic items. There is currently a new boss, 2 new town NPCs, and many cosmetic items along with a few non-cosmetic items.
+Highlander is a content mod that focuses on adding mostly cosmetic items.
+
+Features:
+        - 2 Bosses
+        - 2 Town NPCs
+        - 40+ vanity items
+        - Several non-vanity items to add variety to gameplay
 
 Many cosmetic items added are inspired by Team Fortress 2 cosmetics. The Haunted Hatter must be killed to acquire these items. Hat Lock Boxes will drop after the Haunted Hatter is killed.
 
 There are 2 Hat Lock Boxes that can be opened to obtain different sets of hats. A Hat Lock Box must be opened with a key bought from the Hat Salesman. There is a small chance to obtain a hat with an unusual effect after opening a Hat Lock Box.
 
-Non-cosmetic items added are rewards for beating the Haunted Hatter as well as some odd weapons I thought would fit well into Terraria.
-
-One of these weapons is the pike. There are 3 pike items added that serve as a long-range melee weapons with a bonus versus bosses. They are not very good at close range combat.
+Non-cosmetic items added are rewards for beating the bosses as well as some odd weapons I thought would fit well into Terraria and add variety. These items generally have a twist that makes their mechanics unique.
 
 Recent Changes:
-1.3.1.0 - Reworked how some Unusual effects work.
-        - Improved Burning Flames and Scorching Flames. 
-        - Fixed Unusuals effects on mounts.
-        - Fixed some Unusual effects showing on multiple players.
+1.4.0.0 - Added the Idol of Enlightenment as a Hardmode boss
+        - Added Hat Lock Box #2 with new hats
+        - Various tweaks and fixes
 
 Currently Working On:
-New Boss
-Improving Art
+Finding bugs
+Improving art

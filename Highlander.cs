@@ -163,6 +163,10 @@ namespace Highlander
 			AddItem("UnusualSurgeonStahlhelm", item);
 			AddEquipTexture(item, EquipType.Head, "UnusualSurgeonStahlhelm_Head", "Highlander/Items/Armor/Series2/SurgeonStahlhelm_Head");
 
+			item = new ToughStuffMuffs(effect);
+			AddItem("UnusualToughStuffMuffs", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualToughStuffMuffs_Head", "Highlander/Items/Armor/Series2/ToughStuffMuffs_Head");
+
 			// OG Hats
 
 			item = new PaperBag(effect);

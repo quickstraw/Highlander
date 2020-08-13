@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Highlander.Projectiles;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,12 +20,13 @@ namespace Highlander.Items.EnlightenmentIdol
 			item.knockBack = 4f;
 			item.damage = 9;
 			item.noUseGraphic = true;
-			//item.shoot = ModContent.ProjectileType<ExampleFlailProjectile>();
-			item.shootSpeed = 15.1f;
+			item.shoot = ModContent.ProjectileType<BlitzFistProjectile>();
+			item.shootSpeed = 26.0f;
 			item.UseSound = SoundID.Item1;
 			item.melee = true;
 			item.crit = 9;
 			item.channel = true;
+			item.autoReuse = true;
 		}
 	}
 }

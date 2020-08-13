@@ -5,19 +5,23 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.IO;
 
 namespace Highlander.Projectiles
 {
 	public class BlitzFistProjectile : ModProjectile
 	{
 
+		private BitsByte flags;
+		private int attached = -1;
+
 		public override bool Autoload(ref string name)
 		{
-			return false;
+			return true;
 		}
 
 		// The folder path to the flail chain sprite
-		private const string ChainTexturePath = "ExampleMod/Projectiles/ExampleFlailProjectileChain";
+		private const string ChainTexturePath = "Highlander/Projectiles/BlitzFistProjectileChain";
 
 		public override void SetStaticDefaults()
 		{
@@ -26,8 +30,8 @@ namespace Highlander.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
+			projectile.width = 30;
+			projectile.height = 30;
 			projectile.friendly = true;
 			projectile.penetrate = -1; // Make the flail infinitely penetrate like other flails
 			projectile.melee = true;
@@ -37,10 +41,17 @@ namespace Highlander.Projectiles
 		// This AI code is adapted from the aiStyle 15. We need to re-implement this to customize the behavior of our flail
 		public override void AI()
 		{
+			if (!init)
+			{
+				init = true;
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi / 2;
+				projectile.netUpdate = true;
+			}
+
 			// Spawn some dust visuals
-			var dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X * 0.4f, projectile.velocity.Y * 0.4f, 100, default, 1.5f);
-			dust.noGravity = true;
-			dust.velocity /= 2f;
+			//var dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X * 0.4f, projectile.velocity.Y * 0.4f, 100, default, 1.5f);
+			//dust.noGravity = true;
+			//dust.velocity /= 2f;
 
 			var player = Main.player[projectile.owner];
 
@@ -69,42 +80,48 @@ namespace Highlander.Projectiles
 			// ai[1] == 1 or !projectile.tileCollide: projectile is being forced to retract
 
 			// ai[0] == 0 means the projectile has neither hit any tiles yet or reached maxChainLength
-			if (projectile.ai[0] == 0f)
+			if (goingForward)
 			{
 				// This is how far the chain would go measured in pixels
-				float maxChainLength = 160f;
+				float maxChainLength = 500f;
 				projectile.tileCollide = true;
 
 				if (currentChainLength > maxChainLength)
 				{
 					// If we reach maxChainLength, we change behavior.
-					projectile.ai[0] = 1f;
+					goingForward = false;
+					retracting = true;
 					projectile.netUpdate = true;
 				}
 				else if (!player.channel)
 				{
+					/**
 					// Once player lets go of the use button, let gravity take over and let air friction slow down the projectile
 					if (projectile.velocity.Y < 0f)
 						projectile.velocity.Y *= 0.9f;
 
 					projectile.velocity.Y += 1f;
 					projectile.velocity.X *= 0.9f;
+					**/
+					goingForward = false;
+					retracting = true;
 				}
 			}
-			else if (projectile.ai[0] == 1f)
+			else if (!goingForward)
 			{
+				retracting = true;
 				// When ai[0] == 1f, the projectile has either hit a tile or has reached maxChainLength, so now we retract the projectile
 				float elasticFactorA = 14f / player.meleeSpeed;
 				float elasticFactorB = 0.9f / player.meleeSpeed;
-				float maxStretchLength = 300f; // This is the furthest the flail can stretch before being forced to retract. Make sure that this is a bit less than maxChainLength so you don't accidentally reach maxStretchLength on the initial throw.
+				float maxStretchLength = 750f; // This is the furthest the flail can stretch before being forced to retract. Make sure that this is a bit less than maxChainLength so you don't accidentally reach maxStretchLength on the initial throw.
 
-				if (projectile.ai[1] == 1f)
+				if (retracting)
 					projectile.tileCollide = false;
 
 				// If the user lets go of the use button, or if the projectile is stuck behind some tiles as the player moves away, the projectile goes into a mode where it is forced to retract and no longer collides with tiles.
 				if (!player.channel || currentChainLength > maxStretchLength || !projectile.tileCollide)
 				{
-					projectile.ai[1] = 1f;
+					retracting = true;
 
 					if (projectile.tileCollide)
 						projectile.netUpdate = true;
@@ -142,9 +159,23 @@ namespace Highlander.Projectiles
 			}
 
 			// Here we set the rotation based off of the direction to the player tweaked by the velocity, giving it a little spin as the flail turns around each swing 
-			projectile.rotation = vectorToPlayer.ToRotation() - projectile.velocity.X * 0.1f;
+			//projectile.rotation = vectorToPlayer.ToRotation() - projectile.velocity.X * 0.1f;
 
 			// Here is where a flail like Flower Pow could spawn additional projectiles or other custom behaviors
+			if (attached != -1 && !released)
+			{
+				var target = Main.npc[attached];
+				Vector2 unit = offset;
+				unit.Normalize();
+				target.position = projectile.position + offset - unit * 16;
+				target.velocity = projectile.velocity * 0.1f;
+				target.netUpdate = true;
+
+				if (currentChainLength < 60f)
+				{
+					released = true;
+				}
+			}
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -175,7 +206,7 @@ namespace Highlander.Projectiles
 			}
 
 			// ai[0] == 1 is used in AI to represent that the projectile has hit a tile since spawning
-			projectile.ai[0] = 1f;
+			goingForward = false;
 
 			if (shouldMakeSound)
 			{
@@ -231,6 +262,76 @@ namespace Highlander.Projectiles
 			}
 
 			return true;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if (attached == -1 && !target.boss && !released)
+			{
+				attached = target.whoAmI;
+				offset = target.position - projectile.position;
+				goingForward = false;
+				retracting = true;
+				projectile.netUpdate = true;
+			}
+		}
+
+		public override bool? CanHitNPC(NPC target)
+		{
+			return !(target.whoAmI == attached);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			/**var target = Main.npc[attached];
+			target.velocity *= 0.0f;
+			target.netUpdate = true;**/
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(flags);
+			writer.Write((short)attached);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			flags = reader.ReadByte();
+			attached = reader.ReadInt16();
+		}
+
+		private bool init
+		{
+			get => flags[0];
+			set => flags[0] = value;
+		}
+
+		private bool retracting
+		{
+			get => flags[1];
+			set => flags[1] = value;
+		}
+
+		private bool goingForward
+		{
+			get => !flags[2];
+			set => flags[2] = !value;
+		}
+
+		private bool released
+		{
+			get => flags[3];
+			set => flags[3] = value;
+		}
+
+		private Vector2 offset
+		{
+			get => new Vector2(projectile.ai[0], projectile.ai[1]);
+			set
+			{
+				projectile.ai[0] = value.X;
+				projectile.ai[1] = value.Y;
+			}
 		}
 	}
 }

@@ -14,25 +14,18 @@ using Terraria.ID;
 namespace Highlander.Items.Armor.Series2
 {
     [AutoloadEquip(EquipType.Head)]
-    class BackwardsBallcap : AbnormalItem
+    class ToughStuffMuffs : AbnormalItem
     {
-
-        public override bool Autoload(ref string name)
-        {
-            return false;
-        }
-
-        public BackwardsBallcap() : base()
+        public ToughStuffMuffs() : base()
         {
         }
-        public BackwardsBallcap(AbnormalEffect effect) : base(effect)
+        public ToughStuffMuffs(AbnormalEffect effect) : base(effect)
         {
         }
-        public override string Texture => "Highlander/Items/Armor/Series2/BackwardsBallcap";
+        public override string Texture => "Highlander/Items/Armor/Series2/ToughStuffMuffs";
 
         public override void SetStaticDefaults()
         {
-            //Tooltip.SetDefault("Eastern designed helmet that looks eerily like a lid.");
         }
 
         public override void SetDefaults()
@@ -46,7 +39,7 @@ namespace Highlander.Items.Armor.Series2
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
-            drawAltHair = false;
+            drawAltHair = true;
         }
 
     }

@@ -14,7 +14,7 @@ using Terraria.ID;
 namespace Highlander.Items.Armor.Series2
 {
     [AutoloadEquip(EquipType.Head)]
-    class BackwardsBallcap : AbnormalItem
+    class FrontRunner : AbnormalItem
     {
 
         public override bool Autoload(ref string name)
@@ -22,13 +22,13 @@ namespace Highlander.Items.Armor.Series2
             return false;
         }
 
-        public BackwardsBallcap() : base()
+        public FrontRunner() : base()
         {
         }
-        public BackwardsBallcap(AbnormalEffect effect) : base(effect)
+        public FrontRunner(AbnormalEffect effect) : base(effect)
         {
         }
-        public override string Texture => "Highlander/Items/Armor/Series2/BackwardsBallcap";
+        public override string Texture => "Highlander/Items/Armor/Series2/FrontRunner";
 
         public override void SetStaticDefaults()
         {
@@ -46,7 +46,7 @@ namespace Highlander.Items.Armor.Series2
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
-            drawAltHair = false;
+            drawHair = true;
         }
 
     }
