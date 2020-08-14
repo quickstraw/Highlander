@@ -17,8 +17,8 @@ namespace Highlander.Items.EnlightenmentIdol
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 40;
 			item.useTime = 40;
-			item.knockBack = 4f;
-			item.damage = 9;
+			item.knockBack = 7f;
+			item.damage = 72;
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<BlitzFistProjectile>();
 			item.shootSpeed = 26.0f;
@@ -27,6 +27,24 @@ namespace Highlander.Items.EnlightenmentIdol
 			item.crit = 9;
 			item.channel = true;
 			item.autoReuse = true;
+		}
+
+		public override bool AltFunctionUse(Player player)
+		{
+			return true;
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.shoot = ModContent.ProjectileType<BlitzFistAltProjectile>();
+			}
+			else
+			{
+				item.shoot = ModContent.ProjectileType<BlitzFistProjectile>();
+			}
+			return base.CanUseItem(player);
 		}
 	}
 }
