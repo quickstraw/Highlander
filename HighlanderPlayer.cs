@@ -43,16 +43,20 @@ namespace Highlander
 
 		public int counter = 0;
 
+		public bool emittingAura = false;
+		public bool receivingAura = false;
+
 		public override void ResetEffects() {
 			holdingAmmoGun = false;
 			unusual = 0; 
 			maxAmmo = 0;
 			currentAmmo = 0;
 
-			//unboxed = -1;
-
 			wearingAutonomousOrb = false;
-		}
+
+			emittingAura = false;
+			receivingAura = false;
+	}
 
 		public override void OnEnterWorld(Player player) {
 			// We can refresh UI using OnEnterWorld. OnEnterWorld happens after Load, so nonStopParty is the correct value.
@@ -447,6 +451,11 @@ namespace Highlander
 				}
 
 				unboxed = -1;
+			}
+
+			if (receivingAura)
+			{
+				player.statDefense += 8;
 			}
 		}
 

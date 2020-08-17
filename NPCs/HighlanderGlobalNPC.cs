@@ -33,7 +33,21 @@ namespace Highlander.NPCs
                 }
                 else
                 {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<HatSupplyLockBox>());
+                    if (HighlanderWorld.downedEnlightenmentIdol)
+                    {
+                        if (Main.rand.NextBool())
+                        {
+                            Item.NewItem(npc.getRect(), ItemType<HatLockBox2>());
+                        }
+                        else
+                        {
+                            Item.NewItem(npc.getRect(), ItemType<HatSupplyLockBox>());
+                        }
+                    }
+                    else
+                    {
+                        Item.NewItem(npc.getRect(), ItemType<HatSupplyLockBox>());
+                    }
                 }
             }
 

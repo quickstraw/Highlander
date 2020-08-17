@@ -25,7 +25,7 @@ namespace Highlander.Buffs
 		{
 			player.statDefense -= 4; //Grant a -4 defense decrease to the player while the buff is active.
 			player.thrownCrit += 2;
-			player.thrownDamageMult = 1.1f;
+			player.thrownDamageMult *= 1.1f;
 			player.thrownVelocity *= 1.1f;
 		}
 

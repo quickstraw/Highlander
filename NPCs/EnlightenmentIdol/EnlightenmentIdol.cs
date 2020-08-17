@@ -57,7 +57,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             //npc.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
             drawOffsetY = 0;// -52;
             npc.aiStyle = -1;
-            npc.lifeMax = 38000;
+            npc.lifeMax = 39000;
             npc.damage = 40;
             npc.defense = BASE_DEF;
             npc.knockBackResist = 0f;
@@ -69,7 +69,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath14;
-            npc.value = 100000;
+            npc.value = 150000;
             npc.alpha = 0;
             music = MusicID.Boss1;
             musicPriority = MusicPriority.BossMedium;
@@ -1152,11 +1152,11 @@ namespace Highlander.NPCs.EnlightenmentIdol
             {
                 if (Main.rand.NextBool(2))
                 {
-                    //Item.NewItem(npc.getRect(), ItemType<SpiritShears>());
+                    Item.NewItem(npc.getRect(), ItemType<BlitzFist>());
                 }
                 else
                 {
-                    //Item.NewItem(npc.getRect(), ItemType<AncientStoneBlaster>());
+                    Item.NewItem(npc.getRect(), ItemType<CommanderBlessing>());
                 }
                 if (Main.rand.NextBool(7)) // Boss Vanity
                 {
@@ -1168,7 +1168,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
         public override void BossLoot(ref string name, ref int potionType)
         {
             name = "The Idol of Enlightenment";
-            potionType = ItemID.HealingPotion;
+            potionType = ItemID.GreaterHealingPotion;
         }
 
     }

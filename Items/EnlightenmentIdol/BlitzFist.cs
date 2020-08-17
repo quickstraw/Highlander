@@ -15,16 +15,16 @@ namespace Highlander.Items.EnlightenmentIdol
 			item.rare = ItemRarityID.White;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 40;
-			item.useTime = 40;
+			item.useAnimation = 20;
+			item.useTime = 20;
 			item.knockBack = 7f;
 			item.damage = 72;
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<BlitzFistProjectile>();
-			item.shootSpeed = 26.0f;
+			item.shootSpeed = 32.0f;
 			item.UseSound = SoundID.Item1;
 			item.melee = true;
-			item.crit = 9;
+			//item.crit = 9;
 			item.channel = true;
 			item.autoReuse = true;
 		}

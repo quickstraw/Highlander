@@ -396,6 +396,19 @@ namespace Highlander
 					$"Spawns after using [i:{ModContent.ItemType<Items.HauntedHatter.SpookyHeadwear>()}] which can be crafted or dropped once after defeating the Eater of Worlds or the Brain of Cthulu.",
 					"Haunted Hatter spirited away the challengers");
 				// Additional bosses here
+				bossChecklist.Call(
+					"AddBoss",
+					9.1f,
+					ModContent.NPCType<NPCs.EnlightenmentIdol.EnlightenmentIdol>(),
+					this, // Mod
+					"Idol of Enlightenment",
+					(Func<bool>)(() => HighlanderWorld.downedEnlightenmentIdol),
+					ModContent.ItemType<Items.EnlightenmentIdol.StoneIdol>(),
+					new List<int> { ModContent.ItemType<Items.EnlightenmentIdol.EnlightenmentIdolTrophy>(), ModContent.ItemType<Items.EnlightenmentIdol.EnlightenedMask>() },
+					new List<int> { ModContent.ItemType<Items.EnlightenmentIdol.EnlightenmentIdolBag>(), ModContent.ItemType<Items.EnlightenmentIdol.DivinePresence>()
+					, ModContent.ItemType<Items.EnlightenmentIdol.BlitzFist>(), ModContent.ItemType<Items.EnlightenmentIdol.CommanderBlessing>()},
+					$"Spawns after using [i:{ModContent.ItemType<Items.EnlightenmentIdol.StoneIdol>()}] which can be crafted with [i:{ItemID.SoulofLight}] and [i:{ItemID.StoneBlock}].",
+					"Idol of Enlightenment helped the challengers pass on");
 			}
 
 			// Census Support

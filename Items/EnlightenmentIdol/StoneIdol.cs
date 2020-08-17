@@ -7,15 +7,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Highlander.Items.HauntedHatter
+namespace Highlander.Items.EnlightenmentIdol
 {
-    class SpookyHeadwear : ModItem
+    class StoneIdol : ModItem
     {
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spooky Headwear");
-            Tooltip.SetDefault("Summons the Haunted Hatter");
+            DisplayName.SetDefault("Stone Idol");
+            Tooltip.SetDefault("Summons the Idol of Enlightenment");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace Highlander.Items.HauntedHatter
             item.width = 32;
             item.height = 32;
             item.maxStack = 20;
-            item.rare = ItemRarityID.Blue;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
@@ -31,7 +31,7 @@ namespace Highlander.Items.HauntedHatter
 
         public override bool CanUseItem(Player player)
         {
-            bool spawned = NPC.AnyNPCs(mod.NPCType("HauntedHatter"));
+            bool spawned = NPC.AnyNPCs(mod.NPCType("EnlightenmentIdol"));
             return !spawned;
         }
 
@@ -39,7 +39,7 @@ namespace Highlander.Items.HauntedHatter
         {
             if(Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("HauntedHatter"));
+                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("EnlightenmentIdol"));
             }
 
             return true;
@@ -48,17 +48,10 @@ namespace Highlander.Items.HauntedHatter
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Silk, 10);
+			recipe.AddIngredient(ItemID.StoneBlock, 10);
 			recipe.SetResult(this, 1);
-            recipe.AddIngredient(ItemID.ShadowScale);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 10);
-            recipe.SetResult(this, 1);
-            recipe.AddIngredient(ItemID.TissueSample);
-            recipe.AddTile(TileID.DemonAltar);
+            recipe.AddIngredient(ItemID.SoulofLight, 4);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddRecipe();
         }
 

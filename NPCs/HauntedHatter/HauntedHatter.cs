@@ -69,7 +69,7 @@ namespace Highlander.NPCs.HauntedHatter
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath14;
-            npc.value = 100000;
+            npc.value = 60000;
             music = MusicID.Boss1;
             musicPriority = MusicPriority.BossMedium;
             bossBag = ItemType<HauntedHatterBag>();

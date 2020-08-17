@@ -42,16 +42,17 @@ namespace Highlander.Items.EnlightenmentIdol
         {
             player.TryGettingDevArmor();
             List<int> items = new List<int>();
-            //items.Add(ItemType<AncientStoneBlaster>());
+            items.Add(ItemType<BlitzFist>());
+            items.Add(ItemType<CommanderBlessing>());
             int chance;
-            int drops = 0;
+            int drops = 1;
             for (int i = 0; i < drops; i++)
             {
                 chance = Main.rand.Next(0, items.Count);
                 player.QuickSpawnItem(items[chance]);
                 items.RemoveAt(chance);
             }
-            //player.QuickSpawnItem(ItemType<EnchantedNeedleHook>());
+            player.QuickSpawnItem(ItemType<DivinePresence>());
             if (Main.rand.NextBool(7))
             {
                 player.QuickSpawnItem(ItemType<EnlightenedMask>());

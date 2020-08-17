@@ -44,7 +44,17 @@ namespace Highlander.Projectiles
 			if (!init)
 			{
 				init = true;
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi / 2;
+				var velocity = projectile.velocity.ToRotation();
+				projectile.rotation = velocity + MathHelper.Pi / 2;
+				if(velocity > MathHelper.PiOver2 && velocity < 3 * MathHelper.PiOver2 || velocity < -MathHelper.PiOver2)
+				{
+					projectile.spriteDirection = 1;
+				}
+				else
+				{
+					projectile.spriteDirection = -1;
+				}
+				
 				projectile.netUpdate = true;
 			}
 
@@ -83,7 +93,7 @@ namespace Highlander.Projectiles
 			if (goingForward)
 			{
 				// This is how far the chain would go measured in pixels
-				float maxChainLength = 500f;
+				float maxChainLength = 600f;
 				projectile.tileCollide = true;
 
 				if (currentChainLength > maxChainLength)
@@ -113,7 +123,7 @@ namespace Highlander.Projectiles
 				// When ai[0] == 1f, the projectile has either hit a tile or has reached maxChainLength, so now we retract the projectile
 				float elasticFactorA = 14f / player.meleeSpeed;
 				float elasticFactorB = 0.9f / player.meleeSpeed;
-				float maxStretchLength = 750f; // This is the furthest the flail can stretch before being forced to retract. Make sure that this is a bit less than maxChainLength so you don't accidentally reach maxStretchLength on the initial throw.
+				float maxStretchLength = 900f; // This is the furthest the flail can stretch before being forced to retract. Make sure that this is a bit less than maxChainLength so you don't accidentally reach maxStretchLength on the initial throw.
 
 				if (retracting)
 					projectile.tileCollide = false;
@@ -142,8 +152,12 @@ namespace Highlander.Projectiles
 				{
 					var elasticAcceleration = vectorToPlayer * elasticFactorA / currentChainLength - projectile.velocity;
 					elasticAcceleration *= elasticFactorB / elasticAcceleration.Length();
-					projectile.velocity *= 0.98f;
+					projectile.velocity *= 0.90f;
 					projectile.velocity += elasticAcceleration;
+
+					var unit = vectorToPlayer;
+					unit.Normalize();
+					projectile.velocity += 4 * unit;
 				}
 				else
 				{
@@ -266,7 +280,7 @@ namespace Highlander.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (attached == -1 && !target.boss && !released)
+			if (attached == -1 && !target.boss && !target.immortal && !released)
 			{
 				attached = target.whoAmI;
 				offset = target.position - projectile.position;
@@ -279,6 +293,19 @@ namespace Highlander.Projectiles
 		public override bool? CanHitNPC(NPC target)
 		{
 			return !(target.whoAmI == attached);
+		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (target.friendly)
+			{
+				if (projectile.modProjectile != null && projectile.modProjectile.GetType() == typeof(BlitzFistProjectile))
+				{
+					damage = 0;
+					knockback = 0;
+					crit = false;
+				}
+			}
 		}
 
 		public override void Kill(int timeLeft)

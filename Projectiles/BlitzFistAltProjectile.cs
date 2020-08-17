@@ -43,8 +43,16 @@ namespace Highlander.Projectiles
 			if (!init)
 			{
 				init = true;
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi / 2;
-				projectile.netUpdate = true;
+				var velocity = projectile.velocity.ToRotation();
+				projectile.rotation = velocity + MathHelper.Pi / 2;
+				if (velocity > MathHelper.PiOver2 && velocity < 3 * MathHelper.PiOver2 || velocity < -MathHelper.PiOver2)
+				{
+					projectile.spriteDirection = 1;
+				}
+				else
+				{
+					projectile.spriteDirection = -1;
+				}
 			}
 
 			// Spawn some dust visuals
@@ -82,7 +90,7 @@ namespace Highlander.Projectiles
 			if (goingForward)
 			{
 				// This is how far the chain would go measured in pixels
-				float maxChainLength = 200f;
+				float maxChainLength = 100f;
 				projectile.tileCollide = true;
 
 				if (currentChainLength > maxChainLength)
@@ -92,27 +100,13 @@ namespace Highlander.Projectiles
 					retracting = true;
 					projectile.netUpdate = true;
 				}
-				else if (!player.channel)
-				{
-					/**
-					// Once player lets go of the use button, let gravity take over and let air friction slow down the projectile
-					if (projectile.velocity.Y < 0f)
-						projectile.velocity.Y *= 0.9f;
-
-					projectile.velocity.Y += 1f;
-					projectile.velocity.X *= 0.9f;
-					**/
-					goingForward = false;
-					retracting = true;
-				}
 			}
 			else if (!goingForward)
 			{
-				retracting = true;
 				// When ai[0] == 1f, the projectile has either hit a tile or has reached maxChainLength, so now we retract the projectile
 				float elasticFactorA = 14f / player.meleeSpeed;
 				float elasticFactorB = 0.9f / player.meleeSpeed;
-				float maxStretchLength = 300f; // This is the furthest the flail can stretch before being forced to retract. Make sure that this is a bit less than maxChainLength so you don't accidentally reach maxStretchLength on the initial throw.
+				float maxStretchLength = 200f; // This is the furthest the flail can stretch before being forced to retract. Make sure that this is a bit less than maxChainLength so you don't accidentally reach maxStretchLength on the initial throw.
 
 				if (retracting)
 					projectile.tileCollide = false;
@@ -134,26 +128,12 @@ namespace Highlander.Projectiles
 				if (!projectile.tileCollide)
 					elasticFactorB *= 2f;
 
-				int restingChainLength = 60;
-
-				// If there is tension in the chain, or if the projectile is being forced to retract, give the projectile some velocity towards the player
-				if (currentChainLength > restingChainLength || !projectile.tileCollide)
+				if (retracting)
 				{
-					var elasticAcceleration = vectorToPlayer * elasticFactorA / currentChainLength - projectile.velocity;
-					elasticAcceleration *= elasticFactorB / elasticAcceleration.Length();
-					projectile.velocity *= 0.98f;
-					projectile.velocity += elasticAcceleration;
-				}
-				else
-				{
-					// Otherwise, friction and gravity allow the projectile to rest.
-					if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 6f)
-					{
-						projectile.velocity.X *= 0.96f;
-						projectile.velocity.Y += 0.2f;
-					}
-					if (player.velocity.X == 0f)
-						projectile.velocity.X *= 0.96f;
+					var unit = vectorToPlayer;
+					unit.Normalize();
+					projectile.velocity *= 0.8f;
+					projectile.velocity += 6 * unit;
 				}
 			}
 
@@ -251,7 +231,7 @@ namespace Highlander.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (!target.boss)
+			if (!target.boss && !target.immortal)
 			{
 				var player = Main.player[projectile.owner];
 				var vectorToPlayer = player.MountedCenter - projectile.Center;
@@ -261,6 +241,7 @@ namespace Highlander.Projectiles
 			}
 			goingForward = false;
 			retracting = true;
+			projectile.velocity *= 0.2f;
 			projectile.netUpdate = true;
 		}
 
