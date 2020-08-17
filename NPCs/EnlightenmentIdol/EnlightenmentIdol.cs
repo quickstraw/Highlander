@@ -19,7 +19,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
     class EnlightenmentIdol : ModNPC
     {
         private const float EXPERT_DAMAGE = 0.8f;
-        private const int BASE_DEF = 16;
+        private const int BASE_DEF = 15;
         private const int TRIANGLE_DAMAGE = 44;
         private const int CHARGE_DAMAGE = 44;
         private const int SPHERE_RADIUS = 450;
@@ -57,7 +57,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             //npc.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
             drawOffsetY = 0;// -52;
             npc.aiStyle = -1;
-            npc.lifeMax = 39000;
+            npc.lifeMax = 37000;
             npc.damage = 40;
             npc.defense = BASE_DEF;
             npc.knockBackResist = 0f;
@@ -71,7 +71,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             npc.DeathSound = SoundID.NPCDeath14;
             npc.value = 150000;
             npc.alpha = 0;
-            music = MusicID.Boss1;
+            music = MusicID.Boss4;
             musicPriority = MusicPriority.BossMedium;
             bossBag = ItemType<EnlightenmentIdolBag>();
             TopArms = GetTexture("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Triangle");

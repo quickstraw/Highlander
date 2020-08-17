@@ -33,7 +33,7 @@ namespace Highlander.Items.Weapons
 			item.scale = 1f;
 			item.rare = ItemRarityID.Blue;
 			//item.crit = 4;
-			item.value = Item.sellPrice(gold: 0, silver: 30);
+			item.value = Item.sellPrice(gold: 1, silver: 50);
 
 			item.melee = true;
 			item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

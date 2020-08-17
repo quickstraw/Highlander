@@ -11,8 +11,8 @@ namespace Highlander.Items.EnlightenmentIdol
 		{
 			item.width = 22;
 			item.height = 20;
-			item.value = Item.sellPrice(silver: 5);
-			item.rare = ItemRarityID.White;
+			item.value = Item.sellPrice(gold: 3, silver: 60);
+			item.rare = ItemRarityID.Pink;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 20;

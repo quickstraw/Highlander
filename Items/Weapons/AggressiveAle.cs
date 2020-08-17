@@ -44,6 +44,8 @@ namespace Highlander.Items.Weapons
 			item.noMelee = true;
 			item.thrown = true;
 
+			item.rare = ItemRarityID.Green;
+
 			item.value = 80;
 		}
 

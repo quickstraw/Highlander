@@ -21,7 +21,7 @@ namespace Highlander.Projectiles
 		private BitsByte flags;
 		private byte stopTimer;
 		private byte portalTimer;
-		private byte waitTimer;
+		private float rotation;
 
 		//private bool flip;
 
@@ -49,7 +49,8 @@ namespace Highlander.Projectiles
 		public override void AI()
 		{
 			Init();
-			projectile.rotation = projectile.ai[1];
+
+			projectile.rotation = rotation;
 
 			projectile.active = true;
 
@@ -62,10 +63,7 @@ namespace Highlander.Projectiles
 					projectile.netUpdate = true;
 				}
 			}
-			else if (waitTimer > 0)
-			{
-			}
-			else if (waitTimer <= 0 && !startForward) // Arm spawns //
+			else if (portal && !startForward) // Arm spawns //
 			{
 				startForward = true;
 				projectile.velocity = forward * 16;
@@ -76,7 +74,6 @@ namespace Highlander.Projectiles
 					Main.PlaySound(SoundID.Item1.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item1.Style, 0.70f, -0.9f);
 				}
 			}
-
 			if (startForward && !stopped) // Arm moves forward //
 			{
 				float length = projectile.velocity.Length();
@@ -150,16 +147,12 @@ namespace Highlander.Projectiles
 				initPos = projectile.position;
 
 				initialized = true;
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					waitTimer = 40;
-				}
 
 				projectile.ai[0] = 0;
 
 				Vector2 target = Main.MouseWorld;
 				projectile.rotation = (float)Math.Atan2(target.Y - projectile.Center.Y, target.X - projectile.Center.X) + MathHelper.Pi;
-				projectile.ai[1] = projectile.rotation;
+				rotation = projectile.rotation;
 				projectile.netUpdate = true;
 				if (Main.netMode != NetmodeID.Server)
 				{
@@ -173,7 +166,7 @@ namespace Highlander.Projectiles
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
 					}
 				}
-				flip = projectile.ai[1] > MathHelper.PiOver2 && projectile.ai[1] < 3 * MathHelper.PiOver2;
+				flip = rotation > MathHelper.PiOver2 && rotation < 3 * MathHelper.PiOver2;
 			}
 		}
 
@@ -186,17 +179,6 @@ namespace Highlander.Projectiles
 			else if (portalTimer > 0 && finished)
 			{
 				portalTimer--;
-			}
-			if (!startForward)
-			{
-				if (waitTimer <= 4)
-				{
-					waitTimer = 0;
-				}
-				else
-				{
-					waitTimer -= 4;
-				}
 			}
 			if (stopTimer > 0 && stopTimer < 20)
 			{
@@ -283,7 +265,7 @@ namespace Highlander.Projectiles
 				drawLength = arm.Width;
 			}
 
-			if (flip || (projectile.ai[1] > MathHelper.PiOver2 && projectile.ai[1] < 3 * MathHelper.PiOver2))
+			if (flip || (rotation > MathHelper.PiOver2 && rotation < 3 * MathHelper.PiOver2))
 			{
 				num = 1;
 				rotation += MathHelper.Pi;
@@ -304,8 +286,8 @@ namespace Highlander.Projectiles
 			writer.Write(flags);
 			writer.Write(stopTimer);
 			writer.Write(portalTimer);
-			writer.Write(waitTimer);
-			writer.WritePackedVector2(initPos);
+			writer.WriteVector2(initPos);
+			writer.Write(rotation);
 			//writer.Write((short) (projectile.rotation * 10000));
 		}
 
@@ -316,10 +298,32 @@ namespace Highlander.Projectiles
 			flags = reader.ReadByte();
 			stopTimer = reader.ReadByte();
 			portalTimer = reader.ReadByte();
-			waitTimer = reader.ReadByte();
-			initPos = reader.ReadPackedVector2();
-			//projectile.rotation = (float)reader.ReadInt16() / 10000f;
+			initPos = reader.ReadVector2();
 
+			float newRot = reader.ReadSingle();
+
+			if (projectile.rotation == 0 || projectile.rotation < 0.01f)
+			{
+				rotation = newRot;
+			}
+			if (projectile.velocity.LengthSquared() > 0)
+			{
+				float velRot = (projectile.velocity.ToRotation() + MathHelper.Pi) % MathHelper.TwoPi;
+				float velRotRev = (velRot + MathHelper.Pi) % MathHelper.TwoPi;
+				if (Math.Abs(velRot - newRot) < 0.05f || Math.Abs(velRotRev - newRot) < 0.05f)
+				{
+					if(startForward && !startReverse)
+					{
+						rotation = velRot;
+					}
+					else if(startReverse)
+					{
+						rotation = velRotRev;
+					}
+				}
+			}
+			
+			//projectile.rotation = (float)reader.ReadInt16() / 10000f;
 		}
 
 		private int ClosestPlayerToPoint(Vector2 point)

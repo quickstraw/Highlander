@@ -46,7 +46,8 @@ namespace Highlander.Projectiles
 				init = true;
 				var velocity = projectile.velocity.ToRotation();
 				projectile.rotation = velocity + MathHelper.Pi / 2;
-				if(velocity > MathHelper.PiOver2 && velocity < 3 * MathHelper.PiOver2 || velocity < -MathHelper.PiOver2)
+				projectile.ai[0] = projectile.rotation;
+				if (velocity > MathHelper.PiOver2 && velocity < 3 * MathHelper.PiOver2 || velocity < -MathHelper.PiOver2)
 				{
 					projectile.spriteDirection = 1;
 				}
@@ -54,8 +55,21 @@ namespace Highlander.Projectiles
 				{
 					projectile.spriteDirection = -1;
 				}
-				
+
 				projectile.netUpdate = true;
+			}
+			if (attached == -1)
+			{
+				projectile.rotation = projectile.ai[0];
+				var velocity = projectile.rotation - (MathHelper.Pi / 2);
+				if (velocity > MathHelper.PiOver2 && velocity < 3 * MathHelper.PiOver2 || velocity < -MathHelper.PiOver2)
+				{
+					projectile.spriteDirection = 1;
+				}
+				else
+				{
+					projectile.spriteDirection = -1;
+				}
 			}
 
 			// Spawn some dust visuals
@@ -176,7 +190,19 @@ namespace Highlander.Projectiles
 			//projectile.rotation = vectorToPlayer.ToRotation() - projectile.velocity.X * 0.1f;
 
 			// Here is where a flail like Flower Pow could spawn additional projectiles or other custom behaviors
-			if (attached != -1 && !released)
+			if (hasPlayer && attached != -1 && !released)
+			{
+				var target = Main.player[attached];
+				Vector2 unit = offset;
+				unit.Normalize();
+				target.position = projectile.position + offset - unit * 16;
+				target.velocity = projectile.velocity * 0.1f;
+
+				if (currentChainLength < 60f)
+				{
+					released = true;
+				}
+			} else if (!hasPlayer && attached != -1 && !released)
 			{
 				var target = Main.npc[attached];
 				Vector2 unit = offset;
@@ -290,6 +316,19 @@ namespace Highlander.Projectiles
 			}
 		}
 
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
+			if (attached == -1 && !released)
+			{
+				attached = target.whoAmI;
+				offset = target.position - projectile.position;
+				goingForward = false;
+				retracting = true;
+				hasPlayer = true;
+				projectile.netUpdate = true;
+			}
+		}
+
 		public override bool? CanHitNPC(NPC target)
 		{
 			return !(target.whoAmI == attached);
@@ -349,6 +388,12 @@ namespace Highlander.Projectiles
 		{
 			get => flags[3];
 			set => flags[3] = value;
+		}
+
+		private bool hasPlayer
+		{
+			get => flags[4];
+			set => flags[4] = value;
 		}
 
 		private Vector2 offset

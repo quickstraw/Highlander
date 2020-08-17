@@ -70,7 +70,7 @@ namespace Highlander.NPCs.HauntedHatter
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.value = 60000;
-            music = MusicID.Boss1;
+            music = MusicID.Boss3;
             musicPriority = MusicPriority.BossMedium;
             bossBag = ItemType<HauntedHatterBag>();
             Hat = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterHat");

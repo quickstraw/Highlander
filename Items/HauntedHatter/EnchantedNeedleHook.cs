@@ -41,6 +41,7 @@ namespace Highlander.Items.HauntedHatter
 			item.shootSpeed = 13.5f; // how quickly the hook is shot.
 			item.shoot = ProjectileType<EnchantedNeedleProjectile>();
 			item.rare = ItemRarityID.Expert;
+			item.value = Item.sellPrice(silver: 80);
 		}
 	}
 

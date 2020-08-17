@@ -2,6 +2,7 @@
 using static Terraria.ModLoader.ModContent;
 using Terraria.ID;
 using Highlander.Tiles;
+using Terraria;
 
 namespace Highlander.Items.HauntedHatter
 {
@@ -18,7 +19,7 @@ namespace Highlander.Items.HauntedHatter
 			item.useTime = 10;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.value = 50000;
+			item.value = Item.sellPrice(gold: 1);
 			item.rare = ItemRarityID.Blue;
 			item.createTile = TileType<BossTrophy>();
 			item.placeStyle = 0;

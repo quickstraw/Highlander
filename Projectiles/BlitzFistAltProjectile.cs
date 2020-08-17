@@ -45,6 +45,7 @@ namespace Highlander.Projectiles
 				init = true;
 				var velocity = projectile.velocity.ToRotation();
 				projectile.rotation = velocity + MathHelper.Pi / 2;
+				projectile.ai[0] = projectile.rotation;
 				if (velocity > MathHelper.PiOver2 && velocity < 3 * MathHelper.PiOver2 || velocity < -MathHelper.PiOver2)
 				{
 					projectile.spriteDirection = 1;
@@ -53,6 +54,16 @@ namespace Highlander.Projectiles
 				{
 					projectile.spriteDirection = -1;
 				}
+			}
+			projectile.rotation = projectile.ai[0];
+			var temp = projectile.rotation - (MathHelper.Pi / 2);
+			if (temp > MathHelper.PiOver2 && temp < 3 * MathHelper.PiOver2 || temp < -MathHelper.PiOver2)
+			{
+				projectile.spriteDirection = 1;
+			}
+			else
+			{
+				projectile.spriteDirection = -1;
 			}
 
 			// Spawn some dust visuals
@@ -278,16 +289,6 @@ namespace Highlander.Projectiles
 		{
 			get => !flags[2];
 			set => flags[2] = !value;
-		}
-
-		private Vector2 offset
-		{
-			get => new Vector2(projectile.ai[0], projectile.ai[1]);
-			set
-			{
-				projectile.ai[0] = value.X;
-				projectile.ai[1] = value.Y;
-			}
 		}
 	}
 }

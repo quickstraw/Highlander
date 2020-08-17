@@ -17,20 +17,19 @@ namespace Highlander.Items.EnlightenmentIdol
 		{
 			item.width = 22;
 			item.height = 20;
-			item.value = Item.sellPrice(silver: 5);
-			item.rare = ItemRarityID.White;
+			item.value = Item.sellPrice(gold: 3, silver: 60);
+			item.rare = ItemRarityID.Pink;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 20;
-			item.useTime = 20;
+			item.useAnimation = 30;
+			item.useTime = 30;
 			item.knockBack = 8.3f;
-			item.damage = 93;
+			item.damage = 107;
 			item.noUseGraphic = false;
 			item.shoot = ModContent.ProjectileType<ArmProjectile>();
 			item.shootSpeed = 0f;
 			item.UseSound = SoundID.Item1;
 			item.summon = true;
-			// item.crit = 9;
 			item.autoReuse = true;
 			item.mana = 11;
 		}

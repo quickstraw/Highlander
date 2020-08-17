@@ -31,7 +31,7 @@ namespace Highlander.Items.Weapons
 			item.width = 32;
 			item.height = 32;
 			item.scale = 1f;
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.LightRed;
 			//item.crit = 4;
 			item.value = Item.sellPrice(gold: 2, silver: 0);
 

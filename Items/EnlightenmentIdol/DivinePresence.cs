@@ -7,6 +7,7 @@ using Terraria.Utilities;
 
 namespace Highlander.Items.EnlightenmentIdol
 {
+	[AutoloadEquip(EquipType.Back)]
 	public class DivinePresence : ModItem
 	{
 		public override void SetStaticDefaults()
@@ -18,9 +19,9 @@ namespace Highlander.Items.EnlightenmentIdol
 		{
 			item.width = 20;
 			item.height = 20;
-			item.defense = 3;
+			item.defense = 4;
 			item.accessory = true;
-			item.value = Item.sellPrice(silver: 30);
+			item.value = Item.sellPrice(gold: 4);
 			item.rare = ItemRarityID.Expert;
 		}
 

@@ -30,9 +30,9 @@ namespace Highlander.Items.HauntedHatter
 			item.width = 32;
 			item.height = 32;
 			item.scale = 1f;
-			item.rare = 3;
+			item.rare = ItemRarityID.Green;
 			item.crit = 4;
-			item.value = Item.sellPrice(silver: 50);
+			item.value = Item.sellPrice(silver: 60);
 
 			item.melee = true;
 			item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
