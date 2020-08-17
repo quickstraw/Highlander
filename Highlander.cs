@@ -408,7 +408,8 @@ namespace Highlander
 					new List<int> { ModContent.ItemType<Items.EnlightenmentIdol.EnlightenmentIdolBag>(), ModContent.ItemType<Items.EnlightenmentIdol.DivinePresence>()
 					, ModContent.ItemType<Items.EnlightenmentIdol.BlitzFist>(), ModContent.ItemType<Items.EnlightenmentIdol.CommanderBlessing>()},
 					$"Spawns after using [i:{ModContent.ItemType<Items.EnlightenmentIdol.StoneIdol>()}] which can be crafted with [i:{ItemID.SoulofLight}] and [i:{ItemID.StoneBlock}].",
-					"Idol of Enlightenment helped the challengers pass on");
+					"Idol of Enlightenment helped the challengers pass on",
+					"Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdolBossChecklist");
 			}
 
 			// Census Support

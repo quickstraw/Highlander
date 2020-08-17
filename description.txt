@@ -8,7 +8,7 @@ Features:
 
 Many cosmetic items added are inspired by Team Fortress 2 cosmetics. The Haunted Hatter must be killed to acquire these items. Hat Lock Boxes will drop after the Haunted Hatter is killed.
 
-There are 2 Hat Lock Boxes that can be opened to obtain different sets of hats. A Hat Lock Box must be opened with a key bought from the Hat Salesman. There is a small chance to obtain a hat with an unusual effect after opening a Hat Lock Box.
+There are 4 Hat Lock Boxes that can be opened to obtain different sets of hats. A Hat Lock Box must be opened with a key bought from the Hat Salesman. There is a small chance to obtain a hat with an unusual effect after opening a Hat Lock Box.
 
 Non-cosmetic items added are rewards for beating the bosses as well as some odd weapons I thought would fit well into Terraria and add variety. These items generally have a twist that makes their mechanics unique.
 
