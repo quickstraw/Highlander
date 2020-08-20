@@ -15,11 +15,13 @@ namespace Highlander
 {
     class HighlanderWorld : ModWorld
     {
-        public static bool downedHauntedHatter;
+		public static bool downedSeaDog;
+		public static bool downedHauntedHatter;
 		public static bool downedEnlightenmentIdol;
 
 		public override void Initialize()
 		{
+			downedSeaDog = false;
 			downedHauntedHatter = false;
 			downedEnlightenmentIdol = false;
 		}
@@ -27,6 +29,10 @@ namespace Highlander
 		public override TagCompound Save()
 		{
 			var downed = new List<string>();
+			if (downedSeaDog)
+			{
+				downed.Add("seaDog");
+			}
 			if (downedHauntedHatter)
 			{
 				downed.Add("hauntedHatter");
@@ -45,6 +51,7 @@ namespace Highlander
 		public override void Load(TagCompound tag)
 		{
 			var downed = tag.GetList<string>("downed");
+			downedSeaDog = downed.Contains("seaDog");
 			downedHauntedHatter = downed.Contains("hauntedHatter");
 			downedEnlightenmentIdol = downed.Contains("enlightenmentIdol");
 		}
@@ -54,6 +61,7 @@ namespace Highlander
 			var flags = new BitsByte();
 			flags[0] = downedHauntedHatter;
 			flags[1] = downedEnlightenmentIdol;
+			flags[2] = downedSeaDog;
 			writer.Write(flags);
 		}
 
@@ -62,6 +70,7 @@ namespace Highlander
 			BitsByte flags = reader.ReadByte();
 			downedHauntedHatter = flags[0];
 			downedEnlightenmentIdol = flags[1];
+			downedSeaDog = flags[2];
 		}
 
 		// We can use PostWorldGen for world generation tasks that don't need to happen between vanilla world generation steps.

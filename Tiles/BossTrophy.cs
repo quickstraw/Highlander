@@ -1,5 +1,6 @@
 ﻿using Highlander.Items.EnlightenmentIdol;
 using Highlander.Items.HauntedHatter;
+using Highlander.Items.SeaDog;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -39,6 +40,9 @@ namespace Highlander.Tiles
 					break;
 				case 1:
 					item = ItemType<EnlightenmentIdolTrophy>();
+					break;
+				case 2:
+					item = ItemType<SeaDogTrophy>();
 					break;
 			}
 			if (item > 0)

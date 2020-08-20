@@ -393,7 +393,7 @@ namespace Highlander
 					new List<int> { ModContent.ItemType<Items.HauntedHatter.HauntedHatterTrophy>(), ModContent.ItemType<Items.HauntedHatter.GhostlyGibus>() },
 					new List<int> { ModContent.ItemType<Items.HauntedHatter.HauntedHatterBag>(), ModContent.ItemType<Items.HauntedHatter.EnchantedNeedleHook>()
 					, ModContent.ItemType<Items.HauntedHatter.SpiritShears>(), ModContent.ItemType<Items.Weapons.AncientStoneBlaster>()},
-					$"Spawns after using [i:{ModContent.ItemType<Items.HauntedHatter.SpookyHeadwear>()}] which can be crafted or dropped once after defeating the Eater of Worlds or the Brain of Cthulu.",
+					$"Use [i:{ModContent.ItemType<Items.HauntedHatter.SpookyHeadwear>()}] which can be crafted or dropped once after defeating the Eater of Worlds or the Brain of Cthulu.",
 					"Haunted Hatter spirited away the challengers");
 				// Additional bosses here
 				bossChecklist.Call(
@@ -407,9 +407,22 @@ namespace Highlander
 					new List<int> { ModContent.ItemType<Items.EnlightenmentIdol.EnlightenmentIdolTrophy>(), ModContent.ItemType<Items.EnlightenmentIdol.EnlightenedMask>() },
 					new List<int> { ModContent.ItemType<Items.EnlightenmentIdol.EnlightenmentIdolBag>(), ModContent.ItemType<Items.EnlightenmentIdol.DivinePresence>()
 					, ModContent.ItemType<Items.EnlightenmentIdol.BlitzFist>(), ModContent.ItemType<Items.EnlightenmentIdol.CommanderBlessing>()},
-					$"Spawns after using [i:{ModContent.ItemType<Items.EnlightenmentIdol.StoneIdol>()}] which can be crafted with [i:{ItemID.SoulofLight}] and [i:{ItemID.StoneBlock}].",
+					$"Use [i:{ModContent.ItemType<Items.EnlightenmentIdol.StoneIdol>()}] which can be crafted with [i:{ItemID.SoulofLight}] and [i:{ItemID.StoneBlock}].",
 					"Idol of Enlightenment helped the challengers pass on",
 					"Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdolBossChecklist");
+
+				bossChecklist.Call(
+					"AddBoss",
+					0.8f,
+					ModContent.NPCType<NPCs.SeaDog.SeaDog>(),
+					this, // Mod
+					"Sea Dog",
+					(Func<bool>)(() => HighlanderWorld.downedSeaDog),
+					ModContent.ItemType<Items.SeaDog.GlowingTreasure>(),
+					new List<int> { ModContent.ItemType<Items.SeaDog.SeaDogTrophy>(), ModContent.ItemType<Items.SeaDog.SeaDogMask>() },
+					new List<int> { ModContent.ItemType<Items.SeaDog.SeaDogBag>(), ItemID.GoldOre},
+					$"Use [i:{ModContent.ItemType<Items.SeaDog.GlowingTreasure>()}] at a beach.",
+					"Sea Dog devoured the challengers");
 			}
 
 			// Census Support

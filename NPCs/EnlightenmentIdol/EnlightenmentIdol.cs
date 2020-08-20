@@ -80,7 +80,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
             npc.damage = (int)(npc.damage * 0.7f);
         }
 
