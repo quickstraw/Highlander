@@ -16,6 +16,7 @@ Recent Changes:
 1.4.0.0 - Added the Idol of Enlightenment as a Hardmode boss
         - Added Hat Lock Box #2 with new hats
         - Various tweaks and fixes
+1.4.0.1 - Fixed Burning and Scorching Flames glitching out near the left end of the world
 
 Currently Working On:
 Finding bugs
