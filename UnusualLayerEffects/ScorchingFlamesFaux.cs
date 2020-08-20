@@ -46,7 +46,7 @@ namespace Highlander.UnusualLayerEffects
             {
                 // Here we assign position to some offset from the player that was assigned. This offset scales with scale. The scale and rotation cause the spiral movement we desired.
                 //velocity.X += player.Center.X - position.X; // Looks like double helix!
-                velocity.X += (Player.Center.X - Offset.X) / 20;
+                velocity.X += (-Offset.X) * 2 / 20;
                 flags[3] = true;
             }
 
@@ -71,12 +71,6 @@ namespace Highlander.UnusualLayerEffects
 
             Offset += velocity;
 
-            float strength = scale * 1.4f;
-            if (strength > 1f)
-            {
-                strength = 1f;
-            }
-
             if (scale > 1f)
             {
                 scale -= 0.1f;
@@ -85,7 +79,7 @@ namespace Highlander.UnusualLayerEffects
             {
                 scale -= 0.02f;
             }
-            if (scale < 0.2f)
+            if (scale < 0.8f)
             {
                 active = false;
             }

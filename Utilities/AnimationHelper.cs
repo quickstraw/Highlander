@@ -220,7 +220,7 @@ namespace Highlander.Utilities
                 Texture2D tex = mod.GetTexture(texPath);
 
                 float randX = Main.rand.NextFloat(-drawPlayer.width / 2, drawPlayer.width / 2);
-                float randY = -Main.rand.NextFloat(-7, 6);
+                float randY = -Main.rand.NextFloat(-9, 4);
 
                 if (modPlayer.unusual == AbnormalEffect.BurningFlames)
                 {
@@ -490,7 +490,7 @@ namespace Highlander.Utilities
             if (flames)
             {
                 float randX = Main.rand.NextFloat(-drawPlayer.width / 2, drawPlayer.width / 2);
-                float randY = -Main.rand.NextFloat(-7, 6);
+                float randY = -Main.rand.NextFloat(-9, 4);
 
                 FauxDust newD;
 
