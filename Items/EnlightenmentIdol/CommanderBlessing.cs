@@ -11,6 +11,7 @@ namespace Highlander.Items.EnlightenmentIdol
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Commander's Blessing");
+			Tooltip.SetDefault("Summons a massive fist");
 		}
 
 		public override void SetDefaults()
@@ -31,7 +32,7 @@ namespace Highlander.Items.EnlightenmentIdol
 			item.UseSound = SoundID.Item1;
 			item.summon = true;
 			item.autoReuse = true;
-			item.mana = 11;
+			item.mana = 13;
 		}
 	}
 }

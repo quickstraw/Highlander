@@ -1,6 +1,7 @@
 using Highlander.Items;
 using Highlander.Items.Armor;
 using Highlander.Items.Armor.Series2;
+using Highlander.Items.SeaDog;
 using Highlander.UnusualLayerEffects;
 using Highlander.Utilities;
 using Microsoft.Xna.Framework;
@@ -420,7 +421,8 @@ namespace Highlander
 					(Func<bool>)(() => HighlanderWorld.downedSeaDog),
 					ModContent.ItemType<Items.SeaDog.GlowingTreasure>(),
 					new List<int> { ModContent.ItemType<Items.SeaDog.SeaDogTrophy>(), ModContent.ItemType<Items.SeaDog.SeaDogMask>() },
-					new List<int> { ModContent.ItemType<Items.SeaDog.SeaDogBag>(), ItemID.GoldOre},
+					new List<int> { ModContent.ItemType<Items.SeaDog.SeaDogBag>(), ModContent.ItemType<BarnacleBarrier>(),
+						ModContent.ItemType<FeralFrenzy>(), ModContent.ItemType<BrokenBlunderbuss>(), ItemID.GoldOre, ItemID.SpelunkerPotion, ItemID.GillsPotion},
 					$"Use [i:{ModContent.ItemType<Items.SeaDog.GlowingTreasure>()}] at a beach.",
 					"Sea Dog devoured the challengers");
 			}

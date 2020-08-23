@@ -23,6 +23,7 @@ namespace Highlander.Items.EnlightenmentIdol
 			item.accessory = true;
 			item.value = Item.sellPrice(gold: 4);
 			item.rare = ItemRarityID.Expert;
+			item.expert = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

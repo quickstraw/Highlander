@@ -239,16 +239,25 @@ namespace Highlander.NPCs.SeaDog
             {
                 if (Main.rand.NextBool(2))
                 {
-                    //Item.NewItem(npc.getRect(), ItemType<SpiritShears>());
+                    Item.NewItem(npc.getRect(), ItemType<FeralFrenzy>());
                 }
                 else
                 {
-                    //Item.NewItem(npc.getRect(), ItemType<AncientStoneBlaster>());
+                    Item.NewItem(npc.getRect(), ItemType<BrokenBlunderbuss>());
                 }
                 if (Main.rand.NextBool(7))
                 {
                     Item.NewItem(npc.getRect(), ItemType<SeaDogMask>());
                 }
+                if (Main.rand.NextBool())
+                {
+                    Item.NewItem(npc.getRect(), ItemID.SpelunkerPotion, 2);
+                }
+                else
+                {
+                    Item.NewItem(npc.getRect(), ItemID.GillsPotion, 2);
+                }
+
                 int rand = Main.rand.Next(30, 50);
                 Item.NewItem(npc.getRect(), ItemID.GoldOre, rand);
             }

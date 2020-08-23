@@ -36,20 +36,30 @@ namespace Highlander.Items.SeaDog
         {
             player.TryGettingDevArmor();
             List<int> items = new List<int>();
-            //items.Add(ItemType<SpiritShears>());
-            //items.Add(ItemType<AncientStoneBlaster>());
+            
+            items.Add(ItemType<FeralFrenzy>());
+            items.Add(ItemType<BrokenBlunderbuss>());
+
             int chance;
-            int drops = 0;
+            int drops = 1;
             for (int i = 0; i < drops; i++)
             {
                 chance = Main.rand.Next(0, items.Count);
                 player.QuickSpawnItem(items[chance]);
                 items.RemoveAt(chance);
             }
-            //player.QuickSpawnItem(ItemType<EnchantedNeedleHook>());
+            player.QuickSpawnItem(ItemType<BarnacleBarrier>());
             if (Main.rand.NextBool(7))
             {
                 player.QuickSpawnItem(ItemType<SeaDogMask>());
+            }
+            if (Main.rand.NextBool())
+            {
+                player.QuickSpawnItem(ItemID.SpelunkerPotion, 2);
+            }
+            else
+            {
+                player.QuickSpawnItem(ItemID.GillsPotion, 2);
             }
             int rand = Main.rand.Next(30, 50);
             player.QuickSpawnItem(ItemID.GoldOre, rand);

@@ -1,7 +1,7 @@
 Highlander is a content mod that focuses on adding mostly cosmetic items.
 
 Features:
-        - 2 Bosses
+        - 3 Bosses
         - 2 Town NPCs
         - 40+ vanity items
         - Several non-vanity items to add variety to gameplay
@@ -17,6 +17,9 @@ Recent Changes:
         - Added Hat Lock Box #2 with new hats
         - Various tweaks and fixes
 1.4.0.1 - Fixed Burning and Scorching Flames glitching out near the left end of the world
+1.4.1.0 - Added the Sea Dog as a pre-Hardmode boss
+        - Fixed some inconsistencies with rarity and value
+        - Nerfed Commander's Blessing and buffed Ancient Stone Blaster
 
 Currently Working On:
 Finding bugs

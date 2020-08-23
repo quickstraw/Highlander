@@ -24,7 +24,7 @@ namespace Highlander.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 20;
+			item.damage = 22;
 			item.ranged = true;
 			item.width = 40;
 			item.height = 20;
