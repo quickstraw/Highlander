@@ -23,7 +23,7 @@ namespace Highlander.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.statDefense += 10; //Grant a 6 defense increase to the player while the buff is active.
+			player.statDefense += 10; //Grant a 10 defense increase to the player while the buff is active.
 		}
 
 	}

@@ -20,6 +20,7 @@ Recent Changes:
 1.4.1.0 - Added the Sea Dog as a pre-Hardmode boss
         - Fixed some inconsistencies with rarity and value
         - Nerfed Commander's Blessing and buffed Ancient Stone Blaster
+1.4.1.1 - Added hardmode items crafted from the Sea Dog's drops. Reduced Trusty Blunderbuss shoot speed.
 
 Currently Working On:
 Finding bugs

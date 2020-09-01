@@ -30,7 +30,7 @@ namespace Highlander.Items.SeaDog
 			//item.UseSound = SoundID.Item38;
 			item.autoReuse = true;
 			item.shoot = 10; //idk why but all the guns in the vanilla source have this
-			item.shootSpeed = 18f;
+			item.shootSpeed = 14f;
 			item.useAmmo = AmmoID.Bullet;
 		}
 
@@ -52,13 +52,13 @@ namespace Highlander.Items.SeaDog
 			}
 			offset *= 5f;
 			// Smoke Dust spawn
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				int dustIndex = Dust.NewDust(new Vector2(position.X + offset.X, position.Y + offset.Y), 1, 1, DustID.Smoke, player.velocity.X, player.velocity.Y, 100, default(Color), 2f);
 				Main.dust[dustIndex].velocity *= 1.4f;
 			}
 			// Fire Dust spawn
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				int dustIndex = Dust.NewDust(new Vector2(position.X + offset.X, position.Y + offset.Y), 1, 1, 6, player.velocity.X, player.velocity.Y, 100, default(Color), 3f);
 				Main.dust[dustIndex].noGravity = true;

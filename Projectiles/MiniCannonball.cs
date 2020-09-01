@@ -54,6 +54,11 @@ namespace Highlander.Projectiles
 			{
 				projectile.velocity *= 0.98f;
 				projectile.velocity.Y += 0.3f;
+				if(projectile.ai[1] != 1)
+				{
+					projectile.ai[1] = 1;
+					projectile.netUpdate = true;
+				}
 			}
 			if(projectile.alpha > 0)
 			{
@@ -65,6 +70,28 @@ namespace Highlander.Projectiles
 				{
 					projectile.alpha -= 20;
 				}
+			}
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			var gore = Gore.NewGoreDirect(projectile.position, projectile.velocity * 0.4f, mod.GetGoreSlot("Gores/MiniCannonball"), 1f);
+			gore.rotation = projectile.rotation;
+			gore.timeLeft = 60;
+			//Main.PlaySound(SoundID.Item53.SoundId, (int)projectile.Center.X, (int)projectile.Center.Y, SoundID.Item53.Style, 0.9f, -2f);
+			if(Main.netMode != NetmodeID.Server)
+			{
+				Main.PlaySound(SoundID.Item10.SoundId, (int)projectile.Center.X, (int)projectile.Center.Y, SoundID.Item10.Style, 1.0f, -0.8f);
+			}
+			for (int i = 0; i < 5; i++)
+			{
+				int dustIndex = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), 1, 1, ModContent.DustType<MiniCannonballDust>());
+				var unit = projectile.velocity;
+				unit.Normalize();
+				Main.dust[dustIndex].velocity *= 0.8f;
+				Main.dust[dustIndex].velocity += -unit * 3;
+				Main.dust[dustIndex].scale = 1.6f;
+				Main.dust[dustIndex].rotation = (-unit).ToRotation() + MathHelper.PiOver2;
 			}
 		}
 
