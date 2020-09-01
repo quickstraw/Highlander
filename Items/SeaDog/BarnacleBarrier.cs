@@ -11,7 +11,7 @@ namespace Highlander.Items.SeaDog
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Gain a defense bonus for the first 100 health");
+			Tooltip.SetDefault("Gain a defense bonus for your first 100 health");
 		}
 
 		public override void SetDefaults()
