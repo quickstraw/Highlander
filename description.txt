@@ -21,6 +21,7 @@ Recent Changes:
         - Fixed some inconsistencies with rarity and value
         - Nerfed Commander's Blessing and buffed Ancient Stone Blaster
 1.4.1.1 - Added hardmode items crafted from the Sea Dog's drops. Reduced Trusty Blunderbuss shoot speed.
+1.4.2.0 - Added Spooky Lock Box with Halloween hats. Added new unusual effects. Improved sprites for: Pyromancer's Mask, Toy Soldier.
 
 Currently Working On:
 Finding bugs
