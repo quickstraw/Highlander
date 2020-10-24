@@ -479,7 +479,6 @@ namespace Highlander
 			{
 				player.statDefense += 8;
 			}
-			Main.NewText(player.bodyFrame.Y / player.bodyFrame.Height);
 		}
 
 	}
