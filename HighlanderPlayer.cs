@@ -30,6 +30,7 @@ namespace Highlander
 		public short unusualLayerTime2 = 0;
 		public int unusualFrame = 0;
 		public int unusualFrame2 = 0;
+		public int unusualFrame3 = 0;
 
 		public int maxAmmo = 0;
 		public int currentAmmo = 0;
@@ -40,6 +41,7 @@ namespace Highlander
 
 		public short hatEffectTime = 0;
 		public bool wearingAutonomousOrb = false;
+		public TallHat tallHat = TallHat.None;
 
 		public int counter = 0;
 
@@ -53,6 +55,7 @@ namespace Highlander
 			currentAmmo = 0;
 
 			wearingAutonomousOrb = false;
+			tallHat = TallHat.None;
 
 			emittingAura = false;
 			receivingAura = false;
@@ -429,6 +432,25 @@ namespace Highlander
 					}
 				}
 			}
+			if(tallHat != TallHat.None)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					PlayerLayer layer = layers[i];
+					if (layer.Name == "Head")
+					{
+						if (i != layers.Count - 1)
+						{
+							layers.Insert(i + 1, HatEffects.TallHatLayer);
+						}
+						else
+						{
+							layers.Add(HatEffects.TallHatLayer);
+						}
+						break;
+					}
+				}
+			}
 			if (unusual != 0)
 			{
 				AnimationHelper.unusual.visible = true;
@@ -457,6 +479,7 @@ namespace Highlander
 			{
 				player.statDefense += 8;
 			}
+			Main.NewText(player.bodyFrame.Y / player.bodyFrame.Height);
 		}
 
 	}

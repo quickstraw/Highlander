@@ -646,6 +646,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
+            SpriteEffects flip = npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
             Vector2 drawPos = npc.position - Main.screenPosition + new Vector2(npc.width / 2, npc.height / 2 + 9);
 
             int TopArmsFrameHeight = TopArms.Height / 6;
@@ -653,20 +655,20 @@ namespace Highlander.NPCs.EnlightenmentIdol
             
             Rectangle TopArmsFrame = new Rectangle(0, topFrame * TopArmsFrameHeight, TopArms.Width, TopArmsFrameHeight);
 
-            spriteBatch.Draw(TopArms, drawPos, TopArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, TopArmsOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(TopArms, drawPos, TopArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, TopArmsOrigin, 1.0f, flip, 0);
 
             int MiddleArmsFrameHeight = MiddleArms.Height / 27;
             Vector2 MiddleArmsOrigin = new Vector2(MiddleArms.Width / 2, MiddleArmsFrameHeight / 2);
             Rectangle MiddleArmsFrame = new Rectangle(0, middleFrame * MiddleArmsFrameHeight, MiddleArms.Width, MiddleArmsFrameHeight);
 
-            spriteBatch.Draw(MiddleArms, drawPos, MiddleArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, MiddleArmsOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(MiddleArms, drawPos, MiddleArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, MiddleArmsOrigin, 1.0f, flip, 0);
 
             int ChargeBlastFrameHeight = ChargeBlast.Height / 4;
             int ChargeBlastFrameWidth = ChargeBlast.Width / 5;
             Vector2 ChargeBlastOrigin = new Vector2(ChargeBlastFrameWidth / 2, ChargeBlastFrameHeight / 2);
             Rectangle ChargeBlastFrame = new Rectangle(chargeBlastFrame % 5 * ChargeBlastFrameWidth, chargeBlastFrame / 5 * ChargeBlastFrameHeight, ChargeBlastFrameWidth, ChargeBlastFrameHeight);
 
-            spriteBatch.Draw(ChargeBlast, npc.Center - Main.screenPosition, ChargeBlastFrame, Color.White * ((float)(255 - npc.alpha) / 255f), 0f, ChargeBlastOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(ChargeBlast, npc.Center - Main.screenPosition, ChargeBlastFrame, Color.White * ((float)(255 - npc.alpha) / 255f), 0f, ChargeBlastOrigin, 1.0f, flip, 0);
 
         }
 

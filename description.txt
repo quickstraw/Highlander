@@ -13,16 +13,8 @@ There are 4 Hat Lock Boxes that can be opened to obtain different sets of hats. 
 Non-cosmetic items added are rewards for beating the bosses as well as some odd weapons I thought would fit well into Terraria and add variety. These items generally have a twist that makes their mechanics unique.
 
 Recent Changes:
-1.4.0.0 - Added the Idol of Enlightenment as a Hardmode boss
-        - Added Hat Lock Box #2 with new hats
-        - Various tweaks and fixes
-1.4.0.1 - Fixed Burning and Scorching Flames glitching out near the left end of the world
-1.4.1.0 - Added the Sea Dog as a pre-Hardmode boss
-        - Fixed some inconsistencies with rarity and value
-        - Nerfed Commander's Blessing and buffed Ancient Stone Blaster
-1.4.1.1 - Added hardmode items crafted from the Sea Dog's drops. Reduced Trusty Blunderbuss shoot speed.
-1.4.2.0 - Added Spooky Lock Box with Halloween hats. Added new unusual effects. Improved sprites for: Pyromancer's Mask, Toy Soldier.
+1.4.2.2 - Added new Unusual effects (Amaranthine, Stare From Beyond, and The Ooze). Added more Halloween hats. Improved sprites for some other hats.
 
 Currently Working On:
-Finding bugs
-Improving art
+Adding more hats to the Spooky Lock Box
+Adding new Unusual effects

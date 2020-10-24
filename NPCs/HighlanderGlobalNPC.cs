@@ -23,7 +23,11 @@ namespace Highlander.NPCs
 
             if (HighlanderWorld.downedHauntedHatter && !passive && drop)
             {
-                if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneSnow)
+                if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneCorrupt || Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneCrimson)
+                {
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<SpookyHatLockBox>());
+                }
+                else if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneSnow)
                 {
                     Item.NewItem(npc.getRect(), ModContent.ItemType<WinterHatSupplyLockBox>());
                 }

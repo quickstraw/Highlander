@@ -1,5 +1,6 @@
 using Highlander.Items;
 using Highlander.Items.Armor;
+using Highlander.Items.Armor.Halloween;
 using Highlander.Items.Armor.Series2;
 using Highlander.Items.SeaDog;
 using Highlander.UnusualLayerEffects;
@@ -167,6 +168,40 @@ namespace Highlander
 			item = new ToughStuffMuffs(effect);
 			AddItem("UnusualToughStuffMuffs", item);
 			AddEquipTexture(item, EquipType.Head, "UnusualToughStuffMuffs_Head", "Highlander/Items/Armor/Series2/ToughStuffMuffs_Head");
+
+			// Halloween Hats
+
+			item = new CroneDome(effect);
+			AddItem("UnusualCroneDome", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualCroneDome_Head", "Highlander/Items/Armor/Halloween/CroneDome_Head");
+
+			item = new Executioner(effect);
+			AddItem("UnusualExecutioner", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualExecutioner_Head", "Highlander/Items/Armor/Halloween/Executioner_Head");
+
+			item = new Hellmet(effect);
+			AddItem("UnusualHellmet", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualHellmet_Head", "Highlander/Items/Armor/Halloween/Hellmet_Head");
+
+			item = new InfernalImpaler(effect);
+			AddItem("UnusualInfernalImpaler", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualInfernalImpaler_Head", "Highlander/Items/Armor/Halloween/InfernalImpaler_Head");
+
+			item = new MacabreMask(effect);
+			AddItem("UnusualMacabreMask", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualMacabreMask_Head", "Highlander/Items/Armor/Halloween/MacabreMask_Head");
+
+			item = new OneWayTicket(effect);
+			AddItem("UnusualOneWayTicket", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualOneWayTicket_Head", "Highlander/Items/Armor/Halloween/OneWayTicket_Head");
+
+			item = new SearedSorcerer(effect);
+			AddItem("UnusualSearedSorcerer", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualSearedSorcerer_Head", "Highlander/Items/Armor/Halloween/SearedSorcerer_Head");
+
+			item = new SirPumpkinton(effect);
+			AddItem("UnusualSirPumpkinton", item);
+			AddEquipTexture(item, EquipType.Head, "UnusualSirPumpkinton_Head", "Highlander/Items/Armor/Halloween/SirPumpkinton_Head");
 
 			// OG Hats
 

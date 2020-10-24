@@ -13,15 +13,15 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor.Halloween
 {
     [AutoloadEquip(EquipType.Head)]
-    class Hellmet : AbnormalItem
+    class SearedSorcerer : AbnormalItem
     {
-        public Hellmet() : base()
+        public SearedSorcerer() : base()
         {
         }
-        public Hellmet(AbnormalEffect effect) : base(effect)
+        public SearedSorcerer(AbnormalEffect effect) : base(effect)
         {
         }
-        public override string Texture => "Highlander/Items/Armor/Halloween/Hellmet";
+        public override string Texture => "Highlander/Items/Armor/Halloween/SearedSorcerer";
 
         public override void SetDefaults()
         {
@@ -34,7 +34,18 @@ namespace Highlander.Items.Armor.Halloween
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
-            drawAltHair = true;
+            drawAltHair = false;
+        }
+
+        public override bool DrawHead()
+        {
+            return false;
+        }
+
+        public override void UpdateVanity(Player player, EquipType type)
+        {
+            HighlanderPlayer modPlayer = player.GetModPlayer<HighlanderPlayer>();
+            modPlayer.tallHat = Utilities.TallHat.SearedSorcerer;
         }
 
     }

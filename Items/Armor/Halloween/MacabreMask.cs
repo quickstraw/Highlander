@@ -13,15 +13,15 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor.Halloween
 {
     [AutoloadEquip(EquipType.Head)]
-    class Hellmet : AbnormalItem
+    class MacabreMask : AbnormalItem
     {
-        public Hellmet() : base()
+        public MacabreMask() : base()
         {
         }
-        public Hellmet(AbnormalEffect effect) : base(effect)
+        public MacabreMask(AbnormalEffect effect) : base(effect)
         {
         }
-        public override string Texture => "Highlander/Items/Armor/Halloween/Hellmet";
+        public override string Texture => "Highlander/Items/Armor/Halloween/MacabreMask";
 
         public override void SetDefaults()
         {
@@ -34,7 +34,12 @@ namespace Highlander.Items.Armor.Halloween
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
-            drawAltHair = true;
+            drawAltHair = false;
+        }
+
+        public override bool DrawHead()
+        {
+            return false;
         }
 
     }

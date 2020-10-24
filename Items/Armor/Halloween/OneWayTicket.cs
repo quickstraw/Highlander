@@ -13,15 +13,31 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor.Halloween
 {
     [AutoloadEquip(EquipType.Head)]
-    class Hellmet : AbnormalItem
+    class OneWayTicket : AbnormalItem
     {
-        public Hellmet() : base()
+        public OneWayTicket() : base()
         {
         }
-        public Hellmet(AbnormalEffect effect) : base(effect)
+        public OneWayTicket(AbnormalEffect effect) : base(effect)
         {
         }
-        public override string Texture => "Highlander/Items/Armor/Halloween/Hellmet";
+        public override string Texture => "Highlander/Items/Armor/Halloween/OneWayTicket";
+
+        public override void SetStaticDefaults()
+        {
+            if (CurrentEffect != 0)
+            {
+                string name = "" + CurrentEffect;
+                //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
+                name = "Unusual";
+                name = name + " One-Way Ticket";
+                DisplayName.SetDefault(name);
+            }
+            else
+            {
+                DisplayName.SetDefault("One-Way Ticket");
+            }
+        }
 
         public override void SetDefaults()
         {

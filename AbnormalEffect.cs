@@ -27,6 +27,9 @@ namespace Highlander
             Table.Add(AbnormalEffect.BlizzardyStorm); //Blizzardy Storm
             Table.Add(AbnormalEffect.StormyStorm); //Stormy Storm
             Table.Add(AbnormalEffect.Cloud9); //Cloud 9
+            Table.Add(AbnormalEffect.TheOoze); //The Ooze
+            Table.Add(AbnormalEffect.StareFromBeyond); //Stare From Beyond
+            Table.Add(AbnormalEffect.Amaranthine); //Amaranthine
         }
 
         public static void MakeTable()
@@ -46,6 +49,9 @@ namespace Highlander
         BlizzardyStorm = 5,
         StormyStorm = 6,
         Cloud9 = 7,
+        TheOoze = 8,
+        StareFromBeyond = 9,
+        Amaranthine = 10,
         Max
     }
 }

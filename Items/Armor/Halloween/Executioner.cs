@@ -23,11 +23,6 @@ namespace Highlander.Items.Armor.Halloween
         }
         public override string Texture => "Highlander/Items/Armor/Halloween/Executioner";
 
-        public override void SetStaticDefaults()
-        {
-            //Tooltip.SetDefault("Eastern designed helmet that looks eerily like a lid.");
-        }
-
         public override void SetDefaults()
         {
             item.width = 18;

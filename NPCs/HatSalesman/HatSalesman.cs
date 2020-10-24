@@ -126,6 +126,8 @@ namespace Highlander.NPCs.HatSalesman
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<WinterHatSupplyKey>());
             nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpookyHatKey>());
+            nextSlot++;
         }
 
 

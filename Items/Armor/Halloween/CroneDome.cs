@@ -37,8 +37,6 @@ namespace Highlander.Items.Armor.Halloween
             {
                 DisplayName.SetDefault("Crone's Dome");
             }
-
-            //Tooltip.SetDefault("Favorite of a one-eyed Eastern swordsman.");
         }
 
         public override void SetDefaults()
@@ -53,6 +51,12 @@ namespace Highlander.Items.Armor.Halloween
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
             drawAltHair = true;
+        }
+
+        public override void UpdateVanity(Player player, EquipType type)
+        {
+            HighlanderPlayer modPlayer = player.GetModPlayer<HighlanderPlayer>();
+            modPlayer.tallHat = Utilities.TallHat.CroneDome;
         }
 
     }

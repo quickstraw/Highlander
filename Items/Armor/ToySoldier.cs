@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace Highlander.Items.Armor
@@ -35,6 +36,12 @@ namespace Highlander.Items.Armor
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
             drawAltHair = false;
+        }
+
+        public override void UpdateVanity(Player player, EquipType type)
+        {
+            HighlanderPlayer modPlayer = player.GetModPlayer<HighlanderPlayer>();
+            modPlayer.tallHat = Utilities.TallHat.ToySoldier;
         }
 
     }

@@ -159,6 +159,7 @@ namespace Highlander.Utilities
             bool energy = false;
             bool flames = false;
             bool cloud9 = false;
+            bool ooze = false;
 
             switch (modPlayer.unusual)
             {
@@ -190,6 +191,11 @@ namespace Highlander.Utilities
                     texPath = "UnusualLayerEffects/Cloud9";
                     texPath2 = "UnusualLayerEffects/Cloud9Trail";
                     cloud9 = true;
+                    break;
+                case AbnormalEffect.TheOoze:
+                    texPath = "UnusualLayerEffects/TheOoze";
+                    texPath2 = "UnusualLayerEffects/TheOoze2";
+                    ooze = true;
                     break;
                 default:
                     return;
@@ -258,6 +264,7 @@ namespace Highlander.Utilities
                     dust.Add(trail);
                 }
             }
+            
             for (int i = 0; i < dust.Count; i++)
             {
                 FauxDust d = dust[i];
@@ -407,9 +414,11 @@ namespace Highlander.Utilities
             HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
             string texPath = "";
             string texPath2 = "";
+            string texPath3 = "";
             bool storm = false;
             bool energy = false;
             bool flames = false;
+            bool ooze = false;
 
             switch (modPlayer.unusual)
             {
@@ -438,6 +447,24 @@ namespace Highlander.Utilities
                 case AbnormalEffect.ScorchingFlames:
                     texPath = "UnusualLayerEffects/ScorchingFlames";
                     flames = true;
+                    break;
+                case AbnormalEffect.TheOoze:
+                    texPath = "UnusualLayerEffects/TheOoze";
+                    texPath2 = "UnusualLayerEffects/TheOoze2";
+                    texPath3 = "UnusualLayerEffects/TheOoze3";
+                    ooze = true;
+                    break;
+                case AbnormalEffect.StareFromBeyond:
+                    texPath = "UnusualLayerEffects/StareFromBeyond";
+                    texPath2 = "UnusualLayerEffects/StareFromBeyond2";
+                    texPath3 = "UnusualLayerEffects/StareFromBeyond3";
+                    ooze = true;
+                    break;
+                case AbnormalEffect.Amaranthine:
+                    texPath = "UnusualLayerEffects/Amaranthine";
+                    texPath2 = "UnusualLayerEffects/Amaranthine2";
+                    texPath3 = "UnusualLayerEffects/Amaranthine3";
+                    ooze = true;
                     break;
                 default:
                     return;
@@ -509,6 +536,12 @@ namespace Highlander.Utilities
                     dust.Add(newD);
                 }
             }
+            if (ooze)
+            {
+                Main.playerDrawData.Add(OozeDrawData(drawInfo, texPath, yOffset, angle));
+                Main.playerDrawData.Add(OozeDrawData2(drawInfo, texPath2, yOffset, angle));
+                Main.playerDrawData.Add(OozeDrawData3(drawInfo, texPath3, yOffset, angle));
+            }
 
             for (int i = 0; i < dust.Count; i++)
             {
@@ -529,6 +562,131 @@ namespace Highlander.Utilities
             }
 
         });
+
+        public static DrawData OozeDrawData(PlayerDrawInfo drawInfo, string unusualSprite, int yOffset, float angleInRadians)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            Mod mod = Highlander.Instance;
+            HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
+            float scale = 1f;
+            Texture2D texture = mod.GetTexture(unusualSprite);
+            int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
+            int drawY = (int)(drawInfo.position.Y + yOffset + 75 + drawPlayer.height / 0.6f - Main.screenPosition.Y);
+
+            if (drawPlayer.mount.Active)
+            {
+                Vector2 pos = new Vector2();
+                pos.Y += drawPlayer.mount.PlayerOffset;
+
+                pos += drawInfo.position;
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + yOffset + 70 + 75 - Main.screenPosition.Y);
+            }
+
+            int numFrames = 8;
+
+            int cX = (int)(drawPlayer.position.X / 16f);
+            int cY = (int)((drawPlayer.position.Y) / 16f);
+            Color color = Lighting.GetColor(cX, cY, Color.White);
+            Color other = Color.White;
+            color = new Color((color.R * 2 + other.R) / 3, (color.G * 2 + other.G) / 3, (color.B * 2 + other.B) / 3, (color.A * 2 + other.A) / 3) * 0.9f;// Color.White * 0.8f;
+
+            if (modPlayer.unusualLayerTime > 10)
+            {
+                int newFrame = Main.rand.Next(0, numFrames) * texture.Height / numFrames;
+                while (newFrame == modPlayer.unusualFrame)
+                {
+                    newFrame = Main.rand.Next(0, numFrames) * texture.Height / numFrames;
+                }
+                modPlayer.unusualFrame = newFrame;
+                modPlayer.unusualLayerTime = 0;
+            }
+
+            modPlayer.unusualLayerTime++;
+            return new DrawData(texture, new Vector2(drawX, drawY), new Rectangle(0, modPlayer.unusualFrame, texture.Width, texture.Height / numFrames), color, angleInRadians, new Vector2(texture.Width / 2f, texture.Height / 2f), scale, SpriteEffects.None, 0);
+        }
+
+        public static DrawData OozeDrawData2(PlayerDrawInfo drawInfo, string unusualSprite, int yOffset, float angleInRadians)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            Mod mod = Highlander.Instance;
+            HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
+            float scale = 1f;
+            Texture2D texture = mod.GetTexture(unusualSprite);
+            int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
+            int drawY = (int)(drawInfo.position.Y + yOffset + 75 + drawPlayer.height / 0.6f - Main.screenPosition.Y);
+
+            if (drawPlayer.mount.Active)
+            {
+                Vector2 pos = new Vector2();
+                pos.Y += drawPlayer.mount.PlayerOffset;
+
+                pos += drawInfo.position;
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + yOffset + 70 + 75 - Main.screenPosition.Y);
+            }
+
+            int numFrames = 8;
+
+            int cX = (int)(drawPlayer.position.X / 16f);
+            int cY = (int)((drawPlayer.position.Y) / 16f);
+            Color color = Lighting.GetColor(cX, cY, Color.White);
+            Color other = Color.White;
+            color = new Color((color.R * 2 + other.R) / 3, (color.G * 2 + other.G) / 3, (color.B * 2 + other.B) / 3, (color.A * 2 + other.A) / 3) * 0.9f;// Color.White * 0.8f;
+
+            if (modPlayer.unusualLayerTime == 5)
+            {
+                int newFrame = Main.rand.Next(0, numFrames) * texture.Height / numFrames;
+                while (newFrame == modPlayer.unusualFrame)
+                {
+                    newFrame = Main.rand.Next(0, numFrames) * texture.Height / numFrames;
+                }
+                modPlayer.unusualFrame2 = newFrame;
+            }
+
+            return new DrawData(texture, new Vector2(drawX, drawY), new Rectangle(0, modPlayer.unusualFrame2, texture.Width, texture.Height / numFrames), color, angleInRadians, new Vector2(texture.Width / 2f, texture.Height / 2f), scale, SpriteEffects.None, 0);
+        }
+
+        public static DrawData OozeDrawData3(PlayerDrawInfo drawInfo, string unusualSprite, int yOffset, float angleInRadians)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            Mod mod = Highlander.Instance;
+            HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
+            float scale = 1f;
+            Texture2D texture = mod.GetTexture(unusualSprite);
+            int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
+            int drawY = (int)(drawInfo.position.Y + yOffset + 75 + drawPlayer.height / 0.6f - Main.screenPosition.Y);
+
+            if (drawPlayer.mount.Active)
+            {
+                Vector2 pos = new Vector2();
+                pos.Y += drawPlayer.mount.PlayerOffset;
+
+                pos += drawInfo.position;
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + yOffset + 70 + 75 - Main.screenPosition.Y);
+            }
+
+            int numFrames = 8;
+
+            int cX = (int)(drawPlayer.position.X / 16f);
+            int cY = (int)((drawPlayer.position.Y) / 16f);
+            Color color = Color.White;
+
+            if (modPlayer.unusualLayerTime2 > 79)
+            {
+                int newFrame = Main.rand.Next(0, numFrames) * texture.Height / numFrames;
+                while (newFrame == modPlayer.unusualFrame)
+                {
+                    newFrame = Main.rand.Next(0, numFrames) * texture.Height / numFrames;
+                }
+                modPlayer.unusualFrame3 = newFrame;
+                modPlayer.unusualLayerTime2 = 0;
+            }
+            modPlayer.unusualLayerTime2++;
+
+            return new DrawData(texture, new Vector2(drawX, drawY), new Rectangle(0, modPlayer.unusualFrame3, texture.Width, texture.Height / numFrames), color, angleInRadians, new Vector2(texture.Width / 2f, texture.Height / 2f), scale, SpriteEffects.None, 0);
+        }
 
     }
 
