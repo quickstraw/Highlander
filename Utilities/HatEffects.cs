@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.Mount;
 
 namespace Highlander.Utilities
 {
@@ -50,8 +51,10 @@ namespace Highlander.Utilities
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
@@ -137,12 +140,14 @@ namespace Highlander.Utilities
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
-                drawY = (int)(pos.Y + yOffset + 70 - Main.screenPosition.Y);
+                drawY = (int)(pos.Y + yOffset - Main.screenPosition.Y);
             }
 
             Rectangle frame = new Rectangle(0, 0, texture.Width, texture.Height);

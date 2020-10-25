@@ -48,6 +48,8 @@ namespace Highlander
 		public bool emittingAura = false;
 		public bool receivingAura = false;
 
+		public byte clock = 0;
+
 		public override void ResetEffects() {
 			holdingAmmoGun = false;
 			unusual = 0; 
@@ -408,11 +410,6 @@ namespace Highlander
 		{
 			int count = layers.Count;
 
-			if (holdingAmmoGun)
-			{
-				AnimationHelper.ammoGunCounter.visible = true;
-				layers.Add(AnimationHelper.ammoGunCounter);
-			}
 			if (wearingAutonomousOrb)
 			{
 				for (int i = 0; i < count; i++)
@@ -457,6 +454,11 @@ namespace Highlander
 				layers.Insert(0, AnimationHelper.unusual);
 				layers.Add(AnimationHelper.unusualFront);
 			}
+			if (holdingAmmoGun)
+			{
+				AnimationHelper.ammoGunCounter.visible = true;
+				layers.Add(AnimationHelper.ammoGunCounter);
+			}
 
 		}
 
@@ -479,6 +481,9 @@ namespace Highlander
 			{
 				player.statDefense += 8;
 			}
+			//Main.NewText(player.bodyFrame.Y / player.bodyFrame.Height);
+
+			clock = (byte) ((clock + 1) % 60);
 		}
 
 	}

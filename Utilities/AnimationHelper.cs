@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.Mount;
 
 namespace Highlander.Utilities
 {
@@ -117,34 +118,23 @@ namespace Highlander.Utilities
             float scale = 1f;
             Texture2D texture = mod.GetTexture(ammoCounterSprite);
             int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-            int drawY = (int)(drawInfo.position.Y + yOffset + drawPlayer.height / 0.6f - Main.screenPosition.Y);
-            return new DrawData(texture, new Vector2(drawX, drawY), new Rectangle(0, 0, texture.Width, texture.Height), Color.White, angleInRadians, new Vector2(texture.Width / 2f, texture.Height / 2f), scale, SpriteEffects.None, 0);
-        }
+            int drawY = (int)(drawInfo.position.Y + yOffset + 70 - Main.screenPosition.Y);
 
-        public static readonly PlayerLayer mask = new PlayerLayer("Highlander", "Mask", PlayerLayer.Head, delegate (PlayerDrawInfo drawInfo)
-        {
+            if (drawPlayer.mount.Active)
+            {
+                MountData data = drawPlayer.mount._data;
 
+                Vector2 pos = new Vector2();
+                pos.Y += data.heightBoost;
 
+                pos += drawInfo.position;
 
-        });
+                int smoothOffset = (int) ((drawInfo.position - Main.screenPosition) - (drawPlayer.position - Main.screenPosition)).Y + data.heightBoost;
 
-        public static readonly PlayerLayer bigHat = new PlayerLayer("Highlander", "AmmoGunCounter", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
-        {
-            string texPath = "Items/Armor/ToySoldier_Head";
-            int yOffset = 0;
-            float angle = 0;
-            Main.playerDrawData.Add(BigHatDrawData(drawInfo, texPath, yOffset, angle));
-        });
+                drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                drawY = (int)(pos.Y + yOffset - smoothOffset + 70 - Main.screenPosition.Y);
+            }
 
-        public static DrawData BigHatDrawData(PlayerDrawInfo drawInfo, string bigHatSprite, int yOffset, float angleInRadians)
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            Mod mod = Highlander.Instance;
-            HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
-            float scale = 1f;
-            Texture2D texture = mod.GetTexture(bigHatSprite);
-            int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-            int drawY = (int)(drawInfo.position.Y + yOffset + drawPlayer.height / 0.6f - Main.screenPosition.Y);
             return new DrawData(texture, new Vector2(drawX, drawY), new Rectangle(0, 0, texture.Width, texture.Height), Color.White, angleInRadians, new Vector2(texture.Width / 2f, texture.Height / 2f), scale, SpriteEffects.None, 0);
         }
 
@@ -296,8 +286,10 @@ namespace Highlander.Utilities
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
@@ -337,8 +329,10 @@ namespace Highlander.Utilities
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
@@ -371,15 +365,16 @@ namespace Highlander.Utilities
             Player drawPlayer = drawInfo.drawPlayer;
             Mod mod = Highlander.Instance;
             HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
-            float scale = 2f;
             Texture2D texture = mod.GetTexture(unusualSprite);
             int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
             int drawY = (int)(drawInfo.position.Y + yOffset + drawPlayer.height / 0.6f - Main.screenPosition.Y);
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
@@ -548,7 +543,7 @@ namespace Highlander.Utilities
                 FauxDust d = dust[i];
                 if (d.Player == drawPlayer && d.front)
                 {
-                    d.Update();
+                    d.SafeUpdate();
                     if (!d.active)
                     {
                         dust.Remove(d);
@@ -575,8 +570,10 @@ namespace Highlander.Utilities
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
@@ -618,8 +615,10 @@ namespace Highlander.Utilities
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
@@ -659,8 +658,10 @@ namespace Highlander.Utilities
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);

@@ -14,7 +14,7 @@ Non-cosmetic items added are rewards for beating the bosses as well as some odd 
 
 Recent Changes:
 1.4.2.2 - Added new Unusual effects (Amaranthine, Stare From Beyond, and The Ooze). Added more Halloween hats. Improved sprites for some other hats.
+1.4.2.3 - Fixed some subtle graphical glitches with the larger hats. Fixed some mounts not having the proper offset for effects.
 
 Currently Working On:
-Adding more hats to the Spooky Lock Box
-Adding new Unusual effects
+Maybe make more original hats

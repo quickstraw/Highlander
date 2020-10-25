@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using static Terraria.Mount;
 
 namespace Highlander.UnusualLayerEffects
 {
@@ -19,6 +20,7 @@ namespace Highlander.UnusualLayerEffects
         public int alpha;
         public Vector2 velocity;
         public int timer;
+        public byte clock;
 
         public PlayerDrawInfo drawInfo;
 
@@ -30,6 +32,8 @@ namespace Highlander.UnusualLayerEffects
 
         public FauxDust(PlayerDrawInfo info, Vector2 offset, Texture2D texture, float scale)
         {
+            HighlanderPlayer modPlayer = info.drawPlayer.GetModPlayer<HighlanderPlayer>();
+
             drawInfo = info;
             Player = info.drawPlayer;
             Offset = offset;
@@ -41,12 +45,15 @@ namespace Highlander.UnusualLayerEffects
             velocity = new Vector2(vX, vY);
             alpha = 0;
             timer = 0;
+            clock = modPlayer.clock;
             active = true;
             FindColor();
         }
 
         public FauxDust(PlayerDrawInfo info, Vector2 offset, string texturePath, float scale)
         {
+            HighlanderPlayer modPlayer = info.drawPlayer.GetModPlayer<HighlanderPlayer>();
+
             drawInfo = info;
             Player = info.drawPlayer;
             Offset = offset;
@@ -58,6 +65,7 @@ namespace Highlander.UnusualLayerEffects
             velocity = new Vector2(vX, vY);
             alpha = 0;
             timer = 0;
+            clock = modPlayer.clock;
             active = true;
             FindColor();
         }
@@ -65,6 +73,16 @@ namespace Highlander.UnusualLayerEffects
         public virtual void Update()
         {
 
+        }
+
+        public void SafeUpdate()
+        {
+            byte playerClock = Player.GetModPlayer<HighlanderPlayer>().clock;
+            if (playerClock != clock)
+            {
+                clock = playerClock;
+                Update();
+            }
         }
 
         public DrawData DrawData(PlayerDrawInfo info)
@@ -76,12 +94,17 @@ namespace Highlander.UnusualLayerEffects
 
             if (drawPlayer.mount.Active)
             {
+                MountData data = drawPlayer.mount._data;
+
                 Vector2 pos = new Vector2();
-                pos.Y += drawPlayer.mount.PlayerOffset;
+                pos.Y += data.heightBoost;
 
                 pos += drawInfo.position;
+
+                int smoothOffset = (int)((drawInfo.position - Main.screenPosition) - (drawPlayer.position - Main.screenPosition)).Y + data.heightBoost;
+
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
-                drawY = (int)(pos.Y + 70 - Main.screenPosition.Y);
+                drawY = (int)(pos.Y + 70 - smoothOffset - Main.screenPosition.Y);
             }
 
             return new DrawData(texture, new Vector2(drawX, drawY - 65) + Offset, frame, Color * ((255 - alpha) / 255f), 0, origin, scale, SpriteEffects.None, 0);
