@@ -1,30 +1,23 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Highlander.Projectiles.Bullets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-
 namespace Highlander.Items.Weapons
 {
-    class AncientStoneBlaster : AmmoGun
+    class DeadEyeDuster : AmmoGun
     {
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ancient Stone Blaster");
-			Tooltip.SetDefault("Receives higher damage bonuses from better ammo");
+			DisplayName.SetDefault("Dead Eye Duster");
+			Tooltip.SetDefault("Receives higher damage bonuses from better ammo\nFires Ricochet Bullets");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 22;
+			item.damage = 31;
 			item.ranged = true;
 			item.width = 40;
 			item.height = 20;
@@ -34,11 +27,11 @@ namespace Highlander.Items.Weapons
 			item.noMelee = true; //so the item's animation doesn't do damage
 			item.knockBack = 4;
 			item.value = Item.sellPrice(silver: 60);
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item41;
 			item.autoReuse = false;
 			item.shoot = ProjectileID.PurificationPowder; //idk why but all the guns in the vanilla source have this
-			item.shootSpeed = 16f;
+			item.shootSpeed = 18f;
 			item.useAmmo = AmmoID.Bullet;
 			ammo = MaxAmmo;
 		}
@@ -58,6 +51,7 @@ namespace Highlander.Items.Weapons
 			else if(ammo > 0)
 			{
 				damage = (int)((damage - item.damage) * 2.5 + item.damage);
+				type = ModContent.ProjectileType<RicochetingBullet>();
 				ammo--;
 				canShoot = true;
 			}

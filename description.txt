@@ -13,8 +13,7 @@ There are 4 Hat Lock Boxes that can be opened to obtain different sets of hats. 
 Non-cosmetic items added are rewards for beating the bosses as well as some odd weapons I thought would fit well into Terraria and add variety. These items generally have a twist that makes their mechanics unique.
 
 Recent Changes:
-1.4.2.2 - Added new Unusual effects (Amaranthine, Stare From Beyond, and The Ooze). Added more Halloween hats. Improved sprites for some other hats.
-1.4.2.3 - Fixed some subtle graphical glitches with the larger hats. Fixed some mounts not having the proper offset for effects.
+1.4.3.0 - Updated mod icon. Added new weapons. Updated some sprites. Added a new enemy.
 
 Currently Working On:
 Maybe make more original hats
