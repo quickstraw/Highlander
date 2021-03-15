@@ -108,7 +108,15 @@ namespace Highlander.NPCs.Vermin
                 } else if(attackFrameTimer < 19 && attackFrameTimer >= 18)
                 {
                     npc.netUpdate = true;
-                    var projectile = Projectile.NewProjectile(npc.Center + new Vector2(npc.direction * npc.width, 0), new Vector2(), ProjectileType<BlightedVerminSpear>(), npc.damage, 9.5f);
+                    if (Main.expertMode)
+                    {
+                        Projectile projectile = Projectile.NewProjectileDirect(npc.Center + new Vector2(npc.direction * npc.width, 0), new Vector2(), ProjectileType<BlightedVerminSpear>(), npc.damage / 3, 9.5f);
+                    }
+                    else
+                    {
+                        Projectile projectile = Projectile.NewProjectileDirect(npc.Center + new Vector2(npc.direction * npc.width, 0), new Vector2(), ProjectileType<BlightedVerminSpear>(), npc.damage / 2, 9.5f);
+                    }
+                    Main.PlaySound(SoundID.Item1.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item1.Style, 0.90f, +0.5f);
                 }
 
                 if (jumpTimer > 0)
@@ -200,7 +208,6 @@ namespace Highlander.NPCs.Vermin
             npc.velocity.X = 0;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                attackTimer = 180;
                 attackFrameTimer = 39;
                 npc.netUpdate = true;
             }
@@ -240,30 +247,36 @@ namespace Highlander.NPCs.Vermin
             {
                 Item.NewItem(npc.getRect(), ItemID.Shackle);
             }
+        }
 
-            string prefix = "BlightedVermin";
-            string path = "Gores/Vermin/BlightedVermin/";
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                string prefix = "BlightedVermin";
+                string path = "Gores/Vermin/BlightedVermin/";
 
-            Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "ArmGore"), 1f);
-            if (Main.rand.NextBool())
-            {
-                Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 1, mod.GetGoreSlot(path + prefix + "BodyGore"), 1f);
-            }
-            else
-            {
-                Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 1, mod.GetGoreSlot(path + prefix + "BodyAltGore"), 1f);
-            }
-            if (Main.rand.NextBool())
-            {
-                Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "HeadGore"), 1f);
-            }
-            if (!getSpear)
-            {
-                Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "SpearGore"), 1f);
-            }
-            if (!getShield)
-            {
-                Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "ShieldGore"), 1f);
+                Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "ArmGore"), 1f);
+                if (Main.rand.NextBool())
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 1, mod.GetGoreSlot(path + prefix + "BodyGore"), 1f);
+                }
+                else
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 1, mod.GetGoreSlot(path + prefix + "BodyAltGore"), 1f);
+                }
+                if (Main.rand.NextBool())
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "HeadGore"), 1f);
+                }
+                if (Main.rand.NextBool())
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "SpearGore"), 1f);
+                }
+                if (Main.rand.NextBool())
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "ShieldGore"), 1f);
+                }
             }
         }
     }

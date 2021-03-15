@@ -14,6 +14,7 @@ Non-cosmetic items added are rewards for beating the bosses as well as some odd 
 
 Recent Changes:
 1.4.3.0 - Updated mod icon. Added new weapons. Updated some sprites. Added a new enemy.
+1.4.3.1 - Updated Blighted Vermin's stats and sprite. Fixed a visual glitch when dead.
 
 Currently Working On:
-Maybe make more original hats
+More Vermin

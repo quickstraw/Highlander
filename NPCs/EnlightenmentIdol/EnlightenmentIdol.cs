@@ -1127,11 +1127,6 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public override void NPCLoot()
         {
-            for(int i = 0; i < 8; i++)
-            {
-                var gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, mod.GetGoreSlot("Gores/IdolGore" + i), 1f);
-            }
-            
             if (!HighlanderWorld.downedEnlightenmentIdol)
             {
                 HighlanderWorld.downedEnlightenmentIdol = true;
@@ -1163,6 +1158,17 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 if (Main.rand.NextBool(7)) // Boss Vanity
                 {
                     Item.NewItem(npc.getRect(), ItemType<EnlightenedMask>());
+                }
+            }
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if(npc.life <= 0)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    var gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, mod.GetGoreSlot("Gores/IdolGore" + i), 1f);
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace Highlander.NPCs.Vermin
 
 		public override void SetStaticDefaults()
 		{
-			//DisplayName.SetDefault("Cleansing Wave");
+			DisplayName.SetDefault("Blighted Vermin's Spear");
 		}
 
 		public override void SetDefaults()
@@ -23,8 +23,8 @@ namespace Highlander.NPCs.Vermin
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
-			projectile.timeLeft = 39;
-			projectile.penetrate = 1;
+			projectile.timeLeft = 20;
+			projectile.penetrate = -1;
 			projectile.scale = 0.8f;
 			projectile.alpha = 255;
 		}

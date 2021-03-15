@@ -410,54 +410,57 @@ namespace Highlander
 		{
 			int count = layers.Count;
 
-			if (wearingAutonomousOrb)
+			if (!player.dead)
 			{
-				for (int i = 0; i < count; i++)
+				if (wearingAutonomousOrb)
 				{
-					PlayerLayer layer = layers[i];
-					if (layer.Name == "Head")
+					for (int i = 0; i < count; i++)
 					{
-						if (i != layers.Count - 1)
+						PlayerLayer layer = layers[i];
+						if (layer.Name == "Head")
 						{
-							layers.Insert(i + 1, HatEffects.AutonomousOrb);
+							if (i != layers.Count - 1)
+							{
+								layers.Insert(i + 1, HatEffects.AutonomousOrb);
+							}
+							else
+							{
+								layers.Add(HatEffects.AutonomousOrb);
+							}
+							break;
 						}
-						else
-						{
-							layers.Add(HatEffects.AutonomousOrb);
-						}
-						break;
 					}
 				}
-			}
-			if(tallHat != TallHat.None)
-			{
-				for (int i = 0; i < count; i++)
+				if (tallHat != TallHat.None)
 				{
-					PlayerLayer layer = layers[i];
-					if (layer.Name == "Head")
+					for (int i = 0; i < count; i++)
 					{
-						if (i != layers.Count - 1)
+						PlayerLayer layer = layers[i];
+						if (layer.Name == "Head")
 						{
-							layers.Insert(i + 1, HatEffects.TallHatLayer);
+							if (i != layers.Count - 1)
+							{
+								layers.Insert(i + 1, HatEffects.TallHatLayer);
+							}
+							else
+							{
+								layers.Add(HatEffects.TallHatLayer);
+							}
+							break;
 						}
-						else
-						{
-							layers.Add(HatEffects.TallHatLayer);
-						}
-						break;
 					}
 				}
-			}
-			if (unusual != 0)
-			{
-				AnimationHelper.unusual.visible = true;
-				layers.Insert(0, AnimationHelper.unusual);
-				layers.Add(AnimationHelper.unusualFront);
-			}
-			if (holdingAmmoGun)
-			{
-				AnimationHelper.ammoGunCounter.visible = true;
-				layers.Add(AnimationHelper.ammoGunCounter);
+				if (unusual != 0)
+				{
+					AnimationHelper.unusual.visible = true;
+					layers.Insert(0, AnimationHelper.unusual);
+					layers.Add(AnimationHelper.unusualFront);
+				}
+				if (holdingAmmoGun)
+				{
+					AnimationHelper.ammoGunCounter.visible = true;
+					layers.Add(AnimationHelper.ammoGunCounter);
+				}
 			}
 
 		}
