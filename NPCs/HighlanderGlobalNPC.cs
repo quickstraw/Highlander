@@ -21,7 +21,7 @@ namespace Highlander.NPCs
             bool passive = npc.aiStyle == 7 || npc.aiStyle == 24 || npc.aiStyle == 64 || npc.aiStyle == 65 || npc.aiStyle == 66 || npc.aiStyle == 67 || npc.aiStyle == 68;
             bool drop = Main.rand.NextBool(50);
 
-            if (HighlanderWorld.downedHauntedHatter && !passive && drop)
+            if (!GetInstance<HighlanderConfig>().DisableLockBoxes && HighlanderWorld.downedHauntedHatter && !passive && drop)
             {
                 if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneCorrupt || Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneCrimson)
                 {
