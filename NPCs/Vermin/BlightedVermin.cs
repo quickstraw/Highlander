@@ -16,6 +16,7 @@ namespace Highlander.NPCs.Vermin
 	class BlightedVermin : ModNPC
 	{
         Rectangle AttackRange;
+        float speed = 1.5f;
 
 		public override void SetStaticDefaults()
 		{
@@ -55,6 +56,12 @@ namespace Highlander.NPCs.Vermin
             {
                 Player target = Main.player[npc.target];
                 Vector2 vectorToTarget = target.Center - npc.Center;
+
+                Tile tile = Main.tile[(int)(npc.Center.X / 16), (int)((npc.position.Y + npc.height) / 16) + 1];
+                Vector2 tileCoords = new Vector2((int)(npc.Center.X / 16), (int)((npc.position.Y + npc.height) / 16) + 1);
+                Tile targetTile = Main.tile[(int)(target.Center.X / 16), (int)((target.position.Y + target.height) / 16) + 1];
+                Vector2 targetTileCoords = new Vector2((int)(target.Center.X / 16), (int)((target.position.Y + target.height) / 16) + 1);
+
                 if (npc.confused)
                 {
                     vectorToTarget *= -1;
@@ -77,13 +84,17 @@ namespace Highlander.NPCs.Vermin
                     }
                 }
 
+                float yDiff = tileCoords.Y - targetTileCoords.Y;
+
+                WalkOverSlopes();
+
                 AttackRange = new Rectangle((int) npc.position.X - (npc.width * 2 / 3), (int) npc.position.Y, npc.width * 2, npc.height);
 
                 if (!npc.confused && AttackRange.Intersects(target.Hitbox) && attackFrameTimer <= 0 && npc.collideY)
                 {
                     Attack();
                 }
-                else if (attackFrameTimer <= 0 && npc.velocity.X == 0 && jumpTimer <= 0 && npc.collideY)
+                else if ((npc.velocity.X == 0 || yDiff >= 2) && jumpTimer <= 0 && Math.Abs(vectorToTarget.X) > npc.width / 2)
                 {
                     Jump();
                 }
@@ -91,19 +102,31 @@ namespace Highlander.NPCs.Vermin
                 {
                     if (!npc.confused)
                     {
-                        if (npc.velocity.X != direction * 1.5f)
+                        if (npc.velocity.X != direction * speed)
                         {
                             npc.netUpdate = true;
                         }
-                        npc.velocity.X = direction * 1.5f;
+                        npc.velocity.X += direction * speed / 3;
+                        if (Math.Abs(npc.velocity.X) > speed)
+                        {
+                            npc.velocity.X = direction * speed;
+                        }
                     }
                     else
                     {
-                        if (npc.velocity.X != direction * 0.9f)
+                        if (npc.velocity.X != direction * 0.6f * speed)
                         {
                             npc.netUpdate = true;
                         }
-                        npc.velocity.X = direction * 0.9f;
+                        npc.velocity.X = direction * 0.6f * speed;
+                    }
+                    if (npc.collideY && tile.type != 0)
+                    {
+                        bool hole = CheckHole();
+                        if (hole)
+                        {
+                            Jump();
+                        }
                     }
                 } else if(attackFrameTimer < 19 && attackFrameTimer >= 18)
                 {
@@ -198,9 +221,58 @@ namespace Highlander.NPCs.Vermin
 
         private void Jump()
         {
-            npc.velocity.Y -= 8;
+            npc.velocity.Y -= 7;
             jumpTimer = 60;
             npc.netUpdate = true;
+        }
+
+        private bool CheckHole()
+        {
+            int x = (int)(npc.Center.X / 16);
+            int y = (int)((npc.position.Y + npc.height) / 16);
+            bool hole1 = false;
+            bool hole1Deep = false;
+            bool hole2 = false;
+
+            Tile tile = Main.tile[x + npc.direction, y + 1];
+            if (tile.type == 0)
+            {
+                hole1 = true;
+            }
+            tile = Main.tile[x + npc.direction, y + 2];
+            if (tile.type == 0)
+            {
+                hole1Deep = true;
+            }
+            tile = Main.tile[x + npc.direction * 2, y + 1];
+            if (tile.type == 0)
+            {
+                hole2 = true;
+            }
+            return hole1 && hole1Deep && hole2;
+        }
+
+        private void WalkOverSlopes()
+        {
+            Point tileCoordinates1 = npc.Center.ToTileCoordinates();
+            if (WorldGen.InWorld((int)tileCoordinates1.X, (int)tileCoordinates1.Y, 5) && !npc.noGravity)
+            {
+                Vector2 cPosition;
+                int cWidth;
+                int cHeight;
+                this.GetTileCollisionParameters(out cPosition, out cWidth, out cHeight);
+                Vector2 vector2 = npc.position - cPosition;
+                Collision.StepUp(ref cPosition, ref npc.velocity, cWidth, cHeight, ref npc.stepSpeed, ref npc.gfxOffY, 1, false, 0);
+                npc.position = cPosition + vector2;
+                npc.netUpdate = true;
+            }
+        }
+
+        private void GetTileCollisionParameters(out Vector2 cPosition, out int cWidth, out int cHeight)
+        {
+            cPosition = npc.position;
+            cWidth = npc.width;
+            cHeight = npc.height;
         }
 
         private void Attack()
