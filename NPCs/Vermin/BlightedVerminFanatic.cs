@@ -8,6 +8,8 @@ using Terraria.ID;
 using Terraria;
 using Microsoft.Xna.Framework;
 using Highlander.Utilities;
+using Highlander.Items.Accessories;
+using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.NPCs.Vermin
 {
@@ -18,6 +20,7 @@ namespace Highlander.NPCs.Vermin
 
 		public override void SetStaticDefaults()
 		{
+            DisplayName.SetDefault("Blighted Vermin Monk");
 			Main.npcFrameCount[npc.type] = 10; // make sure to set this for your modnpcs.
 		}
 
@@ -27,8 +30,8 @@ namespace Highlander.NPCs.Vermin
 			npc.height = 36;
 			npc.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
 			npc.damage = 32;
-			npc.defense = 10;
-			npc.lifeMax = 58;
+			npc.defense = 9;
+			npc.lifeMax = 64;
 			npc.knockBackResist = 0.2f;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath47;
@@ -37,6 +40,17 @@ namespace Highlander.NPCs.Vermin
 			npc.buffImmune[BuffID.Confused] = false; // npc default to being immune to the Confused debuff. Allowing confused could be a little more work depending on the AI. npc.confused is true while the npc is confused.
 			drawOffsetY = -2;
 		}
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            float spawnChance = 0;
+            // Spawn in Cavern layer
+            if(spawnInfo.playerFloorY > Main.rockLayer && spawnInfo.playerFloorY < (Main.maxTilesY - 200))
+            {
+                spawnChance = 0.06f;
+            }
+            return spawnChance;
+        }
 
         public override void AI()
         {
@@ -78,7 +92,7 @@ namespace Highlander.NPCs.Vermin
                 WalkOverSlopes();
 
 
-                if ((npc.velocity.X == 0 || yDiff >= 2) && jumpTimer <= 0 && Math.Abs(vectorToTarget.X) > npc.width / 2)
+                if ((npc.velocity.X == 0 || yDiff >= 2) && jumpTimer <= 0 && Math.Abs(vectorToTarget.X) > npc.width)
                 {
                     Jump(yDiff);   
                 }
@@ -246,6 +260,55 @@ namespace Highlander.NPCs.Vermin
             cPosition = npc.position;
             cWidth = npc.width;
             cHeight = npc.height;
+        }
+
+        public override void NPCLoot()
+        {
+            bool getBell = Main.rand.NextBool(12);
+            if (Main.rand.NextBool(50))
+            {
+                Item.NewItem(npc.getRect(), ItemID.Shackle);
+            }
+            if (getBell)
+            {
+                Item.NewItem(npc.getRect(), ItemType<BellOfPestilence>());
+            }
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                string prefix = "BlightedVerminFanatic";
+                string path = "Gores/Vermin/BlightedVerminFanatic/";
+
+                float max = MathHelper.PiOver2;
+                float min = -MathHelper.PiOver2;
+
+                if(hitDirection == -1)
+                {
+                    min = 0;
+                }
+                else
+                {
+                    max = 0;
+                }
+
+                Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "ArmGore"), 1f);
+                Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "BodyGore"), 1f);
+                if (Main.rand.NextBool())
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center - new Vector2(0, npc.height / 3), new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "HeadGore"), 1f);
+                }
+                if (Main.rand.NextBool())
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "SwordGore"), 1f);
+                }
+                if (Main.rand.NextBool())
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "BackSwordGore"), 1f);
+                }
+            }
         }
 
 

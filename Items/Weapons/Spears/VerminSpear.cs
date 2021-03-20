@@ -14,7 +14,7 @@ namespace Highlander.Items.Weapons.Spears
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vermin Spear");
-			//Tooltip.SetDefault("");
+			Tooltip.SetDefault("Crits on poisoned targets");
 		}
 
 		public override void SetDefaults()

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Highlander.Projectiles.Spears
@@ -48,8 +49,22 @@ namespace Highlander.Projectiles.Spears
 			set => projectile.ai[0] = value;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
+			if (target.HasBuff(BuffID.Poisoned) || target.HasBuff(BuffID.Venom))
+			{
+				damage = (int)(damage * 1.2);
+				crit = true;
+			}
+		}
+
+		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+		{
+			if (target.HasBuff(BuffID.Poisoned) || target.HasBuff(BuffID.Venom))
+			{
+				damage = (int)(damage * 1.2);
+				crit = true;
+			}
 		}
 
 		// It appears that for this AI, only the ai0 field is used!

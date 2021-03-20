@@ -40,13 +40,23 @@ namespace Highlander.NPCs.Vermin
             drawOffsetY = -2;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			// we would like this npc to spawn in the overworld.
-			return SpawnCondition.Underground.Chance * 0.1f;
-		}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            float spawnChance = 0;
+            // Spawn in Underground layer
+            if (spawnInfo.spawnTileY > Main.worldSurface && spawnInfo.spawnTileY < Main.rockLayer)
+            {
+                spawnChance = 0.05f;
+            }
+            // Spawn in Cavern layer
+            if (spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.spawnTileY < (Main.maxTilesY - 200))
+            {
+                spawnChance = 0.12f;
+            }
+            return spawnChance;
+        }
 
-		public override void AI()
+        public override void AI()
 		{
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -94,7 +104,7 @@ namespace Highlander.NPCs.Vermin
                 {
                     Attack();
                 }
-                else if ((npc.velocity.X == 0 || yDiff >= 2) && jumpTimer <= 0 && Math.Abs(vectorToTarget.X) > npc.width / 2)
+                else if ((npc.velocity.X == 0 || yDiff >= 2) && jumpTimer <= 0 && Math.Abs(vectorToTarget.X) > npc.width && (npc.Center.X - target.Center.X > 60))
                 {
                     Jump();
                 }
@@ -142,7 +152,7 @@ namespace Highlander.NPCs.Vermin
                     Main.PlaySound(SoundID.Item1.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item1.Style, 0.90f, +0.5f);
                 }
 
-                if (jumpTimer > 0)
+                if (jumpTimer > 0 && (npc.collideY || npc.collideX))
                 {
                     jumpTimer--;
                 }
@@ -152,6 +162,7 @@ namespace Highlander.NPCs.Vermin
         public override void FindFrame(int frameHeight)
         {
             npc.frame.Y = 0;
+            Tile tile = Main.tile[(int)(npc.Center.X / 16), (int)((npc.position.Y + npc.height) / 16) + 1];
 
             if (attackFrameTimer > 0)
             {
@@ -177,7 +188,7 @@ namespace Highlander.NPCs.Vermin
                 }
                 attackFrameTimer--;
             }
-            else if (npc.velocity.Y != 0 && !npc.collideY)
+            else if (npc.velocity.Y != 0 && !npc.collideY && !tile.active())
             {
                 npc.frame.Y = frameHeight * 9;
             }
@@ -328,26 +339,38 @@ namespace Highlander.NPCs.Vermin
                 string prefix = "BlightedVermin";
                 string path = "Gores/Vermin/BlightedVermin/";
 
-                Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "ArmGore"), 1f);
-                if (Main.rand.NextBool())
+                float max = MathHelper.PiOver2;
+                float min = -MathHelper.PiOver2;
+
+                if (hitDirection == -1)
                 {
-                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 1, mod.GetGoreSlot(path + prefix + "BodyGore"), 1f);
+                    min = 0;
                 }
                 else
                 {
-                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 1, mod.GetGoreSlot(path + prefix + "BodyAltGore"), 1f);
+                    max = 0;
+                }
+
+                Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "ArmGore"), 1f);
+                if (Main.rand.NextBool())
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "BodyGore"), 1f);
+                }
+                else
+                {
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "BodyAltGore"), 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "HeadGore"), 1f);
+                    Gore gore = Gore.NewGoreDirect(npc.Center - new Vector2(0, npc.height / 3), new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "HeadGore"), 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "SpearGore"), 1f);
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "SpearGore"), 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 2, mod.GetGoreSlot(path + prefix + "ShieldGore"), 1f);
+                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "ShieldGore"), 1f);
                 }
             }
         }

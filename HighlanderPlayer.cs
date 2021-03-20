@@ -47,6 +47,7 @@ namespace Highlander
 
 		public bool emittingAura = false;
 		public bool receivingAura = false;
+		public bool bellOfPestilence = false;
 
 		public byte clock = 0;
 
@@ -61,7 +62,8 @@ namespace Highlander
 
 			emittingAura = false;
 			receivingAura = false;
-	}
+			bellOfPestilence = false;
+		}
 
 		public override void OnEnterWorld(Player player) {
 			// We can refresh UI using OnEnterWorld. OnEnterWorld happens after Load, so nonStopParty is the correct value.
@@ -487,6 +489,30 @@ namespace Highlander
 			//Main.NewText(player.bodyFrame.Y / player.bodyFrame.Height);
 
 			clock = (byte) ((clock + 1) % 60);
+		}
+
+		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+		{
+			if (bellOfPestilence && item.melee)
+			{
+				if (Main.rand.NextBool(2))
+				{
+					target.AddBuff(BuffID.Poisoned, 300);
+					target.netUpdate = true;
+				}
+			}
+		}
+
+		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+		{
+			if (bellOfPestilence && proj.melee)
+			{
+				if (Main.rand.NextBool(2))
+				{
+					target.AddBuff(BuffID.Poisoned, 300);
+					target.netUpdate = true;
+				}
+			}
 		}
 
 	}

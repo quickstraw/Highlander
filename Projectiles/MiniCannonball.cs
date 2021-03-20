@@ -83,9 +83,38 @@ namespace Highlander.Projectiles
 			{
 				Main.PlaySound(SoundID.Item10.SoundId, (int)projectile.Center.X, (int)projectile.Center.Y, SoundID.Item10.Style, 1.0f, -0.8f);
 			}
-			for (int i = 0; i < 5; i++)
+			/**for (int i = 0; i < 5; i++)
 			{
 				int dustIndex = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), 1, 1, ModContent.DustType<MiniCannonballDust>());
+				var unit = projectile.velocity;
+				unit.Normalize();
+				Main.dust[dustIndex].velocity *= 0.8f;
+				Main.dust[dustIndex].velocity += -unit * 3;
+				Main.dust[dustIndex].scale = 1.6f;
+				Main.dust[dustIndex].rotation = (-unit).ToRotation() + MathHelper.PiOver2;
+			}**/
+			//Point tileCoords = projectile.position.ToTileCoordinates();
+			Vector2 tileCoords = new Vector2(projectile.position.X / 16, projectile.position.Y / 16);
+			Tile tileSafely = Framing.GetTileSafely((int)tileCoords.X, (int)tileCoords.Y);
+			Vector2 norm = projectile.velocity;
+			norm.Normalize();
+			norm *= 16;
+			Vector2 otherTileCoords = new Vector2((projectile.position.X + norm.X) / 16, (projectile.position.Y + norm.Y) / 16);
+			Tile otherTile = Framing.GetTileSafely((int)otherTileCoords.X, (int)otherTileCoords.Y);
+			if (tileSafely.nactive())
+			{
+				tileSafely = otherTile;
+				if (tileSafely.nactive())
+				{
+					otherTileCoords = otherTileCoords + (otherTileCoords - tileCoords);
+					tileSafely = Framing.GetTileSafely((int)(otherTileCoords.X), (int)otherTileCoords.Y);
+				}
+			}
+			//WorldGen.KillTile_MakeTileDust((int)tileCoords.X, (int)tileCoords.Y, tileSafely);
+
+			for (int i = 0; i < 5; i++)
+			{
+				int dustIndex = WorldGen.KillTile_MakeTileDust((int)tileCoords.X, (int)tileCoords.Y, tileSafely);
 				var unit = projectile.velocity;
 				unit.Normalize();
 				Main.dust[dustIndex].velocity *= 0.8f;
