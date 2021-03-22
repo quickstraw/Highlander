@@ -1,4 +1,4 @@
-Highlander is a content mod that focuses on adding mostly cosmetic items.
+Highlander is a content mod that focuses on adding mostly cosmetic items. Everything should work in multiplayer.
 
 Features:
         - 3 Bosses
@@ -13,9 +13,8 @@ There are 4 Hat Lock Boxes that can be opened to obtain different sets of hats. 
 Non-cosmetic items added are rewards for beating the bosses as well as some odd weapons I thought would fit well into Terraria and add variety. These items generally have a twist that makes their mechanics unique.
 
 Recent Changes:
-1.4.3.0 - Updated mod icon. Added new weapons. Updated some sprites. Added a new enemy.
-1.4.3.1 - Updated Blighted Vermin's stats and sprite. Fixed a visual glitch when dead.
-1.4.3.2 - Added an option to disable Lock Boxes from spawning.
+1.4.4.0 - Added an option to disable Lock Boxes from spawning. Added Blighted Vermin Monk and Bell of Pestilence. Improved AI of Blighted Vermin.
+1.4.4.1 - Improved Vermin AI. Most bugs in the Vermin AI should be fixed.
 
 Currently Working On:
-More Vermin
+More Vermin + Polishing old content

@@ -54,9 +54,15 @@ namespace Highlander.NPCs.Vermin
 
         public override void AI()
         {
+            int oldTarget = npc.target;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.TargetClosest(false);
+                npc.TargetClosestUpgraded(false);
+                if (npc.HasValidTarget && (Main.player[npc.target].Center - npc.Center).Length() > 1000)
+                {
+                    npc.target = 255;
+                    npc.netUpdate = true;
+                }
             }
             if (npc.HasValidTarget)
             {
@@ -74,15 +80,24 @@ namespace Highlander.NPCs.Vermin
                 }
                 int direction = npc.direction;
 
-                if (vectorToTarget.X > 0)
+                if (attackFrameTimer <= 0)
                 {
-                    direction = 1;
+                    if (vectorToTarget.X > 0)
+                    {
+                        direction = 1;
+                    }
+                    else
+                    {
+                        direction = -1;
+                    }
+                }
+                if (npc.velocity.X > 0)
+                {
                     npc.spriteDirection = -1;
                     npc.direction = 1;
                 }
-                else
+                else if (npc.velocity.X < 0)
                 {
-                    direction = -1;
                     npc.spriteDirection = 1;
                     npc.direction = -1;
                 }
@@ -92,11 +107,11 @@ namespace Highlander.NPCs.Vermin
                 WalkOverSlopes();
 
 
-                if ((npc.velocity.X == 0 || yDiff >= 2) && jumpTimer <= 0 && Math.Abs(vectorToTarget.X) > npc.width)
+                if (((npc.velocity.X == 0 && npc.collideX) || (yDiff >= 4 && Math.Abs(vectorToTarget.X) < npc.width * 2 && yDiff < 8)) && jumpTimer <= 0)
                 {
                     Jump(yDiff);   
                 }
-                else if(Math.Abs(vectorToTarget.X) > npc.width / 2)
+                else if((Math.Abs(vectorToTarget.X) > 16 && npc.velocity.Y == 0) || (jumpTimer > 0 && npc.collideX && !npc.collideY))
                 {
                     if (!npc.confused)
                     {
@@ -104,8 +119,11 @@ namespace Highlander.NPCs.Vermin
                         {
                             npc.netUpdate = true;
                         }
-                        npc.velocity.X += direction * speed / 3;
-                        if(Math.Abs(npc.velocity.X) > speed)
+                        npc.velocity.X += direction * speed / 4;
+                        bool left = npc.velocity.X < 0 && direction == -1;
+                        bool right = npc.velocity.X > 0 && direction == 1;
+
+                        if ((left || right) && Math.Abs(npc.velocity.X) > speed)
                         {
                             npc.velocity.X = direction * speed;
                         }
@@ -116,6 +134,7 @@ namespace Highlander.NPCs.Vermin
                         {
                             npc.netUpdate = true;
                         }
+
                         npc.velocity.X = direction * 0.6f * speed;
                     }
                     if (npc.collideY && tile.type != 0)
@@ -128,10 +147,46 @@ namespace Highlander.NPCs.Vermin
                     }
                 }
 
-                if(jumpTimer > 0 && (npc.collideY || npc.collideX))
+                if (jumpTimer > 0 && (npc.velocity.Y == 0))
                 {
                     jumpTimer--;
                 }
+            }
+            else
+            {
+                WalkOverSlopes();
+                if (randWalkTimer <= 0)
+                {
+                    randWalkTimer = Main.rand.Next(240, 360);
+                    npc.netUpdate = true;
+                    if (Main.rand.NextBool())
+                    {
+                        randWalkDirection = -1;
+                    }
+                    else
+                    {
+                        randWalkDirection = 1;
+                    }
+                }
+
+                if (npc.velocity.X != randWalkDirection * 0.6f * speed)
+                {
+                    npc.netUpdate = true;
+                }
+                npc.velocity.X = randWalkDirection * 0.6f * speed;
+
+                if (npc.velocity.X > 0)
+                {
+                    npc.spriteDirection = -1;
+                    npc.direction = 1;
+                }
+                else if (npc.velocity.X < 0)
+                {
+                    npc.spriteDirection = 1;
+                    npc.direction = -1;
+                }
+
+                randWalkTimer--;
             }
         }
 
@@ -163,7 +218,8 @@ namespace Highlander.NPCs.Vermin
 
         private void Jump(float yDiff)
         {
-            jumpTimer = 30;
+            npc.velocity.X = npc.direction * speed;
+            jumpTimer = 3;
             npc.netUpdate = true;
 
             if(yDiff > 5)
@@ -180,6 +236,24 @@ namespace Highlander.NPCs.Vermin
         {
             get => npc.ai[0];
             set => npc.ai[0] = value;
+        }
+
+        private float randWalkTimer
+        {
+            get => npc.ai[1];
+            set => npc.ai[1] = value;
+        }
+
+        private float attackFrameTimer
+        {
+            get => npc.ai[2];
+            set => npc.ai[2] = value;
+        }
+
+        private float randWalkDirection
+        {
+            get => npc.ai[3];
+            set => npc.ai[3] = value;
         }
 
         public override void FindFrame(int frameHeight)
