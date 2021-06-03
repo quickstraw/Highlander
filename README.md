@@ -1,2 +1,2 @@
 # Highlander
-Highlander is a Terraria mod that seeks to add content that does not intrude upon vanilla content.
+Highlander is a Terraria mod that I have been working on for a while.
