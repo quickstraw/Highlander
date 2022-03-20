@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Highlander.Items.SeaDog;
 using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent.ItemDropRules;
 
 namespace Highlander.NPCs.SeaDog
 {
@@ -20,79 +21,79 @@ namespace Highlander.NPCs.SeaDog
 
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 14; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 14; // make sure to set this for your modnpcs.
             DisplayName.SetDefault("Sea Dog");
         }
 
         public override void SetDefaults()
         {
-            //npc.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-            drawOffsetY = 0;// -52;
-            npc.aiStyle = -1;
-            npc.lifeMax = 2600;
-            npc.damage = 14;
-            npc.defense = 9;
-            npc.knockBackResist = 0f;
-            npc.width = 50;
-            npc.height = 70;
-            npc.npcSlots = 50f;
-            npc.boss = true;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath18;
-            npc.value = 30000;
-            npc.alpha = 0;
-            music = MusicID.Boss2;
-            musicPriority = MusicPriority.BossMedium;
-            bossBag = ItemType<SeaDogBag>();
+            //NPC.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+            DrawOffsetY = 0;// -52;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 2600;
+            NPC.damage = 14;
+            NPC.defense = 9;
+            NPC.knockBackResist = 0f;
+            NPC.width = 50;
+            NPC.height = 70;
+            NPC.npcSlots = 50f;
+            NPC.boss = true;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath18;
+            NPC.value = 30000;
+            NPC.alpha = 0;
+            Music = MusicID.Boss2;
+            //musicPriority = MusicPriority.BossMedium;
+            //bossBag = ItemType<SeaDogBag>();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.65f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.9f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.65f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * 0.9f);
         }
 
         public override void AI()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.TargetClosest(false);
+                NPC.TargetClosest(false);
             }
-            if (npc.HasValidTarget)
+            if (NPC.HasValidTarget)
             {
-                Player target = Main.player[npc.target];
-                Vector2 vectorToTarget = target.Center - npc.Center;
+                Player target = Main.player[NPC.target];
+                Vector2 vectorToTarget = target.Center - NPC.Center;
                 int direction;
                 if(vectorToTarget.X > 0)
                 {
                     direction = 1;
-                    npc.spriteDirection = 1;
-                    npc.direction = 1;
+                    NPC.spriteDirection = 1;
+                    NPC.direction = 1;
                 }
                 else
                 {
                     direction = -1;
-                    npc.spriteDirection = -1;
-                    npc.direction = -1;
+                    NPC.spriteDirection = -1;
+                    NPC.direction = -1;
                 }
 
                 if (throwTimer <= 0)
                 {
                     Throw(vectorToTarget);
                 }
-                else if (throwFrameTimer <= 0 && npc.velocity.X == 0 && jumpTimer <= 0)
+                else if (throwFrameTimer <= 0 && NPC.velocity.X == 0 && jumpTimer <= 0)
                 {
                     Jump();
                 }
                 else if (throwFrameTimer <= 1 && Math.Abs(vectorToTarget.X) > 12)
                 {
-                    if(npc.velocity.X != direction * 3)
+                    if(NPC.velocity.X != direction * 3)
                     {
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
-                    npc.velocity.X = direction * 3;
+                    NPC.velocity.X = direction * 3;
                 }
 
                 if(jumpTimer > 0)
@@ -108,83 +109,85 @@ namespace Highlander.NPCs.SeaDog
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frame.Y = 0;
+            NPC.frame.Y = 0;
 
             if(throwFrameTimer > 0)
             {
                 if(throwFrameTimer > 18)
                 {
-                    npc.frame.Y = frameHeight * 10;
+                    NPC.frame.Y = frameHeight * 10;
                 }
                 else if (throwFrameTimer > 12)
                 {
-                    npc.frame.Y = frameHeight * 11;
+                    NPC.frame.Y = frameHeight * 11;
                 }
                 else if (throwFrameTimer > 6)
                 {
-                    npc.frame.Y = frameHeight * 12;
+                    NPC.frame.Y = frameHeight * 12;
                 }
                 else if (throwFrameTimer > 0)
                 {
-                    npc.frame.Y = frameHeight * 13;
+                    NPC.frame.Y = frameHeight * 13;
                 }
                 throwFrameTimer--;
             }
-            else if(npc.velocity.Y != 0)
+            else if(NPC.velocity.Y != 0)
             {
-                npc.frame.Y = frameHeight * 9;
+                NPC.frame.Y = frameHeight * 9;
             }
-            else if (npc.velocity.X != 0)
+            else if (NPC.velocity.X != 0)
             {
-                if(npc.frameCounter < 6)
+                if(NPC.frameCounter < 6)
                 {
-                    npc.frame.Y = frameHeight * 1;
+                    NPC.frame.Y = frameHeight * 1;
                 }
-                else if(npc.frameCounter < 12)
+                else if(NPC.frameCounter < 12)
                 {
-                    npc.frame.Y = frameHeight * 2;
+                    NPC.frame.Y = frameHeight * 2;
                 }
-                else if (npc.frameCounter < 18)
+                else if (NPC.frameCounter < 18)
                 {
-                    npc.frame.Y = frameHeight * 3;
+                    NPC.frame.Y = frameHeight * 3;
                 }
-                else if (npc.frameCounter < 24)
+                else if (NPC.frameCounter < 24)
                 {
-                    npc.frame.Y = frameHeight * 4;
+                    NPC.frame.Y = frameHeight * 4;
                 }
-                else if (npc.frameCounter < 30)
+                else if (NPC.frameCounter < 30)
                 {
-                    npc.frame.Y = frameHeight * 5;
+                    NPC.frame.Y = frameHeight * 5;
                 }
-                else if (npc.frameCounter < 36)
+                else if (NPC.frameCounter < 36)
                 {
-                    npc.frame.Y = frameHeight * 6;
+                    NPC.frame.Y = frameHeight * 6;
                 }
-                else if (npc.frameCounter < 42)
+                else if (NPC.frameCounter < 42)
                 {
-                    npc.frame.Y = frameHeight * 7;
+                    NPC.frame.Y = frameHeight * 7;
                 }
-                else if (npc.frameCounter < 48)
+                else if (NPC.frameCounter < 48)
                 {
-                    npc.frame.Y = frameHeight * 8;
+                    NPC.frame.Y = frameHeight * 8;
                 }
-                npc.frameCounter = (npc.frameCounter + Math.Abs(npc.velocity.X / 3)) % 48;
+                NPC.frameCounter = (NPC.frameCounter + Math.Abs(NPC.velocity.X / 3)) % 48;
             }
         }
 
         private void Jump()
         {
-            npc.velocity.Y -= 8;
+            NPC.velocity.Y -= 8;
             jumpTimer = 60;
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
         }
 
         private void Throw(Vector2 vectorToPlayer)
         {
-            npc.velocity.X = 0;
+            NPC.velocity.X = 0;
 
             if(Main.netMode != NetmodeID.MultiplayerClient)
             {
+                var source = NPC.GetSpawnSource_ForProjectile();
+
                 Vector2 velocity = vectorToPlayer;
                 velocity.Normalize();
                 velocity *= 8;
@@ -192,30 +195,30 @@ namespace Highlander.NPCs.SeaDog
 
                 throwTimer = 180;
                 throwFrameTimer = 24;
-                npc.netUpdate = true;
-                var projectile = Projectile.NewProjectile(npc.Center, velocity, ProjectileType<SeaDogProjectile>(), 13, 9.5f);
+                NPC.netUpdate = true;
+                var projectile = Projectile.NewProjectile(source, NPC.Center, velocity, ProjectileType<SeaDogProjectile>(), 13, 9.5f);
             }
         }
 
         private float jumpTimer
         {
-            get => npc.ai[0];
-            set => npc.ai[0] = value;
+            get => NPC.ai[0];
+            set => NPC.ai[0] = value;
         }
 
         private float throwTimer
         {
-            get => npc.ai[1];
-            set => npc.ai[1] = value;
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
         }
 
         private float throwFrameTimer
         {
-            get => npc.ai[2];
-            set => npc.ai[2] = value;
+            get => NPC.ai[2];
+            set => NPC.ai[2] = value;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!HighlanderWorld.downedSeaDog)
             {
@@ -225,42 +228,23 @@ namespace Highlander.NPCs.SeaDog
                     NetMessage.SendData(MessageID.WorldData); // Immediately inform clients of new world state.
                 }
             }
+        }
 
-            if (Main.rand.NextBool(10))
-            {
-                Item.NewItem(npc.getRect(), ItemType<SeaDogTrophy>());
-            }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ItemType<SeaDogBag>()));
 
-            if (Main.expertMode)
-            {
-                npc.DropBossBags();
-            }
-            else
-            {
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem(npc.getRect(), ItemType<FeralFrenzy>());
-                }
-                else
-                {
-                    Item.NewItem(npc.getRect(), ItemType<BrokenBlunderbuss>());
-                }
-                if (Main.rand.NextBool(7))
-                {
-                    Item.NewItem(npc.getRect(), ItemType<SeaDogMask>());
-                }
-                if (Main.rand.NextBool())
-                {
-                    Item.NewItem(npc.getRect(), ItemID.SpelunkerPotion, 2);
-                }
-                else
-                {
-                    Item.NewItem(npc.getRect(), ItemID.GillsPotion, 2);
-                }
+            npcLoot.Add(ItemDropRule.Common(ItemType<SeaDogTrophy>(), 10));
 
-                int rand = Main.rand.Next(30, 50);
-                Item.NewItem(npc.getRect(), ItemID.GoldOre, rand);
-            }
+            // All our drops here are based on "not expert", meaning we use .OnSuccess() to add them into the rule, which then gets added
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+
+            // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
+            // Boss masks are spawned with 1/7 chance
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SeaDogMask>(), 7));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1, ItemType<FeralFrenzy>(), ItemType<BrokenBlunderbuss>()));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1, ItemID.SpelunkerPotion, ItemID.GillsPotion));
+            notExpertRule.OnSuccess(ItemDropRule.Common(ItemID.GoldOre, 1, 30, 50));
         }
 
         public override void BossLoot(ref string name, ref int potionType)
