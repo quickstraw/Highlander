@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,80 +15,80 @@ namespace Highlander.NPCs.HauntedHatter
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.DontAttachHideToAlpha[projectile.type] = true; // projectiles with hide but without this will draw in the lighting values of the owner player.
+            ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type] = true; // projectiles with hide but without this will draw in the lighting values of the owner player.
         }
 
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.penetrate = -1;
-            projectile.hostile = true;
-            projectile.scale = 0.4f;
-            drawOriginOffsetY = -6;
-            drawOffsetX = -6;
-            projectile.hide = true;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.penetrate = -1;
+            Projectile.hostile = true;
+            Projectile.scale = 0.4f;
+            DrawOriginOffsetY = -6;
+            DrawOffsetX = -6;
+            Projectile.hide = true;
         }
 
         public override void AI()
         {
-            if(projectile.scale < 1.0f)
+            if(Projectile.scale < 1.0f)
             {
-                projectile.scale += 0.01f;
+                Projectile.scale += 0.01f;
             }
 
-            projectile.velocity.Y += 0.6f;
+            Projectile.velocity.Y += 0.6f;
             //projectile.rotation += projectile.velocity.X / 20;
-            if(projectile.velocity.X > 0)
+            if(Projectile.velocity.X > 0)
             {
-                projectile.rotation += AngularVelocity / 10;
+                Projectile.rotation += AngularVelocity / 10;
             }
-            else if(projectile.velocity.X < 0)
+            else if(Projectile.velocity.X < 0)
             {
-                projectile.rotation -= AngularVelocity / 10;
+                Projectile.rotation -= AngularVelocity / 10;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             bool kill = false;
-            if (projectile.ai[0] < 3)
+            if (Projectile.ai[0] < 3)
             {
-                projectile.velocity = oldVelocity;
-                projectile.velocity.Y *= -0.9f;
-                projectile.velocity.Y += 1.5f;
-                if (projectile.velocity.Y > 0 || Math.Abs(projectile.velocity.Y) < 2)
+                Projectile.velocity = oldVelocity;
+                Projectile.velocity.Y *= -0.9f;
+                Projectile.velocity.Y += 1.5f;
+                if (Projectile.velocity.Y > 0 || Math.Abs(Projectile.velocity.Y) < 2)
                 {
-                    projectile.velocity.Y = 0;
+                    Projectile.velocity.Y = 0;
                 }
-                projectile.ai[0]++;
-                projectile.netUpdate = true;
-                Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+                Projectile.ai[0]++;
+                Projectile.netUpdate = true;
+                SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
             }
             else
             {
-                projectile.velocity *= 0;
+                Projectile.velocity *= 0;
                 kill = true;
-                Main.PlaySound(SoundID.Item10, (int)projectile.position.X, (int)projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Item10, (int)Projectile.position.X, (int)Projectile.position.Y);
             }
             return kill;
         }
 
         public override void Kill(int timeLeft)
         {
-            var gore = Gore.NewGoreDirect(projectile.position, projectile.velocity * 0.4f, mod.GetGoreSlot("Gores/EnchantedYarn"), 1f);
-            gore.rotation = projectile.rotation;
+            var gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("Gores/EnchantedYarn").Type, 1f);
+            gore.rotation = Projectile.rotation;
         }
 
         private float AngularVelocity
         {
-            get => MathHelper.TwoPi * projectile.velocity.Length() / 60;
+            get => MathHelper.TwoPi * Projectile.velocity.Length() / 60;
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindNPCs.Add(index);
+            behindNPCs.Add(index);
         }
 
     }

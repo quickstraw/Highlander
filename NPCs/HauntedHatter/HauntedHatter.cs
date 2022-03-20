@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -49,67 +51,67 @@ namespace Highlander.NPCs.HauntedHatter
 
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 2; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 2; // make sure to set this for your modnpcs.
         }
 
         public override void SetDefaults()
         {
-            //npc.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-            drawOffsetY = 0;// -52;
-            npc.aiStyle = -1;
-            npc.lifeMax = 3800;
-            npc.damage = 20;
-            npc.defense = BASE_DEF;
-            npc.knockBackResist = 0f;
-            npc.width = 60;
-            npc.height = 120;
-            npc.npcSlots = 50f;
-            npc.boss = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.value = 60000;
-            music = MusicID.Boss3;
-            musicPriority = MusicPriority.BossMedium;
-            bossBag = ItemType<HauntedHatterBag>();
-            Hat = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterHat");
-            Bottom = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterBottom");
-            Left = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterLeft");
-            Right = GetTexture("Highlander/NPCs/HauntedHatter/HauntedHatterRight");
+            //NPC.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+            DrawOffsetY = 0;// -52;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 3800;
+            NPC.damage = 20;
+            NPC.defense = BASE_DEF;
+            NPC.knockBackResist = 0f;
+            NPC.width = 60;
+            NPC.height = 120;
+            NPC.npcSlots = 50f;
+            NPC.boss = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.value = 60000;
+            Music = MusicID.Boss3;
+            //musicPriority = MusicPriority.BossMedium;
+            //bossBag = ItemType<HauntedHatterBag>();
+            Hat = Request<Texture2D>("Highlander/NPCs/HauntedHatter/HauntedHatterHat").Value;
+            Bottom = Request<Texture2D>("Highlander/NPCs/HauntedHatter/HauntedHatterBottom").Value;
+            Left = Request<Texture2D>("Highlander/NPCs/HauntedHatter/HauntedHatterLeft").Value;
+            Right = Request<Texture2D>("Highlander/NPCs/HauntedHatter/HauntedHatterRight").Value;
             currHand = leftHand;
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.7f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.75f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * 0.7f);
         }
 
 
         public override void AI()
         {
-            npc.velocity *= 0.85f;
+            NPC.velocity *= 0.85f;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.TargetClosest(false);
+                NPC.TargetClosest(false);
                 if (!initialized)
                 {
                     initialized = true;
 
-                    //NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<HauntedHatterHat>(), 0, 0, 0, npc.whoAmI);
-                    //NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<HauntedHatterBottom>(), 0, 0, 0, npc.whoAmI);
-                    npc.netUpdate = true;
+                    //NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<HauntedHatterHat>(), 0, 0, 0, NPC.whoAmI);
+                    //NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<HauntedHatterBottom>(), 0, 0, 0, NPC.whoAmI);
+                    NPC.netUpdate = true;
                 }
             }
-            if (npc.HasValidTarget)
+            if (NPC.HasValidTarget)
             {
                 if(deathTimer != 0)
                 {
                     deathTimer = 0;
                     alpha = 255;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
-                float percentHealth = ((float)npc.life / (float)npc.lifeMax);
+                float percentHealth = ((float)NPC.life / (float)NPC.lifeMax);
                 switch (stage)
                 {
                     // Phase One:
@@ -120,7 +122,7 @@ namespace Highlander.NPCs.HauntedHatter
                         if (percentHealth < 0.95f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             stage++;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                         break;
                     case 1:
@@ -130,7 +132,7 @@ namespace Highlander.NPCs.HauntedHatter
                         if (percentHealth < 0.85f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             stage++;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                         break;
                     case 2:
@@ -140,7 +142,7 @@ namespace Highlander.NPCs.HauntedHatter
                         if (percentHealth < 0.70f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             stage++;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                         break;
                     case 3:
@@ -153,7 +155,7 @@ namespace Highlander.NPCs.HauntedHatter
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 stage++;
-                                npc.netUpdate = true;
+                                NPC.netUpdate = true;
                             }
                         }
                         break;
@@ -164,7 +166,7 @@ namespace Highlander.NPCs.HauntedHatter
                             smiling = true;
                             altTimer = 0;
                             stage++;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                             break;
                         }
                         UpdateDefense();
@@ -178,7 +180,7 @@ namespace Highlander.NPCs.HauntedHatter
                         if (percentHealth < 0.35f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             stage++;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                         break;
                     case 6:
@@ -199,8 +201,8 @@ namespace Highlander.NPCs.HauntedHatter
                 }
                 if(deathTimer > 360)
                 {
-                    npc.active = false;
-                    npc.netUpdate = true;
+                    NPC.active = false;
+                    NPC.netUpdate = true;
                 }
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -236,12 +238,12 @@ namespace Highlander.NPCs.HauntedHatter
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frame.Y = frameHeight;
+            NPC.frame.Y = frameHeight;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Vector2 drawPos = npc.position - Main.screenPosition;
+            Vector2 drawPos = NPC.position - screenPos;
 
             int HatFrameHeight = Hat.Height / 8;
             int HatFrame = 0;
@@ -250,7 +252,7 @@ namespace Highlander.NPCs.HauntedHatter
             int LeftFrameHeight = Left.Height / 5;
             int RightFrameHeight = Right.Height / 5;
 
-            BottomFrame = (int)(BottomFrameHeight * (int)(npc.frameCounter / 10));
+            BottomFrame = (int)(BottomFrameHeight * (int)(NPC.frameCounter / 10));
 
             if (smiling)
             {
@@ -309,12 +311,12 @@ namespace Highlander.NPCs.HauntedHatter
             Vector2 HatDrawPos = drawPos + new Vector2(30, 60);
             Vector2 BottomDrawPos = drawPos + new Vector2(30, 60);
 
-            spriteBatch.Draw(Hat, HatDrawPos, new Rectangle(0, HatFrame, Hat.Width, HatFrameHeight), drawColor * ((float) alpha / 255f), npc.rotation, HatOrigin, 1.0f, 0, 0);
-            spriteBatch.Draw(Bottom, BottomDrawPos, new Rectangle(0, BottomFrame, Bottom.Width, BottomFrameHeight), drawColor * ((float) alpha / 255f), npc.rotation, BottomOrigin, 1.0f, 0, 0);
-            spriteBatch.Draw(Left, BottomDrawPos, new Rectangle(0, leftFrame * LeftFrameHeight, Left.Width, LeftFrameHeight), drawColor * ((float) alpha / 255f), npc.rotation, LeftOrigin, 1.0f, 0, 0);
-            spriteBatch.Draw(Right, BottomDrawPos, new Rectangle(0, rightFrame * RightFrameHeight, Right.Width, RightFrameHeight), drawColor * ((float) alpha / 255f), npc.rotation, LeftOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Hat, HatDrawPos, new Rectangle(0, HatFrame, Hat.Width, HatFrameHeight), drawColor * ((float) alpha / 255f), NPC.rotation, HatOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Bottom, BottomDrawPos, new Rectangle(0, BottomFrame, Bottom.Width, BottomFrameHeight), drawColor * ((float) alpha / 255f), NPC.rotation, BottomOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Left, BottomDrawPos, new Rectangle(0, leftFrame * LeftFrameHeight, Left.Width, LeftFrameHeight), drawColor * ((float) alpha / 255f), NPC.rotation, LeftOrigin, 1.0f, 0, 0);
+            spriteBatch.Draw(Right, BottomDrawPos, new Rectangle(0, rightFrame * RightFrameHeight, Right.Width, RightFrameHeight), drawColor * ((float) alpha / 255f), NPC.rotation, LeftOrigin, 1.0f, 0, 0);
 
-            npc.frameCounter = (npc.frameCounter + 1.75) % 60;
+            NPC.frameCounter = (NPC.frameCounter + 1.75) % 60;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -332,13 +334,13 @@ namespace Highlander.NPCs.HauntedHatter
                     if (attackTimer <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         ShootNeedle(120f, 8f);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer += 15;
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         GhostBlast(false);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     break;
@@ -346,13 +348,13 @@ namespace Highlander.NPCs.HauntedHatter
                     if (attackTimer <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         ShootNeedle(105f, 16f);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer += 10;
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         GhostBlast(false);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     break;
@@ -360,13 +362,13 @@ namespace Highlander.NPCs.HauntedHatter
                     if (attackTimer <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         ShootNeedle(105f, 16f);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer += 10;
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         GhostBlast(false);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     break;
@@ -374,13 +376,13 @@ namespace Highlander.NPCs.HauntedHatter
                     if (attackTimer <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         ShootNeedle(105f, 16f);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer += 10;
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         GhostBlast(false);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     break;
@@ -421,13 +423,13 @@ namespace Highlander.NPCs.HauntedHatter
                     {
                         ShootNeedle(360f + Main.rand.NextFloat(0, 60), 16f);
                         //ShootDoubleNeedle(180f, 16f);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer += 15;
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         HugeGhostBlast();
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     HandleShootingYarn(240);
@@ -437,13 +439,13 @@ namespace Highlander.NPCs.HauntedHatter
                     {
                         ShootNeedle(360f + Main.rand.NextFloat(0, 60), 16f);
                         //ShootDoubleNeedle(180f, 16f);
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer += 10;
                     }
                     if (attackTimer2 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         HugeGhostBlast();
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         attackTimer2 += ghostBlastTime + Main.rand.Next(30);
                     }
                     HandleShootingYarn(240);
@@ -454,7 +456,7 @@ namespace Highlander.NPCs.HauntedHatter
             {
                 leftArm = false;
                 rightArm = false;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
             attackTimer -= 1;
@@ -473,7 +475,7 @@ namespace Highlander.NPCs.HauntedHatter
                     currHand = leftHand;
                     leftArm = true;
                 }
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
@@ -482,12 +484,12 @@ namespace Highlander.NPCs.HauntedHatter
             if (attackTimer3 <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 shooting = true;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             if (!shot && shooting && altTimer > 26 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 canShoot = true;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             if (canShoot && Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -495,14 +497,14 @@ namespace Highlander.NPCs.HauntedHatter
                 canShoot = false;
                 ShootYarn();
                 attackTimer3 += time + Main.rand.Next(60);
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             if (shooting && altTimer > 42 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 shot = false;
                 shooting = false;
                 altTimer = 0;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             if (shooting)
             {
@@ -517,7 +519,7 @@ namespace Highlander.NPCs.HauntedHatter
                 if (dashTimer == 0)
                 {
                     Player[] players = Main.player.ToArray();
-                    Vector2 distance = players[npc.target].Center - npc.Center;
+                    Vector2 distance = players[NPC.target].Center - NPC.Center;
                     dashDistance = distance.X;
                 }
                 Dash();
@@ -536,60 +538,60 @@ namespace Highlander.NPCs.HauntedHatter
         {
             if (moveTimer <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.TargetClosest(false);
-                npc.netUpdate = true;
+                NPC.TargetClosest(false);
+                NPC.netUpdate = true;
                 moveTimer = UpdateRate;
             }
 
             Player[] players = Main.player.ToArray();
-            Vector2 distance = players[npc.target].Center - npc.Center;
+            Vector2 distance = players[NPC.target].Center - NPC.Center;
 
             // Stay above player
-            if (Math.Abs(distance.Y) < npc.height * 1.75f)
+            if (Math.Abs(distance.Y) < NPC.height * 1.75f)
             {
-                float yValue = (1 - Math.Abs(distance.Y) / (npc.height * 1.75f));
+                float yValue = (1 - Math.Abs(distance.Y) / (NPC.height * 1.75f));
                 if (yValue > 0.2f)
                 {
                     yValue = 0.2f;
                 }
-                npc.velocity.Y -= yValue;
-            } else if (distance.Y > npc.height * 2.0f)
+                NPC.velocity.Y -= yValue;
+            } else if (distance.Y > NPC.height * 2.0f)
             {
-                float yValue = (1 - distance.Y / (npc.height * 2.0f));
+                float yValue = (1 - distance.Y / (NPC.height * 2.0f));
                 if (yValue > 0.5f)
                 {
                     yValue = 0.5f;
                 }
-                npc.velocity.Y -= yValue;
+                NPC.velocity.Y -= yValue;
             }
 
             if (distance.Length() > 360)
             {
                 distance /= distance.Length();
-                npc.velocity += distance;
+                NPC.velocity += distance;
             }
             else if (distance.Length() < 180)
             {
                 distance /= distance.Length();
-                npc.velocity -= distance / 2;
+                NPC.velocity -= distance / 2;
             }
 
             // Lean when moving
-            if (npc.velocity.X < -1 && npc.rotation >= -0.15f)
+            if (NPC.velocity.X < -1 && NPC.rotation >= -0.15f)
             {
-                npc.rotation -= 0.01f;
-            } else if (npc.velocity.X > 1 && npc.rotation <= 0.15f)
+                NPC.rotation -= 0.01f;
+            } else if (NPC.velocity.X > 1 && NPC.rotation <= 0.15f)
             {
-                npc.rotation += 0.01f;
+                NPC.rotation += 0.01f;
             } else
             {
-                if (Math.Abs(npc.rotation) > 0.05)
+                if (Math.Abs(NPC.rotation) > 0.05)
                 {
-                    npc.rotation *= 0.9f;
+                    NPC.rotation *= 0.9f;
                 }
                 else
                 {
-                    npc.rotation = 0;
+                    NPC.rotation = 0;
                 }
             }
         }
@@ -598,74 +600,74 @@ namespace Highlander.NPCs.HauntedHatter
         {
             if (moveTimer <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.TargetClosest(false);
-                npc.netUpdate = true;
+                NPC.TargetClosest(false);
+                NPC.netUpdate = true;
             }
 
             Player[] players = Main.player.ToArray();
-            Vector2 distance = players[npc.target].Center - npc.Center;
+            Vector2 distance = players[NPC.target].Center - NPC.Center;
 
             // Stay above player
-            if (Math.Abs(distance.Y) < npc.height * 1.75f)
+            if (Math.Abs(distance.Y) < NPC.height * 1.75f)
             {
-                float yValue = (1 - Math.Abs(distance.Y) / (npc.height * 1.75f));
+                float yValue = (1 - Math.Abs(distance.Y) / (NPC.height * 1.75f));
                 if (yValue > 0.2f)
                 {
                     yValue = 0.2f;
                 }
-                npc.velocity.Y -= yValue;
+                NPC.velocity.Y -= yValue;
             }
-            else if (distance.Y > npc.height * 2.0f)
+            else if (distance.Y > NPC.height * 2.0f)
             {
-                float yValue = (1 - distance.Y / (npc.height * 2.0f));
+                float yValue = (1 - distance.Y / (NPC.height * 2.0f));
                 if (yValue > 0.5f)
                 {
                     yValue = 0.5f;
                 }
-                npc.velocity.Y -= yValue;
+                NPC.velocity.Y -= yValue;
             }
 
             //Dash
             //Player on Right
             if (dashDistance >= 0 && distance.X > -360)
             {
-                npc.velocity.X += 5 * (dashDistance / 360);
+                NPC.velocity.X += 5 * (dashDistance / 360);
             }
             //Player on Left
             else if (dashDistance < 0 && distance.X < 360)
             {
-                npc.velocity.X += 5 * (dashDistance / 360);
+                NPC.velocity.X += 5 * (dashDistance / 360);
             }
 
             if (distance.Length() > 360)
             {
                 distance /= distance.Length();
-                npc.velocity += distance;
+                NPC.velocity += distance;
             }
             else if (distance.Length() < 180)
             {
                 distance /= distance.Length();
-                npc.velocity -= distance / 2;
+                NPC.velocity -= distance / 2;
             }
 
             // Lean when moving
-            if (npc.velocity.X < -1 && npc.rotation >= -0.3f)
+            if (NPC.velocity.X < -1 && NPC.rotation >= -0.3f)
             {
-                npc.rotation -= 0.01f;
+                NPC.rotation -= 0.01f;
             }
-            else if (npc.velocity.X > 1 && npc.rotation <= 0.3f)
+            else if (NPC.velocity.X > 1 && NPC.rotation <= 0.3f)
             {
-                npc.rotation += 0.01f;
+                NPC.rotation += 0.01f;
             }
             else
             {
-                if (Math.Abs(npc.rotation) > 0.05)
+                if (Math.Abs(NPC.rotation) > 0.05)
                 {
-                    npc.rotation *= 0.9f;
+                    NPC.rotation *= 0.9f;
                 }
                 else
                 {
-                    npc.rotation = 0;
+                    NPC.rotation = 0;
                 }
             }
         }
@@ -673,7 +675,7 @@ namespace Highlander.NPCs.HauntedHatter
         private void ExplodeTop()
         {
             Vector2 goreVelocity = new Vector2(0, -10);
-            if (npc.life % 2 == 0)
+            if (NPC.life % 2 == 0)
             {
                 goreVelocity.X = 3;
             }
@@ -684,37 +686,38 @@ namespace Highlander.NPCs.HauntedHatter
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Gore.NewGore(npc.position, goreVelocity, mod.GetGoreSlot("Gores/HauntedHatterTopGore"), 1f);
+                Gore.NewGore(NPC.position, goreVelocity, Mod.Find<ModGore>("Gores/HauntedHatterTopGore").Type, 1f);
             }
 
             // Code adapted from ExampleMod
             // Fire Dust spawn
             for (int i = 0; i < 20; i++)
             {
-                int dustIndex = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y) + npc.velocity, npc.width, 8, 6, 0f, 0f, 100, default(Color), 3f);
+                int dustIndex = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + NPC.velocity, NPC.width, 8, 6, 0f, 0f, 100, default(Color), 3f);
                 Main.dust[dustIndex].noGravity = true;
                 Main.dust[dustIndex].velocity *= 5f;
-                dustIndex = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y) + npc.velocity, npc.width, 8, 6, 0f, 0f, 100, default(Color), 2f);
+                dustIndex = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + NPC.velocity, NPC.width, 8, 6, 0f, 0f, 100, default(Color), 2f);
                 Main.dust[dustIndex].velocity *= 3f;
             }
             // Large Smoke Gore spawn
-            int goreIndex = Gore.NewGore(new Vector2(npc.Center.X, npc.position.Y) + npc.velocity, default(Vector2), Main.rand.Next(61, 64), 1f);
+            int goreIndex = Gore.NewGore(new Vector2(NPC.Center.X, NPC.position.Y) + NPC.velocity, default(Vector2), Main.rand.Next(61, 64), 1f);
             Main.gore[goreIndex].scale = 1f;
             Main.gore[goreIndex].velocity.X = Main.gore[goreIndex].velocity.X + 1.5f;
             Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y + 1.5f;
-            goreIndex = Gore.NewGore(new Vector2(npc.Center.X, npc.position.Y) + npc.velocity, default(Vector2), Main.rand.Next(61, 64), 1f);
+            goreIndex = Gore.NewGore(new Vector2(NPC.Center.X, NPC.position.Y) + NPC.velocity, default(Vector2), Main.rand.Next(61, 64), 1f);
             Main.gore[goreIndex].scale = 1f;
             Main.gore[goreIndex].velocity.X = Main.gore[goreIndex].velocity.X - 1.5f;
             Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y + 1.5f;
 
             if (Main.netMode != NetmodeID.Server)
             {
-                Main.PlaySound(SoundID.Item14.WithPitchVariance(0.1f).WithVolume(1.1f), new Vector2(npc.Center.X, npc.Center.Y + npc.height / 2));
+                SoundEngine.PlaySound(SoundID.Item14.WithPitchVariance(0.1f).WithVolume(1.1f), new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2));
             }
         }
 
         private void ShootNeedle(float timeBetweenVolleys, float maxOffset)
         {
+            var source = NPC.GetSpawnSource_ForProjectile();
             Vector2 velocity = new Vector2(0, 0); // Dummy gets overriden in projectile.
             int type = ModContent.ProjectileType<SewingNeedle>();
             float offsetX = 0;
@@ -725,16 +728,16 @@ namespace Highlander.NPCs.HauntedHatter
             switch (firePosition)
             {
                 case 0:
-                    offsetX = -npc.width * 1.5f;
+                    offsetX = -NPC.width * 1.5f;
                     firePosition = (firePosition + 1) % 3;
                     targetOffset = -maxOffset;
                     break;
                 case 1:
-                    offsetY = -npc.height * 1f;
+                    offsetY = -NPC.height * 1f;
                     firePosition = (firePosition + 1) % 3;
                     break;
                 case 2:
-                    offsetX = npc.width * 1.5f;
+                    offsetX = NPC.width * 1.5f;
                     firePosition = (firePosition + 1) % 3;
                     targetOffset = maxOffset;
                     attackTimer += timeBetweenVolleys;
@@ -744,26 +747,27 @@ namespace Highlander.NPCs.HauntedHatter
                     break;
             }
 
-            offsetY -= npc.height * 0.5f;
+            offsetY -= NPC.height * 0.5f;
 
             float expertMult = Main.expertMode ? EXPERT_DAMAGE : 1;
             int damage = (int)(NEEDLE_DAMAGE * expertMult);
 
-            Vector2 origin = new Vector2(npc.Center.X + npc.velocity.X + offsetX, npc.Center.Y + npc.velocity.Y + offsetY);
+            Vector2 origin = new Vector2(NPC.Center.X + NPC.velocity.X + offsetX, NPC.Center.Y + NPC.velocity.Y + offsetY);
 
-            var projectile = Projectile.NewProjectileDirect(origin, velocity, type, damage, 0.5f);
+            var projectile = Projectile.NewProjectileDirect(source, origin, velocity, type, damage, 0.5f);
             projectile.ai[1] = targetOffset;
-            projectile.ai[2] = npc.target;
-            projectile.ai[3] = npc.whoAmI;
+            projectile.ai[2] = NPC.target;
+            projectile.ai[3] = NPC.whoAmI;
         }
 
         private void ShootDoubleNeedle(float timeBetweenVolleys, float maxOffset)
         {
+            var source = NPC.GetSpawnSource_ForProjectile();
             Vector2 velocity = new Vector2(0, 0); // Dummy gets overriden in projectile.
             int type = ModContent.ProjectileType<SewingNeedle>();
 
-            Vector2 point0 = new Vector2(npc.Center.X - npc.velocity.X - npc.width * 2.2f, npc.Center.Y - npc.velocity.Y - npc.height * 1);
-            Vector2 point1 = new Vector2(npc.Center.X + npc.velocity.X + npc.width * 2.2f, npc.Center.Y - npc.velocity.Y - npc.height * 1);
+            Vector2 point0 = new Vector2(NPC.Center.X - NPC.velocity.X - NPC.width * 2.2f, NPC.Center.Y - NPC.velocity.Y - NPC.height * 1);
+            Vector2 point1 = new Vector2(NPC.Center.X + NPC.velocity.X + NPC.width * 2.2f, NPC.Center.Y - NPC.velocity.Y - NPC.height * 1);
 
             float offsetX0 = 0;
             float offsetY0 = 0;
@@ -777,20 +781,20 @@ namespace Highlander.NPCs.HauntedHatter
             switch (firePosition)
             {
                 case 0:
-                    offsetX0 = -npc.width * 0.8f;
-                    offsetX1 = npc.width * 0.8f;
+                    offsetX0 = -NPC.width * 0.8f;
+                    offsetX1 = NPC.width * 0.8f;
                     firePosition = (firePosition + 1) % 3;
                     targetOffset0 = -maxOffset;
                     targetOffset1 = maxOffset;
                     break;
                 case 1:
-                    offsetY0 = -npc.height * 0.8f;
-                    offsetY1 = -npc.height * 0.8f;
+                    offsetY0 = -NPC.height * 0.8f;
+                    offsetY1 = -NPC.height * 0.8f;
                     firePosition = (firePosition + 1) % 3;
                     break;
                 case 2:
-                    offsetX0 = npc.width * 0.8f;
-                    offsetX1 = -npc.width * 0.8f;
+                    offsetX0 = NPC.width * 0.8f;
+                    offsetX1 = -NPC.width * 0.8f;
                     firePosition = (firePosition + 1) % 3;
                     targetOffset0 = +maxOffset;
                     targetOffset1 = -maxOffset;
@@ -807,19 +811,20 @@ namespace Highlander.NPCs.HauntedHatter
             Vector2 origin0 = new Vector2(point0.X + offsetX0, point0.Y + offsetY0);
             Vector2 origin1 = new Vector2(point1.X + offsetX1, point1.Y + offsetY1);
 
-            var projectile0 = Projectile.NewProjectileDirect(origin0, velocity, type, damage, 0.5f);
+            var projectile0 = Projectile.NewProjectileDirect(source, origin0, velocity, type, damage, 0.5f);
             projectile0.ai[1] = targetOffset0;
             projectile0.ai[2] = ClosestPlayerToPoint(point0);
-            projectile0.ai[3] = npc.whoAmI;
+            projectile0.ai[3] = NPC.whoAmI;
 
-            var projectile1 = Projectile.NewProjectileDirect(origin1, velocity, type, damage, 0.5f);
+            var projectile1 = Projectile.NewProjectileDirect(source, origin1, velocity, type, damage, 0.5f);
             projectile1.ai[1] = targetOffset1;
             projectile1.ai[2] = ClosestPlayerToPoint(point1);
-            projectile1.ai[3] = npc.whoAmI;
+            projectile1.ai[3] = NPC.whoAmI;
         }
 
         private void ShootManyNeedle(float timeBetweenVolleys, float maxOffset)
         {
+            var source = NPC.GetSpawnSource_ForProjectile();
             Vector2 velocity = new Vector2(0, 0); // Dummy gets overriden in projectile.
             int type = ModContent.ProjectileType<SewingNeedle>();
             float offsetX = 0;
@@ -830,28 +835,28 @@ namespace Highlander.NPCs.HauntedHatter
             switch (firePosition)
             {
                 case 0:
-                    offsetX = -npc.width * 1.5f;
+                    offsetX = -NPC.width * 1.5f;
                     firePosition = (firePosition + 1) % 5;
                     targetOffset = -maxOffset;
                     break;
                 case 1:
-                    offsetX = -npc.width * 1.0f;
-                    offsetY = -npc.height * 0.7f;
+                    offsetX = -NPC.width * 1.0f;
+                    offsetY = -NPC.height * 0.7f;
                     firePosition = (firePosition + 1) % 5;
                     targetOffset = -maxOffset * 0.5f;
                     break;
                 case 2:
-                    offsetY = -npc.height * 1f;
+                    offsetY = -NPC.height * 1f;
                     firePosition = (firePosition + 1) % 5;
                     break;
                 case 3:
-                    offsetX = npc.width * 1.0f;
-                    offsetY = -npc.height * 0.7f;
+                    offsetX = NPC.width * 1.0f;
+                    offsetY = -NPC.height * 0.7f;
                     firePosition = (firePosition + 1) % 5;
                     targetOffset = maxOffset * 0.5f;
                     break;
                 case 4:
-                    offsetX = npc.width * 1.5f;
+                    offsetX = NPC.width * 1.5f;
                     firePosition = (firePosition + 1) % 5;
                     targetOffset = maxOffset;
                     attackTimer += timeBetweenVolleys;
@@ -861,26 +866,27 @@ namespace Highlander.NPCs.HauntedHatter
                     break;
             }
 
-            offsetY -= npc.height * 0.5f;
+            offsetY -= NPC.height * 0.5f;
 
             float expertMult = Main.expertMode ? EXPERT_DAMAGE : 1;
             int damage = (int)(NEEDLE_DAMAGE * expertMult);
 
-            Vector2 origin = new Vector2(npc.Center.X + npc.velocity.X + offsetX, npc.Center.Y + npc.velocity.Y + offsetY);
+            Vector2 origin = new Vector2(NPC.Center.X + NPC.velocity.X + offsetX, NPC.Center.Y + NPC.velocity.Y + offsetY);
 
-            var projectile = Projectile.NewProjectileDirect(origin, velocity, type, damage, 0.5f);
+            var projectile = Projectile.NewProjectileDirect(source, origin, velocity, type, damage, 0.5f);
             projectile.ai[1] = targetOffset;
-            projectile.ai[2] = npc.target;
-            projectile.ai[3] = npc.whoAmI;
+            projectile.ai[2] = NPC.target;
+            projectile.ai[3] = NPC.whoAmI;
         }
 
         private void ShootManyManyNeedle(float timeBetweenVolleys, float maxOffset)
         {
+            var source = NPC.GetSpawnSource_ForProjectile();
             Vector2 velocity = new Vector2(0, 0); // Dummy gets overriden in projectile.
             int type = ModContent.ProjectileType<SewingNeedle>();
 
-            Vector2 point0 = new Vector2(npc.Center.X - npc.velocity.X - npc.width * 2.2f, npc.Center.Y - npc.velocity.Y - npc.height * 1);
-            Vector2 point1 = new Vector2(npc.Center.X + npc.velocity.X + npc.width * 2.2f, npc.Center.Y - npc.velocity.Y - npc.height * 1);
+            Vector2 point0 = new Vector2(NPC.Center.X - NPC.velocity.X - NPC.width * 2.2f, NPC.Center.Y - NPC.velocity.Y - NPC.height * 1);
+            Vector2 point1 = new Vector2(NPC.Center.X + NPC.velocity.X + NPC.width * 2.2f, NPC.Center.Y - NPC.velocity.Y - NPC.height * 1);
 
             float offsetX0 = 0;
             float offsetY0 = 0;
@@ -894,38 +900,38 @@ namespace Highlander.NPCs.HauntedHatter
             switch (firePosition)
             {
                 case 0:
-                    offsetX0 = -npc.width * 0.8f;
-                    offsetX1 = npc.width * 0.8f;
+                    offsetX0 = -NPC.width * 0.8f;
+                    offsetX1 = NPC.width * 0.8f;
                     firePosition = (firePosition + 1) % 5;
                     targetOffset0 = -maxOffset;
                     targetOffset1 = maxOffset;
                     break;
                 case 1:
-                    offsetX0 = npc.width * 0.8f;
-                    offsetX1 = -npc.width * 0.8f;
+                    offsetX0 = NPC.width * 0.8f;
+                    offsetX1 = -NPC.width * 0.8f;
                     firePosition = (firePosition + 1) % 5;
                     targetOffset0 = +maxOffset;
                     targetOffset1 = -maxOffset;
                     break;
                 case 2:
-                    offsetX0 = -npc.width * 0.6f;
-                    offsetX1 = npc.width * 0.6f;
-                    offsetY0 = npc.height * 0.8f;
-                    offsetY1 = npc.height * 0.8f;
+                    offsetX0 = -NPC.width * 0.6f;
+                    offsetX1 = NPC.width * 0.6f;
+                    offsetY0 = NPC.height * 0.8f;
+                    offsetY1 = NPC.height * 0.8f;
                     firePosition = (firePosition + 1) % 5;
                     targetOffset0 = maxOffset * 0.5f;
                     targetOffset1 = -maxOffset * 0.5f;
                     break;
                 case 3:
-                    offsetY0 = -npc.height * 0.8f;
-                    offsetY1 = -npc.height * 0.8f;
+                    offsetY0 = -NPC.height * 0.8f;
+                    offsetY1 = -NPC.height * 0.8f;
                     firePosition = (firePosition + 1) % 5;
                     break;
                 case 4:
-                    offsetX0 = npc.width * 0.6f;
-                    offsetX1 = -npc.width * 0.6f;
-                    offsetY0 = npc.height * 0.8f;
-                    offsetY1 = npc.height * 0.8f;
+                    offsetX0 = NPC.width * 0.6f;
+                    offsetX1 = -NPC.width * 0.6f;
+                    offsetY0 = NPC.height * 0.8f;
+                    offsetY1 = NPC.height * 0.8f;
                     firePosition = (firePosition + 1) % 5;
                     targetOffset0 = -maxOffset * 0.5f;
                     targetOffset1 = maxOffset * 0.5f;
@@ -942,24 +948,25 @@ namespace Highlander.NPCs.HauntedHatter
             Vector2 origin0 = new Vector2(point0.X + offsetX0, point0.Y + offsetY0);
             Vector2 origin1 = new Vector2(point1.X + offsetX1, point1.Y + offsetY1);
 
-            var projectile0 = Projectile.NewProjectileDirect(origin0, velocity, type, damage, 0.5f);
+            var projectile0 = Projectile.NewProjectileDirect(source, origin0, velocity, type, damage, 0.5f);
             projectile0.ai[1] = targetOffset0;
             projectile0.ai[2] = ClosestPlayerToPoint(point0);
-            projectile0.ai[3] = npc.whoAmI;
+            projectile0.ai[3] = NPC.whoAmI;
 
-            var projectile1 = Projectile.NewProjectileDirect(origin1, velocity, type, damage, 0.5f);
+            var projectile1 = Projectile.NewProjectileDirect(source, origin1, velocity, type, damage, 0.5f);
             projectile1.ai[1] = targetOffset1;
             projectile1.ai[2] = ClosestPlayerToPoint(point1);
-            projectile1.ai[3] = npc.whoAmI;
+            projectile1.ai[3] = NPC.whoAmI;
 
         }
 
         private void ShootYarn()
         {
+            var source = NPC.GetSpawnSource_ForProjectile();
             int type = ModContent.ProjectileType<EnchantedYarn>();
 
-            Player player = Main.player[npc.target];
-            float diff = player.Center.X - npc.Center.X;
+            Player player = Main.player[NPC.target];
+            float diff = player.Center.X - NPC.Center.X;
             float xVelocity = 0;
             if (diff > 0)
             {
@@ -974,21 +981,22 @@ namespace Highlander.NPCs.HauntedHatter
             int damage = (int)(BALL_DAMAGE * expertMult);
 
             Vector2 velocity = new Vector2(xVelocity, -12);
-            Vector2 origin = new Vector2(npc.Center.X, npc.position.Y + 26);
+            Vector2 origin = new Vector2(NPC.Center.X, NPC.position.Y + 26);
 
-            var projectile = Projectile.NewProjectileDirect(origin, velocity, type, damage, 0.5f);
+            var projectile = Projectile.NewProjectileDirect(source, origin, velocity, type, damage, 0.5f);
         }
 
         private void GhostBlast()
         {
+            var source = NPC.GetSpawnSource_ForProjectile();
             int type = ModContent.ProjectileType<GhostBlast>();
 
-            Vector2 leftHand = new Vector2(-60, -10) + npc.Center;
+            Vector2 leftHand = new Vector2(-60, -10) + NPC.Center;
 
             float expertMult = Main.expertMode ? EXPERT_DAMAGE : 1;
             int damage = (int)(BLAST_DAMAGE * expertMult);
 
-            Player target = Main.player[npc.target];
+            Player target = Main.player[NPC.target];
 
             float CoolAngle = (float)Math.Atan2(target.Center.Y - leftHand.Y, target.Center.X - leftHand.X) + MathHelper.PiOver2;
 
@@ -997,36 +1005,38 @@ namespace Highlander.NPCs.HauntedHatter
             velocity.Normalize();
             velocity *= 8;
 
-            var projectile = Projectile.NewProjectileDirect(leftHand + npc.velocity + new Vector2(0, -8), velocity, type, damage, 0.5f);
+            var projectile = Projectile.NewProjectileDirect(source, leftHand + NPC.velocity + new Vector2(0, -8), velocity, type, damage, 0.5f);
 
-            Main.PlaySound(SoundID.Item12, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item12, projectile.position);
         }
 
         private void GhostBlast(bool isRight)
         {
+            var source = NPC.GetSpawnSource_ForProjectile();
             int type = ModContent.ProjectileType<GhostBlastCharge>();
             
-            Vector2 hand = currHand + npc.Center;
+            Vector2 hand = currHand + NPC.Center;
 
             float expertMult = Main.expertMode ? EXPERT_DAMAGE : 1;
             int damage = (int)(BLAST_DAMAGE * expertMult);
 
-            int id = npc.whoAmI;
-            var projectile = Projectile.NewProjectileDirect(hand, new Vector2(), type, damage, 0.5f, 255, id, npc.target);
+            int id = NPC.whoAmI;
+            var projectile = Projectile.NewProjectileDirect(source, hand, new Vector2(), type, damage, 0.5f, 255, id, NPC.target);
             projectile.ai[0] = id;
         }
 
         private void HugeGhostBlast()
         {
+            var source = NPC.GetSpawnSource_ForProjectile();
             int type = ModContent.ProjectileType<HugeGhostBlastCharge>();
 
-            Vector2 hand = currHand + npc.Center + new Vector2(0, -20);
+            Vector2 hand = currHand + NPC.Center + new Vector2(0, -20);
 
             float expertMult = Main.expertMode ? EXPERT_DAMAGE : 1;
             int damage = (int)(BLAST_DAMAGE * 1.2f * expertMult);
 
-            int id = npc.whoAmI;
-            var projectile = Projectile.NewProjectileDirect(hand, new Vector2(), type, damage, 0.5f, 255, id, npc.target);
+            int id = NPC.whoAmI;
+            var projectile = Projectile.NewProjectileDirect(source, hand, new Vector2(), type, damage, 0.5f, 255, id, NPC.target);
             projectile.ai[0] = id;
         }
 
@@ -1056,8 +1066,8 @@ namespace Highlander.NPCs.HauntedHatter
         /// <returns></returns>
         private bool TargetDirection()
         {
-            Player player = Main.player[npc.target];
-            if(player.position.X > npc.Center.X)
+            Player player = Main.player[NPC.target];
+            if(player.position.X > NPC.Center.X)
             {
                 return true;
             }
@@ -1112,7 +1122,7 @@ namespace Highlander.NPCs.HauntedHatter
 
             if(newRightFrame != rightFrame || newLeftFrame != leftFrame)
             {
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
                 rightFrame = newRightFrame;
                 leftFrame = newLeftFrame;
             }
@@ -1121,31 +1131,31 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void UpdateDefense()
         {
-            //bool alive0 = Main.npc[spawns[0]].life > 0;
-            //bool alive1 = Main.npc[spawns[1]].life > 0;
+            //bool alive0 = Main.NPC[spawns[0]].life > 0;
+            //bool alive1 = Main.NPC[spawns[1]].life > 0;
 
             //int def0 = alive0 ? 1 : 0;
             //int def1 = alive1 ? 1 : 0;
 
-            //npc.defense = BASE_DEF + 8 * (def0 + def1);
+            //NPC.defense = BASE_DEF + 8 * (def0 + def1);
         }
 
         private int stage
         {
-            get => (int)npc.ai[0];
-            set => npc.ai[0] = value;
+            get => (int)NPC.ai[0];
+            set => NPC.ai[0] = value;
         }
 
         private float attackTimer
         {
-            get => npc.ai[1];
-            set => npc.ai[1] = value;
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
         }
 
         private int firePosition
         {
-            get => (int)npc.ai[2];
-            set => npc.ai[2] = value;
+            get => (int)NPC.ai[2];
+            set => NPC.ai[2] = value;
         }
 
         public bool smiling
@@ -1190,7 +1200,7 @@ namespace Highlander.NPCs.HauntedHatter
         }
 
         private Vector2 ghostHead {
-            get => npc.position + new Vector2(70, 20);
+            get => NPC.position + new Vector2(70, 20);
         }
 
         /// <summary>
@@ -1204,8 +1214,8 @@ namespace Highlander.NPCs.HauntedHatter
 
         internal float altTimer
         {
-            get => npc.ai[3];
-            private set => npc.ai[3] = value;
+            get => NPC.ai[3];
+            private set => NPC.ai[3] = value;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -1238,7 +1248,7 @@ namespace Highlander.NPCs.HauntedHatter
             alpha = reader.ReadByte();
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!HighlanderWorld.downedHauntedHatter)
             {
@@ -1248,31 +1258,21 @@ namespace Highlander.NPCs.HauntedHatter
                     NetMessage.SendData(MessageID.WorldData); // Immediately inform clients of new world state.
                 }
             }
+        }
 
-            if (Main.rand.NextBool(10))
-            {
-                Item.NewItem(npc.getRect(), ItemType<HauntedHatterTrophy>());
-            }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ItemType<HauntedHatterBag>()));
 
-            if (Main.expertMode)
-            {
-                npc.DropBossBags();
-            }
-            else
-            {
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem(npc.getRect(), ItemType<SpiritShears>());
-                }
-                else
-                {
-                    Item.NewItem(npc.getRect(), ItemType<AncientStoneBlaster>());
-                }
-                if (Main.rand.NextBool(7))
-                {
-                    Item.NewItem(npc.getRect(), ItemType<GhostlyGibus>());
-                }
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemType<HauntedHatterTrophy>(), 10));
+
+            // All our drops here are based on "not expert", meaning we use .OnSuccess() to add them into the rule, which then gets added
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+
+            // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
+            // Boss masks are spawned with 1/7 chance
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<GhostlyGibus>(), 7));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1, ItemType<SpiritShears>(), ItemType<AncientStoneBlaster>()));
         }
 
         public override void BossLoot(ref string name, ref int potionType)

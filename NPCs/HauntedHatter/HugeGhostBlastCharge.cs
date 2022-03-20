@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,55 +24,55 @@ namespace Highlander.NPCs.HauntedHatter
 
 		public override void SetStaticDefaults()
 		{
-			Main.projFrames[projectile.type] = 5;
+			Main.projFrames[Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 52;
-			projectile.height = 52;
-			projectile.hostile = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.alpha = 0;
-			projectile.timeLeft = 150;
+			Projectile.width = 52;
+			Projectile.height = 52;
+			Projectile.hostile = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 0;
+			Projectile.timeLeft = 150;
 		}
 
 		public override void AI()
 		{
 			if (!flags[0])
 			{
-				projectile.scale = 0.10f;
+				Projectile.scale = 0.10f;
 				flags[0] = true;
-				offset = projectile.position - owner.position;
-				projectile.velocity *= 0;
+				offset = Projectile.position - owner.position;
+				Projectile.velocity *= 0;
 				timer = 30;
 				if (Main.netMode != NetmodeID.Server)
 				{
-					Main.PlaySound(SoundID.Item45.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item45.Style, 0.50f, -0.5f);
+					SoundEngine.PlaySound(SoundID.Item45.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item45.Style, 0.50f, -0.5f);
 				}
 			}
 
 			if (timer > 0)
 			{
-				projectile.scale += 0.03f;
+				Projectile.scale += 0.03f;
 				timer--;
 
-				projectile.position = offset + owner.position;
+				Projectile.position = offset + owner.position;
 
 				if (timer <= 0)
 				{
-					float CoolAngle = (float)Math.Atan2(target.Center.Y - projectile.position.Y, target.Center.X - projectile.position.X) + MathHelper.PiOver2;
+					float CoolAngle = (float)Math.Atan2(target.Center.Y - Projectile.position.Y, target.Center.X - Projectile.position.X) + MathHelper.PiOver2;
 
 					float rotation = CoolAngle - MathHelper.PiOver2;
 					Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 					velocity.Normalize();
 					velocity *= 8;
 
-					projectile.scale = 1.0f;
+					Projectile.scale = 1.0f;
 
-					projectile.velocity = velocity;
-					projectile.netUpdate = true;
+					Projectile.velocity = velocity;
+					Projectile.netUpdate = true;
 				}
 			}
 			else
@@ -81,26 +82,26 @@ namespace Highlander.NPCs.HauntedHatter
 					flags[1] = true;
 					if (Main.netMode != NetmodeID.Server)
 					{
-						Main.PlaySound(SoundID.Item12.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item12.Style, 1f, -0.2f);
+						SoundEngine.PlaySound(SoundID.Item12.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item12.Style, 1f, -0.2f);
 					}
 				}
-				projectile.rotation = forward.ToRotation();
-				projectile.timeLeft--;
+				Projectile.rotation = forward.ToRotation();
+				Projectile.timeLeft--;
 			}
 
 			// Loop through the 5 animation frames, spending 6 ticks on each.
-			if (++projectile.frameCounter >= 6)
+			if (++Projectile.frameCounter >= 6)
 			{
-				projectile.frameCounter = 0;
-				if (++projectile.frame >= 5)
+				Projectile.frameCounter = 0;
+				if (++Projectile.frame >= 5)
 				{
-					projectile.frame = 0;
+					Projectile.frame = 0;
 				}
 			}
 
 			float strength = 0.9f;
 
-			Lighting.AddLight(projectile.position + projectile.velocity * 8, 0.15f * strength, 0.54f * strength, 0.31f * strength);
+			Lighting.AddLight(Projectile.position + Projectile.velocity * 8, 0.15f * strength, 0.54f * strength, 0.31f * strength);
 		}
 
 		// Shoots 8 projectiles when killed.
@@ -108,17 +109,19 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
+				var source = Projectile.GetNPCSource_FromThis();
+
 				int type = ModContent.ProjectileType<GhostBlast>();
-				int damage = (int)(projectile.damage * 0.8333333f);
+				int damage = (int)(Projectile.damage * 0.8333333f);
 				var curr = forward;
 				for (int i = 0; i < 8; i++)
 				{
-					Projectile.NewProjectileDirect(projectile.Center, curr * 6, type, damage, 0.5f);
+					Projectile.NewProjectileDirect(source, Projectile.Center, curr * 6, type, damage, 0.5f);
 					curr = curr.RotatedBy(MathHelper.PiOver4);
 				}
 				if (Main.netMode != NetmodeID.Server)
 				{
-					Main.PlaySound(SoundID.Item72.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item72.Style, 0.60f, -0.2f);
+					SoundEngine.PlaySound(SoundID.Item72.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item72.Style, 0.60f, -0.2f);
 				}
 			}
 		}

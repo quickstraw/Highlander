@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -20,24 +21,25 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			// Head is 10 defence, body 20, tail 30.
 			SetWormDefaults();
-			npc.HitSound = SoundID.NPCHit42;
-			npc.DeathSound = SoundID.NPCDeath3;
-			npc.dontTakeDamage = false;
-			npc.scale = 1.1f;
-			npc.defense += 8;
-			npc.aiStyle = -1;
+			NPC.HitSound = SoundID.NPCHit42;
+			NPC.DeathSound = SoundID.NPCDeath3;
+			NPC.dontTakeDamage = false;
+			NPC.scale = 1.1f;
+			NPC.defense += 8;
+			NPC.aiStyle = -1;
 		}
 
 		public override void Init()
 		{
+			var source = NPC.GetSpawnSourceForNPCFromNPCAI();
 			base.Init();
 			head = true;
-			Vector2 NewPosition = new Vector2(npc.Center.X, npc.Center.Y);
-			NewPosition += forward * npc.width;
+			Vector2 NewPosition = new Vector2(NPC.Center.X, NPC.Center.Y);
+			NewPosition += forward * NPC.width;
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				NPC.NewNPC((int)NewPosition.X, (int)NewPosition.Y, ModContent.NPCType<NeedleWormExtension>(), 0, 0, npc.whoAmI, npc.whoAmI);
-				npc.netUpdate = true;
+				NPC.NewNPC(source, (int)NewPosition.X, (int)NewPosition.Y, ModContent.NPCType<NeedleWormExtension>(), 0, 0, NPC.whoAmI, NPC.whoAmI);
+				NPC.netUpdate = true;
 			}
 		}
 
@@ -45,27 +47,27 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				Player target = Main.player[npc.target];
-				float angle = (float)Math.Atan2(target.Center.Y - npc.Center.Y, target.Center.X - npc.Center.X) + MathHelper.PiOver2;
-				float rotation = npc.rotation % MathHelper.TwoPi;
+				Player target = Main.player[NPC.target];
+				float angle = (float)Math.Atan2(target.Center.Y - NPC.Center.Y, target.Center.X - NPC.Center.X) + MathHelper.PiOver2;
+				float rotation = NPC.rotation % MathHelper.TwoPi;
 				if (!(rotation + MathHelper.PiOver2 + MathHelper.PiOver4 >= angle && rotation - MathHelper.PiOver2 - MathHelper.PiOver4 <= angle))
 				{
-					npc.velocity *= 0.99f;
-					npc.netUpdate = true;
+					NPC.velocity *= 0.99f;
+					NPC.netUpdate = true;
 				}
 			}
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color lightColor)
 		{
-			Lighting.AddLight(npc.position + npc.velocity + forward * npc.width, 0.36f, 0.24f, 0.40f);
+			Lighting.AddLight(NPC.position + NPC.velocity + forward * NPC.width, 0.36f, 0.24f, 0.40f);
 		}
 
 		private Vector2 forward
 		{
 			get
 			{
-				float rotation = npc.rotation - MathHelper.PiOver2;
+				float rotation = NPC.rotation - MathHelper.PiOver2;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;
@@ -80,64 +82,66 @@ namespace Highlander.NPCs.HauntedHatter
 		public override void SetStaticDefaults()
 		{
 			base.SetStaticDefaults();
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[NPC.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
 			SetWormDefaults();
-			npc.HitSound = SoundID.NPCHit42;
-			npc.scale = 1.1f;
-			npc.dontTakeDamage = false;
-			npc.defense += 14;
-			npc.dontCountMe = true;
-			npc.aiStyle = -1;
+			NPC.HitSound = SoundID.NPCHit42;
+			NPC.scale = 1.1f;
+			NPC.dontTakeDamage = false;
+			NPC.defense += 14;
+			NPC.dontCountMe = true;
+			NPC.aiStyle = -1;
 		}
 
 		public override void AI()
 		{
-			if (!Main.npc[(int)npc.ai[2]].active)
+			if (!Main.npc[(int)NPC.ai[2]].active)
 			{
-				npc.active = false;
+				NPC.active = false;
 			}
-			if((int)npc.ai[3] == 0)
+			if((int)NPC.ai[3] == 0)
 			{
-				if((int)npc.ai[0] < 4)
+				var source = NPC.GetSpawnSourceForNPCFromNPCAI();
+
+				if((int)NPC.ai[0] < 4)
 				{
-					Vector2 NewPosition = new Vector2(npc.Center.X, npc.Center.Y);
-					NewPosition += forward * npc.width;
-					NPC.NewNPC((int)NewPosition.X, (int)NewPosition.Y, ModContent.NPCType<NeedleWormExtension>(), 0, (int)npc.ai[0] + 1, npc.whoAmI, npc.ai[2]);
+					Vector2 NewPosition = new Vector2(NPC.Center.X, NPC.Center.Y);
+					NewPosition += forward * NPC.width;
+					NPC.NewNPC(source, (int)NewPosition.X, (int)NewPosition.Y, ModContent.NPCType<NeedleWormExtension>(), 0, (int)NPC.ai[0] + 1, NPC.whoAmI, NPC.ai[2]);
 				}
-				npc.rotation = Main.npc[(int)npc.ai[1]].rotation;
+				NPC.rotation = Main.npc[(int)NPC.ai[1]].rotation;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.ai[3]++;
-					npc.realLife = Main.npc[(int)npc.ai[2]].realLife;
-					npc.netUpdate = true;
+					NPC.ai[3]++;
+					NPC.realLife = Main.npc[(int)NPC.ai[2]].realLife;
+					NPC.netUpdate = true;
 				}
 			}
 			else
 			{
-				npc.rotation = Main.npc[(int)npc.ai[2]].rotation;
-				npc.position = Main.npc[(int)npc.ai[2]].position + forward * npc.width * (1 + (int) npc.ai[0]);
+				NPC.rotation = Main.npc[(int)NPC.ai[2]].rotation;
+				NPC.position = Main.npc[(int)NPC.ai[2]].position + forward * NPC.width * (1 + (int) NPC.ai[0]);
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.realLife = Main.npc[(int)npc.ai[2]].realLife;
-					npc.netUpdate = true;
+					NPC.realLife = Main.npc[(int)NPC.ai[2]].realLife;
+					NPC.netUpdate = true;
 				}
 			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-				npc.frame.Y = frameHeight * (int)npc.ai[0];
+				NPC.frame.Y = frameHeight * (int)NPC.ai[0];
 		}
 
 		private Vector2 forward
 		{
 			get
 			{
-				float rotation = npc.rotation - MathHelper.PiOver2;
+				float rotation = NPC.rotation - MathHelper.PiOver2;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;
@@ -153,31 +157,31 @@ namespace Highlander.NPCs.HauntedHatter
 		public override void SetDefaults()
 		{
 			SetWormDefaults();
-			npc.damage = (int)(npc.damage * 0.75);
-			npc.defense += 14;
-			npc.dontCountMe = true;
-			npc.aiStyle = -1;
+			NPC.damage = (int)(NPC.damage * 0.75);
+			NPC.defense += 14;
+			NPC.dontCountMe = true;
+			NPC.aiStyle = -1;
 		}
 
 		public override void Init()
 		{
 			base.Init();
-			/**NPC curr = npc;
+			/**NPC curr = NPC;
 			for(int i = 0; i < 4; i++)
 			{
-				if((int)curr.ai[1] == (int)npc.ai[3])
+				if((int)curr.ai[1] == (int)NPC.ai[3])
 				{
-					npc.dontTakeDamage = false;
+					NPC.dontTakeDamage = false;
 					break;
 				}
 				else
 				{
-					curr = Main.npc[(int)curr.ai[1]];
+					curr = Main.NPC[(int)curr.ai[1]];
 				}
 			}**/
-			/**if((int)npc.ai[2] % 3 == 0)
+			/**if((int)NPC.ai[2] % 3 == 0)
 			{
-				npc.dontTakeDamage = false;
+				NPC.dontTakeDamage = false;
 			}**/
 		}
 	}
@@ -189,10 +193,10 @@ namespace Highlander.NPCs.HauntedHatter
 		public override void SetDefaults()
 		{
 			SetWormDefaults();
-			npc.damage = (int)(npc.damage * 0.75);
-			npc.defense += 20;
-			npc.dontCountMe = true;
-			npc.aiStyle = -1;
+			NPC.damage = (int)(NPC.damage * 0.75);
+			NPC.defense += 20;
+			NPC.dontCountMe = true;
+			NPC.aiStyle = -1;
 		}
 
 		public override void Init()
@@ -224,23 +228,23 @@ namespace Highlander.NPCs.HauntedHatter
 
 		public void SetWormDefaults()
 		{
-			npc.lifeMax = 1000;
-			npc.width = 14;
-			npc.height = 14;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.damage = 24;
-			npc.defense = 2;
-			npc.knockBackResist = 0;
-			npc.value = 300;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.netAlways = true;
-			npc.scale = 1f;
-			npc.behindTiles = false;
-			npc.lavaImmune = true;
-			npc.dontTakeDamage = true;
+			NPC.lifeMax = 1000;
+			NPC.width = 14;
+			NPC.height = 14;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.damage = 24;
+			NPC.defense = 2;
+			NPC.knockBackResist = 0;
+			NPC.value = 300;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.netAlways = true;
+			NPC.scale = 1f;
+			NPC.behindTiles = false;
+			NPC.lavaImmune = true;
+			NPC.dontTakeDamage = true;
 		}
-		public override bool PreNPCLoot()
+		public override bool PreKill()
 		{
 			return false;
 		}
@@ -269,73 +273,75 @@ namespace Highlander.NPCs.HauntedHatter
 
 		public override void AI()
 		{
-			if (npc.localAI[1] == 0f)
+			if (NPC.localAI[1] == 0f)
 			{
-				npc.localAI[1] = 1f;
+				NPC.localAI[1] = 1f;
 				Init();
 			}
 			if (headIndex > 0f)
 			{
-				npc.realLife = headIndex;
+				NPC.realLife = headIndex;
 			}
-			if (!head && npc.timeLeft < 300)
+			if (!head && NPC.timeLeft < 300)
 			{
-				npc.timeLeft = 300;
+				NPC.timeLeft = 300;
 			}
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead)
 			{
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 			}
-			if (Main.player[npc.target].dead && npc.timeLeft > 300)
+			if (Main.player[NPC.target].dead && NPC.timeLeft > 300)
 			{
-				npc.timeLeft = 300;
+				NPC.timeLeft = 300;
 			}
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
+				var source = NPC.GetSpawnSourceForNPCFromNPCAI();
+
 				if (!tail && nextSegment == 0f)
 				{
 					if (head)
 					{
-						headIndex = npc.whoAmI;
-						npc.realLife = npc.whoAmI;
-						npc.ai[2] = (float)Main.rand.Next(minLength, maxLength + 1);
-						nextSegment = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), bodyType, npc.whoAmI);
+						headIndex = NPC.whoAmI;
+						NPC.realLife = NPC.whoAmI;
+						NPC.ai[2] = (float)Main.rand.Next(minLength, maxLength + 1);
+						nextSegment = NPC.NewNPC(source, (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), bodyType, NPC.whoAmI);
 					}
-					else if (npc.ai[2] > 0f)
+					else if (NPC.ai[2] > 0f)
 					{
-						nextSegment = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), npc.type, npc.whoAmI);
+						nextSegment = NPC.NewNPC(source, (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), NPC.type, NPC.whoAmI);
 					}
 					else
 					{
-						nextSegment = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), tailType, npc.whoAmI);
+						nextSegment = NPC.NewNPC(source, (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), tailType, NPC.whoAmI);
 					}
 					Main.npc[nextSegment].ai[3] = headIndex;
-					Main.npc[nextSegment].realLife = npc.realLife;
-					Main.npc[nextSegment].ai[1] = (float)npc.whoAmI;
-					Main.npc[nextSegment].ai[2] = npc.ai[2] - 1f;
-					npc.netUpdate = true;
+					Main.npc[nextSegment].realLife = NPC.realLife;
+					Main.npc[nextSegment].ai[1] = (float)NPC.whoAmI;
+					Main.npc[nextSegment].ai[2] = NPC.ai[2] - 1f;
+					NPC.netUpdate = true;
 				}
-				if (!head && (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].type != headType && Main.npc[(int)npc.ai[1]].type != bodyType))
+				if (!head && (!Main.npc[(int)NPC.ai[1]].active || Main.npc[(int)NPC.ai[1]].type != headType && Main.npc[(int)NPC.ai[1]].type != bodyType))
 				{
-					npc.life = 0;
-					npc.HitEffect(0, 10.0);
-					npc.active = false;
+					NPC.life = 0;
+					NPC.HitEffect(0, 10.0);
+					NPC.active = false;
 				}
 				if (!tail && (!Main.npc[nextSegment].active || Main.npc[nextSegment].type != bodyType && Main.npc[nextSegment].type != tailType))
 				{
-					npc.life = 0;
-					npc.HitEffect(0, 10.0);
-					npc.active = false;
+					NPC.life = 0;
+					NPC.HitEffect(0, 10.0);
+					NPC.active = false;
 				}
-				if (!npc.active && Main.netMode == 2)
+				if (!NPC.active && Main.netMode == 2)
 				{
-					NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(28, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 				}
 			}
-			int num180 = (int)(npc.position.X / 16f) - 1;
-			int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
-			int num182 = (int)(npc.position.Y / 16f) - 1;
-			int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
+			int num180 = (int)(NPC.position.X / 16f) - 1;
+			int num181 = (int)((NPC.position.X + (float)NPC.width) / 16f) + 2;
+			int num182 = (int)(NPC.position.Y / 16f) - 1;
+			int num183 = (int)((NPC.position.Y + (float)NPC.height) / 16f) + 2;
 			if (num180 < 0)
 			{
 				num180 = 0;
@@ -359,21 +365,21 @@ namespace Highlander.NPCs.HauntedHatter
 				{
 					for (int num185 = num182; num185 < num183; num185++)
 					{
-						if (Main.tile[num184, num185] != null && (Main.tile[num184, num185].nactive() && (Main.tileSolid[(int)Main.tile[num184, num185].type] || Main.tileSolidTop[(int)Main.tile[num184, num185].type] && Main.tile[num184, num185].frameY == 0) || Main.tile[num184, num185].liquid > 64))
+						if (Main.tile[num184, num185] != null && (Main.tile[num184, num185].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[num184, num185].BlockType] || Main.tileSolidTop[(int)Main.tile[num184, num185].BlockType] && Main.tile[num184, num185].TileFrameY == 0) || Main.tile[num184, num185].LiquidType > 64))
 						{
 							Vector2 vector17;
 							vector17.X = (float)(num184 * 16);
 							vector17.Y = (float)(num185 * 16);
-							if (npc.position.X + (float)npc.width > vector17.X && npc.position.X < vector17.X + 16f && npc.position.Y + (float)npc.height > vector17.Y && npc.position.Y < vector17.Y + 16f)
+							if (NPC.position.X + (float)NPC.width > vector17.X && NPC.position.X < vector17.X + 16f && NPC.position.Y + (float)NPC.height > vector17.Y && NPC.position.Y < vector17.Y + 16f)
 							{
 								currFlying = true;
-								if (Main.rand.NextBool(100) && npc.behindTiles && Main.tile[num184, num185].nactive())
+								if (Main.rand.NextBool(100) && NPC.behindTiles && Main.tile[num184, num185].HasUnactuatedTile)
 								{
 									WorldGen.KillTile(num184, num185, true, true, false);
 								}
-								if (Main.netMode != NetmodeID.MultiplayerClient && Main.tile[num184, num185].type == 2)
+								if (Main.netMode != NetmodeID.MultiplayerClient && ((int)Main.tile[num184, num185].BlockType) == 2)
 								{
-									ushort arg_BFCA_0 = Main.tile[num184, num185 - 1].type;
+									ushort arg_BFCA_0 = ((ushort)Main.tile[num184, num185 - 1].BlockType);
 								}
 							}
 						}
@@ -382,7 +388,7 @@ namespace Highlander.NPCs.HauntedHatter
 			}
 			if (!currFlying && head)
 			{
-				Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+				Rectangle rectangle = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);
 				int num186 = 1000;
 				bool headShouldFly = true;
 				for (int i = 0; i < 255; i++)
@@ -404,20 +410,20 @@ namespace Highlander.NPCs.HauntedHatter
 			}
 			if (directional)
 			{
-				if (npc.velocity.X < 0f)
+				if (NPC.velocity.X < 0f)
 				{
-					npc.spriteDirection = 1;
+					NPC.spriteDirection = 1;
 				}
-				else if (npc.velocity.X > 0f)
+				else if (NPC.velocity.X > 0f)
 				{
-					npc.spriteDirection = -1;
+					NPC.spriteDirection = -1;
 				}
 			}
 			float num188 = speed;
 			float num189 = turnSpeed;
-			Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-			float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-			float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+			Vector2 vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+			float num191 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+			float num192 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
 			num191 = (float)((int)(num191 / 16f) * 16);
 			num192 = (float)((int)(num192 / 16f) * 16);
 			vector18.X = (float)((int)(vector18.X / 16f) * 16);
@@ -425,35 +431,35 @@ namespace Highlander.NPCs.HauntedHatter
 			num191 -= vector18.X;
 			num192 -= vector18.Y;
 			float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-			if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
+			if (NPC.ai[1] > 0f && NPC.ai[1] < (float)Main.npc.Length)
 			{
 				try
 				{
-					vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-					num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
-					num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
+					vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+					num191 = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
+					num192 = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
 				}
 				catch
 				{
 				}
-				npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
+				NPC.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
 				num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-				int num194 = npc.width;
+				int num194 = NPC.width;
 				num193 = (num193 - (float)num194) / num193;
 				num191 *= num193;
 				num192 *= num193;
-				npc.velocity = Vector2.Zero;
-				npc.position.X = npc.position.X + num191;
-				npc.position.Y = npc.position.Y + num192;
+				NPC.velocity = Vector2.Zero;
+				NPC.position.X = NPC.position.X + num191;
+				NPC.position.Y = NPC.position.Y + num192;
 				if (directional)
 				{
 					if (num191 < 0f)
 					{
-						npc.spriteDirection = 1;
+						NPC.spriteDirection = 1;
 					}
 					if (num191 > 0f)
 					{
-						npc.spriteDirection = -1;
+						NPC.spriteDirection = -1;
 					}
 				}
 			}
@@ -461,49 +467,49 @@ namespace Highlander.NPCs.HauntedHatter
 			{
 				if (!currFlying)
 				{
-					npc.TargetClosest(true);
-					npc.velocity.Y = npc.velocity.Y + 0.11f;
-					if (npc.velocity.Y > num188)
+					NPC.TargetClosest(true);
+					NPC.velocity.Y = NPC.velocity.Y + 0.11f;
+					if (NPC.velocity.Y > num188)
 					{
-						npc.velocity.Y = num188;
+						NPC.velocity.Y = num188;
 					}
-					if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.4)
+					if ((double)(System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y)) < (double)num188 * 0.4)
 					{
-						if (npc.velocity.X < 0f)
+						if (NPC.velocity.X < 0f)
 						{
-							npc.velocity.X = npc.velocity.X - num189 * 1.1f;
+							NPC.velocity.X = NPC.velocity.X - num189 * 1.1f;
 						}
 						else
 						{
-							npc.velocity.X = npc.velocity.X + num189 * 1.1f;
+							NPC.velocity.X = NPC.velocity.X + num189 * 1.1f;
 						}
 					}
-					else if (npc.velocity.Y == num188)
+					else if (NPC.velocity.Y == num188)
 					{
-						if (npc.velocity.X < num191)
+						if (NPC.velocity.X < num191)
 						{
-							npc.velocity.X = npc.velocity.X + num189;
+							NPC.velocity.X = NPC.velocity.X + num189;
 						}
-						else if (npc.velocity.X > num191)
+						else if (NPC.velocity.X > num191)
 						{
-							npc.velocity.X = npc.velocity.X - num189;
+							NPC.velocity.X = NPC.velocity.X - num189;
 						}
 					}
-					else if (npc.velocity.Y > 4f)
+					else if (NPC.velocity.Y > 4f)
 					{
-						if (npc.velocity.X < 0f)
+						if (NPC.velocity.X < 0f)
 						{
-							npc.velocity.X = npc.velocity.X + num189 * 0.9f;
+							NPC.velocity.X = NPC.velocity.X + num189 * 0.9f;
 						}
 						else
 						{
-							npc.velocity.X = npc.velocity.X - num189 * 0.9f;
+							NPC.velocity.X = NPC.velocity.X - num189 * 0.9f;
 						}
 					}
 				}
 				else
 				{
-					if (!flies && npc.behindTiles && npc.soundDelay == 0)
+					if (!flies && NPC.behindTiles && NPC.soundDelay == 0)
 					{
 						float num195 = num193 / 40f;
 						if (num195 < 10f)
@@ -514,8 +520,8 @@ namespace Highlander.NPCs.HauntedHatter
 						{
 							num195 = 20f;
 						}
-						npc.soundDelay = (int)num195;
-						Main.PlaySound(SoundID.Roar, npc.position, 1);
+						NPC.soundDelay = (int)num195;
+						SoundEngine.PlaySound(SoundID.Roar, NPC.position, 1);
 					}
 					num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
 					float num196 = System.Math.Abs(num191);
@@ -535,15 +541,15 @@ namespace Highlander.NPCs.HauntedHatter
 						}
 						if (flag20)
 						{
-							if (Main.netMode != NetmodeID.MultiplayerClient && (double)(npc.position.Y / 16f) > (Main.rockLayer + (double)Main.maxTilesY) / 2.0)
+							if (Main.netMode != NetmodeID.MultiplayerClient && (double)(NPC.position.Y / 16f) > (Main.rockLayer + (double)Main.maxTilesY) / 2.0)
 							{
-								npc.active = false;
+								NPC.active = false;
 								int num200 = (int)nextSegment;
-								while (num200 > 0 && num200 < 200 && Main.npc[num200].active && Main.npc[num200].aiStyle == npc.aiStyle)
+								while (num200 > 0 && num200 < 200 && Main.npc[num200].active && Main.npc[num200].aiStyle == NPC.aiStyle)
 								{
 									int num201 = (int)Main.npc[num200].ai[0];
 									Main.npc[num200].active = false;
-									npc.life = 0;
+									NPC.life = 0;
 									if (Main.netMode == 2)
 									{
 										NetMessage.SendData(23, -1, -1, null, num200, 0f, 0f, 0f, 0, 0, 0);
@@ -552,7 +558,7 @@ namespace Highlander.NPCs.HauntedHatter
 								}
 								if (Main.netMode == 2)
 								{
-									NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+									NetMessage.SendData(23, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 								}
 							}
 							num191 = 0f;
@@ -560,82 +566,82 @@ namespace Highlander.NPCs.HauntedHatter
 						}
 					}
 					bool flag21 = false;
-					if (npc.type == 87)
+					if (NPC.type == 87)
 					{
-						if ((npc.velocity.X > 0f && num191 < 0f || npc.velocity.X < 0f && num191 > 0f || npc.velocity.Y > 0f && num192 < 0f || npc.velocity.Y < 0f && num192 > 0f) && System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y) > num189 / 2f && num193 < 300f)
+						if ((NPC.velocity.X > 0f && num191 < 0f || NPC.velocity.X < 0f && num191 > 0f || NPC.velocity.Y > 0f && num192 < 0f || NPC.velocity.Y < 0f && num192 > 0f) && System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y) > num189 / 2f && num193 < 300f)
 						{
 							flag21 = true;
-							if (System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y) < num188)
+							if (System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y) < num188)
 							{
-								npc.velocity *= 1.1f;
+								NPC.velocity *= 1.1f;
 							}
 						}
-						if (npc.position.Y > Main.player[npc.target].position.Y || (double)(Main.player[npc.target].position.Y / 16f) > Main.worldSurface || Main.player[npc.target].dead)
+						if (NPC.position.Y > Main.player[NPC.target].position.Y || (double)(Main.player[NPC.target].position.Y / 16f) > Main.worldSurface || Main.player[NPC.target].dead)
 						{
 							flag21 = true;
-							if (System.Math.Abs(npc.velocity.X) < num188 / 2f)
+							if (System.Math.Abs(NPC.velocity.X) < num188 / 2f)
 							{
-								if (npc.velocity.X == 0f)
+								if (NPC.velocity.X == 0f)
 								{
-									npc.velocity.X = npc.velocity.X - (float)npc.direction;
+									NPC.velocity.X = NPC.velocity.X - (float)NPC.direction;
 								}
-								npc.velocity.X = npc.velocity.X * 1.1f;
+								NPC.velocity.X = NPC.velocity.X * 1.1f;
 							}
 							else
 							{
-								if (npc.velocity.Y > -num188)
+								if (NPC.velocity.Y > -num188)
 								{
-									npc.velocity.Y = npc.velocity.Y - num189;
+									NPC.velocity.Y = NPC.velocity.Y - num189;
 								}
 							}
 						}
 					}
 					if (!flag21)
 					{
-						if (npc.velocity.X > 0f && num191 > 0f || npc.velocity.X < 0f && num191 < 0f || npc.velocity.Y > 0f && num192 > 0f || npc.velocity.Y < 0f && num192 < 0f)
+						if (NPC.velocity.X > 0f && num191 > 0f || NPC.velocity.X < 0f && num191 < 0f || NPC.velocity.Y > 0f && num192 > 0f || NPC.velocity.Y < 0f && num192 < 0f)
 						{
-							if (npc.velocity.X < num191)
+							if (NPC.velocity.X < num191)
 							{
-								npc.velocity.X = npc.velocity.X + num189;
+								NPC.velocity.X = NPC.velocity.X + num189;
 							}
 							else
 							{
-								if (npc.velocity.X > num191)
+								if (NPC.velocity.X > num191)
 								{
-									npc.velocity.X = npc.velocity.X - num189;
+									NPC.velocity.X = NPC.velocity.X - num189;
 								}
 							}
-							if (npc.velocity.Y < num192)
+							if (NPC.velocity.Y < num192)
 							{
-								npc.velocity.Y = npc.velocity.Y + num189;
+								NPC.velocity.Y = NPC.velocity.Y + num189;
 							}
 							else
 							{
-								if (npc.velocity.Y > num192)
+								if (NPC.velocity.Y > num192)
 								{
-									npc.velocity.Y = npc.velocity.Y - num189;
+									NPC.velocity.Y = NPC.velocity.Y - num189;
 								}
 							}
-							if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && (npc.velocity.X > 0f && num191 < 0f || npc.velocity.X < 0f && num191 > 0f))
+							if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && (NPC.velocity.X > 0f && num191 < 0f || NPC.velocity.X < 0f && num191 > 0f))
 							{
-								if (npc.velocity.Y > 0f)
+								if (NPC.velocity.Y > 0f)
 								{
-									npc.velocity.Y = npc.velocity.Y + num189 * 2f;
+									NPC.velocity.Y = NPC.velocity.Y + num189 * 2f;
 								}
 								else
 								{
-									npc.velocity.Y = npc.velocity.Y - num189 * 2f;
+									NPC.velocity.Y = NPC.velocity.Y - num189 * 2f;
 								}
 							}
-							if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && (npc.velocity.Y > 0f && num192 < 0f || npc.velocity.Y < 0f && num192 > 0f))
+							if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && (NPC.velocity.Y > 0f && num192 < 0f || NPC.velocity.Y < 0f && num192 > 0f))
 							{
-								if (npc.velocity.X > 0f)
+								if (NPC.velocity.X > 0f)
 								{
-									npc.velocity.X = npc.velocity.X + num189 * 2f;
+									NPC.velocity.X = NPC.velocity.X + num189 * 2f;
 								}
 								else
 								{
-									npc.velocity.X = npc.velocity.X - num189 * 2f;
+									NPC.velocity.X = NPC.velocity.X - num189 * 2f;
 								}
 							}
 						}
@@ -643,73 +649,73 @@ namespace Highlander.NPCs.HauntedHatter
 						{
 							if (num196 > num197)
 							{
-								if (npc.velocity.X < num191)
+								if (NPC.velocity.X < num191)
 								{
-									npc.velocity.X = npc.velocity.X + num189 * 1.1f;
+									NPC.velocity.X = NPC.velocity.X + num189 * 1.1f;
 								}
-								else if (npc.velocity.X > num191)
+								else if (NPC.velocity.X > num191)
 								{
-									npc.velocity.X = npc.velocity.X - num189 * 1.1f;
+									NPC.velocity.X = NPC.velocity.X - num189 * 1.1f;
 								}
-								if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+								if ((double)(System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y)) < (double)num188 * 0.5)
 								{
-									if (npc.velocity.Y > 0f)
+									if (NPC.velocity.Y > 0f)
 									{
-										npc.velocity.Y = npc.velocity.Y + num189;
+										NPC.velocity.Y = NPC.velocity.Y + num189;
 									}
 									else
 									{
-										npc.velocity.Y = npc.velocity.Y - num189;
+										NPC.velocity.Y = NPC.velocity.Y - num189;
 									}
 								}
 							}
 							else
 							{
-								if (npc.velocity.Y < num192)
+								if (NPC.velocity.Y < num192)
 								{
-									npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
+									NPC.velocity.Y = NPC.velocity.Y + num189 * 1.1f;
 								}
-								else if (npc.velocity.Y > num192)
+								else if (NPC.velocity.Y > num192)
 								{
-									npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
+									NPC.velocity.Y = NPC.velocity.Y - num189 * 1.1f;
 								}
-								if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+								if ((double)(System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y)) < (double)num188 * 0.5)
 								{
-									if (npc.velocity.X > 0f)
+									if (NPC.velocity.X > 0f)
 									{
-										npc.velocity.X = npc.velocity.X + num189;
+										NPC.velocity.X = NPC.velocity.X + num189;
 									}
 									else
 									{
-										npc.velocity.X = npc.velocity.X - num189;
+										NPC.velocity.X = NPC.velocity.X - num189;
 									}
 								}
 							}
 						}
 					}
 				}
-				npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+				NPC.rotation = (float)System.Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) + 1.57f;
 				if (head)
 				{
 					if (currFlying)
 					{
-						if (npc.localAI[0] != 1f)
+						if (NPC.localAI[0] != 1f)
 						{
-							npc.netUpdate = true;
+							NPC.netUpdate = true;
 						}
-						npc.localAI[0] = 1f;
+						NPC.localAI[0] = 1f;
 					}
 					else
 					{
-						if (npc.localAI[0] != 0f)
+						if (NPC.localAI[0] != 0f)
 						{
-							npc.netUpdate = true;
+							NPC.netUpdate = true;
 						}
-						npc.localAI[0] = 0f;
+						NPC.localAI[0] = 0f;
 					}
-					if ((npc.velocity.X > 0f && npc.oldVelocity.X < 0f || npc.velocity.X < 0f && npc.oldVelocity.X > 0f || npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f || npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f) && !npc.justHit)
+					if ((NPC.velocity.X > 0f && NPC.oldVelocity.X < 0f || NPC.velocity.X < 0f && NPC.oldVelocity.X > 0f || NPC.velocity.Y > 0f && NPC.oldVelocity.Y < 0f || NPC.velocity.Y < 0f && NPC.oldVelocity.Y > 0f) && !NPC.justHit)
 					{
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 						return;
 					}
 				}
@@ -740,8 +746,8 @@ namespace Highlander.NPCs.HauntedHatter
 		/// </summary>
 		public int nextSegment
 		{
-			get => (int)npc.ai[0];
-			set => npc.ai[0] = value;
+			get => (int)NPC.ai[0];
+			set => NPC.ai[0] = value;
 		}
 
 		/// <summary>
@@ -749,8 +755,8 @@ namespace Highlander.NPCs.HauntedHatter
 		/// </summary>
 		public int headIndex
 		{
-			get => (int)npc.ai[3];
-			set => npc.ai[3] = value;
+			get => (int)NPC.ai[3];
+			set => NPC.ai[3] = value;
 		}
 	}
 
