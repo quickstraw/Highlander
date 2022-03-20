@@ -20,26 +20,26 @@ namespace Highlander.Items.HauntedHatter
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
-            item.maxStack = 20;
-            item.rare = ItemRarityID.Blue;
-            item.useAnimation = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.maxStack = 20;
+            Item.rare = ItemRarityID.Blue;
+            Item.useAnimation = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
         {
-            bool spawned = NPC.AnyNPCs(mod.NPCType("HauntedHatter"));
+            bool spawned = NPC.AnyNPCs(Mod.Find<ModNPC>("HauntedHatter").Type);
             return !spawned;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if(Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("HauntedHatter"));
+                NPC.SpawnOnPlayer(player.whoAmI, Mod.Find<ModNPC>("HauntedHatter").Type);
             }
 
             return true;
@@ -47,19 +47,17 @@ namespace Highlander.Items.HauntedHatter
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Silk, 10);
-			recipe.SetResult(this, 1);
-            recipe.AddIngredient(ItemID.ShadowScale);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ItemID.ShadowScale, 4)
+                .AddTile(TileID.DemonAltar)
+                .Register();
 
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 10);
-            recipe.SetResult(this, 1);
-            recipe.AddIngredient(ItemID.TissueSample);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.ShadowScale, 10)
+                .AddIngredient(ItemID.TissueSample, 4)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
 
 

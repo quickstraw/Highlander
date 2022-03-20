@@ -21,12 +21,12 @@ namespace Highlander.Items.HauntedHatter
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = 9;
+            Item.expert = true;
         }
 
         public override bool CanRightClick()
@@ -36,7 +36,9 @@ namespace Highlander.Items.HauntedHatter
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor();
+            var source = player.GetItemSource_OpenItem(Type);
+
+            player.TryGettingDevArmor(source);
             List<int> items = new List<int>();
             items.Add(ItemType<SpiritShears>());
             items.Add(ItemType<AncientStoneBlaster>());
@@ -45,13 +47,13 @@ namespace Highlander.Items.HauntedHatter
             for (int i = 0; i < drops; i++)
             {
                 chance = Main.rand.Next(0, items.Count);
-                player.QuickSpawnItem(items[chance]);
+                player.QuickSpawnItem(source, items[chance]);
                 items.RemoveAt(chance);
             }
-            player.QuickSpawnItem(ItemType<EnchantedNeedleHook>());
+            player.QuickSpawnItem(source, ItemType<EnchantedNeedleHook>());
             if (Main.rand.NextBool(7))
             {
-                player.QuickSpawnItem(ItemType<GhostlyGibus>());
+                player.QuickSpawnItem(source, ItemType<GhostlyGibus>());
             }
         }
 

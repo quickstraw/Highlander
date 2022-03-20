@@ -20,39 +20,38 @@ namespace Highlander.Items.EnlightenmentIdol
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
-            item.maxStack = 20;
-            item.rare = ItemRarityID.Orange;
-            item.useAnimation = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.maxStack = 20;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
         {
-            bool spawned = NPC.AnyNPCs(mod.NPCType("EnlightenmentIdol"));
+            bool spawned = NPC.AnyNPCs(Mod.Find<ModNPC>("EnlightenmentIdol").Type);
             return !spawned;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if(Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("EnlightenmentIdol"));
+                NPC.SpawnOnPlayer(player.whoAmI, Mod.Find<ModNPC>("EnlightenmentIdol").Type);
             }
 
             return true;
         }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.StoneBlock, 10);
-			recipe.SetResult(this, 1);
-            recipe.AddIngredient(ItemID.SoulofLight, 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.StoneBlock, 10)
+                .AddIngredient(ItemID.SoulofLight, 4)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
 

@@ -20,27 +20,16 @@ namespace Highlander.Items.SeaDog
 
         public override void SetStaticDefaults()
         {
-            //DisplayName.SetDefault("Haunted Hat");
-            //Tooltip.SetDefault("Only those deemed worthy don the Ghostly Gibus.");
+            ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+            ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = false;
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.rare = ItemRarityID.Blue;
-            item.vanity = true;
+            Item.width = 18;
+            Item.height = 18;
+            Item.rare = ItemRarityID.Blue;
+            Item.vanity = true;
         }
-
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawAltHair = false;
-        }
-
-        public override bool DrawHead()
-        {
-            return false;
-        }
-
     }
 }

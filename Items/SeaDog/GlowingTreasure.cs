@@ -20,27 +20,27 @@ namespace Highlander.Items.SeaDog
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
-            item.maxStack = 20;
-            item.rare = ItemRarityID.Orange;
-            item.useAnimation = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.maxStack = 20;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
         {
-            bool spawned = NPC.AnyNPCs(mod.NPCType("SeaDog"));
+            bool spawned = NPC.AnyNPCs(Mod.Find<ModNPC>("SeaDog").Type);
             bool beach = player.ZoneBeach;
             return !spawned && beach;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if(Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SeaDog"));
+                NPC.SpawnOnPlayer(player.whoAmI, Mod.Find<ModNPC>("SeaDog").Type);
             }
 
             return true;
@@ -48,19 +48,17 @@ namespace Highlander.Items.SeaDog
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Torch, 1);
-			recipe.SetResult(this, 1);
-            recipe.AddIngredient(ItemID.GoldOre, 4);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Torch, 1)
+                .AddIngredient(ItemID.GoldOre, 4)
+                .AddTile(TileID.WorkBenches)
+                .Register();
 
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Torch, 1);
-            recipe.SetResult(this, 1);
-            recipe.AddIngredient(ItemID.PlatinumOre, 4);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Torch, 1)
+                .AddIngredient(ItemID.PlatinumOre, 4)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
 
 

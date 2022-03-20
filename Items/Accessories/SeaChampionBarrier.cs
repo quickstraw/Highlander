@@ -18,12 +18,12 @@ namespace Highlander.Items.Accessories
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.defense = 7;
-			item.accessory = true;
-			item.value = Item.sellPrice(gold: 10);
-			item.rare = ItemRarityID.Pink;
+			Item.width = 20;
+			Item.height = 20;
+			Item.defense = 7;
+			Item.accessory = true;
+			Item.value = Item.sellPrice(gold: 10);
+			Item.rare = ItemRarityID.Pink;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -36,12 +36,10 @@ namespace Highlander.Items.Accessories
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemType<BarnacleBarrier>(), 1);
-			recipe.SetResult(this, 1);
-			recipe.AddIngredient(ItemID.FleshKnuckles);
-			recipe.AddTile(TileID.TinkerersWorkbench);
-			recipe.AddRecipe();
+			CreateRecipe().AddIngredient(ItemType<BarnacleBarrier>(), 1).
+				AddIngredient(ItemID.FleshKnuckles, 1).
+				AddTile(TileID.TinkerersWorkbench).
+				Register();
 		}
 	}
 }

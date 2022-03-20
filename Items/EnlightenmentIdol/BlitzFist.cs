@@ -9,24 +9,24 @@ namespace Highlander.Items.EnlightenmentIdol
 	{
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = Item.sellPrice(gold: 3, silver: 60);
-			item.rare = ItemRarityID.Pink;
-			item.noMelee = true;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 20;
-			item.useTime = 20;
-			item.knockBack = 7f;
-			item.damage = 72;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<BlitzFistProjectile>();
-			item.shootSpeed = 32.0f;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = Item.sellPrice(gold: 3, silver: 60);
+			Item.rare = ItemRarityID.Pink;
+			Item.noMelee = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 20;
+			Item.useTime = 20;
+			Item.knockBack = 7f;
+			Item.damage = 72;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<BlitzFistProjectile>();
+			Item.shootSpeed = 32.0f;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
 			//item.crit = 9;
-			item.channel = true;
-			item.autoReuse = true;
+			Item.channel = true;
+			Item.autoReuse = true;
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -38,11 +38,11 @@ namespace Highlander.Items.EnlightenmentIdol
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = ModContent.ProjectileType<BlitzFistAltProjectile>();
+				Item.shoot = ModContent.ProjectileType<BlitzFistAltProjectile>();
 			}
 			else
 			{
-				item.shoot = ModContent.ProjectileType<BlitzFistProjectile>();
+				Item.shoot = ModContent.ProjectileType<BlitzFistProjectile>();
 			}
 			return base.CanUseItem(player);
 		}
