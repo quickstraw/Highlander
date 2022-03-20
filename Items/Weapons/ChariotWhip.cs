@@ -3,6 +3,7 @@ using Highlander.Projectiles;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -20,28 +21,28 @@ namespace Highlander.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 12;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 28;
-			item.useTime = 28;
-			item.shootSpeed = 4.5f;
-			item.knockBack = 1.2f;
-			item.width = 32;
-			item.height = 32;
-			item.scale = 1.0f;
-			item.rare = ItemRarityID.Blue;
-			item.crit = 4;
-			item.value = Item.sellPrice(gold: 1, silver: 50);
+			Item.damage = 12;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 28;
+			Item.useTime = 28;
+			Item.shootSpeed = 4.5f;
+			Item.knockBack = 1.2f;
+			Item.width = 32;
+			Item.height = 32;
+			Item.scale = 1.0f;
+			Item.rare = ItemRarityID.Blue;
+			Item.crit = 4;
+			Item.value = Item.sellPrice(gold: 1, silver: 50);
 
-			item.melee = true;
-			item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
-			item.noUseGraphic = true; // Important, it's kind of weird if people see two spears at one time. This prevents the melee animation of this item.
-			item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
+			Item.noUseGraphic = true; // Important, it's kind of weird if people see two spears at one time. This prevents the melee animation of this item.
+			Item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
-			item.useTurn = true;
+			Item.useTurn = true;
 
-			item.UseSound = SoundID.Item1;
-			item.shoot = ProjectileType<ChariotWhipProjectile>();
+			Item.UseSound = SoundID.Item1;
+			Item.shoot = ProjectileType<ChariotWhipProjectile>();
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -57,35 +58,35 @@ namespace Highlander.Items.Weapons
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.useStyle = ItemUseStyleID.HoldingOut;
-				item.useTime = 25;
-				item.useAnimation = 25;
-				item.shoot = ProjectileType<ChariotWhipProjectile>();
+				Item.useStyle = ItemUseStyleID.Shoot;
+				Item.useTime = 25;
+				Item.useAnimation = 25;
+				Item.shoot = ProjectileType<ChariotWhipProjectile>();
 
-				item.autoReuse = false;
-				item.noMelee = true;
-				item.noUseGraphic = true;
+				Item.autoReuse = false;
+				Item.noMelee = true;
+				Item.noUseGraphic = true;
 
-				item.useTurn = false;
+				Item.useTurn = false;
 
 			}
 			else
 			{
-				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.useTime = 21;
-				item.useAnimation = 21;
-				item.shoot = ProjectileID.None;
+				Item.useStyle = ItemUseStyleID.Swing;
+				Item.useTime = 21;
+				Item.useAnimation = 21;
+				Item.shoot = ProjectileID.None;
 
-				item.autoReuse = true;
-				item.noMelee = false;
-				item.noUseGraphic = false;
+				Item.autoReuse = true;
+				Item.noMelee = false;
+				Item.noUseGraphic = false;
 
-				item.useTurn = true;
+				Item.useTurn = true;
 
 			}
 			if (player.itemAnimation == 0)
 			{
-				return player.ownedProjectileCounts[item.shoot] < 1;
+				return player.ownedProjectileCounts[Item.shoot] < 1;
 			}
 			else
 			{
@@ -106,11 +107,11 @@ namespace Highlander.Items.Weapons
 			target.AddBuff(BuffID.Bleeding, 60);
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			return true;
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            return true;
+        }
 
 
-	}
+    }
 }
