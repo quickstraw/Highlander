@@ -105,20 +105,36 @@ namespace Highlander.NPCs.Vermin
                     if (vectorToTarget.X > 0)
                     {
                         direction = 1;
+                        npc.spriteDirection = -1;
                     }
                     else
                     {
+                        npc.spriteDirection = 1;
                         direction = -1;
                     }
+
+                    if (npc.velocity.X > 0)
+                    {
+                        
+                        npc.direction = 1;
+                    }
+                    else if (npc.velocity.X < 0)
+                    {
+                        npc.direction = -1;
+                    }
                 }
-                if(npc.velocity.X > 0)
+                else
                 {
-                    npc.spriteDirection = -1;
-                    npc.direction = 1;
-                } else if(npc.velocity.X < 0)
-                {
-                    npc.spriteDirection = 1;
-                    npc.direction = -1;
+                    if (direction > 0)
+                    {
+                        npc.spriteDirection = -1;
+                        npc.direction = 1;
+                    }
+                    else if (direction < 0)
+                    {
+                        npc.spriteDirection = 1;
+                        npc.direction = -1;
+                    }
                 }
 
                 float yDiff = tileCoords.Y - targetTileCoords.Y;
