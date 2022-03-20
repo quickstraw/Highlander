@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -41,47 +43,42 @@ namespace Highlander.NPCs.EnlightenmentIdol
         private bool dontDamage;
         private byte blastRadius;
 
-        public override bool Autoload(ref string name)
-        {
-            return true;
-        }
-
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 5; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 5; // make sure to set this for your modnpcs.
             DisplayName.SetDefault("Idol of Enlightenment");
         }
 
         public override void SetDefaults()
         {
-            //npc.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-            drawOffsetY = 0;// -52;
-            npc.aiStyle = -1;
-            npc.lifeMax = 37000;
-            npc.damage = 40;
-            npc.defense = BASE_DEF;
-            npc.knockBackResist = 0f;
-            npc.width = 60;
-            npc.height = 120;
-            npc.npcSlots = 50f;
-            npc.boss = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit42;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.value = 150000;
-            npc.alpha = 0;
-            music = MusicID.Boss4;
-            musicPriority = MusicPriority.BossMedium;
-            bossBag = ItemType<EnlightenmentIdolBag>();
-            TopArms = GetTexture("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Triangle");
-            MiddleArms = GetTexture("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Charge");
-            ChargeBlast = GetTexture("Highlander/NPCs/EnlightenmentIdol/ChargeBlast");
+            //NPC.frame = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+            DrawOffsetY = 0;// -52;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 37000;
+            NPC.damage = 40;
+            NPC.defense = BASE_DEF;
+            NPC.knockBackResist = 0f;
+            NPC.width = 60;
+            NPC.height = 120;
+            NPC.npcSlots = 50f;
+            NPC.boss = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit42;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.value = 150000;
+            NPC.alpha = 0;
+            Music = MusicID.Boss4;
+            //MusicPriority = MusicPriority.BossMedium;
+            TopArms = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Triangle").Value;
+            MiddleArms = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Charge").Value;
+            ChargeBlast = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/ChargeBlast").Value;
         }
+
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.7f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * 0.7f);
         }
 
 
@@ -89,27 +86,29 @@ namespace Highlander.NPCs.EnlightenmentIdol
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.TargetClosest(false);
+                NPC.TargetClosest(false);
             }
-            if (npc.HasValidTarget)
+            if (NPC.HasValidTarget)
             {
+                var projSource = NPC.GetSpawnSource_ForProjectile();
+
                 if(deathTimer != 0)
                 {
                     deathTimer = 0;
-                    npc.alpha = 0;
-                    npc.netUpdate = true;
+                    NPC.alpha = 0;
+                    NPC.netUpdate = true;
                 }
 
                 HandleStage();
 
-                Player target = Main.player[npc.target];
-                if (npc.position.X > target.position.X)
+                Player target = Main.player[NPC.target];
+                if (NPC.position.X > target.position.X)
                 {
-                    npc.spriteDirection = -1;
+                    NPC.spriteDirection = -1;
                 }
-                else if (npc.position.X + npc.width < target.position.X + target.width)
+                else if (NPC.position.X + NPC.width < target.position.X + target.width)
                 {
-                    npc.spriteDirection = 1;
+                    NPC.spriteDirection = 1;
                 }
 
                 HandleMoving();
@@ -120,7 +119,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 {
                     foreach(Player p in Main.player)
                     {
-                        float lengthSquared = (p.Center - npc.Center).LengthSquared();
+                        float lengthSquared = (p.Center - NPC.Center).LengthSquared();
                         int innerRadius = (blastRadius - 40) * 2;
                         if(lengthSquared <= blastRadius * blastRadius * 4 && !(lengthSquared < innerRadius * innerRadius))
                         {
@@ -131,17 +130,17 @@ namespace Highlander.NPCs.EnlightenmentIdol
                                 {
                                     damage = (int)(damage * EXPERT_DAMAGE); // Should only ever be in expert
                                 }
-                                Projectile.NewProjectile(p.position, new Vector2(), ProjectileType<ChargeDummyProjectile>(), damage, 0);
+                                Projectile.NewProjectile(projSource, p.position, new Vector2(), ProjectileType<ChargeDummyProjectile>(), damage, 0);
                                 
                                 /**if (!p.immune) {
                                     p.statLife -= 80 - (int)(p.statDefense * 0.75f);
-                                    Vector2 knockback = p.Center - npc.Center;
+                                    Vector2 knockback = p.Center - NPC.Center;
                                     knockback.Normalize();
                                     p.velocity += knockback * 4;
                                     //p.immuneTime += 30;
                                 }**/
                             }
-                            Vector2 knockback = p.Center - npc.Center;
+                            Vector2 knockback = p.Center - NPC.Center;
                             //HighlanderPlayer modP = p.GetModPlayer<HighlanderPlayer>();
                             //modP.knockback = true;
                             //modP.knockbackDir = knockback.ToRotation();
@@ -155,34 +154,34 @@ namespace Highlander.NPCs.EnlightenmentIdol
             }
             else
             {
-                npc.velocity *= 0.85f;
+                NPC.velocity *= 0.85f;
                 chargeBlastFrame = 0;
                 deathTimer++;
                 if (deathTimer > 240)
                 {
-                    npc.alpha += 2;
+                    NPC.alpha += 2;
                 }
                 if (deathTimer > 360)
                 {
-                    npc.active = false;
-                    npc.netUpdate = true;
+                    NPC.active = false;
+                    NPC.netUpdate = true;
                 }
             }
             if(Main.netMode != NetmodeID.Server)
             {
                 if (Main.rand.NextBool(20))
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustType<EnlightenmentIdolDust>());
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustType<EnlightenmentIdolDust>());
                 }
             }
         }
 
         private void HandleMoving()
         {
-            npc.velocity *= 0.85f;
+            NPC.velocity *= 0.85f;
 
             Player[] players = Main.player.ToArray();
-            Vector2 distance = players[npc.target].Center - npc.Center;
+            Vector2 distance = players[NPC.target].Center - NPC.Center;
 
             // Stay above player
             if (Math.Abs(distance.Y) < 100)
@@ -192,7 +191,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 {
                     yValue = 0.2f;
                 }
-                npc.velocity.Y -= yValue;
+                NPC.velocity.Y -= yValue;
             }
             else if (distance.Y > 140)
             {
@@ -201,45 +200,45 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 {
                     yValue = 0.5f;
                 }
-                npc.velocity.Y -= yValue;
+                NPC.velocity.Y -= yValue;
             }
 
             if (distance.Length() > 280)
             {
                 distance /= distance.Length();
-                npc.velocity += distance / 2;
+                NPC.velocity += distance / 2;
             }
             else if (distance.Length() < 60)
             {
                 distance /= distance.Length();
-                npc.velocity -= distance / 3;
+                NPC.velocity -= distance / 3;
             }
 
             // Lean when moving
-            if (npc.velocity.X < -1 && npc.rotation >= -0.10f)
+            if (NPC.velocity.X < -1 && NPC.rotation >= -0.10f)
             {
-                npc.rotation -= 0.01f;
+                NPC.rotation -= 0.01f;
             }
-            else if (npc.velocity.X > 1 && npc.rotation <= 0.10f)
+            else if (NPC.velocity.X > 1 && NPC.rotation <= 0.10f)
             {
-                npc.rotation += 0.01f;
+                NPC.rotation += 0.01f;
             }
             else
             {
-                if (Math.Abs(npc.rotation) > 0.05)
+                if (Math.Abs(NPC.rotation) > 0.05)
                 {
-                    npc.rotation *= 0.9f;
+                    NPC.rotation *= 0.9f;
                 }
                 else
                 {
-                    npc.rotation = 0;
+                    NPC.rotation = 0;
                 }
             }
 
             // Make a floating effect
             float floatVelocity = (float) (floatTimer / 10 - 3) / 40;
 
-            npc.velocity.Y += floatVelocity;
+            NPC.velocity.Y += floatVelocity;
 
             if (!floatDirection)
             {
@@ -247,7 +246,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 if(floatTimer >= 60)
                 {
                     floatDirection = !floatDirection;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
             else
@@ -256,7 +255,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 if (floatTimer <= 0)
                 {
                     floatDirection = !floatDirection;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
             
@@ -274,16 +273,16 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         triangleReady = true;
                         blastTimer = 0;
                         //triangleStance = false;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     } else if (blastTimer > 180 && triangleReady)
                     {
                         triangleReady = false;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         TriangleBlast();
                     } else if (blastTimer > 150)
                     {
                         triangleStance = true;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
                     
                     break;
@@ -291,7 +290,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     if (clapped)
                     {
                         clapped = false;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             FistAttack();
@@ -315,23 +314,23 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         triangleReady = true;
                         blastTimer = 0;
                         //triangleStance = false;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
                     else if (blastTimer > 180 && triangleReady)
                     {
                         triangleReady = false;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         TriangleBlast();
                     }
                     else if (blastTimer > 150)
                     {
                         triangleStance = true;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
                     if (clapped)
                     {
                         clapped = false;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             FistAttack();
@@ -352,7 +351,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     {
                         clapped = false;
                         fistTimer = 40;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             FistAttack();
@@ -374,7 +373,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         if (fistTimer % 15 == 0)
                         {
                             FistAttack();
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                     }**/
                     break;
@@ -389,12 +388,12 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         {
                             charging = true;
                             chargeTimer = 0;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                         if (charged)
                         {
                             charged = false;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                     }
 
@@ -403,23 +402,23 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     {
                         triangleReady = true;
                         blastTimer = 0;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
                     else if (blastTimer > 80 && triangleReady)
                     {
                         triangleReady = false;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         TriangleBlast();
                     }
                     else if (blastTimer > 50)
                     {
                         triangleStance = true;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
                     if (clapped)
                     {
                         clapped = false;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             FistAttackMulti();
@@ -441,7 +440,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         private void HandleStage()
         {
-            float percentHealth = ((float)npc.life / (float)npc.lifeMax);
+            float percentHealth = ((float)NPC.life / (float)NPC.lifeMax);
             if(percentHealth >= 0.85f)
             {
                 if(stage != 0)
@@ -449,7 +448,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     if(Main.netMode != NetmodeID.MultiplayerClient && stage != 0)
                     {
                         stage = 0;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
                 }
             } else if (percentHealth > 0.70f)
@@ -457,7 +456,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 if (Main.netMode != NetmodeID.MultiplayerClient && stage != 1)
                 {
                     stage = 1;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
             else if (percentHealth > 0.40f)
@@ -465,7 +464,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 if (Main.netMode != NetmodeID.MultiplayerClient && stage != 2)
                 {
                     stage = 2;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
             else if (percentHealth <= 0.40f)
@@ -473,14 +472,14 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 if (Main.netMode != NetmodeID.MultiplayerClient && stage != 3)
                 {
                     stage = 3;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
         }
 
         private void Clap()
         {
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
             clapping = true;
         }
 
@@ -493,21 +492,23 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 Vector2 left = new Vector2(-1, 0);
                 Vector2 right = new Vector2(1, 0);
 
-                Player target = Main.player[npc.target];
-                float distance = (target.position - npc.position).Length();
+                var source = NPC.GetSpawnSourceForNPCFromNPCAI();
+
+                Player target = Main.player[NPC.target];
+                float distance = (target.position - NPC.position).Length();
                 if (distance < 1350)
                 {
                     // Get a random point with negative values and find its direction.
                     float rand = Main.rand.NextFloat(0, MathHelper.TwoPi);
 
-                    NPC.NewNPC((int)(target.position + (up * 250).RotatedBy(rand)).X, (int)(target.position + (up * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
-                    NPC.NewNPC((int)(target.position + (down * 250).RotatedBy(rand)).X, (int)(target.position + (down * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
-                    NPC.NewNPC((int)(target.position + (left * 250).RotatedBy(rand)).X, (int)(target.position + (left * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
-                    NPC.NewNPC((int)(target.position + (right * 250).RotatedBy(rand)).X, (int)(target.position + (right * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, npc.target);
+                    NPC.NewNPC(source, (int)(target.position + (up * 250).RotatedBy(rand)).X, (int)(target.position + (up * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, NPC.target);
+                    NPC.NewNPC(source, (int)(target.position + (down * 250).RotatedBy(rand)).X, (int)(target.position + (down * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, NPC.target);
+                    NPC.NewNPC(source, (int)(target.position + (left * 250).RotatedBy(rand)).X, (int)(target.position + (left * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, NPC.target);
+                    NPC.NewNPC(source, (int)(target.position + (right * 250).RotatedBy(rand)).X, (int)(target.position + (right * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, NPC.target);
 
                     //projectile.ai = new float[2];
                     //projectile.ai[0] = 0;
-                    //projectile.ai[1] = npc.target;
+                    //projectile.ai[1] = NPC.target;
                 }
             }
         }
@@ -516,10 +517,11 @@ namespace Highlander.NPCs.EnlightenmentIdol
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
+                var source = NPC.GetSpawnSourceForNPCFromNPCAI();
                 foreach (Player p in Main.player) {
                     if (p.active && !p.dead)
                     {
-                        float distance = (p.position - npc.position).Length();
+                        float distance = (p.position - NPC.position).Length();
                         if (distance < 1350) {
                             Player target = p;
 
@@ -531,10 +533,10 @@ namespace Highlander.NPCs.EnlightenmentIdol
                             // Get a random point with negative values and find its direction.
                             float rand = Main.rand.NextFloat(0, MathHelper.TwoPi);
 
-                            NPC.NewNPC((int)(target.position + (up * 250).RotatedBy(rand)).X, (int)(target.position + (up * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
-                            NPC.NewNPC((int)(target.position + (down * 250).RotatedBy(rand)).X, (int)(target.position + (down * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
-                            NPC.NewNPC((int)(target.position + (left * 250).RotatedBy(rand)).X, (int)(target.position + (left * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
-                            NPC.NewNPC((int)(target.position + (right * 250).RotatedBy(rand)).X, (int)(target.position + (right * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
+                            NPC.NewNPC(source, (int)(target.position + (up * 250).RotatedBy(rand)).X, (int)(target.position + (up * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
+                            NPC.NewNPC(source, (int)(target.position + (down * 250).RotatedBy(rand)).X, (int)(target.position + (down * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
+                            NPC.NewNPC(source, (int)(target.position + (left * 250).RotatedBy(rand)).X, (int)(target.position + (left * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
+                            NPC.NewNPC(source, (int)(target.position + (right * 250).RotatedBy(rand)).X, (int)(target.position + (right * 250).RotatedBy(rand)).Y, NPCType<Arm>(), 0, 0, p.whoAmI);
                         }
                     }
                 }
@@ -544,10 +546,12 @@ namespace Highlander.NPCs.EnlightenmentIdol
         private void TriangleBlast()
         {
             Vector2 up = new Vector2(0, -20);
-            Vector2 spawn = npc.Center + up;
+            Vector2 spawn = NPC.Center + up;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Player target = Main.player[npc.target];
+                var source = NPC.GetSpawnSource_ForProjectile();
+
+                Player target = Main.player[NPC.target];
                 int type = ModContent.ProjectileType<TriangleBlast>();
 
                 float rotation = (float)Math.Atan2(target.Center.Y - spawn.Y, target.Center.X - spawn.X) + MathHelper.PiOver2;
@@ -557,16 +561,16 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     damage = (int) (damage * EXPERT_DAMAGE);
                 }
 
-                var projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation - 0.4f) * 0.5f, type, damage, 9.5f, 255, 0, npc.target);
-                projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation + 0.4f) * 0.5f, type, damage, 9.5f, 255, 0, npc.target);
-                projectile = Projectile.NewProjectile(spawn, up.RotatedBy(rotation) * 0.5f, type, damage, 9.5f, 255, 0, npc.target);
+                var projectile = Projectile.NewProjectile(source, spawn, up.RotatedBy(rotation - 0.4f) * 0.5f, type, damage, 9.5f, 255, 0, NPC.target);
+                projectile = Projectile.NewProjectile(source, spawn, up.RotatedBy(rotation + 0.4f) * 0.5f, type, damage, 9.5f, 255, 0, NPC.target);
+                projectile = Projectile.NewProjectile(source, spawn, up.RotatedBy(rotation) * 0.5f, type, damage, 9.5f, 255, 0, NPC.target);
                 //projectile.ai = new float[2];
                 //projectile.ai[0] = 0;
-                //projectile.ai[1] = npc.target;
+                //projectile.ai[1] = NPC.target;
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                Main.PlaySound(SoundID.Item72.SoundId, (int)spawn.X, (int)spawn.Y, SoundID.Item72.Style, 0.80f, -0.2f);
+                SoundEngine.PlaySound(SoundID.Item72.SoundId, (int)spawn.X, (int)spawn.Y, SoundID.Item72.Style, 0.80f, -0.2f);
             }
         }
 
@@ -574,49 +578,49 @@ namespace Highlander.NPCs.EnlightenmentIdol
         {
             if (clapping)
             {
-                if(npc.frameCounter < 6)
+                if(NPC.frameCounter < 6)
                 {
-                    npc.frame.Y = frameHeight;
-                } else if (npc.frameCounter < 12)
+                    NPC.frame.Y = frameHeight;
+                } else if (NPC.frameCounter < 12)
                 {
-                    npc.frame.Y = frameHeight * 2;
+                    NPC.frame.Y = frameHeight * 2;
                 }
-                else if (npc.frameCounter < 24)
+                else if (NPC.frameCounter < 24)
                 {
-                    npc.frame.Y = frameHeight * 3;
+                    NPC.frame.Y = frameHeight * 3;
                 }
-                else if (npc.frameCounter < 30)
+                else if (NPC.frameCounter < 30)
                 {
-                    npc.frame.Y = frameHeight * 4;
+                    NPC.frame.Y = frameHeight * 4;
                 }
                 else
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                     clapping = false;
                     clapped = true;
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        Main.PlaySound(SoundID.Item37.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.Item37.Style, 0.90f, -0.5f);
+                        SoundEngine.PlaySound(SoundID.Item37.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.Item37.Style, 0.90f, -0.5f);
                     }
                 }
-                npc.frameCounter++;
+                NPC.frameCounter++;
             }
             else
             {
-                npc.frame.Y = 0;
-                npc.frameCounter = 0;
+                NPC.frame.Y = 0;
+                NPC.frameCounter = 0;
             }
         }
 
         public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
-            dontDamage = (player.Center - npc.Center).Length() > SPHERE_RADIUS;
+            dontDamage = (player.Center - NPC.Center).Length() > SPHERE_RADIUS;
         }
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Player player = Main.player[projectile.owner];
-            dontDamage = player.active && (player.Center - npc.Center).Length() > SPHERE_RADIUS;
+            dontDamage = player.active && (player.Center - NPC.Center).Length() > SPHERE_RADIUS;
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
@@ -626,50 +630,49 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 damage = 0;
                 crit = true;
                 dontDamage = false;
-                Main.PlaySound(SoundID.NPCHit4.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.NPCHit4.Style, 1f, +0.3f);
-                //Main.PlaySound(SoundID.NPCHit42.SoundId, (int)npc.position.X, (int)npc.position.Y, SoundID.NPCHit42.Style, 1f, 0.8f);
-                //Main.PlaySound(npc.HitSound, npc.position);
+                SoundEngine.PlaySound(SoundID.NPCHit4.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.NPCHit4.Style, 1f, +0.3f);
+                //Main.PlaySound(SoundID.NPCHit42.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.NPCHit42.Style, 1f, 0.8f);
+                //Main.PlaySound(NPC.HitSound, NPC.position);
                 return false;
             }
             return true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D border = mod.GetTexture("NPCs/EnlightenmentIdol/SphereBorder");
+            Texture2D border = Request<Texture2D>("NPCs/EnlightenmentIdol/SphereBorder").Value;
 
-            spriteBatch.Draw(mod.GetTexture("NPCs/EnlightenmentIdol/IdolSphere"), npc.Center - Main.screenPosition, null, Color.White * (40f / 255f) * ((255 - npc.alpha) / 255f), 0f, new Vector2(SPHERE_RADIUS, SPHERE_RADIUS), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(border, npc.Center - Main.screenPosition, null, Color.White * ((255 - npc.alpha) / 255f), 0f, new Vector2(border.Width / 2, border.Height / 2), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Request<Texture2D>("NPCs/EnlightenmentIdol/IdolSphere").Value, NPC.Center - screenPos, null, Color.White * (40f / 255f) * ((255 - NPC.alpha) / 255f), 0f, new Vector2(SPHERE_RADIUS, SPHERE_RADIUS), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(border, NPC.Center - screenPos, null, Color.White * ((255 - NPC.alpha) / 255f), 0f, new Vector2(border.Width / 2, border.Height / 2), 1f, SpriteEffects.None, 0f);
 
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            SpriteEffects flip = npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            SpriteEffects flip = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-            Vector2 drawPos = npc.position - Main.screenPosition + new Vector2(npc.width / 2, npc.height / 2 + 9);
+            Vector2 drawPos = NPC.position - screenPos + new Vector2(NPC.width / 2, NPC.height / 2 + 9);
 
             int TopArmsFrameHeight = TopArms.Height / 6;
             Vector2 TopArmsOrigin = new Vector2(TopArms.Width / 2, TopArmsFrameHeight / 2);
             
             Rectangle TopArmsFrame = new Rectangle(0, topFrame * TopArmsFrameHeight, TopArms.Width, TopArmsFrameHeight);
 
-            spriteBatch.Draw(TopArms, drawPos, TopArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, TopArmsOrigin, 1.0f, flip, 0);
+            spriteBatch.Draw(TopArms, drawPos, TopArmsFrame, Color.White * ((float)(255 - NPC.alpha) / 255f), NPC.rotation, TopArmsOrigin, 1.0f, flip, 0);
 
             int MiddleArmsFrameHeight = MiddleArms.Height / 27;
             Vector2 MiddleArmsOrigin = new Vector2(MiddleArms.Width / 2, MiddleArmsFrameHeight / 2);
             Rectangle MiddleArmsFrame = new Rectangle(0, middleFrame * MiddleArmsFrameHeight, MiddleArms.Width, MiddleArmsFrameHeight);
 
-            spriteBatch.Draw(MiddleArms, drawPos, MiddleArmsFrame, Color.White * ((float)(255 - npc.alpha) / 255f), npc.rotation, MiddleArmsOrigin, 1.0f, flip, 0);
+            spriteBatch.Draw(MiddleArms, drawPos, MiddleArmsFrame, Color.White * ((float)(255 - NPC.alpha) / 255f), NPC.rotation, MiddleArmsOrigin, 1.0f, flip, 0);
 
             int ChargeBlastFrameHeight = ChargeBlast.Height / 4;
             int ChargeBlastFrameWidth = ChargeBlast.Width / 5;
             Vector2 ChargeBlastOrigin = new Vector2(ChargeBlastFrameWidth / 2, ChargeBlastFrameHeight / 2);
             Rectangle ChargeBlastFrame = new Rectangle(chargeBlastFrame % 5 * ChargeBlastFrameWidth, chargeBlastFrame / 5 * ChargeBlastFrameHeight, ChargeBlastFrameWidth, ChargeBlastFrameHeight);
 
-            spriteBatch.Draw(ChargeBlast, npc.Center - Main.screenPosition, ChargeBlastFrame, Color.White * ((float)(255 - npc.alpha) / 255f), 0f, ChargeBlastOrigin, 1.0f, flip, 0);
-
+            spriteBatch.Draw(ChargeBlast, NPC.Center - screenPos, ChargeBlastFrame, Color.White * ((float)(255 - NPC.alpha) / 255f), 0f, ChargeBlastOrigin, 1.0f, flip, 0);
         }
 
         private void FindPostFrame()
@@ -717,7 +720,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 else
                 {
                     triangleStance = false;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
                 topArmsCounter++;
             }
@@ -725,12 +728,12 @@ namespace Highlander.NPCs.EnlightenmentIdol
             {
                 newTopFrame = 0;
                 topArmsCounter = 0;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             if (newTopFrame != topFrame)
             {
                 topFrame = newTopFrame;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
             byte newMiddleFrame = 0;
@@ -763,7 +766,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     {
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            Main.PlaySound(SoundLoader.customSoundType, (int)npc.Center.X, (int)npc.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Thunder"));
+                            //SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Thunder"));
+                            SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int)NPC.Center.X, (int)NPC.Center.Y, SoundLoader.GetSoundSlot(Mod, "Sounds/Custom/Thunder"));
                         }
                     }
                     newMiddleFrame = 6;
@@ -837,12 +841,12 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     if(middleArmsCounter == 120)
                     {
                         chargeBlast = true;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            //Main.PlaySound(SoundID.Item15.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item15.Style, 0.80f, +0.5f);
-                            //Main.PlaySound(SoundID.Item60.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item60.Style, 0.80f, +0.5f);
-                            Main.PlaySound(SoundID.Item74.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item74.Style, 0.90f, +0.5f);
+                            //Main.PlaySound(SoundID.Item15.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item15.Style, 0.80f, +0.5f);
+                            //Main.PlaySound(SoundID.Item60.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item60.Style, 0.80f, +0.5f);
+                            SoundEngine.PlaySound(SoundID.Item74.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item74.Style, 0.90f, +0.5f);
                         }
                     }
                     newMiddleFrame = 23;
@@ -882,7 +886,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 else
                 {
                     charging = false;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
                 middleArmsCounter++;
             }
@@ -890,12 +894,12 @@ namespace Highlander.NPCs.EnlightenmentIdol
             {
                 newMiddleFrame = 0;
                 middleArmsCounter = 0;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             if (newMiddleFrame != middleFrame)
             {
                 middleFrame = newMiddleFrame;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
             byte newChargeBlastFrame = 0;
@@ -1002,7 +1006,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 {
                     newBlastRadius = 0;
                     chargeBlast = false;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
                 chargeBlastCounter++;
             }
@@ -1011,19 +1015,19 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 newBlastRadius = 0;
                 newChargeBlastFrame = 0;
                 chargeBlastCounter = 0;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             if (newChargeBlastFrame != chargeBlastFrame)
             {
                 chargeBlastFrame = newChargeBlastFrame;
                 blastRadius = newBlastRadius;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
         public override Color? GetAlpha(Color drawColor)
         {
-            return Color.White * ((float)(255 - npc.alpha) / 255f);
+            return Color.White * ((float)(255 - NPC.alpha) / 255f);
         }
 
         public bool clapping
@@ -1076,26 +1080,26 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public float stage 
         {
-            get => npc.ai[0];
-            set => npc.ai[0] = value;
+            get => NPC.ai[0];
+            set => NPC.ai[0] = value;
         }
 
         public float topArmsCounter
         {
-            get => npc.ai[1];
-            set => npc.ai[1] = value;
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
         }
 
         public float middleArmsCounter
         {
-            get => npc.ai[2];
-            set => npc.ai[2] = value;
+            get => NPC.ai[2];
+            set => NPC.ai[2] = value;
         }
 
         public float chargeTimer
         {
-            get => npc.ai[3];
-            set => npc.ai[3] = value;
+            get => NPC.ai[3];
+            set => NPC.ai[3] = value;
         }
 
 
@@ -1125,7 +1129,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             blastRadius = reader.ReadByte();
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!HighlanderWorld.downedEnlightenmentIdol)
             {
@@ -1135,40 +1139,37 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     NetMessage.SendData(MessageID.WorldData); // Immediately inform clients of new world state.
                 }
             }
+        }
 
-            if (Main.rand.NextBool(10)) // Boss Trophy
-            {
-                Item.NewItem(npc.getRect(), ItemType<EnlightenmentIdolTrophy>());
-            }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ItemType<EnlightenmentIdolBag>()));
 
-            if (Main.expertMode)
-            {
-                npc.DropBossBags();
-            }
-            else
-            {
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem(npc.getRect(), ItemType<BlitzFist>());
-                }
-                else
-                {
-                    Item.NewItem(npc.getRect(), ItemType<CommanderBlessing>());
-                }
-                if (Main.rand.NextBool(7)) // Boss Vanity
-                {
-                    Item.NewItem(npc.getRect(), ItemType<EnlightenedMask>());
-                }
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemType<EnlightenmentIdolTrophy>(), 10));
+
+            // All our drops here are based on "not expert", meaning we use .OnSuccess() to add them into the rule, which then gets added
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+
+            // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
+            // Boss masks are spawned with 1/7 chance
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EnlightenedMask>(), 7));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1, ItemType<BlitzFist>(), ItemType<CommanderBlessing>()));
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if(npc.life <= 0)
+            if(NPC.life <= 0)
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    var gore = Gore.NewGoreDirect(npc.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, mod.GetGoreSlot("Gores/IdolGore" + i), 1f);
+                    try
+                    {
+                        var gore = Gore.NewGoreDirect(NPC.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, Mod.Find<ModGore>("Gores/IdolGore" + i).Type, 1f);
+                    } catch (Exception e)
+                    {
+
+                    }
+                    
                 }
             }
         }

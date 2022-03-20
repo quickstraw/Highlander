@@ -15,67 +15,67 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
 		public override void SetDefaults()
 		{
-			projectile.width = 54;
-			projectile.height = 54;
-			projectile.hostile = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 600;
+			Projectile.width = 54;
+			Projectile.height = 54;
+			Projectile.hostile = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 600;
 			//projectile.penetrate = -1;
-			projectile.scale = 0.8f;
-			projectile.alpha = 255;
+			Projectile.scale = 0.8f;
+			Projectile.alpha = 255;
 		}
 
 		public override void AI()
 		{
-			projectile.spriteDirection = projectile.direction;
+			Projectile.spriteDirection = Projectile.direction;
 
-			if (projectile.spriteDirection == 1) {
-				projectile.rotation = projectile.velocity.ToRotation();// + MathHelper.Pi;
+			if (Projectile.spriteDirection == 1) {
+				Projectile.rotation = Projectile.velocity.ToRotation();// + MathHelper.Pi;
 			}
 			else
 			{
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+				Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi;
 			}
 
 			// Loop through the 5 animation frames, spending 6 ticks on each.
-			if (++projectile.frameCounter >= 6)
+			if (++Projectile.frameCounter >= 6)
 			{
-				projectile.frameCounter = 0;
-				if (++projectile.frame >= 4)
+				Projectile.frameCounter = 0;
+				if (++Projectile.frame >= 4)
 				{
-					projectile.frame = 0;
+					Projectile.frame = 0;
 				}
 			}
 
-			if(projectile.alpha > 0)
+			if(Projectile.alpha > 0)
 			{
-				if (projectile.alpha - 32 < 0) {
-					projectile.alpha = 0;
-					projectile.netUpdate = true;
+				if (Projectile.alpha - 32 < 0) {
+					Projectile.alpha = 0;
+					Projectile.netUpdate = true;
 				}
 				else
 				{
-					projectile.alpha -= 32;
+					Projectile.alpha -= 32;
 				}
 			}
 		}
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return Color.White * ((float)(255 - projectile.alpha) / 255f);
+			return Color.White * ((float)(255 - Projectile.alpha) / 255f);
 		}
 
 		private Vector2 forward
 		{
 			get
 			{
-				float rotation = projectile.rotation - MathHelper.Pi;
+				float rotation = Projectile.rotation - MathHelper.Pi;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;
