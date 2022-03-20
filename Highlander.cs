@@ -22,13 +22,6 @@ namespace Highlander
 
 		public Highlander()
 		{
-			Properties = new ModProperties()
-			{
-				Autoload = true,
-				AutoloadGores = true,
-				AutoloadSounds = true
-			};
-
 			Instance = this;
 			RollTable.MakeTable();
 			AnimationHelper.dust = new List<FauxDust>();
