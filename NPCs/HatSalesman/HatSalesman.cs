@@ -19,43 +19,43 @@ namespace Highlander.NPCs.HatSalesman
 
         public override string Texture => "Highlander/NPCs/HatSalesman/HatSalesman";
 
-        public override bool Autoload(ref string name)
+        /**public override bool Autoload(ref string name)
         {
             name = "Hat Salesman";
             return mod.Properties.Autoload;
-        }
+        }**/
 
         public override void SetStaticDefaults()
         {
             // DisplayName automatically assigned from .lang files, but the commented line below is the normal approach.
             DisplayName.SetDefault("Hat Salesman");
-            Main.npcFrameCount[npc.type] = 25;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 700;
-            NPCID.Sets.AttackType[npc.type] = 0;
-            NPCID.Sets.AttackTime[npc.type] = 90;
-            NPCID.Sets.AttackAverageChance[npc.type] = 30;
-            NPCID.Sets.HatOffsetY[npc.type] = -14;
+            Main.npcFrameCount[NPC.type] = 25;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 700;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 90;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+            NPCID.Sets.HatOffsetY[NPC.type] = -14;
         }
 
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.width = 18;
-            npc.height = 40;
-            npc.aiStyle = 7; // 7 is passive ai
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.aiStyle = 7; // 7 is passive ai
 
-            npc.damage = 10;
-            npc.defense = 25;
-            npc.lifeMax = 250;
+            NPC.damage = 10;
+            NPC.defense = 25;
+            NPC.lifeMax = 250;
 
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0.5f;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0.5f;
 
-            animationType = NPCID.Guide;
+            AnimationType = NPCID.Guide;
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money) //Whether or not the conditions have been met for this town NPC to be able to move into town.
@@ -122,12 +122,12 @@ namespace Highlander.NPCs.HatSalesman
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<HatSupplyKey>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WinterHatSupplyKey>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpookyHatKey>());
-            nextSlot++;
+            //shop.item[nextSlot].SetDefaults(ModContent.ItemType<HatSupplyKey>());
+            //nextSlot++;
+            //shop.item[nextSlot].SetDefaults(ModContent.ItemType<WinterHatSupplyKey>());
+            //nextSlot++;
+            //shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpookyHatKey>());
+            //nextSlot++;
         }
 
 
