@@ -13,7 +13,7 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class Headless : AbnormalItem
+    class Headless : VanityItem
     {
         public Headless() : base()
         {

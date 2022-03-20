@@ -9,37 +9,28 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
+using Terraria.ID;
 
 namespace Highlander.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class NinjaHeadband : AbnormalItem
+    class NinjaHeadband : VanityItem
     {
-        public NinjaHeadband() : base()
-        {
-        }
-        public NinjaHeadband(AbnormalEffect effect) : base(effect)
-        {
-        }
         public override string Texture => "Highlander/Items/Armor/NinjaHeadband";
 
         public override void SetStaticDefaults()
         {
-            //Tooltip.SetDefault("Eastern designed helmet that looks eerily like a lid.");
+            ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.rare = 3;
-            item.vanity = true;
+            Item.width = 18;
+            Item.height = 18;
+            Item.rare = ItemRarityID.Orange;
+            Item.vanity = true;
+            
             base.SetDefaults();
-        }
-
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = true;
         }
 
     }

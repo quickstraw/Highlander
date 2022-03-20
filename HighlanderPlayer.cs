@@ -226,17 +226,17 @@ namespace Highlander
 				{
 					if(hasModItemVanity && player.armor[10].modItem.GetType().BaseType != null || hasModItemArmor && player.armor[0].modItem.GetType().BaseType != null)
 					{
-						if (hasModItemVanity && player.armor[10].modItem.GetType().BaseType == typeof(AbnormalItem)
-							|| hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(AbnormalItem)) {
-							AbnormalItem item;
+						if (hasModItemVanity && player.armor[10].modItem.GetType().BaseType == typeof(VanityItem)
+							|| hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(VanityItem)) {
+							VanityItem item;
 
-							if (hasModItemVanity && player.armor[10].modItem.GetType().BaseType == typeof(AbnormalItem))
+							if (hasModItemVanity && player.armor[10].modItem.GetType().BaseType == typeof(VanityItem))
 							{
-								item = (AbnormalItem)player.armor[10].modItem;
+								item = (VanityItem)player.armor[10].modItem;
 							}
-							else if(hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(AbnormalItem))
+							else if(hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(VanityItem))
 							{
-								item = (AbnormalItem)player.armor[0].modItem;
+								item = (VanityItem)player.armor[0].modItem;
 							}
 							else
 							{

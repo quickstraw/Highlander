@@ -1,7 +1,5 @@
 using Highlander.Items;
 using Highlander.Items.Armor;
-using Highlander.Items.Armor.Halloween;
-using Highlander.Items.Armor.Series2;
 using Highlander.Items.SeaDog;
 using Highlander.UnusualLayerEffects;
 using Highlander.Utilities;
@@ -30,50 +28,6 @@ namespace Highlander
 
 		public override void Load()
 		{
-			AbnormalEffect effect = 0;
-
-			// OG Hats
-
-			AbnormalItem item = new PaperBag(effect);
-			AddItem("UnusualPaperBag", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualPaperBag_Head", "Highlander/Items/Armor/PaperBag_Head");
-
-			item = new OpenMind(effect);
-			AddItem("UnusualOpenMind", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualOpenMind_Head", "Highlander/Items/Armor/OpenMind_Head");
-
-			item = new Headless(effect);
-			AddItem("UnusualHeadless", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualHeadless_Head", "Highlander/Items/Armor/Headless_Head");
-
-			item = new GuerrillaRebel(effect);
-			AddItem("UnusualGuerrillaRebel", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualGuerrillaRebel_Head", "Highlander/Items/Armor/GuerrillaRebel_Head");
-
-			item = new SkiMask(effect);
-			AddItem("UnusualSkiMask", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualSkiMask_Head", "Highlander/Items/Armor/SkiMask_Head");
-
-			item = new ImpregnableHelm(effect);
-			AddItem("UnusualImpregnableHelm", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualImpregnableHelm_Head", "Highlander/Items/Armor/ImpregnableHelm_Head");
-
-			item = new NinjaHeadband(effect);
-			AddItem("UnusualNinjaHeadband", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualNinjaHeadband_Head", "Highlander/Items/Armor/NinjaHeadband_Head");
-
-			item = new AutonomousOrb(effect);
-			AddItem("UnusualAutonomousOrb", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualAutonomousOrb_Head", "Highlander/Items/Armor/AutonomousOrb_Head");
-
-			item = new MedicalMask(effect);
-			AddItem("UnusualMedicalMask", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualMedicalMask_Head", "Highlander/Items/Armor/MedicalMask_Head");
-
-			item = new BloodWarriorMask(effect);
-			AddItem("UnusualBloodWarriorMask", item);
-			AddEquipTexture(item, EquipType.Head, "UnusualBloodWarriorMask_Head", "Highlander/Items/Armor/BloodWarriorMask_Head");
-
 		}
 
 		public override void Unload()
