@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace Highlander.UnusualLayerEffects
@@ -15,12 +16,12 @@ namespace Highlander.UnusualLayerEffects
 
         BitsByte flags;
 
-        public ScorchingFlamesFaux(PlayerDrawInfo info, Vector2 offset, string texturePath, float scale) : base(info, offset, texturePath, scale)
+        public ScorchingFlamesFaux(PlayerDrawSet info, Vector2 offset, string texturePath, float scale) : base(info, offset, texturePath, scale)
         {
             OnSpawn();
         }
 
-        public ScorchingFlamesFaux(PlayerDrawInfo info, Vector2 offset, Texture2D texture, float scale) : base(info, offset, texture, scale)
+        public ScorchingFlamesFaux(PlayerDrawSet info, Vector2 offset, Texture2D texture, float scale) : base(info, offset, texture, scale)
         {
             OnSpawn();
         }

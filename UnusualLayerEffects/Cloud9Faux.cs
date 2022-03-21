@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace Highlander.UnusualLayerEffects
@@ -16,12 +17,12 @@ namespace Highlander.UnusualLayerEffects
         private int timer = 0;
         bool ready;
 
-        public Cloud9Faux(PlayerDrawInfo info, Vector2 offset, string texturePath, float scale) : base(info, offset, texturePath, scale)
+        public Cloud9Faux(PlayerDrawSet info, Vector2 offset, string texturePath, float scale) : base(info, offset, texturePath, scale)
         {
             OnSpawn();
         }
 
-        public Cloud9Faux(PlayerDrawInfo info, Vector2 offset, Texture2D texture, float scale) : base(info, offset, texture, scale)
+        public Cloud9Faux(PlayerDrawSet info, Vector2 offset, Texture2D texture, float scale) : base(info, offset, texture, scale)
         {
             OnSpawn();
         }
