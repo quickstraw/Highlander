@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Highlander.Dusts;
+using Terraria.Audio;
 
 namespace Highlander.Projectiles
 {
@@ -16,13 +17,13 @@ namespace Highlander.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.friendly = false;
-			projectile.penetrate = 2;
-			projectile.ai[0] = 0;
-			projectile.ai[1] = 0;
-			projectile.tileCollide = false;
+			Projectile.width = 14;
+			Projectile.height = 14;
+			Projectile.friendly = false;
+			Projectile.penetrate = 2;
+			Projectile.ai[0] = 0;
+			Projectile.ai[1] = 0;
+			Projectile.tileCollide = false;
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -43,41 +44,41 @@ namespace Highlander.Projectiles
 
 		public override void AI()
 		{
-			if(projectile.ai[0] == 0)
+			if(Projectile.ai[0] == 0)
 			{
-				projectile.ai[0] = 1;
+				Projectile.ai[0] = 1;
 
-				projectile.velocity.Y = Main.rand.NextFloat(-5, -4);
-				projectile.velocity.X = Main.rand.NextFloat(-1, 1);
+				Projectile.velocity.Y = Main.rand.NextFloat(-5, -4);
+				Projectile.velocity.X = Main.rand.NextFloat(-1, 1);
 				
 				float pitch = Main.rand.NextFloat(-0.05f, 0.05f);
 				//Main.PlaySound(SoundLoader.customSoundType, -1 , -1, 1, pitch, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/UnusualOpen"));
-				Main.PlaySound(SoundLoader.customSoundType, (int) projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/UnusualOpen"));
+				SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int) Projectile.position.X, (int)Projectile.position.Y, SoundLoader.GetSoundSlot(Mod, "Sounds/Custom/UnusualOpen"));
 			}
-			projectile.spriteDirection = projectile.direction;
-			projectile.velocity.Y *= 1.005f;
+			Projectile.spriteDirection = Projectile.direction;
+			Projectile.velocity.Y *= 1.005f;
 
-			projectile.rotation = (float) Math.Atan2(projectile.velocity.X, -projectile.velocity.Y);
+			Projectile.rotation = (float) Math.Atan2(Projectile.velocity.X, -Projectile.velocity.Y);
 
-			if(projectile.ai[1] % 3 == 0)
+			if(Projectile.ai[1] % 3 == 0)
 			{
-				Dust.NewDustPerfect(new Vector2(projectile.position.X + projectile.width / 2, projectile.position.Y) - forward * 30, 6);
+				Dust.NewDustPerfect(new Vector2(Projectile.position.X + Projectile.width / 2, Projectile.position.Y) - forward * 30, 6);
 			}
 
-			if (projectile.ai.Length >= 2 && projectile.ai[1] > 75)
+			if (Projectile.ai.Length >= 2 && Projectile.ai[1] > 75)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 			}
 
-			projectile.ai[1]++;
+			Projectile.ai[1]++;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			//float pitch = Main.rand.NextFloat(-0.05f, 0.05f);
-			//Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/UnusualPop"));
+			//Main.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/UnusualPop"));
 
-			Main.PlaySound(SoundID.Item14.WithPitchVariance(0.1f).WithVolume(0.7f), projectile.position);
+			SoundEngine.PlaySound(SoundID.Item14.WithPitchVariance(0.1f).WithVolume(0.7f), Projectile.position);
 
 			if (Main.netMode != NetmodeID.Server) {
 				// Spawn firework dust
@@ -89,8 +90,8 @@ namespace Highlander.Projectiles
 						type = 132; // Blue and White
 					}
 
-					//Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, ModContent.DustType<UnusualFireworkDust>());
-					Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, type);
+					//Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<UnusualFireworkDust>());
+					Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, type);
 					d.velocity *= 0.4f;
 					d.noGravity = true;
 				}
@@ -102,8 +103,8 @@ namespace Highlander.Projectiles
 						type = 132;
 					}
 
-					//Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, ModContent.DustType<UnusualFireworkDust>());
-					Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, type);
+					//Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<UnusualFireworkDust>());
+					Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, type);
 					d.velocity.Normalize();
 					d.velocity *= 8;
 					d.noGravity = true;
@@ -117,8 +118,8 @@ namespace Highlander.Projectiles
 						type = 132;
 					}
 
-					//Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, ModContent.DustType<UnusualFireworkDust>());
-					Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, type);
+					//Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<UnusualFireworkDust>());
+					Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, type);
 					d.velocity.Normalize();
 					d.velocity *= 16;
 					d.noGravity = true;
@@ -127,7 +128,7 @@ namespace Highlander.Projectiles
 
 			// Red Firework Implementation
 			/**
-			Main.PlaySound(SoundID.Item14, projectile.position);
+			Main.PlaySound(SoundID.Item14, Projectile.position);
 			for (int index1 = 0; index1 < 400; ++index1)
 			{
 				float num1 = 16f;
@@ -137,7 +138,7 @@ namespace Highlander.Projectiles
 					num1 = 8f;
 				if (index1 < 100)
 					num1 = 4f;
-				int index2 = Dust.NewDust(new Vector2((float)projectile.position.X, (float)projectile.position.Y), 6, 6, ModContent.DustType<FireworkCloneDust>(), 0.0f, 0.0f, 100);
+				int index2 = Dust.NewDust(new Vector2((float)Projectile.position.X, (float)Projectile.position.Y), 6, 6, ModContent.DustType<FireworkCloneDust>(), 0.0f, 0.0f, 100);
 				float num2 = (float)Main.dust[index2].velocity.X;
 				float y = (float)Main.dust[index2].velocity.Y;
 				if ((double)num2 == 0.0 && (double)y == 0.0)
@@ -168,7 +169,7 @@ namespace Highlander.Projectiles
 		{
 			get
 			{
-				float rotation = projectile.rotation - MathHelper.PiOver2;
+				float rotation = Projectile.rotation - MathHelper.PiOver2;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;

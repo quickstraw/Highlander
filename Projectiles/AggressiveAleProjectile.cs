@@ -111,7 +111,7 @@ namespace Highlander.Projectiles
 				float velX = Main.rand.NextFloat(-1, 1);
 				float velY = Main.rand.NextFloat(-1, 1);
 				Vector2 goreVelocity = new Vector2(velX, velY);
-				Gore.NewGore(Projectile.position, goreVelocity, mod.GetGoreSlot("Gores/MugGore" + i), 1f);
+				Gore.NewGore(Projectile.position, goreVelocity, Mod.Find<ModGore>("Gores/MugGore" + i).Type, 1f);
 			}
 
 		}
