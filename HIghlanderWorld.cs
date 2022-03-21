@@ -13,47 +13,41 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Highlander
 {
-    class HighlanderWorld : ModWorld
+    class HighlanderWorld : ModSystem
     {
 		public static bool downedSeaDog;
 		public static bool downedHauntedHatter;
 		public static bool downedEnlightenmentIdol;
 
-		public override void Initialize()
-		{
+        public override void OnWorldLoad()
+        {
 			downedSeaDog = false;
 			downedHauntedHatter = false;
 			downedEnlightenmentIdol = false;
 		}
 
-		public override TagCompound Save()
-		{
+        public override void SaveWorldData(TagCompound tag)
+        {
 			var downed = new List<string>();
 			if (downedSeaDog)
 			{
-				downed.Add("seaDog");
+				tag["downedSeaDog"] = true;
 			}
 			if (downedHauntedHatter)
 			{
-				downed.Add("hauntedHatter");
+				tag["downedHauntedHatter"] = true;
 			}
 			if (downedEnlightenmentIdol)
 			{
-				downed.Add("enlightenmentIdol");
+				tag["downedEnlightenmentIdol"] = true;
 			}
-
-			return new TagCompound
-			{
-				["downed"] = downed,
-			};
 		}
 
-		public override void Load(TagCompound tag)
-		{
-			var downed = tag.GetList<string>("downed");
-			downedSeaDog = downed.Contains("seaDog");
-			downedHauntedHatter = downed.Contains("hauntedHatter");
-			downedEnlightenmentIdol = downed.Contains("enlightenmentIdol");
+        public override void LoadWorldData(TagCompound tag)
+        {
+			downedSeaDog = tag.ContainsKey("downedSeaDog");
+			downedHauntedHatter = tag.ContainsKey("downedHauntedHatter");
+			downedEnlightenmentIdol = tag.ContainsKey("downedEnlightenmentIdol");
 		}
 
 		public override void NetSend(BinaryWriter writer)
@@ -90,7 +84,7 @@ namespace Highlander
 				// 4 - Locked Shadow
 				// 5 - Barrel
 				// 6 - Trash Can
-				if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36)
+				if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 1 * 36)
 				{
 					if (Main.rand.NextBool(8)) {
 						for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
