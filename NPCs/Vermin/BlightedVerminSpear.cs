@@ -18,15 +18,15 @@ namespace Highlander.NPCs.Vermin
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 18;
-			projectile.hostile = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 20;
-			projectile.penetrate = -1;
-			projectile.scale = 0.8f;
-			projectile.alpha = 255;
+			Projectile.width = 30;
+			Projectile.height = 18;
+			Projectile.hostile = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 20;
+			Projectile.penetrate = -1;
+			Projectile.scale = 0.8f;
+			Projectile.alpha = 255;
 		}
 
 	}
