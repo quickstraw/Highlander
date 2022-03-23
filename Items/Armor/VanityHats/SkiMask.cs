@@ -14,8 +14,14 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor.VanityHats
 {
     [AutoloadEquip(EquipType.Head)]
-    class SkiMask : VanityItem
+    class SkiMask : AbnormalItem
     {
+        public SkiMask() : base()
+        {
+        }
+        public SkiMask(AbnormalEffect effect) : base(effect)
+        {
+        }
         public override bool? SafeIsLoadingEnabled(Mod mod) => true;
         public override string Texture => "Highlander/Items/Armor/VanityHats/SkiMask";
 

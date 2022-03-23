@@ -14,8 +14,14 @@ using Terraria.ID;
 namespace Highlander.Items.Armor.VanityHats
 {
     [AutoloadEquip(EquipType.Head)]
-    class NinjaHeadband : VanityItem
+    class NinjaHeadband : AbnormalItem
     {
+        public NinjaHeadband() : base()
+        {
+        }
+        public NinjaHeadband(AbnormalEffect effect) : base(effect)
+        {
+        }
         public override bool? SafeIsLoadingEnabled(Mod mod) => true;
         public override string Texture => "Highlander/Items/Armor/VanityHats/NinjaHeadband";
 

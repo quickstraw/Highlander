@@ -14,8 +14,14 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor.VanityHats
 {
     [AutoloadEquip(EquipType.Head)]
-    class AutonomousOrb : VanityItem
+    class AutonomousOrb : AbnormalItem
     {
+        public AutonomousOrb() : base()
+        {
+        }
+        public AutonomousOrb(AbnormalEffect effect) : base(effect)
+        {
+        }
         public override bool? SafeIsLoadingEnabled(Mod mod) => true;
         public override string Texture => "Highlander/Items/Armor/VanityHats/AutonomousOrb";
 

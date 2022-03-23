@@ -14,8 +14,14 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor.VanityHats
 {
     [AutoloadEquip(EquipType.Head)]
-    class PaperBag : VanityItem
+    class PaperBag : AbnormalItem
     {
+        public PaperBag() : base()
+        {
+        }
+        public PaperBag(AbnormalEffect effect) : base(effect)
+        {
+        }
         public override bool? SafeIsLoadingEnabled(Mod mod) => true;
         public override string Texture => "Highlander/Items/Armor/VanityHats/PaperBag";
 

@@ -14,17 +14,15 @@ using static Terraria.ModLoader.ModContent;
 namespace Highlander.Items.Armor.VanityHats
 {
     [AutoloadEquip(EquipType.Head)]
-    class Headless : VanityItem
+    class Headless : AbnormalItem
     {
-        public override bool? SafeIsLoadingEnabled(Mod mod) => true;
-
         public Headless() : base()
         {
         }
-
         public Headless(AbnormalEffect effect) : base(effect)
         {
         }
+        public override bool? SafeIsLoadingEnabled(Mod mod) => true;
 
         public override string Texture => "Highlander/Items/Armor/VanityHats/Headless";
 
