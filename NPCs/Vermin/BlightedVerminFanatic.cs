@@ -352,7 +352,7 @@ namespace Highlander.NPCs.Vermin
             if (NPC.life <= 0)
             {
                 string prefix = "BlightedVerminFanatic";
-                string path = "Gores/Vermin/BlightedVerminFanatic/";
+                string path = "";//"Gores/Vermin/BlightedVerminFanatic/";
 
                 float max = MathHelper.PiOver2;
                 float min = -MathHelper.PiOver2;

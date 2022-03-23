@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace Highlander.NPCs.HauntedHatter
+namespace Highlander.Gores
 {
     class HauntedHatterTopGore : ModGore
     {

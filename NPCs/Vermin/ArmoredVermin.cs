@@ -535,7 +535,7 @@ namespace Highlander.NPCs.Vermin
             if (NPC.life <= 0)
             {
                 string prefix = "ArmoredVermin";
-                string path = "Gores/Vermin/ArmoredVermin/";
+                string path = "";//"Gores/Vermin/ArmoredVermin/";
 
                 float max = MathHelper.PiOver2;
                 float min = -MathHelper.PiOver2;

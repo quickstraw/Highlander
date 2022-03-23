@@ -1164,7 +1164,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 {
                     try
                     {
-                        var gore = Gore.NewGoreDirect(NPC.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, Mod.Find<ModGore>("Gores/IdolGore" + i).Type, 1f);
+                        var gore = Gore.NewGoreDirect(NPC.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, Mod.Find<ModGore>("IdolGore" + i).Type, 1f);
                     } catch (Exception e)
                     {
 

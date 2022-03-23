@@ -53,7 +53,7 @@ namespace Highlander.Items.HauntedHatter
 
 		public override void Load()
 		{
-			chainTexture = Request<Texture2D>("Items/HauntedHatter/EnchantedNeedleHookChain");
+			chainTexture = Request<Texture2D>("Highlander/Items/HauntedHatter/EnchantedNeedleHookChain");
 		}
 
 		public override void SetStaticDefaults()

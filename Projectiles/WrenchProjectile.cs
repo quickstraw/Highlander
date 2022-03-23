@@ -85,9 +85,11 @@ namespace Highlander.Projectiles
 
 			SoundEngine.PlaySound(SoundID.Item53.WithPitchVariance(0.2f).WithVolume(0.9f), Projectile.position);
 
-			var gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("Gores/WrenchProjectile").Type, 1f);
-			gore.rotation = Projectile.rotation;
-
+			if(Main.netMode != NetmodeID.Server)
+            {
+				var gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("WrenchProjectile").Type, 1f);
+				gore.rotation = Projectile.rotation;
+			}
 		}
 
 	}

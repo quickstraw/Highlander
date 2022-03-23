@@ -77,7 +77,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         public override void Kill(int timeLeft)
         {
-            var gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("Gores/EnchantedYarn").Type, 1f);
+            var gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("EnchantedYarn").Type, 1f);
             gore.rotation = Projectile.rotation;
         }
 
