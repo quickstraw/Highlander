@@ -1,5 +1,8 @@
 using Highlander.Items;
 using Highlander.Items.Armor;
+using Highlander.Items.Armor.Halloween;
+using Highlander.Items.Armor.VanityHats;
+using Highlander.Items.Armor.VanityHats.Series2;
 using Highlander.Items.SeaDog;
 using Highlander.UnusualLayerEffects;
 using Highlander.Utilities;
@@ -30,6 +33,7 @@ namespace Highlander
 		{
 			AbnormalEffect effect = AbnormalEffect.Unknown;
 
+			// Series 1
 			AbnormalItem item = new Anger(effect);
 			AddContent(item);
 			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/Anger_Head");
@@ -77,6 +81,163 @@ namespace Highlander
 			item = new TeamCaptain(effect);
 			AddContent(item);
 			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/TeamCaptain_Head");
+
+			// Series 2
+			item = new DeadCone(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/DeadCone_Head");
+
+			item = new FruitShoot(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/FruitShoot_Head");
+
+			item = new FuriousFukaamigasa(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/FuriousFukaamigasa_Head");
+
+			item = new HeroHachimaki(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/HeroHachimaki_Head");
+
+			item = new HotDogger(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/HotDogger_Head");
+
+			item = new JanissaryKetche(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/JanissaryKetche_Head");
+
+			item = new Law(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/Law_Head");
+
+			item = new MediMask(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/MediMask_Head");
+
+			item = new SurgeonStahlhelm(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/SurgeonStahlhelm_Head");
+
+			item = new ToughStuffMuffs(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series2/ToughStuffMuffs_Head");
+
+			// Winter
+			item = new BrassBucket(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/BrassBucket_Head");
+
+			item = new ColdfrontCommander(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/ColdfrontCommander_Head");
+
+			item = new CondorCap(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/CondorCap_Head");
+
+			item = new Globetrotter(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/Globetrotter_Head");
+
+			item = new MightyMitre(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/MightyMitre_Head");
+
+			item = new PatriotPeak(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/PatriotPeak_Head");
+
+			item = new SinnerShade(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/SinnerShade_Head");
+
+			item = new SurgeonShako(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/SurgeonShako_Head");
+
+			item = new TartanTyrolean(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/TartanTyrolean_Head");
+
+			item = new ToySoldier(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Winter/ToySoldier_Head");
+
+			// Halloween
+			item = new CroneDome(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Halloween/CroneDome_Head");
+
+			item = new Executioner(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Halloween/Executioner_Head");
+
+			item = new Hellmet(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Halloween/Hellmet_Head");
+
+			item = new InfernalImpaler(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Halloween/InfernalImpaler_Head");
+
+			item = new MacabreMask(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Halloween/MacabreMask_Head");
+
+			item = new OneWayTicket(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Halloween/OneWayTicket_Head");
+
+			item = new SearedSorcerer(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Halloween/SearedSorcerer_Head");
+
+			item = new SirPumpkinton(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Halloween/SirPumpkinton_Head");
+
+			// Orignal Hats
+			item = new AutonomousOrb(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/AutonomousOrb_Head");
+
+			item = new BloodWarriorMask(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/BloodWarriorMask_Head");
+
+			item = new GuerrillaRebel(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/GuerrillaRebel_Head");
+
+			item = new Headless(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Headless_Head");
+
+			item = new ImpregnableHelm(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/ImpregnableHelm_Head");
+
+			item = new MedicalMask(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/MedicalMask_Head");
+
+			item = new NinjaHeadband(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/NinjaHeadband_Head");
+
+			item = new OpenMind(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/OpenMind_Head");
+
+			item = new PaperBag(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/PaperBag_Head");
+
+			item = new SkiMask(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/SkiMask_Head");
+
 		}
 
 		public override void Unload()
