@@ -28,6 +28,55 @@ namespace Highlander
 
 		public override void Load()
 		{
+			AbnormalEffect effect = AbnormalEffect.Unknown;
+
+			AbnormalItem item = new Anger(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/Anger_Head");
+
+			item = new HongKongCone(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/HongKongCone_Head");
+
+			item = new Hotrod(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/Hotrod_Head");
+
+			item = new KillerExclusive(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/KillerExclusive_Head");
+
+			item = new LegendaryLid(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/LegendaryLid_Head");
+
+			item = new OlSnaggletooth(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/OlSnaggletooth_Head");
+
+			item = new PithyProfessional(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/PithyProfessional_Head");
+
+			item = new PyromancerMask(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/PyromancerMask_Head");
+
+			item = new SamurEye(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/SamurEye_Head");
+
+			item = new StainlessPot(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/StainlessPot_Head");
+
+			item = new StoutShako(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/StoutShako_Head");
+
+			item = new TeamCaptain(effect);
+			AddContent(item);
+			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/Series1/TeamCaptain_Head");
 		}
 
 		public override void Unload()

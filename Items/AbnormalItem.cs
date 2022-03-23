@@ -16,7 +16,7 @@ namespace Highlander.Items
     
     class AbnormalItem : ModItem
     {
-
+        public override string Name => CurrentEffect != 0 ? "Unusual" + GetType().Name : GetType().Name;
         public AbnormalEffect CurrentEffect { get; set; }
         public int counter = 0;
         public List<AbnormalEffect> Table = RollTable.AbnormalRollTable.Table;
@@ -55,8 +55,12 @@ namespace Highlander.Items
             CurrentEffect = 0;
             // Dummy Constructor
         }
+        public AbnormalItem(string internalName)
+        {
+        }
         public AbnormalItem(AbnormalEffect effect)
         {
+            CurrentEffect = effect;
             // Dummy Constructor
         }
 

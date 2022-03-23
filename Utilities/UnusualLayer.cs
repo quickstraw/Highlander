@@ -82,6 +82,8 @@ namespace Highlander.Utilities
                 default:
                     return;
             }
+            texPath = "Highlander/" + texPath;
+            texPath2 = "Highlander/" + texPath2;
             int yOffset = -65;
             float angle = 0;
 
