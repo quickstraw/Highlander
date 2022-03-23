@@ -1,5 +1,6 @@
 using Highlander.Items;
 using Highlander.Items.Armor;
+using Highlander.Items.Armor.VanityHats;
 using Highlander.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -86,9 +87,9 @@ namespace Highlander
 		}
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer) {
-			ModPacket packet = mod.GetPacket();
+			ModPacket packet = Mod.GetPacket();
 			packet.Write((byte)HighlanderMessageType.HighlanderPlayerSyncPlayer);
-			packet.Write((byte)player.whoAmI);
+			packet.Write((byte)Player.whoAmI);
 			packet.Write(unboxed);
 			packet.Send(toWho, fromWho);
 		}
@@ -97,9 +98,9 @@ namespace Highlander
 			// Here we would sync something like an RPG stat whenever the player changes it.
 			HighlanderPlayer clone = clientPlayer as HighlanderPlayer;
 			// Send a Mod Packet with the changes.
-			var packet = mod.GetPacket();
+			var packet = Mod.GetPacket();
 			packet.Write((byte)HighlanderMessageType.HighlanderPlayerSyncPlayer);
-			packet.Write((byte)player.whoAmI);
+			packet.Write((byte)Player.whoAmI);
 			packet.Write(unboxed);
 			packet.Send();
 		}
@@ -107,48 +108,15 @@ namespace Highlander
 		public override void UpdateDead() {
 		}
 
-		public override TagCompound Save() {
-			// Read https://github.com/tModLoader/tModLoader/wiki/Saving-and-loading-using-TagCompound to better understand Saving and Loading data.
-			return new TagCompound {
-				// {"somethingelse", somethingelse}, // To save more data, add additional lines
-			};
-			//note that C# 6.0 supports indexer initializers
-			//return new TagCompound {
-			//	["score"] = score
-			//};
-		}
+        public override void SaveData(TagCompound tag)
+        {
+            
+        }
 
-		public override void Load(TagCompound tag) {
-		}
-
-		public override void LoadLegacy(BinaryReader reader) {
-		}
-
-		public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath) {
-		}
-
-		public override void UpdateBiomes() {
-		}
-
-		public override bool CustomBiomesMatch(Player other) {
-			return base.CustomBiomesMatch(other);
-		}
-
-		public override void CopyCustomBiomesTo(Player other) {
-		}
-
-		public override void SendCustomBiomes(BinaryWriter writer) {
-		}
-
-		public override void ReceiveCustomBiomes(BinaryReader reader) {
-		}
-
-		public override void UpdateBiomeVisuals() {
-			//bool usePurity = NPC.AnyNPCs(NPCType<PuritySpirit>());
-			//player.ManageSpecialBiomeVisuals("ExampleMod:PuritySpirit", usePurity);
-			//bool useVoidMonolith = voidMonolith && !usePurity && !NPC.AnyNPCs(NPCID.MoonLordCore);
-			//player.ManageSpecialBiomeVisuals("ExampleMod:MonolithVoid", useVoidMonolith, player.Center);
-		}
+        public override void LoadData(TagCompound tag)
+        {
+            
+        }
 
 		public override Texture2D GetMapBackgroundImage() {
 			return null;
@@ -167,13 +135,17 @@ namespace Highlander
 		public override void PostUpdateBuffs() {
 		}
 
-		public override void UpdateVanityAccessories() {
-		}
+        public override void UpdateVisibleVanityAccessories()
+        {
+            
+        }
 
-		public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff) {
-		}
+        public override void UpdateEquips()
+        {
+            
+        }
 
-		public override void PostUpdateEquips() {
+        public override void PostUpdateEquips() {
 		}
 
 		public override void PostUpdateMiscEffects() {
@@ -205,38 +177,42 @@ namespace Highlander
 		public override void AnglerQuestReward(float quality, List<Item> rewardItems) {
 		}
 
-		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk) {
+        public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
+        {
+            
+        }
+
+        public override void GetFishingLevel(Item fishingRod, Item bait, ref float fishingLevel)
+        {
+            
+        }
+
+        public override void GetDyeTraderReward(List<int> dyeItemIDsPool) {
 		}
 
-		public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel) {
+		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo) {
 		}
 
-		public override void GetDyeTraderReward(List<int> dyeItemIDsPool) {
-		}
-
-		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo) {
-		}
-
-		public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright) {
+		public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright) {
 			if (Main.netMode != NetmodeID.Server)
 			{
-				bool hasModItemArmor = player.armor[0] != null && player.armor[0].modItem != null;
-				bool hasModItemVanity = player.armor[10] != null && player.armor[10].modItem != null;
+				bool hasModItemArmor = Player.armor[0] != null && Player.armor[0].ModItem != null;
+				bool hasModItemVanity = Player.armor[10] != null && Player.armor[10].ModItem != null;
 				if (hasModItemVanity || hasModItemArmor)
 				{
-					if(hasModItemVanity && player.armor[10].modItem.GetType().BaseType != null || hasModItemArmor && player.armor[0].modItem.GetType().BaseType != null)
+					if(hasModItemVanity && Player.armor[10].ModItem.GetType().BaseType != null || hasModItemArmor && Player.armor[0].ModItem.GetType().BaseType != null)
 					{
-						if (hasModItemVanity && player.armor[10].modItem.GetType().BaseType == typeof(VanityItem)
-							|| hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(VanityItem)) {
-							VanityItem item;
+						if (hasModItemVanity && Player.armor[10].ModItem.GetType().BaseType == typeof(AbnormalItem)
+							|| hasModItemArmor && Player.armor[0].ModItem.GetType().BaseType == typeof(AbnormalItem)) {
+							AbnormalItem item;
 
-							if (hasModItemVanity && player.armor[10].modItem.GetType().BaseType == typeof(VanityItem))
+							if (hasModItemVanity && Player.armor[10].ModItem.GetType().BaseType == typeof(AbnormalItem))
 							{
-								item = (VanityItem)player.armor[10].modItem;
+								item = (AbnormalItem)Player.armor[10].ModItem;
 							}
-							else if(hasModItemArmor && player.armor[0].modItem.GetType().BaseType == typeof(VanityItem))
+							else if(hasModItemArmor && Player.armor[0].ModItem.GetType().BaseType == typeof(AbnormalItem))
 							{
-								item = (VanityItem)player.armor[0].modItem;
+								item = (AbnormalItem)Player.armor[0].ModItem;
 							}
 							else
 							{
@@ -246,17 +222,17 @@ namespace Highlander
 
 							unusual = item.CurrentEffect;
 
-							Vector2 headPosition = player.position;
-							headPosition.X += player.width / 2;
+							Vector2 headPosition = Player.position;
+							headPosition.X += Player.width / 2;
 
-							if (player.mount.Active)
+							if (Player.mount.Active)
 							{
-								headPosition.Y += (player.height - player.mount.PlayerOffset) / 2;
-								headPosition.Y += player.mount.PlayerOffset;
+								headPosition.Y += (Player.height - Player.mount.PlayerOffset) / 2;
+								headPosition.Y += Player.mount.PlayerOffset;
 							}
 							else
 							{
-								headPosition.Y += player.height / 2;
+								headPosition.Y += Player.height / 2;
 							}
 
 							float headHeight;
@@ -270,8 +246,8 @@ namespace Highlander
 								case AbnormalEffect.None:
 									break;
 								case AbnormalEffect.PurpleEnergy:
-									/**headPosition = player.Center;
-									headHeight = 2 * (player.height / 5);
+									/**headPosition = Player.Center;
+									headHeight = 2 * (Player.height / 5);
 									headPosition.Y -= headHeight - 14;
 									headPosition.X -= 6 - 3;
 
@@ -280,8 +256,8 @@ namespace Highlander
 									currDust.customData = data;**/
 									break;
 								case AbnormalEffect.GreenEnergy:
-									/**headPosition = player.Center;
-									headHeight = 2 * (player.height / 5);
+									/**headPosition = Player.Center;
+									headHeight = 2 * (Player.height / 5);
 									headPosition.Y -= headHeight - 14;
 									headPosition.X -= 6 - 3;
 
@@ -292,9 +268,9 @@ namespace Highlander
 								case AbnormalEffect.BurningFlames:
 									/**headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 16;
-									headPosition.X -= player.width / 2 + 2;
+									headPosition.X -= Player.width / 2 + 2;
 
-									currDust = Dust.NewDustDirect(headPosition, player.width, 42 / 8 + 4, mod.DustType("BurningFlames"));
+									currDust = Dust.NewDustDirect(headPosition, Player.width, 42 / 8 + 4, mod.DustType("BurningFlames"));
 									data = new ModDustCustomData(player);
 									currDust.customData = data;**/
 									Lighting.AddLight(headPosition, 0.58f, 0.41f, 0.01f);
@@ -302,9 +278,9 @@ namespace Highlander
 								case AbnormalEffect.ScorchingFlames:
 									/**headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 16;
-									headPosition.X -= player.width / 2 + 2;
+									headPosition.X -= Player.width / 2 + 2;
 
-									currDust = Dust.NewDustDirect(headPosition, player.width, 42 / 8 + 4, mod.DustType("ScorchingFlames"));
+									currDust = Dust.NewDustDirect(headPosition, Player.width, 42 / 8 + 4, mod.DustType("ScorchingFlames"));
 									data = new ModDustCustomData(player);
 									currDust.customData = data;**/
 									Lighting.AddLight(headPosition, 0.13f, 0.55f, 0.32f);
@@ -312,13 +288,13 @@ namespace Highlander
 								case AbnormalEffect.BlizzardyStorm:
 									/**headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 28;
-									headPosition.X -= 2 * player.width / 3 - 4;
+									headPosition.X -= 2 * Player.width / 3 - 4;
 
 									if (counter % 4 == 0)
 									{
 										headPosition.X += 0;
 										headPosition.Y += 12;
-										currDust = Dust.NewDustDirect(headPosition, player.width, 42 / 8, mod.DustType("BlizzardyStormParticle"));
+										currDust = Dust.NewDustDirect(headPosition, Player.width, 42 / 8, mod.DustType("BlizzardyStormParticle"));
 										data = new ModDustCustomData(player);
 										currDust.customData = data;
 									}
@@ -329,13 +305,13 @@ namespace Highlander
 									/**
 									headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 28;
-									headPosition.X -= 2 * player.width / 3 - 4;
+									headPosition.X -= 2 * Player.width / 3 - 4;
 
 									if (counter % 4 == 0)
 									{
 										headPosition.X += 0;
 										headPosition.Y += 12;
-										currDust = Dust.NewDustDirect(headPosition, player.width, 42 / 8, mod.DustType("StormyStormParticle"));
+										currDust = Dust.NewDustDirect(headPosition, Player.width, 42 / 8, mod.DustType("StormyStormParticle"));
 										data = new ModDustCustomData(player);
 										currDust.customData = data;
 									}
@@ -346,11 +322,11 @@ namespace Highlander
 									/**
 									headHeight = 2 * (42 / 5);
 									headPosition.Y -= headHeight + 12;
-									headPosition.X -= player.width / 2 + 8;
+									headPosition.X -= Player.width / 2 + 8;
 
 									if (counter % 30 == 0)
 									{
-										currDust = Dust.NewDustDirect(headPosition, player.width + 16, 42 / 8 + 10, mod.DustType("Cloud9"));
+										currDust = Dust.NewDustDirect(headPosition, Player.width + 16, 42 / 8 + 10, mod.DustType("Cloud9"));
 										data = new ModDustCustomData(player);
 										currDust.customData = data;
 										var trailDust = Dust.NewDustPerfect(currDust.position - currDust.velocity, mod.DustType("Cloud9Trail"), currDust.velocity * 0.5f);
@@ -376,7 +352,7 @@ namespace Highlander
 
 						}
 					}
-					if (hasModItemVanity && player.armor[10].modItem.GetType() == typeof(AutonomousOrb) || hasModItemArmor && !hasModItemVanity && player.armor[0].modItem.GetType() == typeof(AutonomousOrb))
+					if (hasModItemVanity && Player.armor[10].ModItem.GetType() == typeof(AutonomousOrb) || hasModItemArmor && !hasModItemVanity && Player.armor[0].ModItem.GetType() == typeof(AutonomousOrb))
 					{
 						wearingAutonomousOrb = true;
 					}
@@ -408,11 +384,17 @@ namespace Highlander
 		{
 		}
 
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        public override void HideDrawLayers(PlayerDrawSet drawInfo)
+        {
+            base.HideDrawLayers(drawInfo);
+        }
+
+        /**
+        public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
 			int count = layers.Count;
 
-			if (!player.dead)
+			if (!Player.dead)
 			{
 				if (wearingAutonomousOrb)
 				{
@@ -466,17 +448,18 @@ namespace Highlander
 			}
 
 		}
+				**/
 
 		public override void PostUpdate()
 		{
 			if (unboxed != -1)
 			{
-				string text = player.name + " unboxed an " + ModContent.GetModItem(unboxed).item.Name + "!";
+				string text = Player.name + " unboxed an " + ModContent.GetModItem(unboxed).Item.Name + "!";
 
 				if (Main.netMode == NetmodeID.Server)
 				{
 					NetworkText message = NetworkText.FromLiteral(text);
-					NetMessage.BroadcastChatMessage(message, Color.MediumPurple);
+                    Terraria.Chat.ChatHelper.BroadcastChatMessage(message, Color.MediumPurple);
 				}
 
 				unboxed = -1;
@@ -484,16 +467,16 @@ namespace Highlander
 
 			if (receivingAura)
 			{
-				player.statDefense += 8;
+				Player.statDefense += 8;
 			}
-			//Main.NewText(player.bodyFrame.Y / player.bodyFrame.Height);
+			//Main.NewText(Player.bodyFrame.Y / Player.bodyFrame.Height);
 
 			clock = (byte) ((clock + 1) % 60);
 		}
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if (bellOfPestilence && item.melee)
+			if (bellOfPestilence && item.DamageType == DamageClass.Melee)
 			{
 				if (Main.rand.NextBool(2))
 				{
@@ -505,7 +488,7 @@ namespace Highlander
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
-			if (bellOfPestilence && proj.melee)
+			if (bellOfPestilence && proj.DamageType == DamageClass.Melee)
 			{
 				if (Main.rand.NextBool(2))
 				{
