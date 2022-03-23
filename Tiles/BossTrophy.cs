@@ -3,6 +3,7 @@ using Highlander.Items.HauntedHatter;
 using Highlander.Items.SeaDog;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -47,7 +48,8 @@ namespace Highlander.Tiles
 			}
 			if (item > 0)
 			{
-				Item.NewItem(i * 16, j * 16, 48, 48, item);
+				var source = new EntitySource_TileBreak(i, j);
+				Item.NewItem(source, i * 16, j * 16, 48, 48, item);
 			}
 		}
 

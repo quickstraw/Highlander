@@ -35,7 +35,7 @@ namespace Highlander.Items.Weapons
 			//Item.crit = 4;
 			Item.value = Item.sellPrice(gold: 1, silver: 0);
 
-			Item.melee = true;
+			Item.DamageType = DamageClass.Melee;
 			Item.noMelee = true; // Important because the spear is actually a projectile instead of an Item. This prevents the melee hitbox of this Item.
 			Item.noUseGraphic = true; // Important, it's kind of wired if people see two spears at one time. This prevents the melee animation of this Item.
 			Item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()

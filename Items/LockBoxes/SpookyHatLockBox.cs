@@ -113,7 +113,7 @@ namespace Highlander.Items.LockBoxes
                 }
             }
 
-            player.QuickSpawnItem(mod.ItemType(prefix + itemName));
+            player.QuickSpawnItem(source, Mod.Find<ModItem>(prefix + itemName).Type);
         }
 
     }

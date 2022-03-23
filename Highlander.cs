@@ -22,7 +22,7 @@ namespace Highlander
 		{
 			Instance = this;
 			RollTable.MakeTable();
-			AnimationHelper.dust = new List<FauxDust>();
+			UnusualLayer.dust = new List<FauxDust>();
 			FauxDust.mod = this;
 		}
 
@@ -33,7 +33,7 @@ namespace Highlander
 		public override void Unload()
 		{
 			RollTable.AbnormalRollTable = null;
-			AnimationHelper.dust = null;
+			UnusualLayer.dust = null;
 			FauxDust.mod = null;
 			Instance = null;
 		}

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Highlander.Dusts;
+using Terraria.Audio;
 
 namespace Highlander.Projectiles
 {
@@ -100,8 +101,8 @@ namespace Highlander.Projectiles
 				Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
 			}
 
-			Main.PlaySound(SoundID.Item27.WithPitchVariance(0.2f).WithVolume(0.9f), Projectile.position);
-			Main.PlaySound(SoundID.Splash, Projectile.position);
+			SoundEngine.PlaySound(SoundID.Item27.WithPitchVariance(0.2f).WithVolume(0.9f), Projectile.position);
+			SoundEngine.PlaySound(SoundID.Splash, Projectile.position);
 			for (int i = 0; i < 60; i++)
 			{
 				Dust.NewDust(Projectile.Center, 15, 10, ModContent.DustType<AggressiveAleDustExplosive>());

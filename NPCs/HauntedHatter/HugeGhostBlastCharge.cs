@@ -147,7 +147,7 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			get
 			{
-				float rotation = projectile.rotation - MathHelper.PiOver2;
+				float rotation = Projectile.rotation - MathHelper.PiOver2;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;
@@ -158,7 +158,7 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			get
 			{
-				return Main.player[(int)projectile.ai[1]];
+				return Main.player[(int)Projectile.ai[1]];
 			}
 		}
 
@@ -166,7 +166,7 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			get
 			{
-				return Main.npc[(int)projectile.ai[0]];
+				return Main.npc[(int)Projectile.ai[0]];
 			}
 		}
 
