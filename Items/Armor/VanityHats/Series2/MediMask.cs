@@ -51,10 +51,5 @@ namespace Highlander.Items.Armor.VanityHats.Series2
             base.SetDefaults();
         }
 
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = true;
-        }
-
     }
 }
