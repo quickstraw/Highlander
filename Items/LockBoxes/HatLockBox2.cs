@@ -18,7 +18,7 @@ namespace Highlander.Items.LockBoxes
     class HatLockBox2 : ModItem
     {
 
-        public override string Texture => "Highlander/Items/HatSupplyLockBox";
+        public override string Texture => "Highlander/Items/LockBoxes/HatSupplyLockBox";
 
         public override void SetStaticDefaults()
         {

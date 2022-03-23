@@ -640,9 +640,9 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D border = Request<Texture2D>("NPCs/EnlightenmentIdol/SphereBorder").Value;
+            Texture2D border = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/SphereBorder").Value;
 
-            spriteBatch.Draw(Request<Texture2D>("NPCs/EnlightenmentIdol/IdolSphere").Value, NPC.Center - screenPos, null, Color.White * (40f / 255f) * ((255 - NPC.alpha) / 255f), 0f, new Vector2(SPHERE_RADIUS, SPHERE_RADIUS), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/IdolSphere").Value, NPC.Center - screenPos, null, Color.White * (40f / 255f) * ((255 - NPC.alpha) / 255f), 0f, new Vector2(SPHERE_RADIUS, SPHERE_RADIUS), 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(border, NPC.Center - screenPos, null, Color.White * ((255 - NPC.alpha) / 255f), 0f, new Vector2(border.Width / 2, border.Height / 2), 1f, SpriteEffects.None, 0f);
 
             return true;
