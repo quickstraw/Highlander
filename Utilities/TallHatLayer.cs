@@ -17,8 +17,11 @@ namespace Highlander.Utilities
     {
         public override Position GetDefaultPosition()
         {
-            return new Between(PlayerDrawLayers.Head, PlayerDrawLayers.FinchNest);
+            return new AfterParent(PlayerDrawLayers.Head);//new Between(PlayerDrawLayers.Head, PlayerDrawLayers.FinchNest);
         }
+
+        // Returning true in this property makes this layer appear on the minimap player head icon.
+        public override bool IsHeadLayer => true;
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
