@@ -1,5 +1,6 @@
 using Highlander.Items;
 using Highlander.Items.Armor;
+using Highlander.Items.Armor.Halloween;
 using Highlander.Items.Armor.VanityHats;
 using Highlander.Utilities;
 using Microsoft.Xna.Framework;
@@ -246,102 +247,22 @@ namespace Highlander
 								case AbnormalEffect.None:
 									break;
 								case AbnormalEffect.PurpleEnergy:
-									/**headPosition = Player.Center;
-									headHeight = 2 * (Player.height / 5);
-									headPosition.Y -= headHeight - 14;
-									headPosition.X -= 6 - 3;
-
-									currDust = Dust.NewDustPerfect(headPosition, mod.DustType("PurpleEnergy"));
-									data = new ModDustCustomData(player);
-									currDust.customData = data;**/
 									break;
 								case AbnormalEffect.GreenEnergy:
-									/**headPosition = Player.Center;
-									headHeight = 2 * (Player.height / 5);
-									headPosition.Y -= headHeight - 14;
-									headPosition.X -= 6 - 3;
-
-									currDust = Dust.NewDustPerfect(headPosition, mod.DustType("GreenEnergy"));
-									data = new ModDustCustomData(player);
-									currDust.customData = data;**/
 									break;
 								case AbnormalEffect.BurningFlames:
-									/**headHeight = 2 * (42 / 5);
-									headPosition.Y -= headHeight + 16;
-									headPosition.X -= Player.width / 2 + 2;
-
-									currDust = Dust.NewDustDirect(headPosition, Player.width, 42 / 8 + 4, mod.DustType("BurningFlames"));
-									data = new ModDustCustomData(player);
-									currDust.customData = data;**/
 									Lighting.AddLight(headPosition, 0.58f, 0.41f, 0.01f);
 									break;
 								case AbnormalEffect.ScorchingFlames:
-									/**headHeight = 2 * (42 / 5);
-									headPosition.Y -= headHeight + 16;
-									headPosition.X -= Player.width / 2 + 2;
-
-									currDust = Dust.NewDustDirect(headPosition, Player.width, 42 / 8 + 4, mod.DustType("ScorchingFlames"));
-									data = new ModDustCustomData(player);
-									currDust.customData = data;**/
 									Lighting.AddLight(headPosition, 0.13f, 0.55f, 0.32f);
 									break;
 								case AbnormalEffect.BlizzardyStorm:
-									/**headHeight = 2 * (42 / 5);
-									headPosition.Y -= headHeight + 28;
-									headPosition.X -= 2 * Player.width / 3 - 4;
-
-									if (counter % 4 == 0)
-									{
-										headPosition.X += 0;
-										headPosition.Y += 12;
-										currDust = Dust.NewDustDirect(headPosition, Player.width, 42 / 8, mod.DustType("BlizzardyStormParticle"));
-										data = new ModDustCustomData(player);
-										currDust.customData = data;
-									}
-									**/
 									counter = (counter + 1) % 60;
 									break;
 								case AbnormalEffect.StormyStorm:
-									/**
-									headHeight = 2 * (42 / 5);
-									headPosition.Y -= headHeight + 28;
-									headPosition.X -= 2 * Player.width / 3 - 4;
-
-									if (counter % 4 == 0)
-									{
-										headPosition.X += 0;
-										headPosition.Y += 12;
-										currDust = Dust.NewDustDirect(headPosition, Player.width, 42 / 8, mod.DustType("StormyStormParticle"));
-										data = new ModDustCustomData(player);
-										currDust.customData = data;
-									}
-									**/
 									counter = (counter + 1) % 60;
 									break;
 								case AbnormalEffect.Cloud9:
-									/**
-									headHeight = 2 * (42 / 5);
-									headPosition.Y -= headHeight + 12;
-									headPosition.X -= Player.width / 2 + 8;
-
-									if (counter % 30 == 0)
-									{
-										currDust = Dust.NewDustDirect(headPosition, Player.width + 16, 42 / 8 + 10, mod.DustType("Cloud9"));
-										data = new ModDustCustomData(player);
-										currDust.customData = data;
-										var trailDust = Dust.NewDustPerfect(currDust.position - currDust.velocity, mod.DustType("Cloud9Trail"), currDust.velocity * 0.5f);
-										data = new ModDustCustomData(player);
-										trailDust.customData = data;
-										trailDust.scale = 0.8f;
-										trailDust = Dust.NewDustPerfect(currDust.position - currDust.velocity, mod.DustType("Cloud9Trail"), currDust.velocity * 0.25f);
-										data = new ModDustCustomData(player);
-										trailDust.customData = data;
-										trailDust.scale = 0.4f;
-										trailDust = Dust.NewDustPerfect(currDust.position - currDust.velocity, mod.DustType("Cloud9Trail"), currDust.velocity * 0.125f);
-										data = new ModDustCustomData(player);
-										trailDust.customData = data;
-										trailDust.scale = 0.2f;
-									}**/
 									counter = (counter + 1) % 60;
 									break;
 								default:
@@ -355,6 +276,22 @@ namespace Highlander
 					if (hasModItemVanity && Player.armor[10].ModItem.GetType() == typeof(AutonomousOrb) || hasModItemArmor && !hasModItemVanity && Player.armor[0].ModItem.GetType() == typeof(AutonomousOrb))
 					{
 						wearingAutonomousOrb = true;
+					}
+					if (hasModItemVanity && Player.armor[10].ModItem.GetType() == typeof(ToySoldier) || hasModItemArmor && !hasModItemVanity && Player.armor[0].ModItem.GetType() == typeof(ToySoldier))
+					{
+						tallHat = TallHat.ToySoldier;
+					}
+					if (hasModItemVanity && Player.armor[10].ModItem.GetType() == typeof(CroneDome) || hasModItemArmor && !hasModItemVanity && Player.armor[0].ModItem.GetType() == typeof(CroneDome))
+					{
+						tallHat = TallHat.CroneDome;
+					}
+					if (hasModItemVanity && Player.armor[10].ModItem.GetType() == typeof(SearedSorcerer) || hasModItemArmor && !hasModItemVanity && Player.armor[0].ModItem.GetType() == typeof(SearedSorcerer))
+					{
+						tallHat = TallHat.SearedSorcerer;
+					}
+					if (hasModItemVanity && Player.armor[10].ModItem.GetType() == typeof(SirPumpkinton) || hasModItemArmor && !hasModItemVanity && Player.armor[0].ModItem.GetType() == typeof(SearedSorcerer))
+					{
+						tallHat = TallHat.SirPumpkinton;
 					}
 				}
 				else
