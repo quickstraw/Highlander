@@ -289,7 +289,7 @@ namespace Highlander
 					{
 						tallHat = TallHat.SearedSorcerer;
 					}
-					if (hasModItemVanity && Player.armor[10].ModItem.GetType() == typeof(SirPumpkinton) || hasModItemArmor && !hasModItemVanity && Player.armor[0].ModItem.GetType() == typeof(SearedSorcerer))
+					if (hasModItemVanity && Player.armor[10].ModItem.GetType() == typeof(SirPumpkinton) || hasModItemArmor && !hasModItemVanity && Player.armor[0].ModItem.GetType() == typeof(SirPumpkinton))
 					{
 						tallHat = TallHat.SirPumpkinton;
 					}
