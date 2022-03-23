@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Highlander.Buffs
@@ -11,14 +12,14 @@ namespace Highlander.Buffs
     class PiercedArmor : ModBuff
     {
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pierced Armor");
 			Description.SetDefault("Defense is lowered by 4");
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = false;
-			canBeCleared = false;
+			BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
 		}
 
 		public override void Update(Player player, ref int buffIndex)

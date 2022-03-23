@@ -11,7 +11,7 @@ namespace Highlander.Dusts
 {
     class StormyStormParticle : ModDust
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Highlander.Buffs
@@ -11,14 +12,14 @@ namespace Highlander.Buffs
     class SeaChampionBarrierBuff : ModBuff
     {
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sea Champion's Barrier");
 			Description.SetDefault("Defense is increased by 10");
 			Main.debuff[Type] = false;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = true;
-			canBeCleared = false;
+			BuffID.Sets.NurseCannotRemoveDebuff[Type] = false;
 		}
 
 		public override void Update(Player player, ref int buffIndex)

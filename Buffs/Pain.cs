@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Highlander.Buffs
@@ -13,7 +14,7 @@ namespace Highlander.Buffs
 
 		private int timer;
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			timer = 0;
 			DisplayName.SetDefault("Pain");
@@ -21,7 +22,7 @@ namespace Highlander.Buffs
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = false;
-			canBeCleared = false;
+			BuffID.Sets.NurseCannotRemoveDebuff[Type] = false;
 		}
 
 		/**public override void Update(Player player, ref int buffIndex)

@@ -10,7 +10,7 @@ namespace Highlander.Dusts
 {
     class MiniCannonballDust : ModDust
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 
         }

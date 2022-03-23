@@ -11,7 +11,7 @@ namespace Highlander.Dusts
 {
     class UnusualFireworkDust : ModDust
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 
         }

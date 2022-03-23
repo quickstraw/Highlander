@@ -13,7 +13,7 @@ namespace Highlander.Dusts
     {
         public Boolean ChangedVelocity { get; set; }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
         }
 

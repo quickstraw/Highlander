@@ -12,7 +12,7 @@ namespace Highlander.Dusts
     class FireworkCloneDust : ModDust
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             
         }
