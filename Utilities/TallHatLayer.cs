@@ -17,7 +17,17 @@ namespace Highlander.Utilities
     {
         public override Position GetDefaultPosition()
         {
-            return new Between(PlayerDrawLayers.FinchNest, PlayerDrawLayers.Head);
+            return new Between(PlayerDrawLayers.Head, PlayerDrawLayers.FinchNest);
+        }
+
+        public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
+        {
+            HighlanderPlayer player = drawInfo.drawPlayer.GetModPlayer<HighlanderPlayer>();
+            // The layer will be visible only if the player is holding an ExampleItem in their hands. Or if another modder forces this layer to be visible.
+            return player.tallHat != 0;
+
+            // If you'd like to reference another PlayerDrawLayer's visibility,
+            // you can do so by getting its instance via ModContent.GetInstance<OtherDrawLayer>(), and calling GetDefaultVisiblity on it
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
@@ -30,16 +40,16 @@ namespace Highlander.Utilities
             switch (modPlayer.tallHat)
             {
                 case TallHat.ToySoldier:
-                    texPath = "Utilities/TallHatTextures/ToySoldier";
+                    texPath = "Highlander/Utilities/TallHatTextures/ToySoldier";
                     break;
                 case TallHat.CroneDome:
-                    texPath = "Utilities/TallHatTextures/CroneDome";
+                    texPath = "Highlander/Utilities/TallHatTextures/CroneDome";
                     break;
                 case TallHat.SearedSorcerer:
-                    texPath = "Utilities/TallHatTextures/SearedSorcerer";
+                    texPath = "Highlander/Utilities/TallHatTextures/SearedSorcerer";
                     break;
                 case TallHat.SirPumpkinton:
-                    texPath = "Utilities/TallHatTextures/SirPumpkinton";
+                    texPath = "Highlander/Utilities/TallHatTextures/SirPumpkinton";
                     break;
                 default:
                     return;

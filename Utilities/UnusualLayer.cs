@@ -18,7 +18,7 @@ namespace Highlander.Utilities
     {
         public static List<FauxDust> dust;
 
-        public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.FinchNest, PlayerDrawLayers.Head);
+        public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.Head, PlayerDrawLayers.FinchNest);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {

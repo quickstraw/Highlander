@@ -17,7 +17,17 @@ namespace Highlander.Utilities
     {
         public override Position GetDefaultPosition()
         {
-            return new Between(PlayerDrawLayers.FinchNest, PlayerDrawLayers.Head);
+            return new Between(PlayerDrawLayers.Head, PlayerDrawLayers.FinchNest);
+        }
+
+        public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
+        {
+            HighlanderPlayer player = drawInfo.drawPlayer.GetModPlayer<HighlanderPlayer>();
+            // The layer will be visible only if the player is holding an ExampleItem in their hands. Or if another modder forces this layer to be visible.
+            return player.wearingAutonomousOrb;
+
+            // If you'd like to reference another PlayerDrawLayer's visibility,
+            // you can do so by getting its instance via ModContent.GetInstance<OtherDrawLayer>(), and calling GetDefaultVisiblity on it
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
@@ -25,7 +35,7 @@ namespace Highlander.Utilities
             Mod mod = Highlander.Instance;
             Player drawPlayer = drawInfo.drawPlayer;
             HighlanderPlayer modPlayer = drawPlayer.GetModPlayer<HighlanderPlayer>();
-            string texPath = "Items/Armor/AutonomousOrb_Effects";
+            string texPath = "Highlander/Items/Armor/VanityHats/AutonomousOrb_Effects";
 
             DrawData orbData = AutonomousOrbData(drawInfo, texPath, -69, 0);
             orbData.shader = drawPlayer.dye[0].dye;

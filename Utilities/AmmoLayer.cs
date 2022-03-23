@@ -17,7 +17,7 @@ namespace Highlander.Utilities
     {
         public override Position GetDefaultPosition()
         {
-            return new Between(PlayerDrawLayers.BeetleBuff, PlayerDrawLayers.EyebrellaCloud);
+            return new Between(PlayerDrawLayers.EyebrellaCloud, PlayerDrawLayers.BeetleBuff);
         }
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
@@ -59,25 +59,25 @@ namespace Highlander.Utilities
                 switch (modPlayer.currentAmmo)
                 {
                     case 0:
-                        texPath = "UI/GunAmmo5/GunAmmo05";
+                        texPath = "Highlander/UI/GunAmmo5/GunAmmo05";
                         break;
                     case 1:
-                        texPath = "UI/GunAmmo5/GunAmmo15";
+                        texPath = "Highlander/UI/GunAmmo5/GunAmmo15";
                         break;
                     case 2:
-                        texPath = "UI/GunAmmo5/GunAmmo25";
+                        texPath = "Highlander/UI/GunAmmo5/GunAmmo25";
                         break;
                     case 3:
-                        texPath = "UI/GunAmmo5/GunAmmo35";
+                        texPath = "Highlander/UI/GunAmmo5/GunAmmo35";
                         break;
                     case 4:
-                        texPath = "UI/GunAmmo5/GunAmmo45";
+                        texPath = "Highlander/UI/GunAmmo5/GunAmmo45";
                         break;
                     case 5:
-                        texPath = "UI/GunAmmo5/GunAmmo55";
+                        texPath = "Highlander/UI/GunAmmo5/GunAmmo55";
                         break;
                     default:
-                        texPath = "UI/GunAmmo5/GunAmmo05";
+                        texPath = "Highlander/UI/GunAmmo5/GunAmmo05";
                         break;
                 }
             }
@@ -86,28 +86,28 @@ namespace Highlander.Utilities
                 switch (modPlayer.currentAmmo)
                 {
                     case 0:
-                        texPath = "UI/GunAmmo6/GunAmmo06";
+                        texPath = "Highlander/UI/GunAmmo6/GunAmmo06";
                         break;
                     case 1:
-                        texPath = "UI/GunAmmo6/GunAmmo16";
+                        texPath = "Highlander/UI/GunAmmo6/GunAmmo16";
                         break;
                     case 2:
-                        texPath = "UI/GunAmmo6/GunAmmo26";
+                        texPath = "Highlander/UI/GunAmmo6/GunAmmo26";
                         break;
                     case 3:
-                        texPath = "UI/GunAmmo6/GunAmmo36";
+                        texPath = "Highlander/UI/GunAmmo6/GunAmmo36";
                         break;
                     case 4:
-                        texPath = "UI/GunAmmo6/GunAmmo46";
+                        texPath = "Highlander/UI/GunAmmo6/GunAmmo46";
                         break;
                     case 5:
-                        texPath = "UI/GunAmmo6/GunAmmo56";
+                        texPath = "Highlander/UI/GunAmmo6/GunAmmo56";
                         break;
                     case 6:
-                        texPath = "UI/GunAmmo6/GunAmmo66";
+                        texPath = "Highlander/UI/GunAmmo6/GunAmmo66";
                         break;
                     default:
-                        texPath = "UI/GunAmmo6/GunAmmo06";
+                        texPath = "Highlander/UI/GunAmmo6/GunAmmo06";
                         break;
                 }
                 yOffset -= 6;
