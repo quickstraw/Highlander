@@ -68,19 +68,15 @@ namespace Highlander.NPCs.HatSalesman
             return false;
         }
 
-        public override string TownNPCName()
+        public override List<string> SetNPCNameList()
         {
-            switch (WorldGen.genRand.Next(4))
-            {
-                case 0:
-                    return "Clank";
-                case 1:
-                    return "HatBot-5000";
-                case 2:
-                    return "Beepulon";
-                default:
-                    return "SalesBot";
-            }
+            List<string> list = new List<string>();
+            list.Add("Clank");
+            list.Add("HatBot-5000");
+            list.Add("Beepulon");
+            list.Add("SalesBot");
+            list.Add("BootBot");
+            return list;
         }
 
         public override string GetChat()

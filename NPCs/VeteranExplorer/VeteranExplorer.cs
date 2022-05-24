@@ -64,19 +64,14 @@ namespace Highlander.NPCs.VeteranExplorer
             return false;
         }
 
-        public override string TownNPCName()
+        public override List<string> SetNPCNameList()
         {
-            switch (WorldGen.genRand.Next(4))
-            {
-                case 0:
-                    return "Hubert";
-                case 1:
-                    return "Alfonso";
-                case 2:
-                    return "Gregory";
-                default:
-                    return "Marco";
-            }
+            List<string> list = new List<string>();
+            list.Add("Hubert");
+            list.Add("Alfonso");
+            list.Add("Gregory");
+            list.Add("Marco");
+            return list;
         }
 
         public override string GetChat()
