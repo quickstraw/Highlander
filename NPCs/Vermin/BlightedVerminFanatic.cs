@@ -46,7 +46,7 @@ namespace Highlander.NPCs.Vermin
         {
             float spawnChance = 0;
             // Spawn in Cavern layer
-            if(spawnInfo.playerFloorY > Main.rockLayer && spawnInfo.playerFloorY < (Main.maxTilesY - 200))
+            if(spawnInfo.PlayerFloorY > Main.rockLayer && spawnInfo.PlayerFloorY < (Main.maxTilesY - 200))
             {
                 spawnChance = 0.06f;
             }
