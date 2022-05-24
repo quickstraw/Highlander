@@ -366,19 +366,20 @@ namespace Highlander.NPCs.Vermin
                     max = 0;
                 }
 
-                Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "ArmGore").Type, 1f);
-                Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BodyGore").Type, 1f);
+                var source = NPC.GetSource_Death();
+                Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "ArmGore").Type, 1f);
+                Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BodyGore").Type, 1f);
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(NPC.Center - new Vector2(0, NPC.height / 3), new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "HeadGore").Type, 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center - new Vector2(0, NPC.height / 3), new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "HeadGore").Type, 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "SwordGore").Type, 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "SwordGore").Type, 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BackSwordGore").Type, 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BackSwordGore").Type, 1f);
                 }
             }
         }

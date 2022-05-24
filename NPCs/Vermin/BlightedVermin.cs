@@ -46,12 +46,12 @@ namespace Highlander.NPCs.Vermin
         {
             float spawnChance = 0;
             // Spawn in Underground layer
-            if (spawnInfo.spawnTileY > Main.worldSurface && spawnInfo.spawnTileY < Main.rockLayer)
+            if (spawnInfo.SpawnTileY > Main.worldSurface && spawnInfo.SpawnTileY < Main.rockLayer)
             {
                 spawnChance = 0.05f;
             }
             // Spawn in Cavern layer
-            if (spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.spawnTileY < (Main.maxTilesY - 200))
+            if (spawnInfo.SpawnTileY > Main.rockLayer && spawnInfo.SpawnTileY < (Main.maxTilesY - 200))
             {
                 spawnChance = 0.12f;
             }
@@ -188,7 +188,7 @@ namespace Highlander.NPCs.Vermin
                     }
                 } else if(attackFrameTimer < 19 && attackFrameTimer >= 18)
                 {
-                    var source = NPC.GetSpawnSource_ForProjectile();
+                    var source = NPC.GetSource_FromAI();
                     NPC.netUpdate = true;
                     if (Main.expertMode)
                     {
@@ -436,26 +436,27 @@ namespace Highlander.NPCs.Vermin
                     max = 0;
                 }
 
-                Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "ArmGore").Type, 1f);
+                var source = NPC.GetSource_Death();
+                Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "ArmGore").Type, 1f);
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BodyGore").Type, 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BodyGore").Type, 1f);
                 }
                 else
                 {
-                    Gore gore = Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BodyAltGore").Type, 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BodyAltGore").Type, 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(NPC.Center - new Vector2(0, NPC.height / 3), new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "HeadGore").Type, 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center - new Vector2(0, NPC.height / 3), new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "HeadGore").Type, 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "SpearGore").Type, 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "SpearGore").Type, 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "ShieldGore").Type, 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "ShieldGore").Type, 1f);
                 }
             }
         }

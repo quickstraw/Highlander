@@ -55,12 +55,12 @@ namespace Highlander.NPCs.Vermin
             if (Main.hardMode)
             {
                 // Spawn in Underground layer
-                if (spawnInfo.spawnTileY > Main.worldSurface && spawnInfo.spawnTileY < Main.rockLayer)
+                if (spawnInfo.SpawnTileY > Main.worldSurface && spawnInfo.SpawnTileY < Main.rockLayer)
                 {
                     spawnChance = 0.05f;
                 }
                 // Spawn in Cavern layer
-                if (spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.spawnTileY < (Main.maxTilesY - 200))
+                if (spawnInfo.SpawnTileY > Main.rockLayer && spawnInfo.SpawnTileY < (Main.maxTilesY - 200))
                 {
                     spawnChance = 0.12f;
                 }
@@ -187,7 +187,7 @@ namespace Highlander.NPCs.Vermin
                 }
                 else if (attackFrameTimer < 19 && attackFrameTimer >= 18)
                 {
-                    var source = NPC.GetSpawnSource_ForProjectile();
+                    var source = NPC.GetSource_FromAI();
                     NPC.netUpdate = true;
                     if (Main.expertMode)
                     {
