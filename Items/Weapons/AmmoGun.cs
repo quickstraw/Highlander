@@ -28,12 +28,12 @@ namespace Highlander.Items.Weapons
 			{
 				ammo = 0;
 				line = new TooltipLine(Mod, "AbnormalToolTip", "Ammo: " + ammo + "/" + MaxAmmo);
-				line.overrideColor = Color.PaleVioletRed;
+				line.OverrideColor = Color.PaleVioletRed;
 			}
 			else
 			{
 				line = new TooltipLine(Mod, "AbnormalToolTip", "Ammo: " + ammo + "/" + MaxAmmo);
-				line.overrideColor = Color.LightGreen;
+				line.OverrideColor = Color.LightGreen;
 			}
 
 			tooltips.Add(line);

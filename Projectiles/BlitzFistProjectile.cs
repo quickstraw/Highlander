@@ -131,8 +131,8 @@ namespace Highlander.Projectiles
 			{
 				retracting = true;
 				// When ai[0] == 1f, the projectile has either hit a tile or has reached maxChainLength, so now we retract the projectile
-				float elasticFactorA = 14f / player.meleeSpeed;
-				float elasticFactorB = 0.9f / player.meleeSpeed;
+				float elasticFactorA = 14f / player.GetAttackSpeed(DamageClass.Melee);
+				float elasticFactorB = 0.9f / player.GetAttackSpeed(DamageClass.Melee);
 				float maxStretchLength = 900f; // This is the furthest the flail can stretch before being forced to retract. Make sure that this is a bit less than maxChainLength so you don't accidentally reach maxStretchLength on the initial throw.
 
 				if (retracting)

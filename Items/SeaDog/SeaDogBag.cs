@@ -34,7 +34,7 @@ namespace Highlander.Items.SeaDog
 
         public override void OpenBossBag(Player player)
         {
-            var source = player.GetItemSource_OpenItem(Type);
+            var source = player.GetSource_OpenItem(Type);
 
             player.TryGettingDevArmor(source);
             List<int> items = new List<int>();

@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Highlander.Dusts;
 using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace Highlander.Projectiles
 {
@@ -112,7 +113,8 @@ namespace Highlander.Projectiles
 				float velX = Main.rand.NextFloat(-1, 1);
 				float velY = Main.rand.NextFloat(-1, 1);
 				Vector2 goreVelocity = new Vector2(velX, velY);
-				Gore.NewGore(Projectile.position, goreVelocity, Mod.Find<ModGore>("MugGore" + i).Type, 1f);
+				var source = Projectile.GetSource_Death();
+				Gore.NewGore(source, Projectile.position, goreVelocity, Mod.Find<ModGore>("MugGore" + i).Type, 1f);
 			}
 
 		}

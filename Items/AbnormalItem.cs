@@ -86,11 +86,11 @@ namespace Highlander.Items
         {
             if (CurrentEffect != 0)
             {
-                tooltips[0].overrideColor = Color.MediumPurple;
+                tooltips[0].OverrideColor = Color.MediumPurple;
                 string name = "" + CurrentEffect;
                 name = Regex.Replace(name, "(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|(?<=[0-9])(?=[A-Z][a-z])|(?<=[a-zA-Z])(?=[0-9])", " ");
                 TooltipLine line = new TooltipLine(Mod, "AbnormalToolTip", "Unusual Effect: " + name);
-                line.overrideColor = Color.MediumPurple;
+                line.OverrideColor = Color.MediumPurple;
                 tooltips.Add(line);
             }
         }

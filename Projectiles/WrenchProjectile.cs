@@ -87,7 +87,8 @@ namespace Highlander.Projectiles
 
 			if(Main.netMode != NetmodeID.Server)
             {
-				var gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("WrenchProjectile").Type, 1f);
+				var source = Projectile.GetSource_Death();
+				var gore = Gore.NewGoreDirect(source, Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("WrenchProjectile").Type, 1f);
 				gore.rotation = Projectile.rotation;
 			}
 		}

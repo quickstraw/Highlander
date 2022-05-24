@@ -76,7 +76,8 @@ namespace Highlander.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			var gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("MiniCannonball").Type, 1f);
+			var source = Projectile.GetSource_Death();
+			var gore = Gore.NewGoreDirect(source, Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("MiniCannonball").Type, 1f);
 			gore.rotation = Projectile.rotation;
 			gore.timeLeft = 60;
 			//Main.PlaySound(SoundID.Item53.SoundId, (int)Projectile.Center.X, (int)Projectile.Center.Y, SoundID.Item53.Style, 0.9f, -2f);
