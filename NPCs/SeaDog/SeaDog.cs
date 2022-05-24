@@ -186,7 +186,7 @@ namespace Highlander.NPCs.SeaDog
 
             if(Main.netMode != NetmodeID.MultiplayerClient)
             {
-                var source = NPC.GetSpawnSource_ForProjectile();
+                var source = NPC.GetSource_FromAI();
 
                 Vector2 velocity = vectorToPlayer;
                 velocity.Normalize();

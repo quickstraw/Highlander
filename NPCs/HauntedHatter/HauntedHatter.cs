@@ -686,7 +686,7 @@ namespace Highlander.NPCs.HauntedHatter
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Gore.NewGore(NPC.position, goreVelocity, Mod.Find<ModGore>("HauntedHatterTopGore").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, goreVelocity, Mod.Find<ModGore>("HauntedHatterTopGore").Type, 1f);
             }
 
             // Code adapted from ExampleMod
@@ -700,11 +700,11 @@ namespace Highlander.NPCs.HauntedHatter
                 Main.dust[dustIndex].velocity *= 3f;
             }
             // Large Smoke Gore spawn
-            int goreIndex = Gore.NewGore(new Vector2(NPC.Center.X, NPC.position.Y) + NPC.velocity, default(Vector2), Main.rand.Next(61, 64), 1f);
+            int goreIndex = Gore.NewGore(NPC.GetSource_Death(), new Vector2(NPC.Center.X, NPC.position.Y) + NPC.velocity, default(Vector2), Main.rand.Next(61, 64), 1f);
             Main.gore[goreIndex].scale = 1f;
             Main.gore[goreIndex].velocity.X = Main.gore[goreIndex].velocity.X + 1.5f;
             Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y + 1.5f;
-            goreIndex = Gore.NewGore(new Vector2(NPC.Center.X, NPC.position.Y) + NPC.velocity, default(Vector2), Main.rand.Next(61, 64), 1f);
+            goreIndex = Gore.NewGore(NPC.GetSource_Death(), new Vector2(NPC.Center.X, NPC.position.Y) + NPC.velocity, default(Vector2), Main.rand.Next(61, 64), 1f);
             Main.gore[goreIndex].scale = 1f;
             Main.gore[goreIndex].velocity.X = Main.gore[goreIndex].velocity.X - 1.5f;
             Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y + 1.5f;
@@ -717,7 +717,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void ShootNeedle(float timeBetweenVolleys, float maxOffset)
         {
-            var source = NPC.GetSpawnSource_ForProjectile();
+            var source = NPC.GetSource_FromAI();
             Vector2 velocity = new Vector2(0, 0); // Dummy gets overriden in projectile.
             int type = ModContent.ProjectileType<SewingNeedle>();
             float offsetX = 0;
@@ -762,7 +762,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void ShootDoubleNeedle(float timeBetweenVolleys, float maxOffset)
         {
-            var source = NPC.GetSpawnSource_ForProjectile();
+            var source = NPC.GetSource_FromAI();
             Vector2 velocity = new Vector2(0, 0); // Dummy gets overriden in projectile.
             int type = ModContent.ProjectileType<SewingNeedle>();
 
@@ -824,7 +824,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void ShootManyNeedle(float timeBetweenVolleys, float maxOffset)
         {
-            var source = NPC.GetSpawnSource_ForProjectile();
+            var source = NPC.GetSource_FromAI();
             Vector2 velocity = new Vector2(0, 0); // Dummy gets overriden in projectile.
             int type = ModContent.ProjectileType<SewingNeedle>();
             float offsetX = 0;
@@ -881,7 +881,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void ShootManyManyNeedle(float timeBetweenVolleys, float maxOffset)
         {
-            var source = NPC.GetSpawnSource_ForProjectile();
+            var source = NPC.GetSource_FromAI();
             Vector2 velocity = new Vector2(0, 0); // Dummy gets overriden in projectile.
             int type = ModContent.ProjectileType<SewingNeedle>();
 
@@ -962,7 +962,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void ShootYarn()
         {
-            var source = NPC.GetSpawnSource_ForProjectile();
+            var source = NPC.GetSource_FromAI();
             int type = ModContent.ProjectileType<EnchantedYarn>();
 
             Player player = Main.player[NPC.target];
@@ -988,7 +988,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void GhostBlast()
         {
-            var source = NPC.GetSpawnSource_ForProjectile();
+            var source = NPC.GetSource_FromAI();
             int type = ModContent.ProjectileType<GhostBlast>();
 
             Vector2 leftHand = new Vector2(-60, -10) + NPC.Center;
@@ -1012,7 +1012,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void GhostBlast(bool isRight)
         {
-            var source = NPC.GetSpawnSource_ForProjectile();
+            var source = NPC.GetSource_FromAI();
             int type = ModContent.ProjectileType<GhostBlastCharge>();
             
             Vector2 hand = currHand + NPC.Center;
@@ -1027,7 +1027,7 @@ namespace Highlander.NPCs.HauntedHatter
 
         private void HugeGhostBlast()
         {
-            var source = NPC.GetSpawnSource_ForProjectile();
+            var source = NPC.GetSource_FromAI();
             int type = ModContent.ProjectileType<HugeGhostBlastCharge>();
 
             Vector2 hand = currHand + NPC.Center + new Vector2(0, -20);

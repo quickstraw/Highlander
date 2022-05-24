@@ -54,7 +54,7 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				var source = Projectile.GetProjectileSource_FromThis();
+				var source = Projectile.GetSource_FromThis();
 
 				int type = ModContent.ProjectileType<GhostBlast>();
 				int damage = (int)(Projectile.damage * 0.8333333f);

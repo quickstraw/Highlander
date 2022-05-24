@@ -31,7 +31,7 @@ namespace Highlander.NPCs.HauntedHatter
 
 		public override void Init()
 		{
-			var source = NPC.GetSpawnSourceForNPCFromNPCAI();
+			var source = NPC.GetSource_FromAI();
 			base.Init();
 			head = true;
 			Vector2 NewPosition = new Vector2(NPC.Center.X, NPC.Center.Y);
@@ -104,7 +104,7 @@ namespace Highlander.NPCs.HauntedHatter
 			}
 			if((int)NPC.ai[3] == 0)
 			{
-				var source = NPC.GetSpawnSourceForNPCFromNPCAI();
+				var source = NPC.GetSource_FromAI();
 
 				if((int)NPC.ai[0] < 4)
 				{
@@ -296,7 +296,7 @@ namespace Highlander.NPCs.HauntedHatter
 			}
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				var source = NPC.GetSpawnSourceForNPCFromNPCAI();
+				var source = NPC.GetSource_FromAI();
 
 				if (!tail && nextSegment == 0f)
 				{

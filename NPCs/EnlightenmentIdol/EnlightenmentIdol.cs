@@ -90,7 +90,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             }
             if (NPC.HasValidTarget)
             {
-                var projSource = NPC.GetSpawnSource_ForProjectile();
+                var projSource = NPC.GetSource_FromAI();
 
                 if(deathTimer != 0)
                 {
@@ -492,7 +492,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 Vector2 left = new Vector2(-1, 0);
                 Vector2 right = new Vector2(1, 0);
 
-                var source = NPC.GetSpawnSourceForNPCFromNPCAI();
+                var source = NPC.GetSource_FromAI();
 
                 Player target = Main.player[NPC.target];
                 float distance = (target.position - NPC.position).Length();
@@ -517,7 +517,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                var source = NPC.GetSpawnSourceForNPCFromNPCAI();
+                var source = NPC.GetSource_FromAI();
                 foreach (Player p in Main.player) {
                     if (p.active && !p.dead)
                     {
@@ -549,7 +549,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             Vector2 spawn = NPC.Center + up;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                var source = NPC.GetSpawnSource_ForProjectile();
+                var source = NPC.GetSource_FromAI();
 
                 Player target = Main.player[NPC.target];
                 int type = ModContent.ProjectileType<TriangleBlast>();
@@ -1164,7 +1164,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 {
                     try
                     {
-                        var gore = Gore.NewGoreDirect(NPC.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, Mod.Find<ModGore>("IdolGore" + i).Type, 1f);
+                        var source = NPC.GetSource_Death();
+                        var gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, Mod.Find<ModGore>("IdolGore" + i).Type, 1f);
                     } catch (Exception e)
                     {
 
