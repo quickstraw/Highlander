@@ -70,8 +70,8 @@ namespace Highlander.Items.LockBoxes
                 return;
             }
 
-            var source = player.GetItemSource_OpenItem(Item.type);
-            var projSource = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_OpenItem(Item.type);
+            var projSource = player.GetSource_ItemUse(Item);
 
             bool isAbnormal = Main.rand.NextBool(50);
 
