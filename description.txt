@@ -1,5 +1,8 @@
 Highlander is a content mod that focuses on adding mostly cosmetic items. Everything should work in multiplayer.
 
+[IMPORTANT]
+I have just updated this mod to 1.4. I haven't extensively tested anything in 1.4 yet. Some features seem to have broken, and I'm still trying to fix them.
+
 Features:
         - 3 Bosses
         - 2 Town NPCs
