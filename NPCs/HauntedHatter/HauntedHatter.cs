@@ -1273,6 +1273,8 @@ namespace Highlander.NPCs.HauntedHatter
             // Boss masks are spawned with 1/7 chance
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<GhostlyGibus>(), 7));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1, ItemType<SpiritShears>(), ItemType<AncientStoneBlaster>()));
+
+            npcLoot.Add(notExpertRule);
         }
 
         public override void BossLoot(ref string name, ref int potionType)

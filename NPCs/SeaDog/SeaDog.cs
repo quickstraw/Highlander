@@ -245,6 +245,8 @@ namespace Highlander.NPCs.SeaDog
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1, ItemType<FeralFrenzy>(), ItemType<BrokenBlunderbuss>()));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1, ItemID.SpelunkerPotion, ItemID.GillsPotion));
             notExpertRule.OnSuccess(ItemDropRule.Common(ItemID.GoldOre, 1, 30, 50));
+
+            npcLoot.Add(notExpertRule);
         }
 
         public override void BossLoot(ref string name, ref int potionType)

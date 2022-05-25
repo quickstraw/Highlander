@@ -1154,6 +1154,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
             // Boss masks are spawned with 1/7 chance
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EnlightenedMask>(), 7));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1, ItemType<BlitzFist>(), ItemType<CommanderBlessing>()));
+
+            npcLoot.Add(notExpertRule);
         }
 
         public override void HitEffect(int hitDirection, double damage)
