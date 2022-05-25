@@ -13,8 +13,7 @@ There are 4 Hat Lock Boxes that can be opened to obtain different sets of hats. 
 Non-cosmetic items added are rewards for beating the bosses as well as some odd weapons I thought would fit well into Terraria and add variety. These items generally have a twist that makes their mechanics unique.
 
 Recent Changes:
-1.4.4.0 - Added an option to disable Lock Boxes from spawning. Added Blighted Vermin Monk and Bell of Pestilence. Improved AI of Blighted Vermin.
-1.4.4.1 - Improved Vermin AI. Most bugs in the Vermin AI should be fixed.
+1.4.5.0 - Updated to 1.4 stable beta.
 
 Currently Working On:
-More Vermin + Polishing old content
+Remaking sprites and fixing bugs that have appeared in 1.4.
