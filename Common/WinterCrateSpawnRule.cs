@@ -16,7 +16,7 @@ namespace Highlander.Common
             bool downedHatter = HighlanderWorld.downedHauntedHatter;
             bool cold = info.player.ZoneSnow;
             bool boss = npc.boss;
-            return !passive && downedHatter && cold && !boss;
+            return !passive && downedHatter && cold;
         }
 
         public bool CanShowItemDropInUI()

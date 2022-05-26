@@ -16,7 +16,7 @@ namespace Highlander.Common
             bool downedHatter = HighlanderWorld.downedHauntedHatter;
             bool downedIdol = HighlanderWorld.downedEnlightenmentIdol;
             bool boss = npc.boss;
-            return !passive && downedHatter && !downedIdol && !boss;
+            return !passive && downedHatter && !downedIdol;
         }
 
         public bool CanShowItemDropInUI()

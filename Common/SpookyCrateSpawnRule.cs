@@ -16,7 +16,7 @@ namespace Highlander.Common
             bool downedHatter = HighlanderWorld.downedHauntedHatter;
             bool spooky = info.player.ZoneCorrupt || info.player.ZoneCrimson || info.player.ZoneGraveyard;
             bool boss = npc.boss;
-            return !passive && downedHatter && spooky && !boss;
+            return !passive && downedHatter && spooky;
         }
 
         public bool CanShowItemDropInUI()
