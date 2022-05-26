@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -1246,6 +1247,15 @@ namespace Highlander.NPCs.HauntedHatter
             rightFrame = reader.ReadByte();
             deathTimer = reader.ReadInt16();
             alpha = reader.ReadByte();
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("The Haunted Hatter roams the world searching for his lost hats.")
+            });
+            
         }
 
         public override void OnKill()

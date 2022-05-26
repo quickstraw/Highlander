@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
@@ -1127,6 +1128,16 @@ namespace Highlander.NPCs.EnlightenmentIdol
             chargeBlastFrame = reader.ReadByte();
             chargeBlastCounter = reader.ReadByte();
             blastRadius = reader.ReadByte();
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+				// Sets the description of this NPC that is listed in the bestiary.
+				new FlavorTextBestiaryInfoElement("Long ago, a wise man craving the truth of life created an automaton. That automaton searches for enlightenment to this day.")
+            });
         }
 
         public override void OnKill()

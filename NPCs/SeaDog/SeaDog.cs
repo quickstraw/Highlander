@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Highlander.Items.SeaDog;
 using static Terraria.ModLoader.ModContent;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace Highlander.NPCs.SeaDog
 {
@@ -216,6 +217,18 @@ namespace Highlander.NPCs.SeaDog
         {
             get => NPC.ai[2];
             set => NPC.ai[2] = value;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				// Sets the spawning conditions of this NPC that is listed in the bestiary.
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+
+				// Sets the description of this NPC that is listed in the bestiary.
+				new FlavorTextBestiaryInfoElement("So a pirate got bitten by a rabid dog... What's the worst that could happen?")
+            });
         }
 
         public override void OnKill()

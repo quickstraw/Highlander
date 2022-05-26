@@ -11,6 +11,7 @@ using Highlander.Utilities;
 using Highlander.Items.Accessories;
 using static Terraria.ModLoader.ModContent;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace Highlander.NPCs.Vermin
 {
@@ -335,6 +336,18 @@ namespace Highlander.NPCs.Vermin
             cPosition = NPC.position;
             cWidth = NPC.width;
             cHeight = NPC.height;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				// Sets the spawning conditions of this NPC that is listed in the bestiary.
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+
+				// Sets the description of this NPC that is listed in the bestiary.
+				new FlavorTextBestiaryInfoElement("The rats seem to be worshipping something. That can't be good...")
+            });
         }
 
         public override void OnKill()
