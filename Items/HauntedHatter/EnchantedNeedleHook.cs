@@ -160,17 +160,19 @@ namespace Highlander.Items.HauntedHatter
 		{
 			Vector2 playerCenter = Main.player[Projectile.owner].MountedCenter;
 			Vector2 center = Projectile.Center;
-			Vector2 distToProj = playerCenter - Projectile.Center;
-			float projRotation = distToProj.ToRotation() - 1.57f;
-			float distance = distToProj.Length();
+			Vector2 directionToPlayer = playerCenter - Projectile.Center;
+			float projRotation = directionToPlayer.ToRotation() - MathHelper.PiOver2;
+			float distance = directionToPlayer.Length();
 
-			while (distance > 30f && !float.IsNaN(distance))
+			while (distance > 20f && !float.IsNaN(distance))
 			{
-				distToProj.Normalize();                 //get unit vector
-				distToProj *= 24f;                      //speed = 24
-				center += distToProj;                   //update draw position
-				distToProj = playerCenter - center;    //update distance
-				distance = distToProj.Length();
+				directionToPlayer.Normalize();                 //get unit vector
+				directionToPlayer *= chainTexture.Height();    // multiply by chain link length
+
+				center += directionToPlayer;                   //update draw position
+				directionToPlayer = playerCenter - center;    //update distance
+				distance = directionToPlayer.Length();
+
 				Color drawColor = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16));
 
 				//Draw chain
