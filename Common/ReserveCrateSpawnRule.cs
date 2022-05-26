@@ -15,7 +15,8 @@ namespace Highlander.Common
             bool passive = npc.aiStyle == 7 || npc.aiStyle == 24 || npc.aiStyle == 64 || npc.aiStyle == 65 || npc.aiStyle == 66 || npc.aiStyle == 67 || npc.aiStyle == 68;
             bool downedHatter = HighlanderWorld.downedHauntedHatter;
             bool hell = info.player.ZoneUnderworldHeight;
-            return !passive && downedHatter && hell;
+            bool boss = npc.boss;
+            return !passive && downedHatter && hell && !boss;
         }
 
         public bool CanShowItemDropInUI()
