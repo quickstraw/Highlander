@@ -16,6 +16,7 @@ There are 4 Hat Lock Boxes that can be opened to obtain different sets of hats. 
 Non-cosmetic items added are rewards for beating the bosses as well as some odd weapons I thought would fit well into Terraria and add variety. These items generally have a twist that makes their mechanics unique.
 
 Recent Changes:
+1.4.5.2 - Improved some hat sprites I didn't really like.
 1.4.5.1 - Fixed bosses not dropping items in non-expert mode.
 1.4.5.0 - Updated to 1.4 stable alpha.
 
