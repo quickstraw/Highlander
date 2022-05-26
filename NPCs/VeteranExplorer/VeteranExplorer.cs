@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -35,6 +36,17 @@ namespace Highlander.NPCs.VeteranExplorer
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
 
             NPCID.Sets.AttackType[NPC.type] = 0;
+
+            NPC.Happiness
+                .SetBiomeAffection<JungleBiome>(AffectionLevel.Love) // Veteran Explorer loves the jungle.
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Like) // Veteran Explorer likes the desert.
+                .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Dislike) // Veteran Explorer dislikes the underground.
+                .SetBiomeAffection<HallowBiome>(AffectionLevel.Hate) // Veteran Explorer hates the Hallow.
+                .SetNPCAffection(NPCID.Dryad, AffectionLevel.Like) // Likes living near the dryad.
+                .SetNPCAffection(NPCID.Guide, AffectionLevel.Love) // Loves living near the guide.
+                .SetNPCAffection(NPCID.Merchant, AffectionLevel.Like) // Likes living near the merchant.
+                .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Dislike) // Hates living near the goblin tinkerer.
+            ;
         }
 
         public override void SetDefaults()
@@ -160,6 +172,10 @@ namespace Highlander.NPCs.VeteranExplorer
         {
             // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
 
 				// Sets the description of this NPC that is listed in the bestiary.
 				new FlavorTextBestiaryInfoElement("This veteran is a capable fighter. He even sells a couple of items from his adventures.")
