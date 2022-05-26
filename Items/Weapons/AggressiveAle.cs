@@ -31,7 +31,7 @@ namespace Highlander.Items.Weapons
 			Item.autoReuse = true;
 
 			Item.useAnimation = 15;
-			Item.useStyle = 1;
+			Item.useStyle = ItemUseStyleID.Swing;
 			Item.UseSound = SoundID.Item1;
 
 			Item.consumable = true;
@@ -50,7 +50,12 @@ namespace Highlander.Items.Weapons
 			Item.value = 80;
 		}
 
-		public override bool AltFunctionUse(Player player)
+        public override void HoldStyle(Player player, Rectangle heldItemFrame)
+        {
+            base.HoldStyle(player, heldItemFrame);
+        }
+
+        public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
@@ -59,9 +64,10 @@ namespace Highlander.Items.Weapons
 		{
 			if (player.altFunctionUse == 2)
 			{
-				Item.useStyle = 2;
+				Item.useStyle = ItemUseStyleID.EatFood;
 				Item.useTime = 17;
 				Item.useAnimation = 17;
+				Item.useTurn = true;
 				Item.damage = 0;
 				Item.shoot = 0;
 				Item.ammo = 353;
@@ -72,9 +78,10 @@ namespace Highlander.Items.Weapons
 			}
 			else
 			{
-				Item.useStyle = 1;
+				Item.useStyle = ItemUseStyleID.Swing;
 				Item.useTime = 15;
 				Item.useAnimation = 15;
+				Item.useTurn = false;
 				Item.damage = 20;
 				Item.shoot = ModContent.ProjectileType<AggressiveAleProjectile>();
 				Item.ammo = 0;
@@ -88,8 +95,10 @@ namespace Highlander.Items.Weapons
 
 		public override void HoldItem(Player player)
 		{
-			player.itemLocation.X = (float)(player.Center.X + 8 * player.direction);
-			player.itemLocation.Y = (float)(player.MountedCenter.Y + 11.0);
+			//player.itemLocation.X = (float)(player.Center.X + 8 * player.direction);
+			//player.itemLocation.Y = (float)(player.MountedCenter.Y + 11.0);
+			//player.itemLocation.Y = (float)(player.MountedCenter.Y + 3.0);
+			//player.itemLocation.X = 200;
 
 			Vector2 position = player.RotatedRelativePoint(new Vector2(player.itemLocation.X + 12f * player.direction + player.velocity.X, player.itemLocation.Y - 14f + player.velocity.Y), true);
 			Lighting.AddLight(position + player.velocity, 0.23f, 0.097f, 0.003f);
