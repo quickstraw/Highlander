@@ -767,7 +767,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         if (Main.netMode != NetmodeID.Server)
                         {
                             //SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Thunder"));
-                            SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int)NPC.Center.X, (int)NPC.Center.Y, SoundLoader.GetSoundSlot(Mod, "Sounds/Custom/Thunder"));
+                            SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int)NPC.Center.X, (int)NPC.Center.Y, SoundLoader.GetSoundSlot(Mod, "Sounds/Custom/Thunder"), 0.6f);
                         }
                     }
                     newMiddleFrame = 6;
