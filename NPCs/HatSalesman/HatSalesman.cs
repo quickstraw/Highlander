@@ -1,4 +1,5 @@
 ﻿using Highlander.Items;
+using Highlander.Items.LockBoxes;
 using Highlander.Projectiles;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -38,6 +40,21 @@ namespace Highlander.NPCs.HatSalesman
             NPCID.Sets.AttackTime[NPC.type] = 90;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = -14;
+
+            NPC.Happiness
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Love) // Hat Salesman loves the desert.
+                .SetBiomeAffection<SnowBiome>(AffectionLevel.Like) // Hat Salesman likes the snow.
+                .SetBiomeAffection<MushroomBiome>(AffectionLevel.Dislike) // Hat Salesman dislikes the underground.
+                .SetBiomeAffection<OceanBiome>(AffectionLevel.Hate) // Hat Salesman hates the Hallow.
+                .SetNPCAffection(NPCID.Merchant, AffectionLevel.Like) // Likes living near the merchant.
+                .SetNPCAffection(NPCID.DyeTrader, AffectionLevel.Like) // Likes living near the dye trader.
+                .SetNPCAffection(NPCID.ArmsDealer, AffectionLevel.Like) // Likes living near the arms dealer.
+                .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Love) // Loves living near the goblin tinkerer.
+                .SetNPCAffection(NPCID.Mechanic, AffectionLevel.Love)
+                .SetNPCAffection(NPCID.Truffle, AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.PartyGirl, AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.TaxCollector, AffectionLevel.Hate)
+            ;
         }
 
         public override void SetDefaults()
@@ -119,12 +136,12 @@ namespace Highlander.NPCs.HatSalesman
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            //shop.item[nextSlot].SetDefaults(ModContent.ItemType<HatSupplyKey>());
-            //nextSlot++;
-            //shop.item[nextSlot].SetDefaults(ModContent.ItemType<WinterHatSupplyKey>());
-            //nextSlot++;
-            //shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpookyHatKey>());
-            //nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<HatSupplyKey>());
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WinterHatSupplyKey>());
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpookyHatKey>());
+            nextSlot++;
         }
 
 
@@ -162,6 +179,8 @@ namespace Highlander.NPCs.HatSalesman
         {
             // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
 
 				// Sets the description of this NPC that is listed in the bestiary.
 				new FlavorTextBestiaryInfoElement("A hat salesman? He only sells keys!")

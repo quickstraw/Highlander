@@ -84,6 +84,8 @@ namespace Highlander.NPCs.VeteranExplorer
             list.Add("Alfonso");
             list.Add("Gregory");
             list.Add("Marco");
+            list.Add("Francisco");
+            list.Add("Leonardo");
             return list;
         }
 
