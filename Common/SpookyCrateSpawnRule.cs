@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ModLoader;
 
 namespace Highlander.Common
 {
@@ -16,7 +17,8 @@ namespace Highlander.Common
             bool downedHatter = HighlanderWorld.downedHauntedHatter;
             bool spooky = info.player.ZoneCorrupt || info.player.ZoneCrimson || info.player.ZoneGraveyard;
             bool boss = npc.boss;
-            return !passive && downedHatter && spooky;
+            bool disabledDrops = ModContent.GetInstance<HighlanderConfig>().DisableLockBoxes;
+            return !passive && downedHatter && spooky && !disabledDrops;
         }
 
         public bool CanShowItemDropInUI()
