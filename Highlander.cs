@@ -1,3 +1,4 @@
+using Highlander.Common.Systems;
 using Highlander.Items;
 using Highlander.Items.Armor;
 using Highlander.Items.Armor.Halloween;
@@ -18,7 +19,7 @@ using Terraria.UI;
 
 namespace Highlander
 {
-	public class Highlander : Mod
+    public class Highlander : Mod
 	{
 
 		public Highlander()

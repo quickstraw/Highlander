@@ -11,6 +11,7 @@ using Highlander.Items.SeaDog;
 using static Terraria.ModLoader.ModContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using Highlander.Common.Systems;
 
 namespace Highlander.NPCs.SeaDog
 {

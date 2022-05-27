@@ -1,4 +1,5 @@
-﻿using Highlander.Dusts;
+﻿using Highlander.Common.Systems;
+using Highlander.Dusts;
 using Highlander.Items.EnlightenmentIdol;
 using Highlander.NPCs.HauntedHatter;
 using Microsoft.Xna.Framework;

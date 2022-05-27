@@ -1,4 +1,5 @@
-﻿using Highlander.Items.HauntedHatter;
+﻿using Highlander.Common.Systems;
+using Highlander.Items.HauntedHatter;
 using Highlander.Items.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
