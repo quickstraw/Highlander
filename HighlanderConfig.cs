@@ -24,7 +24,6 @@ namespace Highlander
 
         [Label("Disable Lock Box Drops")]
         [Tooltip("Stops Lock Boxes from dropping.")]
-        //[ReloadRequired]
         public bool DisableLockBoxes { get; set; }
 
     }
