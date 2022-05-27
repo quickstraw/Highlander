@@ -1,4 +1,5 @@
-﻿using Highlander.Items.Armor;
+﻿using Highlander.Common.Players;
+using Highlander.Items.Armor;
 using Highlander.Projectiles;
 using Microsoft.Xna.Framework;
 using System;

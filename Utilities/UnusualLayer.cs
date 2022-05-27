@@ -11,6 +11,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using static Terraria.Mount;
 using static Terraria.ModLoader.ModContent;
+using Highlander.Common.Players;
 
 namespace Highlander.Utilities
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Highlander.Common.Players;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;

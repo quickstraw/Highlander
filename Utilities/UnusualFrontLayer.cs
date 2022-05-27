@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 using static Highlander.Utilities.UnusualLayer;
 using static Terraria.Mount;
 using static Terraria.ModLoader.ModContent;
+using Highlander.Common.Players;
 
 namespace Highlander.Utilities
 {
