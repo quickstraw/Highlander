@@ -50,7 +50,11 @@ namespace Highlander.Items.Accessories
 		{
 			Item.width = 20;
 			Item.height = 20;
+<<<<<<< HEAD
 			Item.defense = 3;
+=======
+			Item.defense = 1;
+>>>>>>> Added Old Flare Dispenser, added it to Veteran Explorer, and added Action keybind.
 			Item.accessory = true;
 			Item.value = Item.buyPrice(gold: 5);
 			Item.rare = ItemRarityID.Blue;
