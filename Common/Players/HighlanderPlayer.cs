@@ -3,6 +3,7 @@ using Highlander.Items;
 using Highlander.Items.Armor;
 using Highlander.Items.Armor.Halloween;
 using Highlander.Items.Armor.VanityHats;
+using Highlander.Projectiles.Equipment;
 using Highlander.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,6 +52,10 @@ namespace Highlander.Common.Players
         public bool emittingAura = false;
         public bool receivingAura = false;
         public bool bellOfPestilence = false;
+        public bool hasFlares = false;
+
+        public const float maxFlares = 3;
+        public float flares = maxFlares;
 
         public byte clock = 0;
 
@@ -67,6 +72,7 @@ namespace Highlander.Common.Players
             emittingAura = false;
             receivingAura = false;
             bellOfPestilence = false;
+            hasFlares = false;
         }
 
         public override void OnEnterWorld(Player player)
@@ -239,7 +245,14 @@ namespace Highlander.Common.Players
             {
                 Player.statDefense += 8;
             }
-            //Main.NewText(Player.bodyFrame.Y / Player.bodyFrame.Height);
+
+            if (hasFlares)
+            {
+                if(clock == 0 && flares < maxFlares)
+                {
+                    flares += 0.10f;
+                }
+            }
 
             clock = (byte)((clock + 1) % 60);
         }
@@ -272,7 +285,18 @@ namespace Highlander.Common.Players
         {
             if (KeybindSystem.ActionKeybind.JustPressed)
             {
-                Main.NewText("Action!");
+                if (hasFlares && flares >= 1)
+                {
+                    Vector2 mouse = Main.MouseWorld;
+                    Vector2 vectorToMouse = mouse - Player.Center;
+                    var source = this.Player.GetSource_Accessory(Find<ModItem>("Highlander/OldFlareDispenser").Item);//Player.GetSource_Accessory(Find<ModItem>("OldFlareDispenser").Item);
+                    Vector2 velocity = vectorToMouse;
+                    velocity.Normalize();
+                    velocity *= 8f;
+                    var projectile = Projectile.NewProjectile(source, Player.MountedCenter, velocity, ProjectileType<FlareProjectile>(), 0, 0f);
+                    NetMessage.SendData(MessageID.SyncProjectile, number: projectile);
+                    flares--;
+                }
             }
         }
 

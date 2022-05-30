@@ -1,4 +1,5 @@
 ﻿using Highlander.Items;
+using Highlander.Items.Accessories;
 using Highlander.Items.Weapons;
 using Highlander.Projectiles;
 using System;
@@ -98,7 +99,7 @@ namespace Highlander.NPCs.VeteranExplorer
                 case 0:
                     return "Greetings! Tell me of your travels.";
                 case 1:
-                    return "I can spare you some of my extra supplies for a price.";
+                    return "I can spare you some of my extra supplies or loot for a price.";
                 case 2:
                     return "You look like you need some help. I think I've got just what you need.";
                 default:
@@ -124,6 +125,8 @@ namespace Highlander.NPCs.VeteranExplorer
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<AggressiveAle>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<AdventurerPike>());
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldFlareDispenser>());
             nextSlot++;
             if (Main.hardMode)
             {
