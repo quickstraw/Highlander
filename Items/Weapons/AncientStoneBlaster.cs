@@ -91,8 +91,9 @@ namespace Highlander.Items.Weapons
 			return false;
 		}
 
-		public override void UpdateInventory(Player player)
+		public override Vector2? HoldoutOffset()
 		{
+			return new Vector2(-3, 0);
 		}
 
 		public override byte GetMaxAmmo()
