@@ -87,7 +87,7 @@ namespace Highlander.Items.Weapons
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-3, 0);
+            return new Vector2(-2, 0);
         }
 
         public override void UpdateInventory(Player player)
