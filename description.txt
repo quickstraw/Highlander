@@ -20,11 +20,11 @@ Hat Salesman     - Sells keys to open lockboxes.
 Veteran Explorer - Currently sells some pikes and aggressive ale. In the future, he will sell random misc items I decide to add.
 
 Recent Changes:
+1.4.5.6 - Updated the revolvers' sprites and gun ammo UI. Added a client config.
 1.4.5.5 - Added Old Flare Dispenser.
 1.4.5.4 - Re-added mod config functionality. Re-added support for boss checklist and census mods.
 1.4.5.3 - Fixed some more small bugs. Town npcs now have happiness. Updated some sprites.
 1.4.5.2 - Improved some hat sprites I didn't really like.
-1.4.5.1 - Fixed bosses not dropping items in non-expert mode.
 
 Currently Working On:
 Remaking sprites and fixing bugs that have appeared in 1.4.
