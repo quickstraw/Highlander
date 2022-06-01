@@ -1,4 +1,4 @@
-Highlander is a content mod that focuses on adding mostly cosmetic items. Everything should work in multiplayer.
+Highlander is a content mod that focuses on adding whatever I feel like adding at the time. Originally, it was a cosmetics mod. All the content is compatible with multiplayer.
 
 [IMPORTANT]
 I have just updated this mod to 1.4. A lot of the initial errors in the move over to 1.4 have been fixed, but there are still a few I need to fix.
@@ -7,9 +7,9 @@ Features:
         - 3 Bosses
         - 2 Town NPCs
         - 40+ vanity items
-        - Several non-vanity items to add variety to gameplay
+        - Many non-vanity items to add variety to gameplay
 
-Many cosmetic items added are inspired by Team Fortress 2 cosmetics. The Haunted Hatter must be killed to acquire these items. Hat Lock Boxes will drop after the Haunted Hatter is killed.
+Many cosmetic items added are inspired by Team Fortress 2 cosmetics or from other games. The Haunted Hatter must be killed to acquire these items. Hat Lock Boxes will drop after the Haunted Hatter is killed.
 
 There are 4 Hat Lock Boxes that can be opened to obtain different sets of hats. A Hat Lock Box must be opened with a key bought from the Hat Salesman. There is a small chance to obtain a hat with an unusual effect after opening a Hat Lock Box.
 
@@ -27,5 +27,6 @@ Recent Changes:
 1.4.5.2 - Improved some hat sprites I didn't really like.
 
 Currently Working On:
-Remaking sprites and fixing bugs that have appeared in 1.4.
-I would like to redo the Sea Dog, but I'm not a good enough pixel artist. If I wanted, the most I could do is make him look less bad. If anyone is good at making a pirate werewolf, hit me up.
+- My largest priority is polishing the mod. To that end, I'm currently improving the pixel art and tweaking the feel of some items.
+- I would like to redo the Sea Dog, but I'm not a good enough pixel artist. If I wanted, the most I could do is make him look less bad. If anyone is good at making a pirate werewolf, hit me up.
+- I'm also trying to fix any bugs introduced by the switch to 1.4.
