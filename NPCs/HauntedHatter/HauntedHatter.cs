@@ -713,7 +713,8 @@ namespace Highlander.NPCs.HauntedHatter
 
             if (Main.netMode != NetmodeID.Server)
             {
-                SoundEngine.PlaySound(SoundID.Item14.WithPitchVariance(0.1f).WithVolume(1.1f), new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2));
+                //SoundEngine.PlaySound(SoundID.Item14.WithPitchVariance(0.1f).WithVolume(1.1f), new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2));
+                SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.1f, Volume = 1.1f }, NPC.Center);
             }
         }
 

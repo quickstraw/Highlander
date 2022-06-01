@@ -72,7 +72,8 @@ namespace Highlander.Projectiles
 				Projectile.netUpdate = true;
 				if (Main.netMode != NetmodeID.Server)
 				{
-					SoundEngine.PlaySound(SoundID.Item1.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item1.Style, 0.70f, -0.9f);
+					//SoundEngine.PlaySound(SoundID.Item1.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item1.Style, 0.70f, -0.9f);
+					SoundEngine.PlaySound(SoundID.Item1 with { Volume = 0.70f, Pitch = -0.9f }, Projectile.position);
 				}
 			}
 			if (startForward && !stopped) // Arm moves forward //
@@ -157,7 +158,8 @@ namespace Highlander.Projectiles
 				Projectile.netUpdate = true;
 				if (Main.netMode != NetmodeID.Server)
 				{
-					SoundEngine.PlaySound(SoundID.Item45.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item45.Style, 0.40f, -0.5f);
+					//SoundEngine.PlaySound(SoundID.Item45.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item45.Style, 0.40f, -0.5f);
+					SoundEngine.PlaySound(SoundID.Item45 with { Volume = 0.40f, Pitch = -0.5f }, Projectile.position);
 				}
 
 				if(Projectile.rotation != 0)

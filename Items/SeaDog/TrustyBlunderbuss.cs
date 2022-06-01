@@ -69,7 +69,8 @@ namespace Highlander.Items.SeaDog
 			if (Main.netMode != NetmodeID.Server)
 			{
 				//Main.PlaySound(SoundID.Item14.SoundId, (int)player.Center.X, (int)player.Center.Y, SoundID.Item14.Style, 0.9f, -0.3f);
-				SoundEngine.PlaySound(SoundID.Item38.SoundId, (int)player.Center.X, (int)player.Center.Y, SoundID.Item38.Style, 0.9f, -0.3f);
+				//SoundEngine.PlaySound(SoundID.Item38.SoundId, (int)player.Center.X, (int)player.Center.Y, SoundID.Item38.Style, 0.9f, -0.3f);
+				SoundEngine.PlaySound(SoundID.Item38 with { Volume = 0.9f, Pitch = -0.3f }, player.Center);
 			}
 			return false;
         }

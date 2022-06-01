@@ -45,7 +45,7 @@ namespace Highlander.Projectiles
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			SoundEngine.PlaySound(SoundID.Item53.WithPitchVariance(0.2f).WithVolume(0.6f), Projectile.position);
+			SoundEngine.PlaySound(SoundID.Item53 with { PitchVariance = 0.2f, Volume = 0.6f }, Projectile.position);
 			Projectile.velocity.Y = -oldVelocity.Y * 0.5f;
 			Projectile.velocity.X = oldVelocity.X * 0.5f;
 			Projectile.ai[1]++;

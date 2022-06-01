@@ -250,6 +250,11 @@ namespace Highlander
 			Instance = null;
 		}
 
+		private void AddEquipTexture(ModItem item, EquipType type, string texpath)
+        {
+			EquipLoader.AddEquipTexture(Instance, texpath, type, item);
+        }
+
 		public override void HandlePacket(BinaryReader reader, int whoAmI)
 		{
 			HighlanderMessageType msgType = (HighlanderMessageType)reader.ReadByte();

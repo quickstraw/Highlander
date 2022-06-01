@@ -83,7 +83,8 @@ namespace Highlander.Projectiles
 			//Main.PlaySound(SoundID.Item53.SoundId, (int)Projectile.Center.X, (int)Projectile.Center.Y, SoundID.Item53.Style, 0.9f, -2f);
 			if(Main.netMode != NetmodeID.Server)
 			{
-				SoundEngine.PlaySound(SoundID.Item10.SoundId, (int)Projectile.Center.X, (int)Projectile.Center.Y, SoundID.Item10.Style, 1.0f, -0.8f);
+				//SoundEngine.PlaySound(SoundID.Item10.SoundId, (int)Projectile.Center.X, (int)Projectile.Center.Y, SoundID.Item10.Style, 1.0f, -0.8f);
+				SoundEngine.PlaySound(SoundID.Item10 with { Volume = 1.0f, Pitch = 0.8f }, Projectile.Center);
 			}
 			/**for (int i = 0; i < 5; i++)
 			{

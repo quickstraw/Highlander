@@ -102,7 +102,8 @@ namespace Highlander.Projectiles
 				Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
 			}
 
-			SoundEngine.PlaySound(SoundID.Item27.WithPitchVariance(0.2f).WithVolume(0.9f), Projectile.position);
+			//SoundEngine.PlaySound(SoundID.Item27.WithPitchVariance(0.2f).WithVolume(0.9f), Projectile.position);
+			SoundEngine.PlaySound(SoundID.Item27 with { PitchVariance = 0.2f, Volume = 0.9f}, Projectile.position);
 			SoundEngine.PlaySound(SoundID.Splash, Projectile.position);
 			for (int i = 0; i < 60; i++)
 			{
