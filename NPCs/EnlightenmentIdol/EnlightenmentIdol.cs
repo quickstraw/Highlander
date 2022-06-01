@@ -2,6 +2,7 @@
 using Highlander.Dusts;
 using Highlander.Items.EnlightenmentIdol;
 using Highlander.NPCs.HauntedHatter;
+using Highlander.Sounds.Custom;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -572,7 +573,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                SoundEngine.PlaySound(SoundID.Item72.SoundId, (int)spawn.X, (int)spawn.Y, SoundID.Item72.Style, 0.80f, -0.2f);
+                //SoundEngine.PlaySound(SoundID.Item72.SoundId, (int)spawn.X, (int)spawn.Y, SoundID.Item72.Style, 0.80f, -0.2f);
+                SoundEngine.PlaySound(SoundID.Item72 with { Volume = 0.80f, Pitch = -0.2f}, NPC.position);
             }
         }
 
@@ -602,7 +604,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     clapped = true;
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        SoundEngine.PlaySound(SoundID.Item37.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.Item37.Style, 0.90f, -0.5f);
+                        //SoundEngine.PlaySound(SoundID.Item37.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.Item37.Style, 0.90f, -0.5f);
+                        SoundEngine.PlaySound(SoundID.Item37 with { Volume = 0.9f, Pitch = -0.5f}, NPC.position);
                     }
                 }
                 NPC.frameCounter++;
@@ -632,7 +635,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 damage = 0;
                 crit = true;
                 dontDamage = false;
-                SoundEngine.PlaySound(SoundID.NPCHit4.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.NPCHit4.Style, 1f, +0.3f);
+                //SoundEngine.PlaySound(SoundID.NPCHit4.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.NPCHit4.Style, 1f, +0.3f);
+                SoundEngine.PlaySound(SoundID.NPCHit4 with { Volume = 1f, Pitch = 0.3f }, NPC.position);
                 //Main.PlaySound(SoundID.NPCHit42.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.NPCHit42.Style, 1f, 0.8f);
                 //Main.PlaySound(NPC.HitSound, NPC.position);
                 return false;
@@ -769,7 +773,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         if (Main.netMode != NetmodeID.Server)
                         {
                             //SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Thunder"));
-                            SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int)NPC.Center.X, (int)NPC.Center.Y, SoundLoader.GetSoundSlot(Mod, "Sounds/Custom/Thunder"), 0.6f);
+                            SoundEngine.PlaySound(HighlanderSounds.ThunderSound, NPC.position);
                         }
                     }
                     newMiddleFrame = 6;
@@ -848,7 +852,8 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         {
                             //Main.PlaySound(SoundID.Item15.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item15.Style, 0.80f, +0.5f);
                             //Main.PlaySound(SoundID.Item60.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item60.Style, 0.80f, +0.5f);
-                            SoundEngine.PlaySound(SoundID.Item74.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item74.Style, 0.90f, +0.5f);
+                            //SoundEngine.PlaySound(SoundID.Item74.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item74.Style, 0.90f, +0.5f);
+                            SoundEngine.PlaySound(SoundID.Item74 with { Volume = 0.9f, Pitch = 0.5f });
                         }
                     }
                     newMiddleFrame = 23;

@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Highlander.Dusts;
 using Terraria.Audio;
+using Highlander.Sounds.Custom;
 
 namespace Highlander.Projectiles
 {
@@ -53,7 +54,7 @@ namespace Highlander.Projectiles
 				
 				float pitch = Main.rand.NextFloat(-0.05f, 0.05f);
 				//Main.PlaySound(SoundLoader.customSoundType, -1 , -1, 1, pitch, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/UnusualOpen"));
-				SoundEngine.PlaySound(SoundLoader.CustomSoundType, (int) Projectile.position.X, (int)Projectile.position.Y, SoundLoader.GetSoundSlot(Mod, "Sounds/Custom/UnusualOpen"));
+				SoundEngine.PlaySound(HighlanderSounds.UnusualOpenSound, Projectile.position);
 			}
 			Projectile.spriteDirection = Projectile.direction;
 			Projectile.velocity.Y *= 1.005f;
@@ -78,7 +79,7 @@ namespace Highlander.Projectiles
 			//float pitch = Main.rand.NextFloat(-0.05f, 0.05f);
 			//Main.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/UnusualPop"));
 
-			SoundEngine.PlaySound(SoundID.Item14.WithPitchVariance(0.1f).WithVolume(0.7f), Projectile.position);
+			SoundEngine.PlaySound(HighlanderSounds.UnusualPopVanilla, Projectile.position);
 
 			if (Main.netMode != NetmodeID.Server) {
 				// Spawn firework dust
