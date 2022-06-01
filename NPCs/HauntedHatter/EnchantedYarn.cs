@@ -64,13 +64,15 @@ namespace Highlander.NPCs.HauntedHatter
                 }
                 Projectile.ai[0]++;
                 Projectile.netUpdate = true;
-                SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+                //SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             }
             else
             {
                 Projectile.velocity *= 0;
                 kill = true;
-                SoundEngine.PlaySound(SoundID.Item10, (int)Projectile.position.X, (int)Projectile.position.Y);
+                //SoundEngine.PlaySound(SoundID.Item10, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             }
             return kill;
         }

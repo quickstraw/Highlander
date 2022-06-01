@@ -144,8 +144,9 @@ namespace Highlander.NPCs.HauntedHatter
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                SoundEngine.PlaySound(0, (int)Projectile.position.X, (int)Projectile.position.Y);
-                SoundEngine.PlaySound(SoundID.Item10.WithPitchVariance(0.1f).WithVolume(0.9f), Projectile.Center);
+                //SoundEngine.PlaySound(0, (int)Projectile.position.X, (int)Projectile.position.Y); Idk what sound 0 is. [IMPORTANT]
+                //SoundEngine.PlaySound(SoundID.Item10.WithPitchVariance(0.1f).WithVolume(0.9f), Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item10 with { PitchVariance = 0.1f, Volume = 0.9f }, Projectile.Center);
             }
             // Changing origin to fix lighting issues inside tiles.
             DrawOriginOffsetY -= 95;

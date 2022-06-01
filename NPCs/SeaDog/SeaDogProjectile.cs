@@ -143,7 +143,8 @@ namespace Highlander.NPCs.SeaDog
 		{
 			if (Main.netMode != NetmodeID.Server)
 			{
-				SoundEngine.PlaySound(SoundID.Item14.SoundId, (int)Projectile.Center.X, (int)Projectile.Center.Y, SoundID.Item14.Style, 0.80f, 0.6f);
+				//SoundEngine.PlaySound(SoundID.Item14.SoundId, (int)Projectile.Center.X, (int)Projectile.Center.Y, SoundID.Item14.Style, 0.80f, 0.6f);
+				SoundEngine.PlaySound(SoundID.Item14 with { Volume = 0.80f, Pitch = 0.6f }, Projectile.Center);
 			}
 
 			// Smoke Dust spawn

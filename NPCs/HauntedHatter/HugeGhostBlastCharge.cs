@@ -49,7 +49,8 @@ namespace Highlander.NPCs.HauntedHatter
 				timer = 30;
 				if (Main.netMode != NetmodeID.Server)
 				{
-					SoundEngine.PlaySound(SoundID.Item45.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item45.Style, 0.50f, -0.5f);
+					//SoundEngine.PlaySound(SoundID.Item45.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item45.Style, 0.50f, -0.5f);
+					SoundEngine.PlaySound(SoundID.Item45 with { Volume = 0.50f, Pitch = -0.5f }, Projectile.position);
 				}
 			}
 
@@ -82,7 +83,8 @@ namespace Highlander.NPCs.HauntedHatter
 					flags[1] = true;
 					if (Main.netMode != NetmodeID.Server)
 					{
-						SoundEngine.PlaySound(SoundID.Item12.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item12.Style, 1f, -0.2f);
+						//SoundEngine.PlaySound(SoundID.Item12.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item12.Style, 1f, -0.2f);
+						SoundEngine.PlaySound(SoundID.Item12 with { Volume = 1.0f, Pitch = -0.2f }, Projectile.position);
 					}
 				}
 				Projectile.rotation = forward.ToRotation();
@@ -121,7 +123,8 @@ namespace Highlander.NPCs.HauntedHatter
 				}
 				if (Main.netMode != NetmodeID.Server)
 				{
-					SoundEngine.PlaySound(SoundID.Item72.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item72.Style, 0.60f, -0.2f);
+					//SoundEngine.PlaySound(SoundID.Item72.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item72.Style, 0.60f, -0.2f);
+					SoundEngine.PlaySound(SoundID.Item72 with { Volume = 0.60f, Pitch = -0.2f }, Projectile.position);
 				}
 			}
 		}

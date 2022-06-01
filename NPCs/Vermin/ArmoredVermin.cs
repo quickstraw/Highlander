@@ -198,7 +198,8 @@ namespace Highlander.NPCs.Vermin
                     {
                         Projectile projectile = Projectile.NewProjectileDirect(source, NPC.Center + new Vector2(NPC.direction * NPC.width, 0), new Vector2(), ProjectileType<BlightedVerminSpear>(), NPC.damage / 2, 9.5f);
                     }
-                    SoundEngine.PlaySound(SoundID.Item1.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item1.Style, 0.90f, +0.5f);
+                    //SoundEngine.PlaySound(SoundID.Item1.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item1.Style, 0.90f, +0.5f);
+                    SoundEngine.PlaySound(SoundID.Item1 with { Volume = 0.90f, Pitch = 0.5f }, NPC.Center);
                 }
 
                 if (jumpTimer > 0 && (NPC.velocity.Y == 0))

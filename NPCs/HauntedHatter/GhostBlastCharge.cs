@@ -50,8 +50,8 @@ namespace Highlander.NPCs.HauntedHatter
 				if (Main.netMode != NetmodeID.Server)
 				{
 					
-					SoundEngine.PlaySound(SoundID.Item45.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item45.Style, 0.40f, -0.5f);
-					//Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Charging"));
+					//SoundEngine.PlaySound(SoundID.Item45.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item45.Style, 0.40f, -0.5f);
+					SoundEngine.PlaySound(SoundID.Item45 with { Volume = 0.40f, Pitch = -0.5f }, Projectile.position);
 				}
 			}
 
