@@ -23,6 +23,8 @@ namespace Highlander
     public class Highlander : Mod
 	{
 
+		private static int LogCounter = 0;
+
 		public Highlander()
 		{
 			Instance = this;
@@ -34,7 +36,7 @@ namespace Highlander
 		public override void Load()
 		{
 			AbnormalEffect effect = AbnormalEffect.Unknown;
-
+			
 			// Series 1
 			AbnormalItem item = new Anger(effect);
 			AddContent(item);
@@ -239,7 +241,7 @@ namespace Highlander
 			item = new SkiMask(effect);
 			AddContent(item);
 			AddEquipTexture(item, EquipType.Head, "Highlander/Items/Armor/VanityHats/SkiMask_Head");
-
+			
 		}
 
 		public override void Unload()
@@ -335,6 +337,12 @@ namespace Highlander
 		}
 
 		internal static Highlander Instance { get; private set; }
+
+		public static void Log(string text)
+        {
+			Instance.Logger.Debug(LogCounter + ": " + text);
+			LogCounter++;
+        }
 
 		internal enum HighlanderMessageType : byte
 		{
