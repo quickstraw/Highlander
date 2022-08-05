@@ -33,13 +33,5 @@ namespace Highlander.Items.Accessories
 			}
 			player.aggro += 400;
 		}
-
-		public override void AddRecipes()
-		{
-			CreateRecipe().AddIngredient(ItemType<BarnacleBarrier>(), 1).
-				AddIngredient(ItemID.FleshKnuckles, 1).
-				AddTile(TileID.TinkerersWorkbench).
-				Register();
-		}
 	}
 }

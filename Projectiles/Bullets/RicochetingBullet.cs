@@ -13,8 +13,8 @@ namespace Highlander.Projectiles.Bullets
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ricocheting Bullet");     //The English name of the projectile
-			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 14;    //The length of old position to be recorded
-			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;        //The recording mode
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;    //The length of old position to be recorded
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;        //The recording mode
 		}
 
 		public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace Highlander.Projectiles.Bullets
 			Projectile.hostile = false;         //Can the projectile deal damage to the player?
 			Projectile.DamageType = DamageClass.Ranged;           //Is the projectile shoot by a ranged weapon?
 			Projectile.penetrate = 5;           //How many monsters the projectile can penetrate. (OnTileCollide below also decrements penetrate for bounces as well)
-			Projectile.timeLeft = 300;          //The live time for the projectile (60 = 1 second, so 600 is 10 seconds)
+			Projectile.timeLeft = 400;          //The live time for the projectile (60 = 1 second, so 600 is 10 seconds)
 			Projectile.alpha = 255;             //The transparency of the projectile, 255 for completely transparent. (aiStyle 1 quickly fades the projectile in) Make sure to delete this if you aren't using an aiStyle that fades in. You'll wonder why your projectile is invisible.
 			Projectile.light = 0.2f;            //How much light emit around the projectile
 			Projectile.ignoreWater = true;          //Does the projectile's speed be influenced by water?
@@ -67,15 +67,30 @@ namespace Highlander.Projectiles.Bullets
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			//Redraw the projectile with the color not influenced by light
-			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
-			for (int k = 0; k < Projectile.oldPos.Length; k++)
+			Main.instance.LoadProjectile(Projectile.type);
+			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+
+			// Redraw the projectile with the color not influenced by light
+			Vector2 drawOrigin = new Vector2(texture.Width * 0.5f, Projectile.height * 0.5f);
+			for (int i = 0; i < Projectile.oldPos.Length * 2 - 1; i++)
 			{
-				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-				Color color = Color.White * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-				//Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-				Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
+				int index = i / 2;
+				int nextIndex = (i + 2) / 2;
+				if (i % 2 == 0)
+                {
+					Vector2 drawPos = (Projectile.oldPos[index] - Main.screenPosition) + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+					Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - index / 2) / (float)Projectile.oldPos.Length);
+					Main.EntitySpriteDraw(texture, drawPos, null, color, Projectile.oldRot[index], drawOrigin, Projectile.scale, SpriteEffects.None, 0);
+				}
+                else
+                {
+					Vector2 interPos = (Projectile.oldPos[index] + Projectile.oldPos[nextIndex]) / 2;
+					Vector2 drawPos = (interPos - Main.screenPosition) + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+					Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - index / 2) / (float)Projectile.oldPos.Length);
+					Main.EntitySpriteDraw(texture, drawPos, null, color, Projectile.oldRot[index], drawOrigin, Projectile.scale, SpriteEffects.None, 0);
+				}
 			}
+
 			return true;
 		}
 

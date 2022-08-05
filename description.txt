@@ -20,11 +20,11 @@ Hat Salesman     - Sells keys to open lockboxes.
 Veteran Explorer - Currently sells some pikes and aggressive ale. In the future, he will sell random misc items I decide to add.
 
 Recent Changes:
+1.4.5.9 - Moved recipes to their own ModSystem.
 1.4.5.8 - Fixed Unusuals and fixed sounds again.
 1.4.5.7 - Updated the mod sounds due to the latest tModloader update. Updated Adventurer's Pike sprites.
 1.4.5.6 - Updated the revolvers' sprites and gun ammo UI. Added a client config.
 1.4.5.5 - Added Old Flare Dispenser.
-1.4.5.4 - Re-added mod config functionality. Re-added support for boss checklist and census mods.
 
 Currently Working On:
 - My largest priority is polishing the mod. To that end, I'm currently improving the pixel art and tweaking the feel of some items.

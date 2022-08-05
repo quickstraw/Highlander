@@ -79,20 +79,5 @@ namespace Highlander.Items.SeaDog
 		{
 			return new Vector2(-17, 0);
 		}
-
-		public override void AddRecipes()
-		{
-			CreateRecipe()
-				.AddIngredient(ItemType<BrokenBlunderbuss>(), 1)
-				.AddIngredient(ItemID.Musket, 1)
-				.AddTile(TileID.WorkBenches)
-				.Register();
-
-			CreateRecipe()
-				.AddIngredient(ItemType<BrokenBlunderbuss>(), 1)
-				.AddIngredient(ItemID.TheUndertaker, 1)
-				.AddTile(TileID.WorkBenches)
-				.Register();
-		}
 	}
 }

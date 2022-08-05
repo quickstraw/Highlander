@@ -45,22 +45,5 @@ namespace Highlander.Items.SeaDog
 
             return true;
         }
-
-		public override void AddRecipes()
-		{
-            CreateRecipe()
-                .AddIngredient(ItemID.Torch, 1)
-                .AddIngredient(ItemID.GoldOre, 4)
-                .AddTile(TileID.WorkBenches)
-                .Register();
-
-            CreateRecipe()
-                .AddIngredient(ItemID.Torch, 1)
-                .AddIngredient(ItemID.PlatinumOre, 4)
-                .AddTile(TileID.WorkBenches)
-                .Register();
-        }
-
-
 	}
 }

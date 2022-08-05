@@ -44,16 +44,5 @@ namespace Highlander.Items.EnlightenmentIdol
 
             return true;
         }
-
-        public override void AddRecipes()
-		{
-            CreateRecipe()
-                .AddIngredient(ItemID.StoneBlock, 10)
-                .AddIngredient(ItemID.SoulofLight, 4)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
-        }
-
-
 	}
 }

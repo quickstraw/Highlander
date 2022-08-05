@@ -86,15 +86,6 @@ namespace Highlander.Items.Weapons
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 6);
-		}
-
-		public override void AddRecipes()
-		{
-			CreateRecipe()
-				.AddIngredient(ItemType<TrustyBlunderbuss>(), 1)
-				.AddIngredient(ItemID.Cannon)
-				.AddTile(TileID.WorkBenches)
-				.Register();
-		}
+		} 
 	}
 }

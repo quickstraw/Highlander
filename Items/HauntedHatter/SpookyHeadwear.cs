@@ -44,22 +44,5 @@ namespace Highlander.Items.HauntedHatter
 
             return true;
         }
-
-		public override void AddRecipes()
-		{
-            CreateRecipe()
-                .AddIngredient(ItemID.Silk, 10)
-                .AddIngredient(ItemID.ShadowScale, 4)
-                .AddTile(TileID.DemonAltar)
-                .Register();
-
-            CreateRecipe()
-                .AddIngredient(ItemID.ShadowScale, 10)
-                .AddIngredient(ItemID.TissueSample, 4)
-                .AddTile(TileID.DemonAltar)
-                .Register();
-        }
-
-
 	}
 }
