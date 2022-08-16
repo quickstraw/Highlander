@@ -1,7 +1,7 @@
 displayName = Highlander: Cosmetics and Content
 author = Quickstraw
-version = 1.4.5.9
+version = 1.4.5.10
 hideCode = true;
 hideResources = true;
 includeSource = false;
-homepage = https://forums.terraria.org/index.php?threads/highlander.96307/
+homepage = https://github.com/quickstraw/Highlander

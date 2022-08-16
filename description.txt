@@ -1,7 +1,7 @@
 Highlander is a content mod that focuses on adding whatever I feel like adding at the time. Originally, it was a cosmetics mod. All the content is compatible with multiplayer.
 
 [IMPORTANT]
-I have just updated this mod to 1.4. A lot of the initial errors in the move over to 1.4 have been fixed, but there are still a few I need to fix.
+Please let me know if you find any issues with the mod.
 
 Features:
         - 3 Bosses
@@ -20,11 +20,11 @@ Hat Salesman     - Sells keys to open lockboxes.
 Veteran Explorer - Currently sells some pikes and aggressive ale. In the future, he will sell random misc items I decide to add.
 
 Recent Changes:
+1.4.5.10 - Updated obsolete code to maintain compatibility with future tModloader updates.
 1.4.5.9 - Moved recipes to their own ModSystem.
 1.4.5.8 - Fixed Unusuals and fixed sounds again.
 1.4.5.7 - Updated the mod sounds due to the latest tModloader update. Updated Adventurer's Pike sprites.
 1.4.5.6 - Updated the revolvers' sprites and gun ammo UI. Added a client config.
-1.4.5.5 - Added Old Flare Dispenser.
 
 Currently Working On:
 - My largest priority is polishing the mod. To that end, I'm currently improving the pixel art and tweaking the feel of some items.
