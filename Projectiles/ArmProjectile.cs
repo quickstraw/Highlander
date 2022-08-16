@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -27,32 +28,32 @@ namespace Highlander.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			Main.projFrames[projectile.type] = 2;
+			Main.projFrames[Projectile.type] = 2;
 			DisplayName.SetDefault("Fist of the Idol");
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 36;
-			projectile.friendly = false;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.alpha = 0;
-			//projectile.timeLeft = 180;
-			projectile.penetrate = -1;
-			portalF = GetTexture("Highlander/Projectiles/ArmProjectilePortal_Front");
-			portalB = GetTexture("Highlander/Projectiles/ArmProjectilePortal_Back");
-			arm = GetTexture("Highlander/Projectiles/ArmProjectile");
+			Projectile.width = 36;
+			Projectile.height = 36;
+			Projectile.friendly = false;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 0;
+			//Projectile.timeLeft = 180;
+			Projectile.penetrate = -1;
+			portalF = Request<Texture2D>("Highlander/Projectiles/ArmProjectilePortal_Front").Value;
+			portalB = Request<Texture2D>("Highlander/Projectiles/ArmProjectilePortal_Back").Value;
+			arm = Request<Texture2D>("Highlander/Projectiles/ArmProjectile").Value;
 		}
 
 		public override void AI()
 		{
 			Init();
 
-			projectile.rotation = rotation;
+			Projectile.rotation = rotation;
 
-			projectile.active = true;
+			Projectile.active = true;
 
 			if (!portal)
 			{
@@ -60,80 +61,81 @@ namespace Highlander.Projectiles
 				{
 					portalTimer = 10;
 					portal = true;
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 			}
 			else if (portal && !startForward) // Arm spawns //
 			{
 				startForward = true;
-				projectile.velocity = forward * 16;
-				projectile.friendly = true;
-				projectile.netUpdate = true;
+				Projectile.velocity = forward * 16;
+				Projectile.friendly = true;
+				Projectile.netUpdate = true;
 				if (Main.netMode != NetmodeID.Server)
 				{
-					Main.PlaySound(SoundID.Item1.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item1.Style, 0.70f, -0.9f);
+					//SoundEngine.PlaySound(SoundID.Item1.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item1.Style, 0.70f, -0.9f);
+					SoundEngine.PlaySound(SoundID.Item1 with { Volume = 0.70f, Pitch = -0.9f }, Projectile.position);
 				}
 			}
 			if (startForward && !stopped) // Arm moves forward //
 			{
-				float length = projectile.velocity.Length();
+				float length = Projectile.velocity.Length();
 
-				if (projectile.ai[0] + length >= arm.Width) // Check if arm should stop
+				if (Projectile.ai[0] + length >= arm.Width) // Check if arm should stop
 				{
-					projectile.velocity = forward * (projectile.ai[0] + length - arm.Width);
-					projectile.ai[0] = arm.Width;
+					Projectile.velocity = forward * (Projectile.ai[0] + length - arm.Width);
+					Projectile.ai[0] = arm.Width;
 
 					stopped = true;
 
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 				else
 				{
-					projectile.ai[0] += length;
+					Projectile.ai[0] += length;
 				}
 			}
 			else if (stopped && stopTimer < 20) // Arm stops //
 			{
 				if (stopTimer <= 0)
 				{
-					projectile.velocity *= 0;
+					Projectile.velocity *= 0;
 
 					stopTimer++;
 
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 			}
 			else if (stopTimer >= 20 && !finished) // Arm reverses //
 			{
 				if (!startReverse) // Initialize reverse
 				{
-					projectile.velocity = -forward * 12.0f;
+					Projectile.velocity = -forward * 12.0f;
 
 					startReverse = true;
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 
-				float length = projectile.velocity.Length();
+				float length = Projectile.velocity.Length();
 
-				if (projectile.ai[0] - length <= 0) // Check if arm has finished reversing
+				if (Projectile.ai[0] - length <= 0) // Check if arm has finished reversing
 				{
-					projectile.velocity = -forward * projectile.ai[0];
-					projectile.ai[0] = 0;
-					projectile.friendly = false;
+					Projectile.velocity = -forward * Projectile.ai[0];
+					Projectile.ai[0] = 0;
+					Projectile.friendly = false;
 					finished = true;
 
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 				else
 				{
-					projectile.ai[0] -= length;
+					Projectile.ai[0] -= length;
 				}
 			}
 			else if (finished)
 			{
-				if (portalTimer <= 0 && projectile.ai[0] == 0)
+				if (portalTimer <= 0 && Projectile.ai[0] == 0)
 				{
-					projectile.Kill();
+					Projectile.Kill();
 				}
 			}
 
@@ -144,26 +146,27 @@ namespace Highlander.Projectiles
 		{
 			if (!initialized)
 			{
-				initPos = projectile.position;
+				initPos = Projectile.position;
 
 				initialized = true;
 
-				projectile.ai[0] = 0;
+				Projectile.ai[0] = 0;
 
 				Vector2 target = Main.MouseWorld;
-				projectile.rotation = (float)Math.Atan2(target.Y - projectile.Center.Y, target.X - projectile.Center.X) + MathHelper.Pi;
-				rotation = projectile.rotation;
-				projectile.netUpdate = true;
+				Projectile.rotation = (float)Math.Atan2(target.Y - Projectile.Center.Y, target.X - Projectile.Center.X) + MathHelper.Pi;
+				rotation = Projectile.rotation;
+				Projectile.netUpdate = true;
 				if (Main.netMode != NetmodeID.Server)
 				{
-					Main.PlaySound(SoundID.Item45.SoundId, (int)projectile.position.X, (int)projectile.position.Y, SoundID.Item45.Style, 0.40f, -0.5f);
+					//SoundEngine.PlaySound(SoundID.Item45.SoundId, (int)Projectile.position.X, (int)Projectile.position.Y, SoundID.Item45.Style, 0.40f, -0.5f);
+					SoundEngine.PlaySound(SoundID.Item45 with { Volume = 0.40f, Pitch = -0.5f }, Projectile.position);
 				}
 
-				if(projectile.rotation != 0)
+				if(Projectile.rotation != 0)
 				{
 					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
-						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
+						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, Projectile.whoAmI);
 					}
 				}
 				flip = rotation > MathHelper.PiOver2 && rotation < 3 * MathHelper.PiOver2;
@@ -186,19 +189,19 @@ namespace Highlander.Projectiles
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawPos = projectile.position - Main.screenPosition;
+			Vector2 drawPos = Projectile.position - Main.screenPosition;
 			Vector2 portalPos;
 
-			Vector2 armPos = drawPos + new Vector2(projectile.width / 2, projectile.height / 2);
+			Vector2 armPos = drawPos + new Vector2(Projectile.width / 2, Projectile.height / 2);
 
-			if (projectile.velocity.LengthSquared() == 0)
+			if (Projectile.velocity.LengthSquared() == 0)
 			{
 				armPos += forward * Main.rand.NextFloat(2, 4);
 			}
 
-			int drawLength = (int)projectile.ai[0];
+			int drawLength = (int)Projectile.ai[0];
 
 			if (drawLength > arm.Width)
 			{
@@ -211,20 +214,20 @@ namespace Highlander.Projectiles
 
 			if (initPos.LengthSquared() != 0)
 			{
-				portalPos = initPos - Main.screenPosition + new Vector2(projectile.width / 2, projectile.height / 2) + forward * 30;
-				spriteBatch.Draw(portalB, portalPos, new Rectangle(0, 0, portalB.Width, portalB.Height), Color.White, projectile.rotation, new Vector2(portalB.Width / 2, portalB.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
+				portalPos = initPos - Main.screenPosition + new Vector2(Projectile.width / 2, Projectile.height / 2) + forward * 30;
+				Main.EntitySpriteDraw(portalB, portalPos, new Rectangle(0, 0, portalB.Width, portalB.Height), Color.White, Projectile.rotation, new Vector2(portalB.Width / 2, portalB.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
 				if (true || portalTimer >= 10 && !finished)
 				{
-					drawArm(spriteBatch, lightColor);//spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, projectile.rotation, new Vector2(22, 22), 1.0f, 0, 0);
+					drawArm(lightColor);//spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, Projectile.rotation, new Vector2(22, 22), 1.0f, 0, 0);
 				}
-				spriteBatch.Draw(portalF, portalPos, new Rectangle(0, 0, portalF.Width, portalF.Height), Color.White, projectile.rotation, new Vector2(portalF.Width / 2, portalF.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
+				Main.EntitySpriteDraw(portalF, portalPos, new Rectangle(0, 0, portalF.Width, portalF.Height), Color.White, Projectile.rotation, new Vector2(portalF.Width / 2, portalF.Height / 2), 0.1f + portalTimer * 9f / 100f, 0, 0);
 			}
 			else
 			{
 				if (portalTimer >= 10 && !flags[3])
 				{
-					drawArm(spriteBatch, lightColor);
-					//spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, projectile.rotation, new Vector2(22, 22), 1.0f, 0, 0);
+					drawArm(lightColor);
+					//spriteBatch.Draw(arm, armPos, new Rectangle(0, 0, drawLength, arm.Height / 2), lightColor, Projectile.rotation, new Vector2(22, 22), 1.0f, 0, 0);
 				}
 			}
 
@@ -235,22 +238,22 @@ namespace Highlander.Projectiles
 		{
 		}
 
-		private void drawArm(SpriteBatch spriteBatch, Color lightColor)
+		private void drawArm(Color lightColor)
 		{
 			int sourceX = 0;
 			int num = 0;
-			float rotation = projectile.rotation;
+			float rotation = Projectile.rotation;
 
 
-			Vector2 drawPos = projectile.position - Main.screenPosition;
-			Vector2 armPos = drawPos + new Vector2(projectile.width / 2, projectile.height / 2);
+			Vector2 drawPos = Projectile.position - Main.screenPosition;
+			Vector2 armPos = drawPos + new Vector2(Projectile.width / 2, Projectile.height / 2);
 
-			if (projectile.velocity.LengthSquared() == 0)
+			if (Projectile.velocity.LengthSquared() == 0)
 			{
 				armPos += forward * Main.rand.NextFloat(2, 4);
 			}
 
-			int drawLength = (int)projectile.ai[0];
+			int drawLength = (int)Projectile.ai[0];
 
 			if (drawLength > arm.Width)
 			{
@@ -275,7 +278,7 @@ namespace Highlander.Projectiles
 
 			if (portalTimer >= 10 && !flags[3])
 			{
-				spriteBatch.Draw(arm, armPos, new Rectangle(sourceX, num * arm.Height / 2, drawLength, arm.Height / 2), Color.White, rotation, new Vector2(22, 22), 1.0f, 0, 0);
+				Main.EntitySpriteDraw(arm, armPos, new Rectangle(sourceX, num * arm.Height / 2, drawLength, arm.Height / 2), Color.White, rotation, new Vector2(22, 22), 1.0f, 0, 0);
 			}
 		}
 
@@ -288,7 +291,7 @@ namespace Highlander.Projectiles
 			writer.Write(portalTimer);
 			writer.WriteVector2(initPos);
 			writer.Write(rotation);
-			//writer.Write((short) (projectile.rotation * 10000));
+			//writer.Write((short) (Projectile.rotation * 10000));
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -302,13 +305,13 @@ namespace Highlander.Projectiles
 
 			float newRot = reader.ReadSingle();
 
-			if (projectile.rotation == 0 || projectile.rotation < 0.01f)
+			if (Projectile.rotation == 0 || Projectile.rotation < 0.01f)
 			{
 				rotation = newRot;
 			}
-			if (projectile.velocity.LengthSquared() > 0)
+			if (Projectile.velocity.LengthSquared() > 0)
 			{
-				float velRot = (projectile.velocity.ToRotation() + MathHelper.Pi) % MathHelper.TwoPi;
+				float velRot = (Projectile.velocity.ToRotation() + MathHelper.Pi) % MathHelper.TwoPi;
 				float velRotRev = (velRot + MathHelper.Pi) % MathHelper.TwoPi;
 				if (Math.Abs(velRot - newRot) < 0.05f || Math.Abs(velRotRev - newRot) < 0.05f)
 				{
@@ -323,7 +326,7 @@ namespace Highlander.Projectiles
 				}
 			}
 			
-			//projectile.rotation = (float)reader.ReadInt16() / 10000f;
+			//Projectile.rotation = (float)reader.ReadInt16() / 10000f;
 		}
 
 		private int ClosestPlayerToPoint(Vector2 point)
@@ -391,7 +394,7 @@ namespace Highlander.Projectiles
 		{
 			get
 			{
-				float rotation = projectile.rotation - MathHelper.Pi;
+				float rotation = Projectile.rotation - MathHelper.Pi;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;

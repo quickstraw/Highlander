@@ -11,7 +11,7 @@ namespace Highlander.Dusts
 {
     class AggressiveAleDustExplosive : ModDust
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 
         }

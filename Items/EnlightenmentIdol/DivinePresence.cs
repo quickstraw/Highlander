@@ -17,13 +17,13 @@ namespace Highlander.Items.EnlightenmentIdol
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.defense = 4;
-			item.accessory = true;
-			item.value = Item.sellPrice(gold: 4);
-			item.rare = ItemRarityID.Expert;
-			item.expert = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.defense = 4;
+			Item.accessory = true;
+			Item.value = Item.sellPrice(gold: 4);
+			Item.rare = ItemRarityID.Expert;
+			Item.expert = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

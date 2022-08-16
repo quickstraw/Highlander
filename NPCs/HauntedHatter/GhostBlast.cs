@@ -15,37 +15,37 @@ namespace Highlander.NPCs.HauntedHatter
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.hostile = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.alpha = 0;
-			projectile.timeLeft = 600;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.hostile = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 0;
+			Projectile.timeLeft = 600;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = forward.ToRotation();
+			Projectile.rotation = forward.ToRotation();
 
 			// Loop through the 5 animation frames, spending 6 ticks on each.
-			if (++projectile.frameCounter >= 6)
+			if (++Projectile.frameCounter >= 6)
 			{
-				projectile.frameCounter = 0;
-				if (++projectile.frame >= 5)
+				Projectile.frameCounter = 0;
+				if (++Projectile.frame >= 5)
 				{
-					projectile.frame = 0;
+					Projectile.frame = 0;
 				}
 			}
 
 			float strength = 0.3f;
 
-			Lighting.AddLight(projectile.position + projectile.velocity * 8, 0.15f * strength, 0.54f * strength, 0.31f * strength);
+			Lighting.AddLight(Projectile.position + Projectile.velocity * 8, 0.15f * strength, 0.54f * strength, 0.31f * strength);
 		}
 
 		public override void Kill(int timeLeft)
@@ -62,7 +62,7 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			get
 			{
-				float rotation = projectile.rotation - MathHelper.PiOver2;
+				float rotation = Projectile.rotation - MathHelper.PiOver2;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;

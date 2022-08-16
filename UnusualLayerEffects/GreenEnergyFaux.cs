@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace Highlander.UnusualLayerEffects
@@ -13,12 +14,12 @@ namespace Highlander.UnusualLayerEffects
     class GreenEnergyFaux : FauxDust
     {
 
-        public GreenEnergyFaux(PlayerDrawInfo info, Vector2 offset, string texturePath, float scale) : base(info, offset, texturePath, scale)
+        public GreenEnergyFaux(PlayerDrawSet info, Vector2 offset, string texturePath, float scale) : base(info, offset, texturePath, scale)
         {
             OnSpawn();
         }
 
-        public GreenEnergyFaux(PlayerDrawInfo info, Vector2 offset, Texture2D texture, float scale) : base(info, offset, texture, scale)
+        public GreenEnergyFaux(PlayerDrawSet info, Vector2 offset, Texture2D texture, float scale) : base(info, offset, texture, scale)
         {
             OnSpawn();
         }

@@ -21,11 +21,11 @@ namespace Highlander.Items.HauntedHatter
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.rare = 3;
-            item.vanity = true;
-            item.accessory = true;
+            Item.width = 18;
+            Item.height = 18;
+            Item.rare = 3;
+            Item.vanity = true;
+            Item.accessory = true;
         }
 
     }

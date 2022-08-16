@@ -5,57 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Items.HauntedHatter
 {
-    class HauntedHatterBag : ModItem
+    class HauntedHatterBag : GrabBag
     {
+        public override bool IsPreHardMode() => true;
 
-        public override void SetStaticDefaults()
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            DisplayName.SetDefault("Treasure Bag");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            itemLoot.Add(ItemDropRule.OneFromOptions(1, ItemType<SpiritShears>(), ItemType<AncientStoneBlaster>()));
+            itemLoot.Add(ItemDropRule.Common(ItemType<EnchantedNeedleHook>()));
+            itemLoot.Add(ItemDropRule.Common(ItemType<GhostlyGibus>(), 7));
         }
-
-        public override void SetDefaults()
-        {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
-        }
-
-        public override bool CanRightClick()
-        {
-            return true;
-        }
-
-        public override void OpenBossBag(Player player)
-        {
-            player.TryGettingDevArmor();
-            List<int> items = new List<int>();
-            items.Add(ItemType<SpiritShears>());
-            items.Add(ItemType<AncientStoneBlaster>());
-            int chance;
-            int drops = 1;
-            for (int i = 0; i < drops; i++)
-            {
-                chance = Main.rand.Next(0, items.Count);
-                player.QuickSpawnItem(items[chance]);
-                items.RemoveAt(chance);
-            }
-            player.QuickSpawnItem(ItemType<EnchantedNeedleHook>());
-            if (Main.rand.NextBool(7))
-            {
-                player.QuickSpawnItem(ItemType<GhostlyGibus>());
-            }
-        }
-
-        public override int BossBagNPC => NPCType<NPCs.HauntedHatter.HauntedHatter>();
 
     }
 }

@@ -9,6 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -26,29 +29,24 @@ namespace Highlander.NPCs.Vermin
 
 		public override void SetStaticDefaults()
 		{
-			Main.npcFrameCount[npc.type] = 15; // make sure to set this for your modnpcs.
+			Main.npcFrameCount[NPC.type] = 15; // make sure to set this for your modnpcs.
 		}
-
-        public override bool Autoload(ref string name)
-        {
-            return GetType() != typeof(ArmoredVermin);
-        }
 
         public override void SetDefaults()
 		{
-			npc.width = 34;
-			npc.height = 40;
-			npc.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
-			npc.damage = 42;
-			npc.defense = 30;
-			npc.lifeMax = 300;
-            npc.knockBackResist = 0.5f;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath47;
-			npc.value = 100;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Confused] = false; // npc default to being immune to the Confused debuff. Allowing confused could be a little more work depending on the AI. npc.confused is true while the npc is confused.
-            drawOffsetY = -2;
+			NPC.width = 34;
+            NPC.height = 40;
+            NPC.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
+            NPC.damage = 42;
+            NPC.defense = 30;
+            NPC.lifeMax = 300;
+            NPC.knockBackResist = 0.5f;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath47;
+            NPC.value = 100;
+            NPC.buffImmune[BuffID.Poisoned] = true;
+            NPC.buffImmune[BuffID.Confused] = false; // npc default to being immune to the Confused debuff. Allowing confused could be a little more work depending on the AI. npc.confused is true while the npc is confused.
+            DrawOffsetY = -2;
             //sprite = GetTexture("Highlander/NPCs/Vermin/ArmoredVerminSprite");
 		}
 
@@ -58,12 +56,12 @@ namespace Highlander.NPCs.Vermin
             if (Main.hardMode)
             {
                 // Spawn in Underground layer
-                if (spawnInfo.spawnTileY > Main.worldSurface && spawnInfo.spawnTileY < Main.rockLayer)
+                if (spawnInfo.SpawnTileY > Main.worldSurface && spawnInfo.SpawnTileY < Main.rockLayer)
                 {
                     spawnChance = 0.05f;
                 }
                 // Spawn in Cavern layer
-                if (spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.spawnTileY < (Main.maxTilesY - 200))
+                if (spawnInfo.SpawnTileY > Main.rockLayer && spawnInfo.SpawnTileY < (Main.maxTilesY - 200))
                 {
                     spawnChance = 0.12f;
                 }
@@ -73,113 +71,113 @@ namespace Highlander.NPCs.Vermin
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
             jumpTimer = 0;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
             jumpTimer = 0;
         }
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
             jumpTimer = 0;
         }
 
         public override void AI()
         {
-            int oldTarget = npc.target;
+            int oldTarget = NPC.target;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.TargetClosestUpgraded(false);
-                if (npc.HasValidTarget && (Main.player[npc.target].Center - npc.Center).Length() > 1000)
+                NPC.TargetClosestUpgraded(false);
+                if (NPC.HasValidTarget && (Main.player[NPC.target].Center - NPC.Center).Length() > 1000)
                 {
-                    npc.target = 255;
-                    npc.netUpdate = true;
+                    NPC.target = 255;
+                    NPC.netUpdate = true;
                 }
             }
-            if (npc.HasValidTarget)
+            if (NPC.HasValidTarget)
             {
-                Player target = Main.player[npc.target];
-                Vector2 vectorToTarget = target.Center - npc.Center;
+                Player target = Main.player[NPC.target];
+                Vector2 vectorToTarget = target.Center - NPC.Center;
 
-                Tile tile = Main.tile[(int)(npc.Center.X / 16), (int)((npc.position.Y + npc.height) / 16) + 1];
-                Vector2 tileCoords = new Vector2((int)(npc.Center.X / 16), (int)((npc.position.Y + npc.height) / 16) + 1);
+                Tile tile = Main.tile[(int)(NPC.Center.X / 16), (int)((NPC.position.Y + NPC.height) / 16) + 1];
+                Vector2 tileCoords = new Vector2((int)(NPC.Center.X / 16), (int)((NPC.position.Y + NPC.height) / 16) + 1);
                 Tile targetTile = Main.tile[(int)(target.Center.X / 16), (int)((target.position.Y + target.height) / 16) + 1];
                 Vector2 targetTileCoords = new Vector2((int)(target.Center.X / 16), (int)((target.position.Y + target.height) / 16) + 1);
 
-                if (npc.confused)
+                if (NPC.confused)
                 {
                     vectorToTarget *= -1;
                 }
-                int direction = npc.direction;
+                int direction = NPC.direction;
 
                 if (attackFrameTimer <= 0)
                 {
                     if (vectorToTarget.X > 0)
                     {
                         direction = 1;
+                        NPC.spriteDirection = -1;
                     }
                     else
                     {
                         direction = -1;
+                        NPC.spriteDirection = 1;
                     }
                 }
-                if (npc.velocity.X > 0)
+                if (NPC.velocity.X > 0)
                 {
-                    npc.spriteDirection = -1;
-                    npc.direction = 1;
+                    NPC.direction = 1;
                 }
-                else if (npc.velocity.X < 0)
+                else if (NPC.velocity.X < 0)
                 {
-                    npc.spriteDirection = 1;
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
 
                 float yDiff = tileCoords.Y - targetTileCoords.Y;
 
                 WalkOverSlopes();
 
-                AttackRange = new Rectangle((int)npc.position.X - (npc.width * 2 / 3), (int)npc.position.Y, npc.width * 2, npc.height);
-                if (!npc.confused && AttackRange.Intersects(target.Hitbox) && attackFrameTimer <= 0 && npc.collideY)
+                AttackRange = new Rectangle((int)NPC.position.X - (NPC.width * 2 / 3), (int)NPC.position.Y, NPC.width * 2, NPC.height);
+                if (!NPC.confused && AttackRange.Intersects(target.Hitbox) && attackFrameTimer <= 0 && NPC.collideY)
                 {
                     Attack();
                 }
-                else if (((npc.velocity.X == 0 && npc.collideX) || (yDiff >= 4 && Math.Abs(vectorToTarget.X) < npc.width * 2 && yDiff < 8)) && jumpTimer <= 0 && attackFrameTimer <= 0)
+                else if (((NPC.velocity.X == 0 && NPC.collideX) || (yDiff >= 4 && Math.Abs(vectorToTarget.X) < NPC.width * 2 && yDiff < 8)) && jumpTimer <= 0 && attackFrameTimer <= 0)
                 {
                     Jump();
                 }
-                else if ((attackFrameTimer <= 1 && Math.Abs(vectorToTarget.X) > 16 && npc.velocity.Y == 0) || (jumpTimer > 0 && npc.collideX && !npc.collideY))
+                else if ((attackFrameTimer <= 1 && Math.Abs(vectorToTarget.X) > 16 && NPC.velocity.Y == 0) || (jumpTimer > 0 && NPC.collideX && !NPC.collideY))
                 {
-                    if (!npc.confused)
+                    if (!NPC.confused)
                     {
-                        if (npc.velocity.X != direction * speed)
+                        if (NPC.velocity.X != direction * speed)
                         {
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
-                        bool left = npc.velocity.X < 0 && direction == -1;
-                        bool right = npc.velocity.X > 0 && direction == 1;
+                        bool left = NPC.velocity.X < 0 && direction == -1;
+                        bool right = NPC.velocity.X > 0 && direction == 1;
 
-                        if ((left || right) && Math.Abs(npc.velocity.X) > speed)
+                        if ((left || right) && Math.Abs(NPC.velocity.X) > speed)
                         {
-                            npc.velocity.X = direction * speed;
+                            NPC.velocity.X = direction * speed;
                         }
                         else
                         {
-                            npc.velocity.X += direction * speed / 4;
+                            NPC.velocity.X += direction * speed / 4;
                         }
                     }
                     else
                     {
-                        if (npc.velocity.X != direction * 0.6f * speed)
+                        if (NPC.velocity.X != direction * 0.6f * speed)
                         {
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
 
-                        npc.velocity.X = direction * 0.6f * speed;
+                        NPC.velocity.X = direction * 0.6f * speed;
                     }
-                    if (npc.collideY && tile.type != 0)
+                    if (NPC.collideY && tile.TileType != 0)
                     {
                         bool hole = CheckHole();
                         if (hole)
@@ -190,19 +188,21 @@ namespace Highlander.NPCs.Vermin
                 }
                 else if (attackFrameTimer < 19 && attackFrameTimer >= 18)
                 {
-                    npc.netUpdate = true;
+                    var source = NPC.GetSource_FromAI();
+                    NPC.netUpdate = true;
                     if (Main.expertMode)
                     {
-                        Projectile projectile = Projectile.NewProjectileDirect(npc.Center + new Vector2(npc.direction * npc.width, 0), new Vector2(), ProjectileType<BlightedVerminSpear>(), npc.damage / 3, 9.5f);
+                        Projectile projectile = Projectile.NewProjectileDirect(source, NPC.Center + new Vector2(NPC.direction * NPC.width, 0), new Vector2(), ProjectileType<BlightedVerminSpear>(), NPC.damage / 3, 9.5f);
                     }
                     else
                     {
-                        Projectile projectile = Projectile.NewProjectileDirect(npc.Center + new Vector2(npc.direction * npc.width, 0), new Vector2(), ProjectileType<BlightedVerminSpear>(), npc.damage / 2, 9.5f);
+                        Projectile projectile = Projectile.NewProjectileDirect(source, NPC.Center + new Vector2(NPC.direction * NPC.width, 0), new Vector2(), ProjectileType<BlightedVerminSpear>(), NPC.damage / 2, 9.5f);
                     }
-                    Main.PlaySound(SoundID.Item1.SoundId, (int)npc.Center.X, (int)npc.Center.Y, SoundID.Item1.Style, 0.90f, +0.5f);
+                    //SoundEngine.PlaySound(SoundID.Item1.SoundId, (int)NPC.Center.X, (int)NPC.Center.Y, SoundID.Item1.Style, 0.90f, +0.5f);
+                    SoundEngine.PlaySound(SoundID.Item1 with { Volume = 0.90f, Pitch = 0.5f }, NPC.Center);
                 }
 
-                if (jumpTimer > 0 && (npc.velocity.Y == 0))
+                if (jumpTimer > 0 && (NPC.velocity.Y == 0))
                 {
                     jumpTimer--;
                 }
@@ -213,7 +213,7 @@ namespace Highlander.NPCs.Vermin
                 if (randWalkTimer <= 0)
                 {
                     randWalkTimer = Main.rand.Next(240, 360);
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                     if (Main.rand.NextBool())
                     {
                         randWalkDirection = -1;
@@ -224,21 +224,21 @@ namespace Highlander.NPCs.Vermin
                     }
                 }
 
-                if (npc.velocity.X != randWalkDirection * 0.6f * speed)
+                if (NPC.velocity.X != randWalkDirection * 0.6f * speed)
                 {
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
-                npc.velocity.X = randWalkDirection * 0.6f * speed;
+                NPC.velocity.X = randWalkDirection * 0.6f * speed;
 
-                if (npc.velocity.X > 0)
+                if (NPC.velocity.X > 0)
                 {
-                    npc.spriteDirection = -1;
-                    npc.direction = 1;
+                    NPC.spriteDirection = -1;
+                    NPC.direction = 1;
                 }
-                else if (npc.velocity.X < 0)
+                else if (NPC.velocity.X < 0)
                 {
-                    npc.spriteDirection = 1;
-                    npc.direction = -1;
+                    NPC.spriteDirection = 1;
+                    NPC.direction = -1;
                 }
 
                 randWalkTimer--;
@@ -249,9 +249,9 @@ namespace Highlander.NPCs.Vermin
         private void FindPostFrame()
         {
             byte newFrame = 0;
-            Tile tile = Main.tile[(int)(npc.Center.X / 16), (int)((npc.position.Y + npc.height) / 16) + 1];
+            Tile tile = Main.tile[(int)(NPC.Center.X / 16), (int)((NPC.position.Y + NPC.height) / 16) + 1];
 
-            if (npc.velocity.X != 0)
+            if (NPC.velocity.X != 0)
             {
                 if (frameCounter < 6)
                 {
@@ -285,9 +285,9 @@ namespace Highlander.NPCs.Vermin
                 {
                     newFrame = 8;
                 }
-                frameCounter = (frameCounter + Math.Abs(npc.velocity.X / 1.5)) % 48;
+                frameCounter = (frameCounter + Math.Abs(NPC.velocity.X / 1.5)) % 48;
             }
-            if (npc.velocity.Y != 0 && !npc.collideY && !tile.active())
+            if (NPC.velocity.Y != 0 && !NPC.collideY && !tile.HasTile)
             {
                 newFrame = 9;
             }
@@ -317,33 +317,33 @@ namespace Highlander.NPCs.Vermin
 
             if (newFrame != frame)
             {
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
                 frame = newFrame;
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             /**Vector2 drawOffset = new Vector2(0, -2);
-            Vector2 drawPos = npc.position + drawOffset - Main.screenPosition;
+            Vector2 drawPos = NPC.position + drawOffset - Main.screenPosition;
 
             int frameHeight = sprite.Height / 15;
             Vector2 origin = new Vector2(sprite.Width, frameHeight / 2);
-            Vector2 spriteDrawPos = drawPos;// + new Vector2(npc.width / 2, npc.height / 2);
+            Vector2 spriteDrawPos = drawPos;// + new Vector2(NPC.width / 2, NPC.height / 2);
 
             SpriteEffects flip = SpriteEffects.None;
-            if(npc.spriteDirection == 1)
+            if(NPC.spriteDirection == 1)
             {
                 flip = SpriteEffects.FlipHorizontally;
             }
 
-            spriteBatch.Draw(sprite, spriteDrawPos, new Rectangle(0, frame * frameHeight, sprite.Width, frameHeight), drawColor, npc.rotation, origin, 1.0f, flip, 0);**/
+            spriteBatch.Draw(sprite, spriteDrawPos, new Rectangle(0, frame * frameHeight, sprite.Width, frameHeight), drawColor, NPC.rotation, origin, 1.0f, flip, 0);**/
         }
 
         public override void FindFrame(int frameHeight)
         {
             int newFrame = 0;
-            Tile tile = Main.tile[(int)(npc.Center.X / 16), (int)((npc.position.Y + npc.height) / 16) + 1];
+            Tile tile = Main.tile[(int)(NPC.Center.X / 16), (int)((NPC.position.Y + NPC.height) / 16) + 1];
 
             if (attackFrameTimer > 0)
             {
@@ -370,85 +370,85 @@ namespace Highlander.NPCs.Vermin
                 attackFrameTimer--;
                 if (attackFrameTimer <= 0)
                 {
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
-            else if (npc.velocity.Y != 0 && !npc.collideY && !tile.active())
+            else if (NPC.velocity.Y != 0 && !NPC.collideY && !tile.HasTile)
             {
                 newFrame = frameHeight * 9;
             }
-            else if (npc.velocity.X != 0)
+            else if (NPC.velocity.X != 0)
             {
-                if (npc.frameCounter < 6)
+                if (NPC.frameCounter < 6)
                 {
                     newFrame = frameHeight * 1;
                 }
-                else if (npc.frameCounter < 12)
+                else if (NPC.frameCounter < 12)
                 {
                     newFrame = frameHeight * 2;
                 }
-                else if (npc.frameCounter < 18)
+                else if (NPC.frameCounter < 18)
                 {
                     newFrame = frameHeight * 3;
                 }
-                else if (npc.frameCounter < 24)
+                else if (NPC.frameCounter < 24)
                 {
                     newFrame = frameHeight * 4;
                 }
-                else if (npc.frameCounter < 30)
+                else if (NPC.frameCounter < 30)
                 {
                     newFrame = frameHeight * 5;
                 }
-                else if (npc.frameCounter < 36)
+                else if (NPC.frameCounter < 36)
                 {
                     newFrame = frameHeight * 6;
                 }
-                else if (npc.frameCounter < 42)
+                else if (NPC.frameCounter < 42)
                 {
                     newFrame = frameHeight * 7;
                 }
-                else if (npc.frameCounter < 48)
+                else if (NPC.frameCounter < 48)
                 {
                     newFrame = frameHeight * 8;
                 }
-                npc.frameCounter = (npc.frameCounter + Math.Abs(npc.velocity.X / 1.5)) % 48;
+                NPC.frameCounter = (NPC.frameCounter + Math.Abs(NPC.velocity.X / 1.5)) % 48;
             }
 
-            if(newFrame != npc.frame.Y)
+            if(newFrame != NPC.frame.Y)
             {
-                npc.netUpdate = true;
-                npc.frame.Y = newFrame;
+                NPC.netUpdate = true;
+                NPC.frame.Y = newFrame;
             }
         }
 
         private void Jump()
         {
-            npc.velocity.X = npc.direction * speed;
-            npc.velocity.Y -= 7;
+            NPC.velocity.X = NPC.direction * speed;
+            NPC.velocity.Y -= 7;
             jumpTimer = 3;
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
         }
 
         private bool CheckHole()
         {
-            int x = (int)(npc.Center.X / 16);
-            int y = (int)((npc.position.Y + npc.height) / 16);
+            int x = (int)(NPC.Center.X / 16);
+            int y = (int)((NPC.position.Y + NPC.height) / 16);
             bool hole1 = false;
             bool hole1Deep = false;
             bool hole2 = false;
 
-            Tile tile = Main.tile[x + npc.direction, y + 1];
-            if (tile.type == 0)
+            Tile tile = Main.tile[x + NPC.direction, y + 1];
+            if (tile.TileType == 0)
             {
                 hole1 = true;
             }
-            tile = Main.tile[x + npc.direction, y + 2];
-            if (tile.type == 0)
+            tile = Main.tile[x + NPC.direction, y + 2];
+            if (tile.TileType == 0)
             {
                 hole1Deep = true;
             }
-            tile = Main.tile[x + npc.direction * 2, y + 1];
-            if (tile.type == 0)
+            tile = Main.tile[x + NPC.direction * 2, y + 1];
+            if (tile.TileType == 0)
             {
                 hole2 = true;
             }
@@ -457,56 +457,56 @@ namespace Highlander.NPCs.Vermin
 
         private void WalkOverSlopes()
         {
-            Point tileCoordinates1 = npc.Center.ToTileCoordinates();
-            if (WorldGen.InWorld((int)tileCoordinates1.X, (int)tileCoordinates1.Y, 5) && !npc.noGravity)
+            Point tileCoordinates1 = NPC.Center.ToTileCoordinates();
+            if (WorldGen.InWorld((int)tileCoordinates1.X, (int)tileCoordinates1.Y, 5) && !NPC.noGravity)
             {
                 Vector2 cPosition;
                 int cWidth;
                 int cHeight;
                 this.GetTileCollisionParameters(out cPosition, out cWidth, out cHeight);
-                Vector2 vector2 = npc.position - cPosition;
-                Collision.StepUp(ref cPosition, ref npc.velocity, cWidth, cHeight, ref npc.stepSpeed, ref npc.gfxOffY, 1, false, 0);
-                npc.position = cPosition + vector2;
-                npc.netUpdate = true;
+                Vector2 vector2 = NPC.position - cPosition;
+                Collision.StepUp(ref cPosition, ref NPC.velocity, cWidth, cHeight, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+                NPC.position = cPosition + vector2;
+                NPC.netUpdate = true;
             }
         }
 
         private void GetTileCollisionParameters(out Vector2 cPosition, out int cWidth, out int cHeight)
         {
-            cPosition = npc.position;
-            cWidth = npc.width;
-            cHeight = npc.height;
+            cPosition = NPC.position;
+            cWidth = NPC.width;
+            cHeight = NPC.height;
         }
 
         private void Attack()
         {
-            npc.velocity.X = 0;
+            NPC.velocity.X = 0;
             attackFrameTimer = 39;
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
         }
 
         private float jumpTimer
         {
-            get => npc.ai[0];
-            set => npc.ai[0] = value;
+            get => NPC.ai[0];
+            set => NPC.ai[0] = value;
         }
 
         private float randWalkTimer
         {
-            get => npc.ai[1];
-            set => npc.ai[1] = value;
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
         }
 
         private float attackFrameTimer
         {
-            get => npc.ai[2];
-            set => npc.ai[2] = value;
+            get => NPC.ai[2];
+            set => NPC.ai[2] = value;
         }
 
         private float randWalkDirection
         {
-            get => npc.ai[3];
-            set => npc.ai[3] = value;
+            get => NPC.ai[3];
+            set => NPC.ai[3] = value;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -521,30 +521,36 @@ namespace Highlander.NPCs.Vermin
             frame = reader.ReadByte();
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bool getSpear = Main.rand.NextBool(12);
-            bool getShield = Main.rand.NextBool(12);
-            if (getSpear)
-            {
-                //Item.NewItem(npc.getRect(), ItemType<VerminSpear>());
-            }
-            if (getShield)
-            {
-                //Item.NewItem(npc.getRect(), ItemType<VerminShield>());
-            }
-            if (Main.rand.NextBool(50))
-            {
-                //Item.NewItem(npc.getRect(), ItemID.Shackle);
-            }
+            // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				// Sets the spawning conditions of this NPC that is listed in the bestiary.
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+
+				// Sets the description of this NPC that is listed in the bestiary.
+				new FlavorTextBestiaryInfoElement("A hardened veteran rat creature is a dangerous thing. The rats are getting bolder by the day.")
+            });
+        }
+
+        public override void OnKill()
+        {
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemType<VerminSpear>(), 12));
+            npcLoot.Add(ItemDropRule.Common(ItemType<VerminShield>(), 12));
+            npcLoot.Add(ItemDropRule.Common(ItemID.Shackle, 50));
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 string prefix = "ArmoredVermin";
-                string path = "Gores/Vermin/ArmoredVermin/";
+                string path = "";//"Gores/Vermin/ArmoredVermin/";
 
                 float max = MathHelper.PiOver2;
                 float min = -MathHelper.PiOver2;
@@ -558,19 +564,21 @@ namespace Highlander.NPCs.Vermin
                     max = 0;
                 }
 
-                Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "ArmGore"), 1f);
-                Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "BodyGore"), 1f);
+                var source = NPC.GetSource_Death();
+
+                Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "ArmGore").Type, 1f);
+                Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "BodyGore").Type, 1f);
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(npc.Center - new Vector2(0, npc.height / 3), new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "HeadGore"), 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center - new Vector2(0, NPC.height / 3), new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "HeadGore").Type, 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "Halberd1Gore"), 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "Halberd1Gore").Type, 1f);
                 }
                 if (Main.rand.NextBool())
                 {
-                    Gore gore = Gore.NewGoreDirect(npc.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, mod.GetGoreSlot(path + prefix + "Halberd2Gore"), 1f);
+                    Gore gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(hitDirection, 0).RotatedBy(Main.rand.NextFloat(min, max)) * 4, Mod.Find<ModGore>(path + prefix + "Halberd2Gore").Type, 1f);
                 }
             }
         }

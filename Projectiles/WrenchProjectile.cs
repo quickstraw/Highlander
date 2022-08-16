@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Highlander.Dusts;
+using Terraria.Audio;
 
 namespace Highlander.Projectiles
 {
@@ -16,10 +17,10 @@ namespace Highlander.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.friendly = true;
-			projectile.penetrate = 2;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.friendly = true;
+			Projectile.penetrate = 2;
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -35,58 +36,63 @@ namespace Highlander.Projectiles
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(SoundID.Item53.WithPitchVariance(0.2f).WithVolume(0.6f), projectile.position);
-			projectile.velocity.Y = -oldVelocity.Y * 0.5f;
-			projectile.velocity.X = oldVelocity.X * 0.5f;
-			projectile.ai[1]++;
+			//SoundEngine.PlaySound(SoundID.Item53.WithPitchVariance(0.2f).WithVolume(0.6f), Projectile.position);
+			SoundEngine.PlaySound(SoundID.Item53 with { PitchVariance = 0.2f, Volume = 0.6f }, Projectile.position);
+			Projectile.velocity.Y = -oldVelocity.Y * 0.5f;
+			Projectile.velocity.X = oldVelocity.X * 0.5f;
+			Projectile.ai[1]++;
 			return false;
 		}
 
 		public override void AI()
 		{
-			projectile.spriteDirection = projectile.direction;
-			if(projectile.ai[0] + 1 >= 15f)
+			Projectile.spriteDirection = Projectile.direction;
+			if(Projectile.ai[0] + 1 >= 15f)
 			{
-				projectile.velocity.Y += 0.4f;
+				Projectile.velocity.Y += 0.4f;
 			}
 			else
 			{
-				projectile.ai[0] += 1f;
+				Projectile.ai[0] += 1f;
 			}
-			if(projectile.velocity.X > 0)
+			if(Projectile.velocity.X > 0)
 			{
-				projectile.rotation += 0.2f;
+				Projectile.rotation += 0.2f;
 			}
 			else
 			{
-				projectile.rotation -= 0.2f;
+				Projectile.rotation -= 0.2f;
 			}
 
-			if (projectile.ai[1] > 2)
+			if (Projectile.ai[1] > 2)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 			}
 
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			if(projectile.ai[1] > 0)
+			if(Projectile.ai[1] > 0)
 			{
 				// reset size to normal width and height.
-				projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-				projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-				projectile.width = 10;
-				projectile.height = 10;
-				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+				Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+				Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+				Projectile.width = 10;
+				Projectile.height = 10;
+				Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+				Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
 			}
 
-			Main.PlaySound(SoundID.Item53.WithPitchVariance(0.2f).WithVolume(0.9f), projectile.position);
+			//SoundEngine.PlaySound(SoundID.Item53.WithPitchVariance(0.2f).WithVolume(0.9f), Projectile.position);
+			SoundEngine.PlaySound(SoundID.Item53 with { PitchVariance = 0.2f, Volume = 0.9f }, Projectile.position);
 
-			var gore = Gore.NewGoreDirect(projectile.position, projectile.velocity * 0.4f, mod.GetGoreSlot("Gores/WrenchProjectile"), 1f);
-			gore.rotation = projectile.rotation;
-
+			if(Main.netMode != NetmodeID.Server)
+            {
+				var source = Projectile.GetSource_Death();
+				var gore = Gore.NewGoreDirect(source, Projectile.position, Projectile.velocity * 0.4f, Mod.Find<ModGore>("WrenchProjectile").Type, 1f);
+				gore.rotation = Projectile.rotation;
+			}
 		}
 
 	}

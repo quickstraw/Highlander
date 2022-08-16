@@ -16,23 +16,23 @@ namespace Highlander.Items.EnlightenmentIdol
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = Item.sellPrice(gold: 3, silver: 60);
-			item.rare = ItemRarityID.Pink;
-			item.noMelee = true;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 30;
-			item.useTime = 30;
-			item.knockBack = 8.3f;
-			item.damage = 107;
-			item.noUseGraphic = false;
-			item.shoot = ModContent.ProjectileType<ArmProjectile>();
-			item.shootSpeed = 0f;
-			item.UseSound = SoundID.Item1;
-			item.summon = true;
-			item.autoReuse = true;
-			item.mana = 13;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = Item.sellPrice(gold: 3, silver: 60);
+			Item.rare = ItemRarityID.Pink;
+			Item.noMelee = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 30;
+			Item.useTime = 30;
+			Item.knockBack = 8.3f;
+			Item.damage = 107;
+			Item.noUseGraphic = false;
+			Item.shoot = ModContent.ProjectileType<ArmProjectile>();
+			Item.shootSpeed = 0f;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Summon;
+			Item.autoReuse = true;
+			Item.mana = 13;
 		}
 	}
 }

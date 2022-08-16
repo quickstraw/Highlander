@@ -1,71 +1,27 @@
-﻿using Highlander.Items.Weapons;
+﻿using Highlander.Items.HauntedHatter;
+using Highlander.Items.Weapons;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Items.SeaDog
 {
-    class SeaDogBag : ModItem
+    class SeaDogBag : GrabBag
     {
+        public override bool IsPreHardMode() => true;
 
-        public override void SetStaticDefaults()
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            DisplayName.SetDefault("Treasure Bag");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            itemLoot.Add(ItemDropRule.Common(ItemID.GoldOre, 1, 30, 50));
+            itemLoot.Add(ItemDropRule.OneFromOptions(1, ItemID.SpelunkerPotion, ItemID.GillsPotion));
+            itemLoot.Add(ItemDropRule.OneFromOptions(1, ItemType<FeralFrenzy>(), ItemType<BrokenBlunderbuss>()));
+            itemLoot.Add(ItemDropRule.Common(ItemType<BarnacleBarrier>()));
+            itemLoot.Add(ItemDropRule.Common(ItemType<SeaDogMask>(), 7));
         }
-
-        public override void SetDefaults()
-        {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
-        }
-
-        public override bool CanRightClick()
-        {
-            return true;
-        }
-
-        public override void OpenBossBag(Player player)
-        {
-            player.TryGettingDevArmor();
-            List<int> items = new List<int>();
-            
-            items.Add(ItemType<FeralFrenzy>());
-            items.Add(ItemType<BrokenBlunderbuss>());
-
-            int chance;
-            int drops = 1;
-            for (int i = 0; i < drops; i++)
-            {
-                chance = Main.rand.Next(0, items.Count);
-                player.QuickSpawnItem(items[chance]);
-                items.RemoveAt(chance);
-            }
-            player.QuickSpawnItem(ItemType<BarnacleBarrier>());
-            if (Main.rand.NextBool(7))
-            {
-                player.QuickSpawnItem(ItemType<SeaDogMask>());
-            }
-            if (Main.rand.NextBool())
-            {
-                player.QuickSpawnItem(ItemID.SpelunkerPotion, 2);
-            }
-            else
-            {
-                player.QuickSpawnItem(ItemID.GillsPotion, 2);
-            }
-            int rand = Main.rand.Next(30, 50);
-            player.QuickSpawnItem(ItemID.GoldOre, rand);
-        }
-
-        public override int BossBagNPC => NPCType<NPCs.SeaDog.SeaDog>();
 
     }
 }

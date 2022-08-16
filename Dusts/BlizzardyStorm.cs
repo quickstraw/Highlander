@@ -12,7 +12,7 @@ namespace Highlander.Dusts
     class BlizzardyStorm : ModDust
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
         }
 

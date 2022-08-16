@@ -1,20 +1,32 @@
-Highlander is a content mod that focuses on adding mostly cosmetic items. Everything should work in multiplayer.
+Highlander is a content mod that focuses on adding whatever I feel like adding at the time. Originally, it was a cosmetics mod. All the content is compatible with multiplayer.
+
+[IMPORTANT]
+Please let me know if you find any issues with the mod.
 
 Features:
         - 3 Bosses
         - 2 Town NPCs
         - 40+ vanity items
-        - Several non-vanity items to add variety to gameplay
+        - Many non-vanity items to add variety to gameplay
 
-Many cosmetic items added are inspired by Team Fortress 2 cosmetics. The Haunted Hatter must be killed to acquire these items. Hat Lock Boxes will drop after the Haunted Hatter is killed.
+Many cosmetic items added are inspired by Team Fortress 2 cosmetics or from other games. The Haunted Hatter must be killed to acquire these items. Hat Lock Boxes will drop after the Haunted Hatter is killed.
 
 There are 4 Hat Lock Boxes that can be opened to obtain different sets of hats. A Hat Lock Box must be opened with a key bought from the Hat Salesman. There is a small chance to obtain a hat with an unusual effect after opening a Hat Lock Box.
 
 Non-cosmetic items added are rewards for beating the bosses as well as some odd weapons I thought would fit well into Terraria and add variety. These items generally have a twist that makes their mechanics unique.
 
+Town NPCs:
+Hat Salesman     - Sells keys to open lockboxes.
+Veteran Explorer - Currently sells some pikes and aggressive ale. In the future, he will sell random misc items I decide to add.
+
 Recent Changes:
-1.4.4.0 - Added an option to disable Lock Boxes from spawning. Added Blighted Vermin Monk and Bell of Pestilence. Improved AI of Blighted Vermin.
-1.4.4.1 - Improved Vermin AI. Most bugs in the Vermin AI should be fixed.
+1.4.5.10 - Updated obsolete code to maintain compatibility with future tModloader updates.
+1.4.5.9 - Moved recipes to their own ModSystem.
+1.4.5.8 - Fixed Unusuals and fixed sounds again.
+1.4.5.7 - Updated the mod sounds due to the latest tModloader update. Updated Adventurer's Pike sprites.
+1.4.5.6 - Updated the revolvers' sprites and gun ammo UI. Added a client config.
 
 Currently Working On:
-More Vermin + Polishing old content
+- My largest priority is polishing the mod. To that end, I'm currently improving the pixel art and tweaking the feel of some items.
+- I would like to redo the Sea Dog, but I'm not a good enough pixel artist. If I wanted, the most I could do is make him look less bad. If anyone is good at making a pirate werewolf, hit me up.
+- I'm also trying to fix any bugs introduced by the switch to 1.4.

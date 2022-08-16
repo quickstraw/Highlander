@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -12,7 +13,7 @@ namespace Highlander.Items.HauntedHatter
 {
 	internal class EnchantedNeedleHook : ModItem
 	{
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Enchanted Needle Hook");
 		}
@@ -37,21 +38,28 @@ namespace Highlander.Items.HauntedHatter
 				this.value = 20000;
 			*/
 			// Instead of copying these values, we can clone and modify the ones we want to copy
-			item.CloneDefaults(ItemID.DiamondHook);
-			item.shootSpeed = 13.5f; // how quickly the hook is shot.
-			item.shoot = ProjectileType<EnchantedNeedleProjectile>();
-			item.rare = ItemRarityID.Expert;
-			item.value = Item.sellPrice(silver: 80);
-			item.expert = true;
+			Item.CloneDefaults(ItemID.DiamondHook);
+			Item.shootSpeed = 13.5f; // how quickly the hook is shot.
+			Item.shoot = ProjectileType<EnchantedNeedleProjectile>();
+			Item.rare = ItemRarityID.Expert;
+			Item.value = Item.sellPrice(silver: 80);
+			Item.expert = true;
 		}
 	}
 
 	internal class EnchantedNeedleProjectile : ModProjectile
 	{
+		private static Asset<Texture2D> chainTexture;
+
+		public override void Load()
+		{
+			chainTexture = Request<Texture2D>("Highlander/Items/HauntedHatter/EnchantedNeedleHookChain");
+		}
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("${ProjectileName.GemHookDiamond}");
-			ProjectileID.Sets.DontAttachHideToAlpha[projectile.type] = true; // projectiles with hide but without this will draw in the lighting values of the owner player.
+			ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type] = true; // projectiles with hide but without this will draw in the lighting values of the owner player.
 		}
 
 		public override void SetDefaults()
@@ -66,9 +74,9 @@ namespace Highlander.Items.HauntedHatter
 				this.tileCollide = false;
 				this.timeLeft *= 10;
 			*/
-			projectile.CloneDefaults(ProjectileID.GemHookDiamond);
-			projectile.scale = 1f;
-			projectile.hide = true;
+			Projectile.CloneDefaults(ProjectileID.GemHookDiamond);
+			Projectile.scale = 1f;
+			Projectile.hide = true;
 		}
 
 		// Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
@@ -77,7 +85,7 @@ namespace Highlander.Items.HauntedHatter
 			int hooksOut = 0;
 			for (int l = 0; l < 1000; l++)
 			{
-				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type)
+				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == Projectile.type)
 				{
 					hooksOut++;
 				}
@@ -142,51 +150,49 @@ namespace Highlander.Items.HauntedHatter
 			speed = 11;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
 		{
 			float strength = 0.5f;
-			Lighting.AddLight(projectile.position - forward * 20 + projectile.velocity, 0.36f * strength, 0.24f * strength, 0.40f * strength);
+			Lighting.AddLight(Projectile.position - forward * 20 + Projectile.velocity, 0.36f * strength, 0.24f * strength, 0.40f * strength);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDrawExtras()
 		{
-			Vector2 playerCenter = Main.player[projectile.owner].MountedCenter;
-			Vector2 center = projectile.Center;
-			Vector2 distToProj = playerCenter - projectile.Center;
-			float projRotation = distToProj.ToRotation() - 1.57f;
-			float distance = distToProj.Length();
-			while (distance > 30f && !float.IsNaN(distance))
+			Vector2 playerCenter = Main.player[Projectile.owner].MountedCenter;
+			Vector2 center = Projectile.Center;
+			Vector2 directionToPlayer = playerCenter - Projectile.Center;
+			float projRotation = directionToPlayer.ToRotation() - MathHelper.PiOver2;
+			float distance = directionToPlayer.Length();
+
+			while (distance > 20f && !float.IsNaN(distance))
 			{
-				distToProj.Normalize();                 //get unit vector
-				distToProj *= 24f;                      //speed = 24
-				center += distToProj;                   //update draw position
-				distToProj = playerCenter - center;    //update distance
-				distance = distToProj.Length();
-				Color drawColor = lightColor;
+				directionToPlayer.Normalize();                 //get unit vector
+				directionToPlayer *= chainTexture.Height();    // multiply by chain link length
+
+				center += directionToPlayer;                   //update draw position
+				directionToPlayer = playerCenter - center;    //update distance
+				distance = directionToPlayer.Length();
+
+				Color drawColor = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16));
 
 				//Draw chain
-				spriteBatch.Draw(mod.GetTexture("Items/HauntedHatter/EnchantedNeedleHookChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-					new Rectangle(0, 0, Main.chain30Texture.Width, Main.chain30Texture.Height), drawColor, projRotation,
-					new Vector2(Main.chain30Texture.Width * 0.5f, Main.chain30Texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
+				Main.EntitySpriteDraw(chainTexture.Value, center - Main.screenPosition,
+					chainTexture.Value.Bounds, drawColor, projRotation,
+					chainTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
 			}
-			return true;
-		}
-
-		public override bool PreDrawExtras(SpriteBatch spriteBatch)
-		{
 			return false;
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-			drawCacheProjsBehindNPCsAndTiles.Add(index);
-		}
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+			behindNPCsAndTiles.Add(index);
+        }
 
-		private Vector2 forward
+        private Vector2 forward
 		{
 			get
 			{
-				float rotation = projectile.rotation - MathHelper.PiOver2;
+				float rotation = Projectile.rotation - MathHelper.PiOver2;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;
@@ -194,19 +200,4 @@ namespace Highlander.Items.HauntedHatter
 		}
 
 	}
-
-	// Animated hook example
-	// Multiple, 
-	// only 1 connected, spawn mult
-	// Light the path
-	// Gem Hooks: 1 spawn only
-	// Thorn: 4 spawns, 3 connected
-	// Dual: 2/1 
-	// Lunar: 5/4 -- Cycle hooks, more than 1 at once
-	// AntiGravity -- Push player to position
-	// Static -- move player with keys, don't pull to wall
-	// Christmas -- light ends
-	// Web slinger -- 9/8, can shoot more than 1 at once
-	// Bat hook -- Fast reeling
-
 }

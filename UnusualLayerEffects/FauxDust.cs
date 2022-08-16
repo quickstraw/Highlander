@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Highlander.Common.Players;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -22,7 +23,7 @@ namespace Highlander.UnusualLayerEffects
         public int timer;
         public byte clock;
 
-        public PlayerDrawInfo drawInfo;
+        public PlayerDrawSet drawInfo;
 
         public bool active;
         public bool front;
@@ -30,7 +31,7 @@ namespace Highlander.UnusualLayerEffects
         public Vector2 origin => new Vector2(frame.Width / 2f, frame.Height / 2f);
         public Color Color;
 
-        public FauxDust(PlayerDrawInfo info, Vector2 offset, Texture2D texture, float scale)
+        public FauxDust(PlayerDrawSet info, Vector2 offset, Texture2D texture, float scale)
         {
             HighlanderPlayer modPlayer = info.drawPlayer.GetModPlayer<HighlanderPlayer>();
 
@@ -50,14 +51,14 @@ namespace Highlander.UnusualLayerEffects
             FindColor();
         }
 
-        public FauxDust(PlayerDrawInfo info, Vector2 offset, string texturePath, float scale)
+        public FauxDust(PlayerDrawSet info, Vector2 offset, string texturePath, float scale)
         {
             HighlanderPlayer modPlayer = info.drawPlayer.GetModPlayer<HighlanderPlayer>();
 
             drawInfo = info;
             Player = info.drawPlayer;
             Offset = offset;
-            texture = mod.GetTexture(texturePath);
+            texture = ModContent.Request<Texture2D>(texturePath).Value;
             this.scale = scale;
             frame = new Rectangle(0, 0, texture.Width, texture.Height);
             float vX = Main.rand.NextFloat(-1, 1);
@@ -85,12 +86,12 @@ namespace Highlander.UnusualLayerEffects
             }
         }
 
-        public DrawData DrawData(PlayerDrawInfo info)
+        public DrawData DrawData(PlayerDrawSet info)
         {
             drawInfo = info;
             Player drawPlayer = info.drawPlayer;
-            int drawX = (int)(info.position.X + Player.width / 2f - Main.screenPosition.X);
-            int drawY = (int)(info.position.Y + Player.height / 0.6f - Main.screenPosition.Y);
+            int drawX = (int)(info.Position.X + Player.width / 2f - Main.screenPosition.X);
+            int drawY = (int)(info.Position.Y + Player.height / 0.6f - Main.screenPosition.Y);
 
             if (drawPlayer.mount.Active)
             {
@@ -99,9 +100,9 @@ namespace Highlander.UnusualLayerEffects
                 Vector2 pos = new Vector2();
                 pos.Y += data.heightBoost;
 
-                pos += drawInfo.position;
+                pos += drawInfo.Position;
 
-                int smoothOffset = (int)((drawInfo.position - Main.screenPosition) - (drawPlayer.position - Main.screenPosition)).Y + data.heightBoost;
+                int smoothOffset = (int)((drawInfo.Position - Main.screenPosition) - (drawPlayer.position - Main.screenPosition)).Y + data.heightBoost;
 
                 drawX = (int)(pos.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 drawY = (int)(pos.Y + 70 - smoothOffset - Main.screenPosition.Y);

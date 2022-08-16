@@ -1,4 +1,5 @@
-﻿using Highlander.Dusts;
+﻿using Highlander.Buffs;
+using Highlander.Dusts;
 using Highlander.Projectiles;
 using Microsoft.Xna.Framework;
 using System;
@@ -22,34 +23,39 @@ namespace Highlander.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.width = 10;
-			item.height = 10;
+			Item.width = 10;
+			Item.height = 10;
 
-			item.holdStyle = 1;
-			item.useTurn = true;
-			item.autoReuse = true;
+			Item.holdStyle = 1;
+			Item.useTurn = true;
+			Item.autoReuse = true;
 
-			item.useAnimation = 15;
-			item.useStyle = 1;
-			item.UseSound = SoundID.Item1;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.UseSound = SoundID.Item1;
 
-			item.consumable = true;
-			item.maxStack = 999;
-			item.useTime = 15;
+			Item.consumable = true;
+			Item.maxStack = 999;
+			Item.useTime = 15;
 
-			item.shootSpeed = 9f;
-			item.shoot = ModContent.ProjectileType<AggressiveAleProjectile>();
-			item.damage = 30;
+			Item.shootSpeed = 9f;
+			Item.shoot = ModContent.ProjectileType<AggressiveAleProjectile>();
+			Item.damage = 30;
 
-			item.noMelee = true;
-			item.thrown = true;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Throwing;
 
-			item.rare = ItemRarityID.Green;
+			Item.rare = ItemRarityID.Green;
 
-			item.value = 80;
+			Item.value = 80;
 		}
 
-		public override bool AltFunctionUse(Player player)
+        public override void HoldStyle(Player player, Rectangle heldItemFrame)
+        {
+            base.HoldStyle(player, heldItemFrame);
+        }
+
+        public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
@@ -58,37 +64,41 @@ namespace Highlander.Items.Weapons
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.useStyle = 2;
-				item.useTime = 17;
-				item.useAnimation = 17;
-				item.damage = 0;
-				item.shoot = 0;
-				item.ammo = 353;
-				item.notAmmo = true;
-				item.buffType = mod.BuffType("DrunkenAnger");
-				item.buffTime = 1800;
-				item.UseSound = SoundID.Item3;
+				Item.useStyle = ItemUseStyleID.EatFood;
+				Item.useTime = 17;
+				Item.useAnimation = 17;
+				Item.useTurn = true;
+				Item.damage = 0;
+				Item.shoot = 0;
+				Item.ammo = 353;
+				Item.notAmmo = true;
+				Item.buffType = ModContent.BuffType<DrunkenAnger>();
+				Item.buffTime = 1800;
+				Item.UseSound = SoundID.Item3;
 			}
 			else
 			{
-				item.useStyle = 1;
-				item.useTime = 15;
-				item.useAnimation = 15;
-				item.damage = 20;
-				item.shoot = ModContent.ProjectileType<AggressiveAleProjectile>();
-				item.ammo = 0;
-				item.notAmmo = false;
-				item.buffType = 0;
-				item.buffTime = 0;
-				item.UseSound = SoundID.Item1;
+				Item.useStyle = ItemUseStyleID.Swing;
+				Item.useTime = 15;
+				Item.useAnimation = 15;
+				Item.useTurn = false;
+				Item.damage = 20;
+				Item.shoot = ModContent.ProjectileType<AggressiveAleProjectile>();
+				Item.ammo = 0;
+				Item.notAmmo = false;
+				Item.buffType = 0;
+				Item.buffTime = 0;
+				Item.UseSound = SoundID.Item1;
 			}
 			return base.CanUseItem(player);
 		}
 
 		public override void HoldItem(Player player)
 		{
-			player.itemLocation.X = (float)(player.Center.X + 8 * player.direction);
-			player.itemLocation.Y = (float)(player.MountedCenter.Y + 11.0);
+			//player.itemLocation.X = (float)(player.Center.X + 8 * player.direction);
+			//player.itemLocation.Y = (float)(player.MountedCenter.Y + 11.0);
+			//player.itemLocation.Y = (float)(player.MountedCenter.Y + 3.0);
+			//player.itemLocation.X = 200;
 
 			Vector2 position = player.RotatedRelativePoint(new Vector2(player.itemLocation.X + 12f * player.direction + player.velocity.X, player.itemLocation.Y - 14f + player.velocity.Y), true);
 			Lighting.AddLight(position + player.velocity, 0.23f, 0.097f, 0.003f);

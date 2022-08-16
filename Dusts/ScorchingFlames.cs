@@ -12,7 +12,7 @@ namespace Highlander.Dusts
     class ScorchingFlames : ModDust
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
         }
 

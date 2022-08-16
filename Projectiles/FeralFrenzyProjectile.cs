@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Highlander.Dusts;
+using Terraria.Audio;
 
 namespace Highlander.Projectiles
 {
@@ -16,18 +17,19 @@ namespace Highlander.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			Main.projFrames[projectile.type] = 8;
+			Main.projFrames[Projectile.type] = 8;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 42;
-			projectile.height = 42;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.timeLeft = 20;
+			Projectile.width = 42;
+			Projectile.height = 42;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.timeLeft = 20;
+			Projectile.DamageType = DamageClass.Magic;
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -43,63 +45,63 @@ namespace Highlander.Projectiles
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(SoundID.Item53.WithPitchVariance(0.2f).WithVolume(0.6f), projectile.position);
-			projectile.velocity.Y = -oldVelocity.Y * 0.5f;
-			projectile.velocity.X = oldVelocity.X * 0.5f;
-			projectile.ai[1]++;
+			SoundEngine.PlaySound(SoundID.Item53 with { PitchVariance = 0.2f, Volume = 0.6f }, Projectile.position);
+			Projectile.velocity.Y = -oldVelocity.Y * 0.5f;
+			Projectile.velocity.X = oldVelocity.X * 0.5f;
+			Projectile.ai[1]++;
 			return false;
 		}
 
 		public override void AI()
 		{
-			projectile.velocity *= 0;
+			Projectile.velocity *= 0;
 
-			projectile.rotation = projectile.ai[0] + MathHelper.Pi;
+			Projectile.rotation = Projectile.ai[0] + MathHelper.Pi;
 
-			if(projectile.rotation < MathHelper.PiOver2 || projectile.rotation > 3 * MathHelper.PiOver2)
+			if(Projectile.rotation < MathHelper.PiOver2 || Projectile.rotation > 3 * MathHelper.PiOver2)
 			{
-				projectile.spriteDirection = 1;
+				Projectile.spriteDirection = 1;
 			}
 			else
 			{
-				projectile.spriteDirection = -1;
-				projectile.rotation -= MathHelper.Pi;
+				Projectile.spriteDirection = -1;
+				Projectile.rotation -= MathHelper.Pi;
 			}
 
-			if(projectile.frameCounter < 2)
+			if(Projectile.frameCounter < 2)
 			{
-				projectile.frame = 0;
+				Projectile.frame = 0;
 			}
-			else if(projectile.frameCounter < 4)
+			else if(Projectile.frameCounter < 4)
 			{
-				projectile.frame = 1;
+				Projectile.frame = 1;
 			}
-			else if (projectile.frameCounter < 6)
+			else if (Projectile.frameCounter < 6)
 			{
-				projectile.frame = 2;
+				Projectile.frame = 2;
 			}
-			else if (projectile.frameCounter < 10)
+			else if (Projectile.frameCounter < 10)
 			{
-				projectile.frame = 3;
+				Projectile.frame = 3;
 			}
-			else if (projectile.frameCounter < 12)
+			else if (Projectile.frameCounter < 12)
 			{
-				projectile.frame = 4;
+				Projectile.frame = 4;
 			}
-			else if (projectile.frameCounter < 14)
+			else if (Projectile.frameCounter < 14)
 			{
-				projectile.frame = 5;
+				Projectile.frame = 5;
 			}
-			else if (projectile.frameCounter < 16)
+			else if (Projectile.frameCounter < 16)
 			{
-				projectile.frame = 6;
+				Projectile.frame = 6;
 			}
-			else if (projectile.frameCounter < 18)
+			else if (Projectile.frameCounter < 18)
 			{
-				projectile.frame = 7;
+				Projectile.frame = 7;
 			}
 
-			projectile.frameCounter++;
+			Projectile.frameCounter++;
 		}
 
 		public override Color? GetAlpha(Color lightColor)

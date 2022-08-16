@@ -16,13 +16,13 @@ namespace Highlander.Items.SeaDog
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.defense = 1;
-			item.accessory = true;
-			item.value = Item.sellPrice(silver: 90);
-			item.rare = ItemRarityID.Expert;
-			item.expert = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.defense = 1;
+			Item.accessory = true;
+			Item.value = Item.sellPrice(silver: 90);
+			Item.rare = ItemRarityID.Expert;
+			Item.expert = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

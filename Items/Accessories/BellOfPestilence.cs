@@ -18,12 +18,12 @@ namespace Highlander.Items.Accessories
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.defense = 7;
-			item.accessory = true;
-			item.value = Item.sellPrice(gold: 1);
-			item.rare = ItemRarityID.Orange;
+			Item.width = 20;
+			Item.height = 20;
+			Item.defense = 7;
+			Item.accessory = true;
+			Item.value = Item.sellPrice(gold: 1);
+			Item.rare = ItemRarityID.Orange;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

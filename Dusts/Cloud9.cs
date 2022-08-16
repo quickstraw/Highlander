@@ -12,7 +12,7 @@ namespace Highlander.Dusts
     class Cloud9 : ModDust
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
         }
 

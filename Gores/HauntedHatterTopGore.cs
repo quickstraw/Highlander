@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
-namespace Highlander.NPCs.HauntedHatter
+namespace Highlander.Gores
 {
     class HauntedHatterTopGore : ModGore
     {
 
-        public override void OnSpawn(Gore gore)
+        public override void OnSpawn(Gore gore, IEntitySource source)
         {
             gore.numFrames = 1;
             gore.timeLeft = Gore.goreTime * 3;

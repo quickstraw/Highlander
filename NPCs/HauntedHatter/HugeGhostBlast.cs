@@ -16,37 +16,37 @@ namespace Highlander.NPCs.HauntedHatter
 
 		public override void SetStaticDefaults()
 		{
-			Main.projFrames[projectile.type] = 5;
+			Main.projFrames[Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 52;
-			projectile.height = 52;
-			projectile.hostile = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.alpha = 0;
-			projectile.timeLeft = 150;
+			Projectile.width = 52;
+			Projectile.height = 52;
+			Projectile.hostile = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 0;
+			Projectile.timeLeft = 150;
 		}
 
 		public override void AI()
 		{
 
 			// Loop through the 5 animation frames, spending 6 ticks on each.
-			if (++projectile.frameCounter >= 6)
+			if (++Projectile.frameCounter >= 6)
 			{
-				projectile.frameCounter = 0;
-				if (++projectile.frame >= 5)
+				Projectile.frameCounter = 0;
+				if (++Projectile.frame >= 5)
 				{
-					projectile.frame = 0;
+					Projectile.frame = 0;
 				}
 			}
 
 			float strength = 0.9f;
-			projectile.timeLeft--;
+			Projectile.timeLeft--;
 
-			Lighting.AddLight(projectile.position + projectile.velocity * 8, 0.15f * strength, 0.54f * strength, 0.31f * strength);
+			Lighting.AddLight(Projectile.position + Projectile.velocity * 8, 0.15f * strength, 0.54f * strength, 0.31f * strength);
 		}
 
 		// Shoots 8 projectiles when killed.
@@ -54,12 +54,14 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
+				var source = Projectile.GetSource_FromThis();
+
 				int type = ModContent.ProjectileType<GhostBlast>();
-				int damage = (int)(projectile.damage * 0.8333333f);
+				int damage = (int)(Projectile.damage * 0.8333333f);
 				var curr = forward;
 				for (int i = 0; i < 8; i++)
 				{
-					Projectile.NewProjectileDirect(projectile.Center, curr * 6, type, damage, 0.5f);
+					Projectile.NewProjectileDirect(source, Projectile.Center, curr * 6, type, damage, 0.5f);
 					curr = curr.RotatedBy(MathHelper.PiOver4);
 				}
 			}
@@ -74,7 +76,7 @@ namespace Highlander.NPCs.HauntedHatter
 		{
 			get
 			{
-				float rotation = projectile.rotation - MathHelper.PiOver2;
+				float rotation = Projectile.rotation - MathHelper.PiOver2;
 				Vector2 output = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				output.Normalize();
 				return output;

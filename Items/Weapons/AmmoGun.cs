@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Highlander.Common.Players;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
@@ -13,29 +14,27 @@ namespace Highlander.Items.Weapons
         private const byte MAX_AMMO = 5;
         public byte ammo;
 
-        public override ModItem Clone()
+        public override ModItem Clone(Item item)
         {
-            var clone = (AmmoGun)base.Clone();
+            var clone = (AmmoGun)base.Clone(item);
             clone.ammo = ammo;
             return clone;
         }
 
-		public override bool CloneNewInstances => true;
 
-
-		public override void ModifyTooltips(List<TooltipLine> tooltips)
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			TooltipLine line;
 			if (ammo <= 0)
 			{
 				ammo = 0;
-				line = new TooltipLine(mod, "AbnormalToolTip", "Ammo: " + ammo + "/" + MaxAmmo);
-				line.overrideColor = Color.PaleVioletRed;
+				line = new TooltipLine(Mod, "AbnormalToolTip", "Ammo: " + ammo + "/" + MaxAmmo);
+				line.OverrideColor = Color.PaleVioletRed;
 			}
 			else
 			{
-				line = new TooltipLine(mod, "AbnormalToolTip", "Ammo: " + ammo + "/" + MaxAmmo);
-				line.overrideColor = Color.LightGreen;
+				line = new TooltipLine(Mod, "AbnormalToolTip", "Ammo: " + ammo + "/" + MaxAmmo);
+				line.OverrideColor = Color.LightGreen;
 			}
 
 			tooltips.Add(line);
@@ -49,25 +48,22 @@ namespace Highlander.Items.Weapons
 			base.HoldItem(player);
 		}
 
-		public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
 		{
 			ammo = tag.GetByte("ammoLeft");
 		}
 
-		public override TagCompound Save()
-		{
-			return new TagCompound
-			{
-				{ "ammoLeft", ammo }
-			};
-		}
+        public override void SaveData(TagCompound tag)
+        {
+			tag["ammoLeft"] = ammo;
+        }
 
 		public override void NetSend(BinaryWriter writer)
 		{
 			writer.Write(ammo);
 		}
 
-		public override void NetRecieve(BinaryReader reader)
+		public override void NetReceive(BinaryReader reader)
 		{
 			ammo = reader.ReadByte();
 		}

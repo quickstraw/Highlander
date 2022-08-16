@@ -3,6 +3,7 @@ using Highlander.Items.HauntedHatter;
 using Highlander.Items.SeaDog;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -14,7 +15,7 @@ namespace Highlander.Tiles
     class BossTrophy : ModTile
     {
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -23,8 +24,8 @@ namespace Highlander.Tiles
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
-			dustType = 7;
-			disableSmartCursor = true;
+			DustType = 7;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Trophy");
 			AddMapEntry(new Color(120, 85, 60), name);
@@ -47,7 +48,8 @@ namespace Highlander.Tiles
 			}
 			if (item > 0)
 			{
-				Item.NewItem(i * 16, j * 16, 48, 48, item);
+				var source = new EntitySource_TileBreak(i, j);
+				Item.NewItem(source, i * 16, j * 16, 48, 48, item);
 			}
 		}
 

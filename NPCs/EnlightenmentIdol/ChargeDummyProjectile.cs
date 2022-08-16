@@ -18,15 +18,15 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
 		public override void SetDefaults()
 		{
-			projectile.width = 54;
-			projectile.height = 54;
-			projectile.hostile = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 3;
-			projectile.penetrate = 1;
-			projectile.scale = 0.8f;
-			projectile.alpha = 255;
+			Projectile.width = 54;
+			Projectile.height = 54;
+			Projectile.hostile = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 3;
+			Projectile.penetrate = 1;
+			Projectile.scale = 0.8f;
+			Projectile.alpha = 255;
 		}
 
 	}
