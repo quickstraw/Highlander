@@ -15,6 +15,7 @@ namespace Highlander.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
+			if (Main.netMode == NetmodeID.Server) return;
 			string tooltip = "";
 			try
 			{

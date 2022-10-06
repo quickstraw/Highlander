@@ -686,7 +686,7 @@ namespace Highlander.NPCs.HauntedHatter
                 goreVelocity.X = -3;
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.netMode != NetmodeID.Server)
             {
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, goreVelocity, Mod.Find<ModGore>("HauntedHatterTopGore").Type, 1f);
             }

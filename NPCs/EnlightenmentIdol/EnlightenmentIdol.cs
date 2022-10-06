@@ -1183,8 +1183,11 @@ namespace Highlander.NPCs.EnlightenmentIdol
                 {
                     try
                     {
-                        var source = NPC.GetSource_Death();
-                        var gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, Mod.Find<ModGore>("IdolGore" + i).Type, 1f);
+                        if(Main.netMode != NetmodeID.Server)
+                        {
+                            var source = NPC.GetSource_Death();
+                            var gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, Mod.Find<ModGore>("IdolGore" + i).Type, 1f);
+                        }
                     } catch (Exception e)
                     {
 
