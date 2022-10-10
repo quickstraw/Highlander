@@ -10,10 +10,11 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace Highlander.Items
 {
-    
+
     class AbnormalItem : ModItem
     {
         public override string Name => CurrentEffect != 0 ? "Unusual" + GetType().Name : GetType().Name;
@@ -125,6 +126,21 @@ namespace Highlander.Items
 
         protected void PlayAbnormalEffect(Player player)
         {
+        }
+
+        protected void LocalizeDisplayName()
+        {
+            if (CurrentEffect != 0)
+            {
+                string name = "" + CurrentEffect;
+                name = Language.GetTextValue("Mods.Highlander.Prefix.Unusual");
+                name = name + " " + Language.GetTextValue("Mods.Highlander.Hats."+GetType().Name);
+                DisplayName.SetDefault(name);
+            }
+            else
+            {
+                DisplayName.SetDefault(Language.GetTextValue("Mods.Highlander.Hats." + GetType().Name));
+            }
         }
     }
 }

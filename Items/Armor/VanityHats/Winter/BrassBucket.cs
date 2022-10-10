@@ -28,6 +28,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
+            LocalizeDisplayName();
             ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
 

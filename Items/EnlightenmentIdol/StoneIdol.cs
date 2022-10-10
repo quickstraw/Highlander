@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Highlander.Items.EnlightenmentIdol
@@ -14,8 +15,8 @@ namespace Highlander.Items.EnlightenmentIdol
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone Idol");
-            Tooltip.SetDefault("Summons the Idol of Enlightenment");
+            DisplayName.SetDefault(Language.GetTextValue("Mods.Highlander.ItemName.EnlightenmentIdol." + GetType().Name));
+            Tooltip.SetDefault(Language.GetTextValue("Mods.Highlander.ItemTooltip.EnlightenmentIdol." + GetType().Name));
         }
 
         public override void SetDefaults()

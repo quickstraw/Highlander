@@ -27,18 +27,7 @@ namespace Highlander.Items.Armor.Halloween
 
         public override void SetStaticDefaults()
         {
-            if (CurrentEffect != 0)
-            {
-                string name = "" + CurrentEffect;
-                //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
-                name = "Unusual";
-                name = name + " One-Way Ticket";
-                DisplayName.SetDefault(name);
-            }
-            else
-            {
-                DisplayName.SetDefault("One-Way Ticket");
-            }
+            LocalizeDisplayName();
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 

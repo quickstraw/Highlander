@@ -27,18 +27,7 @@ namespace Highlander.Items.Armor.VanityHats.Series2
 
         public override void SetStaticDefaults()
         {
-            if (CurrentEffect != 0)
-            {
-                string name = "" + CurrentEffect;
-                //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
-                name = "Unusual";
-                name = name + " Surgeon's Stahlhelm";
-                DisplayName.SetDefault(name);
-            }
-            else
-            {
-                DisplayName.SetDefault("Surgeon's Stahlhelm");
-            }
+            LocalizeDisplayName();
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 

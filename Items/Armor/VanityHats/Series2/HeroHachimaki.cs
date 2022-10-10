@@ -27,18 +27,7 @@ namespace Highlander.Items.Armor.VanityHats.Series2
 
         public override void SetStaticDefaults()
         {
-            if (CurrentEffect != 0)
-            {
-                string name = "" + CurrentEffect;
-                //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
-                name = "Unusual";
-                name = name + " Hero's Hachimaki";
-                DisplayName.SetDefault(name);
-            }
-            else
-            {
-                DisplayName.SetDefault("Hero's Hachimaki");
-            }
+            LocalizeDisplayName();
             ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
         }
 

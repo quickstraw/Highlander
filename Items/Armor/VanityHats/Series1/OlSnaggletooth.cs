@@ -23,19 +23,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            if (CurrentEffect != 0)
-            {
-                string name = "" + CurrentEffect;
-                //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
-                name = "Unusual";
-                name = name + " Ol' Snaggletooth";
-                DisplayName.SetDefault(name);
-            }
-            else
-            {
-                DisplayName.SetDefault("Ol' Snaggletooth");
-            }
-            //Tooltip.SetDefault("Made from a genuine crocodile.");
+            LocalizeDisplayName();
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 

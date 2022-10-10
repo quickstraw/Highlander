@@ -3,11 +3,16 @@ using static Terraria.ModLoader.ModContent;
 using Terraria.ID;
 using Highlander.Tiles;
 using Terraria;
+using Terraria.Localization;
 
 namespace Highlander.Items.EnlightenmentIdol
 {
     class EnlightenmentIdolTrophy : ModItem
 	{
+        public override void SetStaticDefaults()
+        {
+			DisplayName.SetDefault(Language.GetTextValue("Mods.Highlander.ItemName.EnlightenmentIdol." + GetType().Name));
+		}
 		public override void SetDefaults()
 		{
 			Item.width = 30;

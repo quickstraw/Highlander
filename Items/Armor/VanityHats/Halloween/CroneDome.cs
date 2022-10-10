@@ -28,18 +28,7 @@ namespace Highlander.Items.Armor.Halloween
 
         public override void SetStaticDefaults()
         {
-            if (CurrentEffect != 0)
-            {
-                string name = "" + CurrentEffect;
-                //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
-                name = "Unusual";
-                name = name + " Crone's Dome";
-                DisplayName.SetDefault(name);
-            }
-            else
-            {
-                DisplayName.SetDefault("Crone's Dome");
-            }
+            LocalizeDisplayName();
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 

@@ -22,7 +22,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            //Tooltip.SetDefault("Your head will smell delicious.");
+            LocalizeDisplayName();
         }
 
         public override void SetDefaults()

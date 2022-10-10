@@ -26,11 +26,24 @@ Mods: {
 		}
 		
 		ItemTooltip: {
-			
+			EnlightenmentIdol: {
+				BlitzFist: Can pull things to you or push them away
+				CommanderBlessing: Summons a massive fist
+				DivinePresence: Nearby players on your team receive a defense bonus and a slight attack bonus
+				StoneIdol: Summons the Idol of Enlightenment
+			}
 		}
 		
 		ItemName: {
-			
+			EnlightenmentIdol: {
+				BlitzFist: Blitz Fist
+				CommanderBlessing: Commander's Blessing
+				DivinePresence: Divine Presence
+				EnlightenedMask: Enlightened Mask
+				EnlightenmentIdolBag: Enlightenment Idol Bag
+				EnlightenmentIdolTrophy: Enlightenment Idol Trophy
+				StoneIdol: Stone Idol
+			}
 		}
 		
 		ProjectileName: {
@@ -58,7 +71,70 @@ Mods: {
 		}
 
 		Prefix: {
-			
+			Unusual: Unusual
+		}
+
+		# Includes unused hats.
+		Hats: {
+			# Series 1
+			Anger: Anger
+			HongKongCone: Hong Kong Cone
+			Hotrod: Hotrod
+			KillerExclusive: Killer Exclusive
+			LegendaryLid: Legendary Lid
+			OlSnaggletooth: Ol' Snaggletooth
+			PithyProfessional: Pithy Professional
+			PyromancerMask: Pyromancer Mask
+			SamurEye: Samur-Eye
+			StainlessPot: Stainless Pot
+			StoutShako: Stout Shako
+			TeamCaptain: Team Captain
+			# Series 2
+			BackwardsBallcap: Backwards Ballcap
+			ConjurerCowl: Conjurer's Cowl
+			DeadCone: Dead Cone
+			FrontRunner: Front Runner
+			FruitShoot: FruitShoot
+			FuriousFukaamigasa: Furious Fukaamigasa
+			HeroHachimaki: Hero's Hachimaki
+			HotDogger: Hot Dogger
+			JanissaryKetche: Janissary Ketche
+			Law: Law
+			MediMask: Medi-Mask
+			SurgeonStahlhelm: Surgeon's Stahlhelm
+			ToughStuffMuffs: Tough Stuff Muffs
+			# Winter
+			BombBeanie: Bomb Beanie
+			BrassBucket: Brass Bucket
+			ColdfrontCommander: Coldfront Commander
+			CondorCap: Condor Cap
+			GlobeTrotter: Globe Trotter
+			MightyMitre: Mighty Mitre
+			PatriotPeak: Patriot Peak
+			SinnerShade: Sinner Shade
+			SurgeonShako: Surgeon Shako
+			TartanTyrolean: Tartan Tyrolean
+			ToySoldier: Toy Soldier
+			# Halloween
+			CroneDome: Crone's Dome
+			Executioner: Executioner
+			Hellmet: Hellmet
+			InfernalImpaler: Infernal Impaler
+			MacabreMask: Macabre Mask
+			OneWayTicket: One-Way Ticket
+			SearedSorcerer: Seared Sorcerer
+			SirPumpkinton: Sir Pumpkinton
+			# OC Hats
+			AutonomousOrb: Autonomous Orb
+			BloodWarriorMask: Blood Warrior Mask
+			GuerrillaRebel: Guerrilla Rebel
+			Headless: Headless
+			ImpregnableHelm: Impregnable Helm
+			MedicalMask: Medical Mask
+			NinjaHeadband: Ninja Headband
+			OpenMind: Open Mind
+			PaperBag: Paper Bag
+			SkiMask: Ski Mask
 		}
 		
 		#This is what displays during all of an NPC's happiness levels. Note that the localization key for these should always be "TownNPCMood.*NPCName*.*Mood*" or else it won't display properly.

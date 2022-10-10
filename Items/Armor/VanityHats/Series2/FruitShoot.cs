@@ -27,6 +27,7 @@ namespace Highlander.Items.Armor.VanityHats.Series2
 
         public override void SetStaticDefaults()
         {
+            LocalizeDisplayName();
             ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
         }
 

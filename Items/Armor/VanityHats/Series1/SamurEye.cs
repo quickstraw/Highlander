@@ -22,20 +22,7 @@ namespace Highlander.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            if(CurrentEffect != 0)
-            {
-                string name = "" + CurrentEffect;
-                //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
-                name = "Unusual";
-                name = name + " Samur-Eye";
-                DisplayName.SetDefault(name);
-            }
-            else
-            {
-                DisplayName.SetDefault("Samur-Eye");
-            }
-
-            //Tooltip.SetDefault("Favorite of a one-eyed Eastern swordsman.");
+            LocalizeDisplayName();
         }
 
         public override void SetDefaults()

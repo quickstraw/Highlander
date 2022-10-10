@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
@@ -12,7 +13,8 @@ namespace Highlander.Items.EnlightenmentIdol
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Nearby players on your team receive a defense bonus and a slight attack bonus");
+			DisplayName.SetDefault(Language.GetTextValue("Mods.Highlander.ItemName.EnlightenmentIdol." + GetType().Name));
+			Tooltip.SetDefault(Language.GetTextValue("Mods.Highlander.ItemTooltip.EnlightenmentIdol." + GetType().Name));
 		}
 
 		public override void SetDefaults()

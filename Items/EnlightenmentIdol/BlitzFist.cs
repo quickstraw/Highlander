@@ -1,13 +1,20 @@
 ﻿using Highlander.Projectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Highlander.Items.EnlightenmentIdol
 {
 	public class BlitzFist : ModItem
 	{
-		public override void SetDefaults()
+        public override void SetStaticDefaults()
+        {
+			DisplayName.SetDefault(Language.GetTextValue("Mods.Highlander.ItemName.EnlightenmentIdol." + GetType().Name));
+			Tooltip.SetDefault(Language.GetTextValue("Mods.Highlander.ItemTooltip.EnlightenmentIdol." + GetType().Name));
+		}
+
+        public override void SetDefaults()
 		{
 			Item.width = 22;
 			Item.height = 20;

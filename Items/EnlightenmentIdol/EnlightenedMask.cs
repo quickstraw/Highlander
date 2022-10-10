@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace Highlander.Items.EnlightenmentIdol
 {
@@ -20,6 +21,7 @@ namespace Highlander.Items.EnlightenmentIdol
 
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault(Language.GetTextValue("Mods.Highlander.ItemName.EnlightenmentIdol." + GetType().Name));
             ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
 
