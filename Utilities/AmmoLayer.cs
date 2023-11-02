@@ -18,7 +18,7 @@ namespace Highlander.Utilities
     {
         public override Position GetDefaultPosition()
         {
-            return new Between(PlayerDrawLayers.EyebrellaCloud, PlayerDrawLayers.BeetleBuff);
+            return new AfterParent(PlayerDrawLayers.EyebrellaCloud);
         }
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
