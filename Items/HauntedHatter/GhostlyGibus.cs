@@ -1,14 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using static Terraria.ModLoader.ModContent;
 using Terraria.ID;
 
 namespace Highlander.Items.HauntedHatter

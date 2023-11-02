@@ -1,18 +1,12 @@
 ﻿using Highlander.Buffs;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace Highlander.Items.SeaDog
 {
-	public class BarnacleBarrier : ModItem
+    public class BarnacleBarrier : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			//Tooltip.SetDefault("Gain a defense bonus for your first 100 health");
-		}
 
 		public override void SetDefaults()
 		{

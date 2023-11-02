@@ -1,0 +1,8 @@
+Recent Changes:
+1.5.0.0 - Split of the hats from this mod and put them into Hat Simulator. Updated the mod to 1.4.4. Updated to new localization changes.
+
+1.4.5.11 - Fixed some errors in multiplayer mode including the Haunted Hatter being despawned.
+1.4.5.10 - Updated obsolete code to maintain compatibility with future tModloader updates.
+1.4.5.9 - Moved recipes to their own ModSystem.
+1.4.5.8 - Fixed Unusuals and fixed sounds again.
+1.4.5.7 - Updated the mod sounds due to the latest tModloader update. Updated Adventurer's Pike sprites.

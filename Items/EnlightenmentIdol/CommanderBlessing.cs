@@ -8,12 +8,6 @@ namespace Highlander.Items.EnlightenmentIdol
 	public class CommanderBlessing : ModItem
 	{
 
-		public override void SetStaticDefaults()
-		{
-			//DisplayName.SetDefault("Commander's Blessing");
-			//Tooltip.SetDefault("Summons a massive fist");
-		}
-
 		public override void SetDefaults()
 		{
 			Item.width = 22;

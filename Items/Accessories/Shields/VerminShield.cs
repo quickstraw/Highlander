@@ -8,10 +8,6 @@ namespace Highlander.Items.Accessories.Shields
 	[AutoloadEquip(EquipType.Shield)]
 	public class VerminShield : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			//Tooltip.SetDefault("");
-		}
 
 		public override void SetDefaults()
 		{

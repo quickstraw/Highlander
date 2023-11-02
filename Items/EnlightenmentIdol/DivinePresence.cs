@@ -3,17 +3,12 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace Highlander.Items.EnlightenmentIdol
 {
-	[AutoloadEquip(EquipType.Back)]
+    [AutoloadEquip(EquipType.Back)]
 	public class DivinePresence : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			//Tooltip.SetDefault("Nearby players on your team receive a defense bonus and a slight attack bonus");
-		}
 
 		public override void SetDefaults()
 		{

@@ -1,0 +1,321 @@
+Keybinds.Action.DisplayName: Action
+
+Buffs: {
+	BarnacleBarrierBuff: {
+		DisplayName: Barnacle Barrier
+		Description: Defense is increased by 6
+	}
+
+	BellOfPestilenceBuff: {
+		DisplayName: Bell of Pestilence
+		Description: Melee attacks have a chance to poison enemies
+	}
+
+	Bleed: {
+		DisplayName: Bleeding
+		Description: Damage over time
+	}
+
+	DivinePresenceBuff: {
+		DisplayName: Divine Presence
+		Description: Defense is increased by 4 and damage by 3%
+	}
+
+	DrunkenAnger: {
+		DisplayName: Tipsy
+		Description: Increased throwing abilities, lowered defense
+	}
+
+	Pain: {
+		DisplayName: Pain
+		Description: Damage over time, movement slowed
+	}
+
+	PiercedArmor: {
+		DisplayName: Pierced Armor
+		Description: Defense is lowered by 4
+	}
+
+	SeaChampionBarrierBuff: {
+		DisplayName: Sea Champion's Barrier
+		Description: Defense is increased by 10
+	}
+}
+
+Items: {
+	BellOfPestilence: {
+		DisplayName: Bell Of Pestilence
+		Tooltip: Melee attacks have a chance to poison enemies
+	}
+
+	OldFlareDispenser: {
+		DisplayName: Old Flare Dispenser
+		Tooltip: Press {0} to throw a flare
+	}
+
+	SeaChampionBarrier: {
+		DisplayName: Sea Champion's Barrier
+		Tooltip:
+			'''
+			Gain a defense bonus for your first 150 health
+			Enemies are more likely to target you
+			'''
+	}
+
+	VerminShield: {
+		DisplayName: Vermin Shield
+		Tooltip: ""
+	}
+
+	BlitzFist: {
+		DisplayName: Blitz Fist
+		Tooltip: ""
+	}
+
+	CommanderBlessing: {
+		DisplayName: Commander's Blessing
+		Tooltip: Summons a massive fist
+	}
+
+	DivinePresence: {
+		DisplayName: Divine Presence
+		Tooltip: Nearby players on your team receive a defense bonus and a slight attack bonus
+	}
+
+	EnlightenedMask: {
+		DisplayName: Enlightened Mask
+		Tooltip: ""
+	}
+
+	EnlightenmentIdolBag: {
+		DisplayName: Enlightenment Idol Bag
+		Tooltip: ""
+	}
+
+	EnlightenmentIdolTrophy: {
+		DisplayName: Enlightenment Idol Trophy
+		Tooltip: ""
+	}
+
+	StoneIdol: {
+		DisplayName: Stone Idol
+		Tooltip: Summons the Idol of Enlightenment
+	}
+
+	EnchantedNeedleHook: {
+		DisplayName: Enchanted Needle Hook
+		Tooltip: ""
+	}
+
+	GhostlyGibus: {
+		DisplayName: Ghostly Gibus
+		Tooltip: ""
+	}
+
+	HauntedHatterBag: {
+		DisplayName: Haunted Hatter Bag
+		Tooltip: ""
+	}
+
+	HauntedHatterMask: {
+		DisplayName: Haunted Hatter Mask
+		Tooltip: Mask worn by a familiar hatter
+	}
+
+	HauntedHatterTrophy: {
+		DisplayName: Haunted Hatter Trophy
+		Tooltip: ""
+	}
+
+	SpiritShears: {
+		DisplayName: Spirit Shears
+		Tooltip: Perfect size for stabbing
+	}
+
+	SpookyHeadwear: {
+		DisplayName: Spooky Headwear
+		Tooltip: Summons the Haunted Hatter
+	}
+
+	BarnacleBarrier: {
+		DisplayName: Barnacle Barrier
+		Tooltip: Gain a defense bonus for your first 100 health
+	}
+
+	BrokenBlunderbuss: {
+		DisplayName: Broken Blunderbuss
+		Tooltip: Can be repaired with a musket or The Undertaker
+	}
+
+	FeralFrenzy: {
+		DisplayName: Feral Frenzy
+		Tooltip: Casts a slashing claw
+	}
+
+	GlowingTreasure: {
+		DisplayName: Glowing Treasure
+		Tooltip: Summons the Sea Dog
+	}
+
+	SeaDogBag: {
+		DisplayName: Sea Dog Bag
+		Tooltip: ""
+	}
+
+	SeaDogMask: {
+		DisplayName: Sea Dog Mask
+		Tooltip: ""
+	}
+
+	SeaDogTrophy: {
+		DisplayName: Sea Dog Trophy
+		Tooltip: ""
+	}
+
+	TrustyBlunderbuss: {
+		DisplayName: Trusty Blunderbuss
+		Tooltip: Couldn't hit the broad side of a barn
+	}
+
+	AdventurerPike: {
+		DisplayName: Adventurer's Pike
+		Tooltip: Long reach has trouble hitting close enemies but deals more damage to bosses
+	}
+
+	AggressiveAle: {
+		DisplayName: Aggressive Ale
+		Tooltip: "'Ale for throwing or for fun!'"
+	}
+
+	AncientStoneBlaster: {
+		DisplayName: Ancient Stone Blaster
+		Tooltip: Receives higher damage bonuses from better ammo
+	}
+
+	BuccaneerBlaster: {
+		DisplayName: Buccaneer's Blaster
+		Tooltip: Couldn't hit the broad side of a barn
+	}
+
+	ChariotWhip: {
+		DisplayName: Chariot's Whip
+		Tooltip:
+			'''
+			Slashes bleed enemies
+			Lunges deal extra damage.
+			'''
+	}
+
+	DeadEyeDuster: {
+		DisplayName: Dead Eye Duster
+		Tooltip:
+			'''
+			Receives higher damage bonuses from better ammo
+			Fires Ricochet Bullets
+			'''
+	}
+
+	GreatPike: {
+		DisplayName: Great Pike
+		Tooltip: Long reach has trouble hitting close enemies but deals more damage to bosses
+	}
+
+	RoninLongYari: {
+		DisplayName: Ronin Long Yari
+		Tooltip: Long reach has trouble hitting close enemies but deals more damage to bosses
+	}
+
+	RoyalClaw: {
+		DisplayName: Royal Claw
+		Tooltip:
+			'''
+			Inflicts pain upon enemies
+			Long reach has trouble hitting close enemies but deals more damage to bosses
+			'''
+	}
+
+	VerminSpear: {
+		DisplayName: Vermin Spear
+		Tooltip: Crits on poisoned targets
+	}
+}
+
+NPCs: {
+	Arm.DisplayName: Fist of the Idol
+	EnlightenmentIdol.DisplayName: Idol of Enlightenment
+	HauntedHatter.DisplayName: Haunted Hatter
+	NeedleWormBody.DisplayName: Needle Worm
+	NeedleWormExtension.DisplayName: Needle Worm
+	NeedleWormHead.DisplayName: Needle Worm
+	NeedleWormTail.DisplayName: Needle Worm
+	SeaDog.DisplayName: Sea Dog
+	ArmoredVermin.DisplayName: Stormvermin
+	BlightedVermin.DisplayName: Clanrat
+	BlightedVerminFanatic.DisplayName: Plague Monk
+
+	VeteranExplorer: {
+		DisplayName: Conquistador
+
+		TownNPCMood: {
+			Content: It's pretty quiet out here.
+			NoHome: I'd like to settle down in a house.
+			LoveSpace: I love the vast expanse!
+			FarFromHome: I gave up exploring long ago. I want to go home.
+			DislikeCrowded: The others are too loud! Get me away from them.
+			HateCrowded: I can't stand having so many people around!
+			LikeBiome: "{BiomeName} is fun to wander around in."
+			LoveBiome: I love {BiomeName}. It reminds me of the good times.
+			DislikeBiome: It's too dark and too damp in {BiomeName}. I don't like it.
+			HateBiome: "{BiomeName} is too much... Even for me."
+			LikeNPC: I want to learn the ways of {NPCName}.
+			LoveNPC: I think I can show {NPCName} a few tricks of the trade.
+			DislikeNPC: '''"{NPCName} keeps me up with his loud contraptions!"... I just wish he could give it a rest."'''
+			HateNPC: I hate all the loud noises caused by {NPCName} and his explosives! I just want peace and quiet.
+			LikeNPC_Princess: I like {NPCName}.
+			Princess_LovesNPC: I like {NPCName}.
+		}
+	}
+}
+
+Projectiles: {
+	EnchantedNeedleProjectile.DisplayName: Enchanted Needle
+	ChargeDummyProjectile.DisplayName: Cleansing Wave
+	TriangleBlast.DisplayName: Triangle Blast
+	EnchantedYarn.DisplayName: Enchanted Yarn
+	GhostBlast.DisplayName: Ghost Blast
+	GhostBlastCharge.DisplayName: Ghost Blast
+	HugeGhostBlast.DisplayName: Huge Ghost Blast
+	HugeGhostBlastCharge.DisplayName: Huge Ghost Blast
+	SewingNeedle.DisplayName: Sewing Needle
+	SeaDogProjectile.DisplayName: Sea Dog's Powder Keg
+	BlightedVerminSpear.DisplayName: Vermin Spear
+	AdventurerPikeProjectile.DisplayName: Adventurer's Pike
+	AggressiveAleProjectile.DisplayName: Aggressive Ale
+	ArmProjectile.DisplayName: Fist of the Idol
+	BlitzFistAltProjectile.DisplayName: Blitz Fist
+	BlitzFistProjectile.DisplayName: Blitz Fist
+	RicochetingBullet.DisplayName: Ricocheting Bullet
+	TargetBullet.DisplayName: Target Bullet
+	ChariotWhipProjectile.DisplayName: Chariot's Whip
+	FlareProjectile.DisplayName: Flare
+	FeralFrenzyProjectile.DisplayName: Feral Frenzy
+	GreatPikeProjectile.DisplayName: Great Pike
+	MiniCannonball.DisplayName: Mini Cannonball
+	RoninLongYariProjectile.DisplayName: Ronin Long Yari
+	RoyalClawProjectile.DisplayName: Royal Claw
+	VerminSpearProjectile.DisplayName: Vermin Spear
+	SpiritShearsProjectile.DisplayName: Spirit Shears
+}
+
+Configs: {
+	HighlanderClientConfig: {
+		DisplayName: Highlander Client Config
+
+		AlternateGunUI: {
+			Label: Alternate Gun UI
+			Tooltip: Use an improved version of the old gun ammo ui.
+		}
+	}
+
+	HighlanderConfig.DisplayName: Highlander Config
+}

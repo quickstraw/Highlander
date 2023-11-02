@@ -1,9 +1,4 @@
 ﻿using Highlander.Projectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,11 +8,6 @@ namespace Highlander.Items.HauntedHatter
 {
     class SpiritShears : ModItem
     {
-
-		public override void SetStaticDefaults()
-		{
-			//Tooltip.SetDefault("Perfect size for stabbing.");
-		}
 
 		public override void SetDefaults()
 		{

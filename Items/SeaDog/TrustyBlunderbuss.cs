@@ -4,17 +4,11 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Items.SeaDog
 {
     class TrustyBlunderbuss : ModItem
     {
-
-		public override void SetStaticDefaults()
-		{
-			//Tooltip.SetDefault("Couldn't hit the broad side of a barn");
-		}
 
 		public override void SetDefaults()
 		{

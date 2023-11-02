@@ -14,8 +14,6 @@ namespace Highlander.Buffs
 
 		public override void SetStaticDefaults()
 		{
-			//DisplayName.SetDefault("Barnacle Barrier");
-			//Description.SetDefault("Defense is increased by 6");
 			Main.debuff[Type] = false;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = true;

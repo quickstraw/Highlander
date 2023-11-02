@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,12 +6,6 @@ namespace Highlander.Items.SeaDog
 {
     class GlowingTreasure : ModItem
     {
-
-        public override void SetStaticDefaults()
-        {
-            //DisplayName.SetDefault("Glowing Treasure");
-            //Tooltip.SetDefault("Summons the Sea Dog");
-        }
 
         public override void SetDefaults()
         {

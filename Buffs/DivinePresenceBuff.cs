@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,8 +9,6 @@ namespace Highlander.Buffs
 
 		public override void SetStaticDefaults()
 		{
-			//DisplayName.SetDefault("Divine Presence");
-			//Description.SetDefault("Defense is increased by 4 and damage by 3%");
 			Main.debuff[Type] = false;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = true;
