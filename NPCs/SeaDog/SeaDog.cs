@@ -24,7 +24,7 @@ namespace Highlander.NPCs.SeaDog
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 14; // make sure to set this for your modnpcs.
-            DisplayName.SetDefault("Sea Dog");
+            //DisplayName.SetDefault("Sea Dog");
         }
 
         public override void SetDefaults()

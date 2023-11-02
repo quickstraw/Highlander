@@ -12,7 +12,7 @@ namespace Highlander.Items.EnlightenmentIdol
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Nearby players on your team receive a defense bonus and a slight attack bonus");
+			//Tooltip.SetDefault("Nearby players on your team receive a defense bonus and a slight attack bonus");
 		}
 
 		public override void SetDefaults()

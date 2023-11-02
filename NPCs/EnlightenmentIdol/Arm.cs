@@ -29,7 +29,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 		public override void SetStaticDefaults()
 		{
 			Main.npcFrameCount[NPC.type] = 2; // make sure to set this for your modnpcs.
-			DisplayName.SetDefault("Fist of the Idol");
+			//DisplayName.SetDefault("Fist of the Idol");
 		}
 
 		public override void SetDefaults()

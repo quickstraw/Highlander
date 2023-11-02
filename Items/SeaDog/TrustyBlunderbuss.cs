@@ -13,7 +13,7 @@ namespace Highlander.Items.SeaDog
 
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Couldn't hit the broad side of a barn");
+			//Tooltip.SetDefault("Couldn't hit the broad side of a barn");
 		}
 
 		public override void SetDefaults()

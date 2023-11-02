@@ -18,8 +18,8 @@ namespace Highlander.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ancient Stone Blaster");
-			Tooltip.SetDefault("Receives higher damage bonuses from better ammo");
+			//DisplayName.SetDefault("Ancient Stone Blaster");
+			//Tooltip.SetDefault("Receives higher damage bonuses from better ammo");
 		}
 
 

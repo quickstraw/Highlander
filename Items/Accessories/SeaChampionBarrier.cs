@@ -12,8 +12,8 @@ namespace Highlander.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sea Champion's Barrier");
-			Tooltip.SetDefault("Gain a defense bonus for your first 150 health\nEnemies are more likely to target you");
+			//DisplayName.SetDefault("Sea Champion's Barrier");
+			//Tooltip.SetDefault("Gain a defense bonus for your first 150 health\nEnemies are more likely to target you");
 		}
 
 		public override void SetDefaults()

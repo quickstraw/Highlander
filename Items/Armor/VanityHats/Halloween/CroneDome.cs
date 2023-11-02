@@ -34,11 +34,11 @@ namespace Highlander.Items.Armor.Halloween
                 //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
                 name = "Unusual";
                 name = name + " Crone's Dome";
-                DisplayName.SetDefault(name);
+                //DisplayName.SetDefault(name);
             }
             else
             {
-                DisplayName.SetDefault("Crone's Dome");
+                //DisplayName.SetDefault("Crone's Dome");
             }
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }

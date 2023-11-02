@@ -29,7 +29,7 @@ namespace Highlander.Projectiles
 		public override void SetStaticDefaults()
 		{
 			Main.projFrames[Projectile.type] = 2;
-			DisplayName.SetDefault("Fist of the Idol");
+			//DisplayName.SetDefault("Fist of the Idol");
 		}
 
 		public override void SetDefaults()

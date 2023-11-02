@@ -16,8 +16,8 @@ namespace Highlander.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Adventurer's Pike");
-			Tooltip.SetDefault("Long reach has trouble hitting close enemies but deals more damage to bosses");
+			//DisplayName.SetDefault("Adventurer's Pike");
+			//Tooltip.SetDefault("Long reach has trouble hitting close enemies but deals more damage to bosses");
 		}
 
 		public override void SetDefaults()

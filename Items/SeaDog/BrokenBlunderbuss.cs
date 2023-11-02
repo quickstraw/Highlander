@@ -14,8 +14,8 @@ namespace Highlander.Items.SeaDog
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Broken Blunderbuss");
-            Tooltip.SetDefault("Can be repaired with a musket or The Undertaker");
+            //DisplayName.SetDefault("Broken Blunderbuss");
+            //Tooltip.SetDefault("Can be repaired with a musket or The Undertaker");
         }
 
         public override void SetDefaults()

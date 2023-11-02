@@ -14,8 +14,8 @@ namespace Highlander.Items.SeaDog
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Glowing Treasure");
-            Tooltip.SetDefault("Summons the Sea Dog");
+            //DisplayName.SetDefault("Glowing Treasure");
+            //Tooltip.SetDefault("Summons the Sea Dog");
         }
 
         public override void SetDefaults()

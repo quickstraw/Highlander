@@ -23,8 +23,8 @@ namespace Highlander.Items.LockBoxes
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hat Lock Box #2");
-            Tooltip.SetDefault("Right Click to open\nRequires a Hat Key");
+            //DisplayName.SetDefault("Hat Lock Box #2");
+            //Tooltip.SetDefault("Right Click to open\nRequires a Hat Key");
         }
 
         public override void SetDefaults()

@@ -16,8 +16,8 @@ namespace Highlander.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Royal Claw");
-			Tooltip.SetDefault("Inflicts pain upon enemies\nLong reach has trouble hitting close enemies but deals more damage to bosses");
+			//DisplayName.SetDefault("Royal Claw");
+			//Tooltip.SetDefault("Inflicts pain upon enemies\nLong reach has trouble hitting close enemies but deals more damage to bosses");
 		}
 
 		public override void SetDefaults()

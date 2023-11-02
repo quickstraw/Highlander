@@ -14,8 +14,8 @@ namespace Highlander.Buffs
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Divine Presence");
-			Description.SetDefault("Defense is increased by 4 and damage by 3%");
+			//DisplayName.SetDefault("Divine Presence");
+			//Description.SetDefault("Defense is increased by 4 and damage by 3%");
 			Main.debuff[Type] = false;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = true;

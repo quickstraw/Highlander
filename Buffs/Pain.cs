@@ -17,8 +17,8 @@ namespace Highlander.Buffs
 		public override void SetStaticDefaults()
 		{
 			timer = 0;
-			DisplayName.SetDefault("Pain");
-			Description.SetDefault("Damage over time, movement slowed");
+			//DisplayName.SetDefault("Pain");
+			//Description.SetDefault("Damage over time, movement slowed");
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = false;
@@ -38,7 +38,7 @@ namespace Highlander.Buffs
 		{
 			if (timer % 12 == 0)
 			{
-				npc.StrikeNPCNoInteraction(1, 6.0f, 0);
+				npc.SimpleStrikeNPC(1, 0, knockBack: 6.0f);
 				if (npc.velocity.Y < 0)
 				{
 					if (!npc.boss)

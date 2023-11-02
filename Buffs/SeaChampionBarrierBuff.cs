@@ -14,8 +14,8 @@ namespace Highlander.Buffs
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sea Champion's Barrier");
-			Description.SetDefault("Defense is increased by 10");
+			//DisplayName.SetDefault("Sea Champion's Barrier");
+			//Description.SetDefault("Defense is increased by 10");
 			Main.debuff[Type] = false;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = true;

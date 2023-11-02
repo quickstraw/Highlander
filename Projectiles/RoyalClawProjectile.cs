@@ -17,7 +17,7 @@ namespace Highlander.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Royal Claw");
+			//DisplayName.SetDefault("Royal Claw");
 		}
 
 		public override void SetDefaults()

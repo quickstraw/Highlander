@@ -14,8 +14,8 @@ namespace Highlander.Buffs
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pierced Armor");
-			Description.SetDefault("Defense is lowered by 4");
+			//DisplayName.SetDefault("Pierced Armor");
+			//Description.SetDefault("Defense is lowered by 4");
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = false;

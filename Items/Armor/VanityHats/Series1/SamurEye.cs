@@ -28,11 +28,11 @@ namespace Highlander.Items.Armor
                 //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
                 name = "Unusual";
                 name = name + " Samur-Eye";
-                DisplayName.SetDefault(name);
+                //DisplayName.SetDefault(name);
             }
             else
             {
-                DisplayName.SetDefault("Samur-Eye");
+                //DisplayName.SetDefault("Samur-Eye");
             }
 
             //Tooltip.SetDefault("Favorite of a one-eyed Eastern swordsman.");

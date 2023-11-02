@@ -14,8 +14,8 @@ namespace Highlander.Buffs
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tipsy");
-			Description.SetDefault("Increased throwing abilities, lowered defense");
+			//DisplayName.SetDefault("Tipsy");
+			//Description.SetDefault("Increased throwing abilities, lowered defense");
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = false;

@@ -27,8 +27,8 @@ namespace Highlander.Items.HauntedHatter
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            //DisplayName.SetDefault("Treasure Bag");
+            //Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
             ItemID.Sets.BossBag[Item.type] = true;
             ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = IsPreHardMode();
         }

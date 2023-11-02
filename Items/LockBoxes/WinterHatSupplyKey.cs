@@ -12,8 +12,8 @@ namespace Highlander.Items.LockBoxes
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Winter Hat Key");
-            Tooltip.SetDefault("Opens one Winter Hat Lock Box");
+            //DisplayName.SetDefault("Winter Hat Key");
+            //Tooltip.SetDefault("Opens one Winter Hat Lock Box");
         }
 
         public override void SetDefaults()

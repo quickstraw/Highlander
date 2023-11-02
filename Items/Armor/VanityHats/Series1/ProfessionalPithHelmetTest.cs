@@ -17,8 +17,8 @@ namespace Highlander.Items.Armor
         public override bool? SafeIsLoadingEnabled(Mod mod) => false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Professional Pith Helmet");
-            Tooltip.SetDefault("Pith helmet worn by only the most professional of mercenaries.");
+            //DisplayName.SetDefault("Professional Pith Helmet");
+            //Tooltip.SetDefault("Pith helmet worn by only the most professional of mercenaries.");
         }
 
         public override void SetDefaults()

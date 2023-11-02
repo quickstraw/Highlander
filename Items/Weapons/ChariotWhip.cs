@@ -15,8 +15,8 @@ namespace Highlander.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Chariot's Whip");
-			Tooltip.SetDefault("Slashes bleed enemies\nLunges deal extra damage.");
+			//DisplayName.SetDefault("Chariot's Whip");
+			//Tooltip.SetDefault("Slashes bleed enemies\nLunges deal extra damage.");
 		}
 
 		public override void SetDefaults()

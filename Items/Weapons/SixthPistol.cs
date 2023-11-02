@@ -23,8 +23,8 @@ namespace Highlander.Items.Weapons
 
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sixth Pistol");
-			Tooltip.SetDefault("Receives higher damage bonuses from better ammo");
+			//DisplayName.SetDefault("Sixth Pistol");
+			//Tooltip.SetDefault("Receives higher damage bonuses from better ammo");
 		}
 
 

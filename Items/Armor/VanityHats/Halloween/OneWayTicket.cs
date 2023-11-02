@@ -33,11 +33,11 @@ namespace Highlander.Items.Armor.Halloween
                 //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
                 name = "Unusual";
                 name = name + " One-Way Ticket";
-                DisplayName.SetDefault(name);
+                //DisplayName.SetDefault(name);
             }
             else
             {
-                DisplayName.SetDefault("One-Way Ticket");
+                //DisplayName.SetDefault("One-Way Ticket");
             }
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }

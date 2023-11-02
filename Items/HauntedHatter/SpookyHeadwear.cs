@@ -14,8 +14,8 @@ namespace Highlander.Items.HauntedHatter
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spooky Headwear");
-            Tooltip.SetDefault("Summons the Haunted Hatter");
+            //DisplayName.SetDefault("Spooky Headwear");
+            //Tooltip.SetDefault("Summons the Haunted Hatter");
         }
 
         public override void SetDefaults()

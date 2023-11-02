@@ -34,11 +34,11 @@ namespace Highlander.Items.Armor.VanityHats.Series2
                 //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
                 name = "Unusual";
                 name = name + " Conjurer's Cowl";
-                DisplayName.SetDefault(name);
+                //DisplayName.SetDefault(name);
             }
             else
             {
-                DisplayName.SetDefault("Conjurer's Cowl");
+                //DisplayName.SetDefault("Conjurer's Cowl");
             }
             ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = false;
         }

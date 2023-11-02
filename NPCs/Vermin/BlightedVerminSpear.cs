@@ -13,7 +13,7 @@ namespace Highlander.NPCs.Vermin
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Blighted Vermin's Spear");
+			//DisplayName.SetDefault("Blighted Vermin's Spear");
 		}
 
 		public override void SetDefaults()

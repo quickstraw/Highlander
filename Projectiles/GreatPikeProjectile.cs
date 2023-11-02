@@ -15,7 +15,7 @@ namespace Highlander.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Great Pike");
+			//DisplayName.SetDefault("Great Pike");
 		}
 
 		public override void SetDefaults()

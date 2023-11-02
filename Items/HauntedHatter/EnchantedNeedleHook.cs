@@ -15,7 +15,7 @@ namespace Highlander.Items.HauntedHatter
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Enchanted Needle Hook");
+			//DisplayName.SetDefault("Enchanted Needle Hook");
 		}
 
 		public override void SetDefaults()
@@ -58,7 +58,7 @@ namespace Highlander.Items.HauntedHatter
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("${ProjectileName.GemHookDiamond}");
+			//DisplayName.SetDefault("${ProjectileName.GemHookDiamond}");
 			ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type] = true; // projectiles with hide but without this will draw in the lighting values of the owner player.
 		}
 

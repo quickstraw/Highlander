@@ -210,7 +210,7 @@ namespace Highlander.NPCs.HauntedHatter
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Enchanted Needle");
+			//DisplayName.SetDefault("Enchanted Needle");
 		}
 
 		public override void Init()

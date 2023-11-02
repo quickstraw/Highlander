@@ -21,8 +21,8 @@ namespace Highlander.Items.LockBoxes
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spooky Hat Lock Box");
-            Tooltip.SetDefault("Right Click to open\nRequires a Spooky Hat Key");
+            //DisplayName.SetDefault("Spooky Hat Lock Box");
+            //Tooltip.SetDefault("Right Click to open\nRequires a Spooky Hat Key");
         }
 
         public override void SetDefaults()

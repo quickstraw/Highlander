@@ -15,8 +15,8 @@ namespace Highlander.Buffs
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bell of Pestilence");
-			Description.SetDefault("Melee attacks have a chance to poison enemies");
+			//DisplayName.SetDefault("Bell of Pestilence");
+			//Description.SetDefault("Melee attacks have a chance to poison enemies");
 			Main.debuff[Type] = false;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = true;

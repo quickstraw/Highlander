@@ -17,8 +17,8 @@ namespace Highlander.Buffs
 		public override void SetStaticDefaults()
 		{
 			timer = 0;
-			DisplayName.SetDefault("Bleeding");
-			Description.SetDefault("Damage over time");
+			//DisplayName.SetDefault("Bleeding");
+			//Description.SetDefault("Damage over time");
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = false;
 			Main.buffNoTimeDisplay[Type] = false;
@@ -38,7 +38,7 @@ namespace Highlander.Buffs
 		{
 			if (timer % 12 == 0)
 			{
-				npc.StrikeNPCNoInteraction(1, 0, 0);
+				npc.SimpleStrikeNPC(1, 0);
 				if (npc.velocity.Y < 0)
 				{
 					if (!npc.boss)

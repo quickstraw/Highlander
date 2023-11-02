@@ -21,7 +21,7 @@ namespace Highlander.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Blitz Fist"); // Set the projectile name to Blitz Fist
+			//DisplayName.SetDefault("Blitz Fist"); // Set the projectile name to Blitz Fist
 		}
 
 		public override void SetDefaults()

@@ -13,7 +13,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cleansing Wave");
+			//DisplayName.SetDefault("Cleansing Wave");
 		}
 
 		public override void SetDefaults()

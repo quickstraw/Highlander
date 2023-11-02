@@ -15,7 +15,7 @@ namespace Highlander.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ronin Long Yari");
+			//DisplayName.SetDefault("Ronin Long Yari");
 		}
 
 		public override void SetDefaults()

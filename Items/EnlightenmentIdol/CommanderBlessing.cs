@@ -10,8 +10,8 @@ namespace Highlander.Items.EnlightenmentIdol
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Commander's Blessing");
-			Tooltip.SetDefault("Summons a massive fist");
+			//DisplayName.SetDefault("Commander's Blessing");
+			//Tooltip.SetDefault("Summons a massive fist");
 		}
 
 		public override void SetDefaults()

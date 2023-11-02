@@ -16,7 +16,7 @@ namespace Highlander.Items.HauntedHatter
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Mask worn by a familiar hatter.");
+            //Tooltip.SetDefault("Mask worn by a familiar hatter.");
         }
 
         public override void SetDefaults()

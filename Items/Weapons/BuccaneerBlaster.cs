@@ -15,7 +15,7 @@ namespace Highlander.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Buccaneer's Blaster");
+			//DisplayName.SetDefault("Buccaneer's Blaster");
 			//Tooltip.SetDefault("Couldn't hit the broad side of a barn");
 		}
 

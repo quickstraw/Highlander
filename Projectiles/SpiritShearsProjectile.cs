@@ -15,7 +15,7 @@ namespace Highlander.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spirit Shears");
+			//DisplayName.SetDefault("Spirit Shears");
 		}
 
 		public override void SetDefaults()

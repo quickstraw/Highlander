@@ -44,7 +44,7 @@ namespace Highlander.Items.Accessories
             {
 				tooltip = "Bind the action key in Controls to throw flares!";
 			}
-			Tooltip.SetDefault(tooltip);
+			//Tooltip.SetDefault(tooltip);
 		}
 
 		public override void SetDefaults()

@@ -11,8 +11,8 @@ namespace Highlander.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dead Eye Duster");
-			Tooltip.SetDefault("Receives higher damage bonuses from better ammo\nFires Ricochet Bullets");
+			//DisplayName.SetDefault("Dead Eye Duster");
+			//Tooltip.SetDefault("Receives higher damage bonuses from better ammo\nFires Ricochet Bullets");
 		}
 
 

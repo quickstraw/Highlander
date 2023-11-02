@@ -16,7 +16,7 @@ namespace Highlander.Items.HauntedHatter
 
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Perfect size for stabbing.");
+			//Tooltip.SetDefault("Perfect size for stabbing.");
 		}
 
 		public override void SetDefaults()

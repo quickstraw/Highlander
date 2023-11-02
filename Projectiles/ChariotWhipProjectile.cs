@@ -15,7 +15,7 @@ namespace Highlander.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Chariot's Whip");
+			//DisplayName.SetDefault("Chariot's Whip");
 		}
 
 		public override void SetDefaults()

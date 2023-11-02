@@ -22,7 +22,7 @@ namespace Highlander.NPCs.Vermin
 
 		public override void SetStaticDefaults()
 		{
-            DisplayName.SetDefault("Blighted Vermin Monk");
+            //DisplayName.SetDefault("Blighted Vermin Monk");
 			Main.npcFrameCount[NPC.type] = 10; // make sure to set this for your modnpcs.
 		}
 

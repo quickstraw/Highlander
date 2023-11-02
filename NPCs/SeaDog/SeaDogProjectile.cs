@@ -17,7 +17,7 @@ namespace Highlander.NPCs.SeaDog
 		public override void SetStaticDefaults()
 		{
 			Main.projFrames[Projectile.type] = 4;
-			DisplayName.SetDefault("Sea Dog's Powder Keg");
+			//DisplayName.SetDefault("Sea Dog's Powder Keg");
 		}
 
 		public override void SetDefaults()

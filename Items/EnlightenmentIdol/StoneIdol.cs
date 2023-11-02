@@ -14,8 +14,8 @@ namespace Highlander.Items.EnlightenmentIdol
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone Idol");
-            Tooltip.SetDefault("Summons the Idol of Enlightenment");
+            //DisplayName.SetDefault("Stone Idol");
+            //Tooltip.SetDefault("Summons the Idol of Enlightenment");
         }
 
         public override void SetDefaults()

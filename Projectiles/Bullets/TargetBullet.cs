@@ -23,7 +23,7 @@ namespace Highlander.Projectiles.Bullets
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Target Bullet");     //The English name of the projectile
+			//DisplayName.SetDefault("Target Bullet");     //The English name of the projectile
 			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;    //The length of old position to be recorded
 			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;        //The recording mode
 		}

@@ -29,11 +29,11 @@ namespace Highlander.Items.Armor
                 //name = Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
                 name = "Unusual";
                 name = name + " Ol' Snaggletooth";
-                DisplayName.SetDefault(name);
+                //DisplayName.SetDefault(name);
             }
             else
             {
-                DisplayName.SetDefault("Ol' Snaggletooth");
+                //DisplayName.SetDefault("Ol' Snaggletooth");
             }
             //Tooltip.SetDefault("Made from a genuine crocodile.");
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;

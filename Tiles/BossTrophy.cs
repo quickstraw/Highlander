@@ -26,9 +26,9 @@ namespace Highlander.Tiles
 			TileObjectData.addTile(Type);
 			DustType = 7;
 			TileID.Sets.DisableSmartCursor[Type] = true;
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Trophy");
-			AddMapEntry(new Color(120, 85, 60), name);
+			//ModTranslation name = CreateMapEntryName();
+			//name.SetDefault("Trophy");
+			//AddMapEntry(new Color(120, 85, 60), name);
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

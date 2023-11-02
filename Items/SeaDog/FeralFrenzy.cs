@@ -14,8 +14,8 @@ namespace Highlander.Items.SeaDog
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Casts a slashing claw");
-			Item.staff[Item.type] = true; //this makes the useStyle animate as a staff instead of as a gun
+			//Tooltip.SetDefault("Casts a slashing claw");
+			//Item.staff[Item.type] = true; //this makes the useStyle animate as a staff instead of as a gun
 		}
 
 		public override void SetDefaults()

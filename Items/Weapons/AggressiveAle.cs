@@ -18,7 +18,7 @@ namespace Highlander.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("'Ale for throwing or for fun!'");
+			//Tooltip.SetDefault("'Ale for throwing or for fun!'");
 		}
 
 		public override void SetDefaults()
