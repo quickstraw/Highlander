@@ -305,15 +305,15 @@ namespace Highlander.NPCs.Vermin
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(BuffID.Poisoned, 300);
-		}
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit)
+        {
+            target.AddBuff(BuffID.Poisoned, 300);
+        }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.Poisoned, 300);
-		}
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            target.AddBuff(BuffID.Poisoned, 300);
+        }
 
         private void WalkOverSlopes()
         {
@@ -360,7 +360,7 @@ namespace Highlander.NPCs.Vermin
             npcLoot.Add(ItemDropRule.Common(ItemID.Shackle, 50));
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
@@ -370,7 +370,9 @@ namespace Highlander.NPCs.Vermin
                 float max = MathHelper.PiOver2;
                 float min = -MathHelper.PiOver2;
 
-                if(hitDirection == -1)
+                var hitDirection = hit.HitDirection;
+
+                if (hitDirection == -1)
                 {
                     min = 0;
                 }

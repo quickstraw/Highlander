@@ -24,17 +24,6 @@ namespace Highlander.Projectiles
 			Projectile.alpha = 255;
 		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (Main.expertMode)
-			{
-			}
-		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			base.OnHitNPC(target, damage, knockback, crit);
-		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			/**Main.PlaySound(SoundID.Item53.WithPitchVariance(0.2f).WithVolume(0.6f), Projectile.position);

@@ -83,12 +83,12 @@ namespace Highlander.NPCs.HauntedHatter
             Right = Request<Texture2D>("Highlander/NPCs/HauntedHatter/HauntedHatterRight").Value;
             currHand = leftHand;
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.75f * bossLifeScale);
-            NPC.damage = (int)(NPC.damage * 0.7f);
-        }
 
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossAdjustment * balance);
+            NPC.damage = (int)(NPC.damage * 0.8f * bossAdjustment * balance);
+        }
 
         public override void AI()
         {
@@ -319,11 +319,6 @@ namespace Highlander.NPCs.HauntedHatter
             spriteBatch.Draw(Right, BottomDrawPos, new Rectangle(0, rightFrame * RightFrameHeight, Right.Width, RightFrameHeight), drawColor * ((float) alpha / 255f), NPC.rotation, LeftOrigin, 1.0f, 0, 0);
 
             NPC.frameCounter = (NPC.frameCounter + 1.75) % 60;
-        }
-
-        public override void HitEffect(int hitDirection, double damage)
-        {
-            base.HitEffect(hitDirection, damage);
         }
 
         private void HandlePhaseOneShooting()

@@ -95,17 +95,17 @@ namespace Highlander.Items.Weapons
 			
 		}
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-		{
-			// Add the Onfire buff to the NPC for 1 second when the weapon hits an NPC
-			// 60 frames = 1 second
-			target.AddBuff(BuffType<Bleed>(), 60);
-		}
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            // Add the Onfire buff to the NPC for 1 second when the weapon hits an NPC
+            // 60 frames = 1 second
+            target.AddBuff(BuffType<Bleed>(), 60);
+        }
 
-		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.Bleeding, 60);
-		}
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
+        {
+            target.AddBuff(BuffID.Bleeding, 60);
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

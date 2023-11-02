@@ -51,9 +51,9 @@ namespace Highlander.NPCs.SeaDog
             //bossBag = ItemType<SeaDogBag>();
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.65f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.75f * bossAdjustment * balance);
             NPC.damage = (int)(NPC.damage * 0.9f);
         }
 

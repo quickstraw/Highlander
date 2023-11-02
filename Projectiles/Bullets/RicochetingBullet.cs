@@ -51,19 +51,19 @@ namespace Highlander.Projectiles.Bullets
 			return false;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if(Projectile.ai[0] == 0)
-			{
-				Projectile.ai[0] = Projectile.damage;
-				Projectile.netUpdate = true;
-			}
-			if (Projectile.damage > Projectile.ai[0] * 0.5f)
-			{
-				Projectile.damage = (int)(Projectile.damage * 0.80f + 1);
-				Projectile.netUpdate = true;
-			}
-		}
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Projectile.ai[0] == 0)
+            {
+                Projectile.ai[0] = Projectile.damage;
+                Projectile.netUpdate = true;
+            }
+            if (Projectile.damage > Projectile.ai[0] * 0.5f)
+            {
+                Projectile.damage = (int)(Projectile.damage * 0.80f + 1);
+                Projectile.netUpdate = true;
+            }
+        }
 
 		public override bool PreDraw(ref Color lightColor)
 		{

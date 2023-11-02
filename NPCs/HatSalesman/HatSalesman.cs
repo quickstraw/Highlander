@@ -23,16 +23,10 @@ namespace Highlander.NPCs.HatSalesman
 
         public override string Texture => "Highlander/NPCs/HatSalesman/HatSalesman";
 
-        /**public override bool Autoload(ref string name)
-        {
-            name = "Hat Salesman";
-            return mod.Properties.Autoload;
-        }**/
-
         public override void SetStaticDefaults()
         {
             // DisplayName automatically assigned from .lang files, but the commented line below is the normal approach.
-            DisplayName.SetDefault("Hat Salesman");
+            //DisplayName.SetDefault("Hat Salesman");
             Main.npcFrameCount[NPC.type] = 25;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
             NPCID.Sets.AttackFrameCount[NPC.type] = 4;
@@ -77,10 +71,9 @@ namespace Highlander.NPCs.HatSalesman
             AnimationType = NPCID.Guide;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) //Whether or not the conditions have been met for this town NPC to be able to move into town.
+        public override bool CanTownNPCSpawn(int numTownNPCs)
         {
-
-            if (HighlanderWorld.downedHauntedHatter)  //so after the EoC is killed
+            if (HighlanderWorld.downedHauntedHatter)  //after Haunted Hatter is killed
             {
                 return true;
             }
@@ -127,22 +120,21 @@ namespace Highlander.NPCs.HatSalesman
             button = Language.GetTextValue("LegacyInterface.28");
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
-                shop = true;
-            }
+                shopName = "Shop";
+            };
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void AddShops()
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<HatSupplyKey>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WinterHatSupplyKey>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpookyHatKey>());
-            nextSlot++;
+            new NPCShop(NPC.type)
+                .Add<HatSupplyKey>()
+                .Add<WinterHatSupplyKey>()
+                .Add<SpookyHatKey>()
+                .Register();
         }
 
 

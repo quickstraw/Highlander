@@ -24,25 +24,26 @@ namespace Highlander.Projectiles
 			Projectile.penetrate = 1;
 		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			// Vanilla explosions do less damage to Eater of Worlds in expert mode, so we will too.
-			if (Main.expertMode)
-			{
-				if (target.type >= NPCID.EaterofWorldsHead && target.type <= NPCID.EaterofWorldsTail)
-				{
-					damage /= 5;
-				}
-			}
-		}
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            // Vanilla explosions do less damage to Eater of Worlds in expert mode, so we will too.
+            if (Main.expertMode)
+            {
+                if (target.type >= NPCID.EaterofWorldsHead && target.type <= NPCID.EaterofWorldsTail)
+                {
+                    modifiers.FinalDamage /= 5;
+                }
+            }
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if(Projectile.ai[1] <= 0)
-			{
-				Explode();
-			}
-		}
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Projectile.ai[1] <= 0)
+            {
+                Explode();
+            }
+        }
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (Projectile.ai[1] > 0)

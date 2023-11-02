@@ -1,7 +1,10 @@
 ﻿using Highlander.Items;
 using Highlander.Items.Accessories;
+using Highlander.Items.LockBoxes;
 using Highlander.Items.Weapons;
 using Highlander.Projectiles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +29,7 @@ namespace Highlander.NPCs.VeteranExplorer
         public override void SetStaticDefaults()
         {
             // DisplayName automatically assigned from .lang files, but the commented line below is the normal approach.
-            DisplayName.SetDefault("Veteran Explorer");
+            //DisplayName.SetDefault("Veteran Explorer");
             Main.npcFrameCount[NPC.type] = 25;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
             NPCID.Sets.AttackFrameCount[NPC.type] = 4;
@@ -69,7 +72,7 @@ namespace Highlander.NPCs.VeteranExplorer
             AnimationType = NPCID.Guide;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) //Whether or not the conditions have been met for this town NPC to be able to move into town.
+        public override bool CanTownNPCSpawn(int numTownNPCs)
         {
             if (NPC.downedBoss3)  //After Skeletron
             {
@@ -112,29 +115,28 @@ namespace Highlander.NPCs.VeteranExplorer
             button = Language.GetTextValue("LegacyInterface.28");
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
-                shop = true;
-            }
+                shopName = "Shop";
+            };
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void AddShops()
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AggressiveAle>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AdventurerPike>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldFlareDispenser>());
-            nextSlot++;
+            var shop = new NPCShop(NPC.type);
+            shop.Add<AggressiveAle>()
+                .Add<AdventurerPike>()
+                .Add<OldFlareDispenser>();
+
             if (Main.hardMode)
             {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GreatPike>());
-                nextSlot++;
+                shop.Add<GreatPike>();
             }
-        }
 
+            shop.Register();
+        }
 
         // Make this Town NPC teleport to the King and/or Queen statue when triggered.
         public override bool CanGoToStatue(bool toKingStatue)
@@ -166,11 +168,15 @@ namespace Highlander.NPCs.VeteranExplorer
             randomOffset = 2f;
         }
 
-        public override void DrawTownAttackGun(ref float scale, ref int item, ref int closeness)
+        public override void DrawTownAttackGun(ref Texture2D item, ref Rectangle itemFrame, ref float scale, ref int horizontalHoldoutOffset)
         {
+            base.DrawTownAttackGun(ref item, ref itemFrame, ref scale, ref horizontalHoldoutOffset);
+
+            // If using an existing item, use this approach
+            int itemType = ItemID.Musket;
+            Main.GetItemDrawFrame(itemType, out item, out itemFrame);
+            horizontalHoldoutOffset = (int)Main.DrawPlayerItemPos(1f, itemType).X - 6;
             scale = 1f;
-            item = ItemID.Musket;
-            closeness = 6;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

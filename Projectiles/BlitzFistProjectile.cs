@@ -300,48 +300,48 @@ namespace Highlander.Projectiles
 			return true;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (attached == -1 && !target.boss && !target.immortal && !released)
-			{
-				attached = target.whoAmI;
-				offset = target.position - Projectile.position;
-				goingForward = false;
-				retracting = true;
-				Projectile.netUpdate = true;
-			}
-		}
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (attached == -1 && !target.boss && !target.immortal && !released)
+            {
+                attached = target.whoAmI;
+                offset = target.position - Projectile.position;
+                goingForward = false;
+                retracting = true;
+                Projectile.netUpdate = true;
+            }
+        }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			if (attached == -1 && !released)
-			{
-				attached = target.whoAmI;
-				offset = target.position - Projectile.position;
-				goingForward = false;
-				retracting = true;
-				hasPlayer = true;
-				Projectile.netUpdate = true;
-			}
-		}
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            if (info.PvP && attached == -1 && !released)
+            {
+                attached = target.whoAmI;
+                offset = target.position - Projectile.position;
+                goingForward = false;
+                retracting = true;
+                hasPlayer = true;
+                Projectile.netUpdate = true;
+            }
+        }
 
 		public override bool? CanHitNPC(NPC target)
 		{
 			return !(target.whoAmI == attached);
 		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (target.friendly)
-			{
-				if (Projectile.ModProjectile != null && Projectile.ModProjectile.GetType() == typeof(BlitzFistProjectile))
-				{
-					damage = 0;
-					knockback = 0;
-					crit = false;
-				}
-			}
-		}
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (target.friendly)
+            {
+                if (Projectile.ModProjectile != null && Projectile.ModProjectile.GetType() == typeof(BlitzFistProjectile))
+                {
+                    modifiers.SetMaxDamage(1);
+					modifiers.Knockback *= 0;
+                    modifiers.DisableCrit();
+                }
+            }
+        }
 
 		public override void Kill(int timeLeft)
 		{

@@ -42,13 +42,21 @@ namespace Highlander.Projectiles
 			set => Projectile.ai[0] = value;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			if (target.boss)
 			{
-				int netDamage = (damage - (target.defense)) / 2;
-				int extraDamage = damage - netDamage;
-				target.StrikeNPC(extraDamage, knockback, 0, crit);
+				int netDamage = (hit.Damage - (target.defense)) / 2;
+				int extraDamage = hit.Damage - netDamage;
+				NPC.HitInfo hitInfo = new NPC.HitInfo()
+				{
+					Damage = extraDamage,
+					Knockback = hit.Knockback,
+					HitDirection = hit.HitDirection,
+					Crit = hit.Crit,
+					DamageType = hit.DamageType
+				};
+				target.StrikeNPC(hitInfo);
 				Projectile.netUpdate = true;
 			}
 			else

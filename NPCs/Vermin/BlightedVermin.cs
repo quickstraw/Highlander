@@ -59,17 +59,19 @@ namespace Highlander.NPCs.Vermin
             return spawnChance;
         }
 
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             NPC.netUpdate = true;
             jumpTimer = 0;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit)
         {
             NPC.netUpdate = true;
             jumpTimer = 0;
         }
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             NPC.netUpdate = true;
             jumpTimer = 0;
@@ -432,7 +434,7 @@ namespace Highlander.NPCs.Vermin
             npcLoot.Add(ItemDropRule.Common(ItemID.Shackle, 50));
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
@@ -441,6 +443,8 @@ namespace Highlander.NPCs.Vermin
 
                 float max = MathHelper.PiOver2;
                 float min = -MathHelper.PiOver2;
+
+                var hitDirection = hit.HitDirection;
 
                 if (hitDirection == -1)
                 {
@@ -475,5 +479,6 @@ namespace Highlander.NPCs.Vermin
                 }
             }
         }
+
     }
 }

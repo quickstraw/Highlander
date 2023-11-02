@@ -236,21 +236,21 @@ namespace Highlander.Projectiles
 			return true;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (!target.boss && !target.immortal)
-			{
-				var player = Main.player[Projectile.owner];
-				var vectorToPlayer = player.MountedCenter - Projectile.Center;
-				vectorToPlayer.Normalize();
-				target.velocity -= vectorToPlayer * 4;
-				target.netUpdate = true;
-			}
-			goingForward = false;
-			retracting = true;
-			Projectile.velocity *= 0.2f;
-			Projectile.netUpdate = true;
-		}
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (!target.boss && !target.immortal)
+            {
+                var player = Main.player[Projectile.owner];
+                var vectorToPlayer = player.MountedCenter - Projectile.Center;
+                vectorToPlayer.Normalize();
+                target.velocity -= vectorToPlayer * 4;
+                target.netUpdate = true;
+            }
+            goingForward = false;
+            retracting = true;
+            Projectile.velocity *= 0.2f;
+            Projectile.netUpdate = true;
+        }
 
 		public override void Kill(int timeLeft)
 		{

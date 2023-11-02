@@ -375,10 +375,10 @@ namespace Highlander.Projectiles.Bullets
 			return true;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			hit = true;
-		}
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            this.hit = true;
+        }
 
 		public override bool PreDraw(ref Color lightColor)
 		{

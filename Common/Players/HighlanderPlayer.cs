@@ -75,12 +75,6 @@ namespace Highlander.Common.Players
             hasFlares = false;
         }
 
-        public override void OnEnterWorld(Player player)
-        {
-            // We can refresh UI using OnEnterWorld. OnEnterWorld happens after Load, so nonStopParty is the correct value.
-            //GetInstance<ExampleMod>().ExampleUI.ExampleButton.HoverText = "SendClientChanges Example: Non-Stop Party " + (nonStopParty ? "On" : "Off");
-        }
-
         // In MP, other clients need accurate information about your player or else bugs happen.
         // clientClone, SyncPlayer, and SendClientChanges, ensure that information is correct.
         // We only need to do this for data that is changed by code not executed by all clients, 
@@ -89,9 +83,9 @@ namespace Highlander.Common.Players
         // The examplePet bool is set for that player on every clients computer independently (via the Buff.Update), keeping that data in sync.
         // ExampleLifeFruits, however might be out of sync. For example, when joining a server, we need to share the exampleLifeFruits variable with all other clients.
         // In addition, in ExampleUI we have a button that toggles "Non-Stop Party". We need to sync this whenever it changes.
-        public override void clientClone(ModPlayer clientClone)
+        public override void CopyClientState(ModPlayer targetCopy)
         {
-            HighlanderPlayer clone = clientClone as HighlanderPlayer;
+            HighlanderPlayer clone = targetCopy as HighlanderPlayer;
             // Here we would make a backup clone of values that are only correct on the local players Player instance.
             // Some examples would be RPG stats from a GUI, Hotkey states, and Extra Item Slots
             clone.unboxed = unboxed;
@@ -257,9 +251,9 @@ namespace Highlander.Common.Players
             clock = (byte)((clock + 1) % 60);
         }
 
-        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (bellOfPestilence && item.DamageType == DamageClass.Melee)
+            if (bellOfPestilence && hit.DamageType == DamageClass.Melee)
             {
                 if (Main.rand.NextBool(2))
                 {
@@ -269,7 +263,7 @@ namespace Highlander.Common.Players
             }
         }
 
-        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (bellOfPestilence && proj.DamageType == DamageClass.Melee)
             {

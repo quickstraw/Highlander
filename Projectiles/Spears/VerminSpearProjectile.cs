@@ -21,7 +21,7 @@ namespace Highlander.Projectiles.Spears
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Vermin Spear");
+			//DisplayName.SetDefault("Vermin Spear");
 		}
 
 		Texture2D texture = ModContent.Request<Texture2D>("Highlander/Projectiles/Spears/VerminSpearProjectile").Value;
@@ -49,23 +49,23 @@ namespace Highlander.Projectiles.Spears
 			set => Projectile.ai[0] = value;
 		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (target.HasBuff(BuffID.Poisoned) || target.HasBuff(BuffID.Venom))
-			{
-				damage = (int)(damage * 1.2);
-				crit = true;
-			}
-		}
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (target.HasBuff(BuffID.Poisoned) || target.HasBuff(BuffID.Venom))
+            {
+				modifiers.FinalDamage *= 1.2f;
+				modifiers.SetCrit();
+            }
+        }
 
-		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
-		{
-			if (target.HasBuff(BuffID.Poisoned) || target.HasBuff(BuffID.Venom))
-			{
-				damage = (int)(damage * 1.2);
-				crit = true;
-			}
-		}
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+			if (!modifiers.PvP) return;
+            if (target.HasBuff(BuffID.Poisoned) || target.HasBuff(BuffID.Venom))
+            {
+                modifiers.FinalDamage *= 1.2f;
+            }
+        }
 
 		// It appears that for this AI, only the ai0 field is used!
 		public override void AI()
@@ -111,8 +111,15 @@ namespace Highlander.Projectiles.Spears
 				{
 					if (npc.immune[projOwner.whoAmI] == 0 && !npc.friendly)
 					{
-						npc.StrikeNPC(Projectile.damage, Projectile.knockBack, Projectile.direction);
-						OnHitNPC(npc, Projectile.damage, Projectile.knockBack, false);
+						var hitInfo = new NPC.HitInfo()
+						{
+							Damage = Projectile.damage,
+							Knockback = Projectile.knockBack,
+							HitDirection = Projectile.direction
+                        };
+						var dealtDamage = npc.StrikeNPC(hitInfo);
+						NetMessage.SendStrikeNPC(npc, hitInfo);
+						OnHitNPC(npc, hitInfo, dealtDamage);
 						npc.immune[projOwner.whoAmI] = 10;
 					}
 					

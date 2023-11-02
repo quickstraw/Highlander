@@ -46,23 +46,23 @@ namespace Highlander.NPCs.SeaDog
 			return false;
 		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			if (Projectile.ai[1] != 1)
-			{
-				Explode();
-				Projectile.timeLeft = 2;
-			}
-		}
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            if (Projectile.ai[1] != 1)
+            {
+                Explode();
+                Projectile.timeLeft = 2;
+            }
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Projectile.ai[1] != 1)
-			{
-				Explode();
-				Projectile.timeLeft = 2;
-			}
-		}
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Projectile.ai[1] != 1)
+            {
+                Explode();
+                Projectile.timeLeft = 2;
+            }
+        }
 
 		public override void AI()
 		{

@@ -49,7 +49,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 5; // make sure to set this for your modnpcs.
-            DisplayName.SetDefault("Idol of Enlightenment");
+            //DisplayName.SetDefault("Idol of Enlightenment");
         }
 
         public override void SetDefaults()
@@ -78,12 +78,11 @@ namespace Highlander.NPCs.EnlightenmentIdol
             ChargeBlast = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/ChargeBlast").Value;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale);
-            NPC.damage = (int)(NPC.damage * 0.7f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * balance * bossAdjustment);
+            NPC.damage = (int)(NPC.damage * 0.8f * balance * bossAdjustment);
         }
-
 
         public override void AI()
         {
@@ -617,31 +616,26 @@ namespace Highlander.NPCs.EnlightenmentIdol
             }
         }
 
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
             dontDamage = (player.Center - NPC.Center).Length() > SPHERE_RADIUS;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[projectile.owner];
             dontDamage = player.active && (player.Center - NPC.Center).Length() > SPHERE_RADIUS;
         }
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             if (dontDamage)
             {
-                damage = 0;
-                crit = true;
+                modifiers.FinalDamage *= 0;
+                modifiers.SetCrit();
                 dontDamage = false;
-                //SoundEngine.PlaySound(SoundID.NPCHit4.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.NPCHit4.Style, 1f, +0.3f);
                 SoundEngine.PlaySound(SoundID.NPCHit4 with { Volume = 1f, Pitch = 0.3f }, NPC.position);
-                //Main.PlaySound(SoundID.NPCHit42.SoundId, (int)NPC.position.X, (int)NPC.position.Y, SoundID.NPCHit42.Style, 1f, 0.8f);
-                //Main.PlaySound(NPC.HitSound, NPC.position);
-                return false;
             }
-            return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -1175,24 +1169,25 @@ namespace Highlander.NPCs.EnlightenmentIdol
             npcLoot.Add(notExpertRule);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
-            if(NPC.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int i = 0; i < 8; i++)
                 {
                     try
                     {
-                        if(Main.netMode != NetmodeID.Server)
+                        if (Main.netMode != NetmodeID.Server)
                         {
                             var source = NPC.GetSource_Death();
                             var gore = Gore.NewGoreDirect(source, NPC.Center, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(0, MathHelper.TwoPi)) * 5, Mod.Find<ModGore>("IdolGore" + i).Type, 1f);
                         }
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
 
                     }
-                    
+
                 }
             }
         }
