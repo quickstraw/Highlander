@@ -1,6 +1,6 @@
-displayName = Highlander: Cosmetics and Content
+displayName = Highlander: Variety of Content
 author = Quickstraw
-version = 1.5.0.0
+version = 1.5.0.2
 hideCode = true;
 hideResources = true;
 includeSource = false;

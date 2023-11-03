@@ -1,7 +1,6 @@
 ﻿using Highlander.Buffs;
 using Highlander.Projectiles;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -12,12 +11,6 @@ namespace Highlander.Items.Weapons
 {
     class ChariotWhip : ModItem
     {
-
-		public override void SetStaticDefaults()
-		{
-			//DisplayName.SetDefault("Chariot's Whip");
-			//Tooltip.SetDefault("Slashes bleed enemies\nLunges deal extra damage.");
-		}
 
 		public override void SetDefaults()
 		{
@@ -37,7 +30,7 @@ namespace Highlander.Items.Weapons
 			Item.DamageType = DamageClass.Melee;
 			Item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
 			Item.noUseGraphic = true; // Important, it's kind of weird if people see two spears at one time. This prevents the melee animation of this item.
-			Item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
+			Item.autoReuse = false; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
 			Item.useTurn = true;
 
@@ -77,7 +70,7 @@ namespace Highlander.Items.Weapons
 				Item.useAnimation = 21;
 				Item.shoot = ProjectileID.None;
 
-				Item.autoReuse = true;
+				Item.autoReuse = false;
 				Item.noMelee = false;
 				Item.noUseGraphic = false;
 

@@ -72,7 +72,7 @@ namespace Highlander.Common.Systems
         public override void PostWorldGen()
         {
             // Place some items in Ice Chests
-            int[] itemsToPlaceInIceChests = { ItemType<ChariotWhip>(), ItemType<RoninLongYari>() };
+            int[] itemsToPlaceInIceChests = { /**ItemType<ChariotWhip>(),**/ ItemType<RoninLongYari>() };
             int itemsToPlaceInIceChestsChoice = 0;
             for (int chestIndex = 0; chestIndex < Main.chest.Length; chestIndex++)
             {

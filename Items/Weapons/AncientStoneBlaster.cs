@@ -93,7 +93,7 @@ namespace Highlander.Items.Weapons
 
 		public override Vector2? HoldoutOffset()
 		{
-			return new Vector2(-2, 0);
+			return new Vector2(0, 0);
 		}
 
 		public override byte GetMaxAmmo()
