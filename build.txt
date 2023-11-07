@@ -1,6 +1,6 @@
 displayName = Highlander: Variety of Content
 author = Quickstraw
-version = 1.5.0.2
+version = 1.5.1.0
 hideCode = true;
 hideResources = true;
 includeSource = false;

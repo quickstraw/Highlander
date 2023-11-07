@@ -14,6 +14,7 @@ Town NPCs:
 Conquistador - Currently sells some pikes and aggressive ale. In the future, he will sell random misc items I decide to add.
 
 Recent Changes:
+1.5.1.0 - Improved the sprites for Idol of Enlightenment. Improved some item sprites.
 1.5.0.2 - Stopped Chariot's Whip from spawning (It's broken after the 1.4 update). Changed the Ancient Stone Blaster sprite to be smaller.
 1.5.0.0 - Split of the hats from this mod and put them into Hat Simulator. Updated the mod to 1.4.4. Updated to new localization changes.
 
