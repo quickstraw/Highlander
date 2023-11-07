@@ -74,7 +74,7 @@ namespace Highlander.NPCs.HauntedHatter
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.value = 60000;
-            Music = MusicID.Boss3;
+            Music = MusicID.Deerclops;
             //musicPriority = MusicPriority.BossMedium;
             //bossBag = ItemType<HauntedHatterBag>();
             Hat = Request<Texture2D>("Highlander/NPCs/HauntedHatter/HauntedHatterHat").Value;

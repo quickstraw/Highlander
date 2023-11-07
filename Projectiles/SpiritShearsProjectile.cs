@@ -1,22 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace Highlander.Projectiles
 {
     class SpiritShearsProjectile : ModProjectile
     {
-
-		public override void SetStaticDefaults()
-		{
-			//DisplayName.SetDefault("Spirit Shears");
-		}
 
 		public override void SetDefaults()
 		{
@@ -62,65 +52,54 @@ namespace Highlander.Projectiles
 			{
 				if (movementFactor == 0f) // When initially thrown out, the ai0 will be 0f
 				{
-					movementFactor = 3f; // Make sure the spear moves forward when initially thrown out
+					movementFactor = 1.4f; // Make sure the spear moves forward when initially thrown out
 					Projectile.netUpdate = true; // Make sure to netUpdate this spear
 				}
 				if (projOwner.itemAnimation < projOwner.itemAnimationMax / 3) // Somewhere along the item animation, make sure the spear moves back
 				{
-					movementFactor -= 2.8f;
+					movementFactor -= 1.4f;
 				}
 				else // Otherwise, increase the movement factor
 				{
-					movementFactor += 1.4f;
+					movementFactor += 0.2f;
 				}
 			}
 			// Change the spear position based off of the velocity and the movementFactor
 			Projectile.position += Projectile.velocity * movementFactor;
+			Offset();
 
-			// When we reach the end of the animation, we can kill the spear projectile
-			if (projOwner.itemAnimation == 0)
+            // When we reach the end of the animation, we can kill the spear projectile
+            if (projOwner.itemAnimation == 0)
 			{
 				Projectile.Kill();
 			}
-			// Apply proper rotation, with an offset of 135 degrees due to the sprite's rotation, notice the usage of MathHelper, use this class!
-			// MathHelper.ToRadians(xx degrees here)
-			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
-
-			// Offset by 90 degrees here
-			if (Projectile.spriteDirection == -1)
-			{
-				Projectile.rotation -= MathHelper.ToRadians(90f);
-				float rotation = Projectile.rotation - MathHelper.PiOver4;
-				Vector2 forward = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-				forward.Normalize();
-
-				Projectile.position += forward * 24;
-			}
-			else
-			{
-				float rotation = Projectile.rotation - (MathHelper.PiOver2 + MathHelper.PiOver4);
-				Vector2 forward = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-				forward.Normalize();
-
-				Projectile.position += forward * 24;
-			}
-
-			// These dusts are added later, for the 'ExampleMod' effect
-			if (Main.rand.NextBool(3))
-			{
-				//Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.height, Projectile.width, DustType<Sparkle>(),
-				//	Projectile.velocity.X * .2f, Projectile.velocity.Y * .2f, 200, Scale: 1.2f);
-				//dust.velocity += Projectile.velocity * 0.3f;
-				//dust.velocity *= 0.2f;
-			}
-			if (Main.rand.NextBool(4))
-			{
-				//Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.height, Projectile.width, DustType<Sparkle>(),
-				//	0, 0, 254, Scale: 0.3f);
-				//dust.velocity += Projectile.velocity * 0.5f;
-				//dust.velocity *= 0.5f;
-			}
 		}
+
+		private void Offset()
+		{
+            // Apply proper rotation, with an offset of 135 degrees due to the sprite's rotation, notice the usage of MathHelper, use this class!
+            // MathHelper.ToRadians(xx degrees here)
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+
+            // Offset by 90 degrees here
+            if (Projectile.spriteDirection == -1)
+            {
+                Projectile.rotation -= MathHelper.ToRadians(90f);
+                float rotation = Projectile.rotation - MathHelper.PiOver4;
+                Vector2 forward = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
+                forward.Normalize();
+
+                Projectile.position += forward * 32;
+            }
+            else
+            {
+                float rotation = Projectile.rotation - (MathHelper.PiOver2 + MathHelper.PiOver4);
+                Vector2 forward = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
+                forward.Normalize();
+
+                Projectile.position += forward * 32;
+            }
+        }
 
 	}
 }

@@ -29,6 +29,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
         private const int CHARGE_DAMAGE = 44;
         private const int SPHERE_RADIUS = 450;
         private Texture2D TopArms;
+        private Texture2D ClapArms;
         private Texture2D MiddleArms;
         private Texture2D ChargeBlast;
 
@@ -40,6 +41,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
         private byte floatTimer = 0;
         private byte blastTimer = 0;
         private byte topFrame;
+        private byte clapFrame;
         private byte middleFrame;
         private byte chargeBlastFrame;
         private byte chargeBlastCounter;
@@ -48,8 +50,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[NPC.type] = 5; // make sure to set this for your modnpcs.
-            //DisplayName.SetDefault("Idol of Enlightenment");
+            Main.npcFrameCount[NPC.type] = 1; // make sure to set this for your modnpcs.
         }
 
         public override void SetDefaults()
@@ -74,6 +75,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             Music = MusicID.Boss4;
             //MusicPriority = MusicPriority.BossMedium;
             TopArms = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Triangle").Value;
+            ClapArms = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Clap").Value;
             MiddleArms = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/EnlightenmentIdol_Charge").Value;
             ChargeBlast = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/ChargeBlast").Value;
         }
@@ -281,7 +283,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         triangleReady = false;
                         NPC.netUpdate = true;
                         TriangleBlast();
-                    } else if (blastTimer > 150)
+                    } else if (blastTimer > 130)
                     {
                         triangleStance = true;
                         NPC.netUpdate = true;
@@ -324,7 +326,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         NPC.netUpdate = true;
                         TriangleBlast();
                     }
-                    else if (blastTimer > 150)
+                    else if (blastTimer > 130)
                     {
                         triangleStance = true;
                         NPC.netUpdate = true;
@@ -348,36 +350,6 @@ namespace Highlander.NPCs.EnlightenmentIdol
                         clapTimer = 0;
                         Clap();
                     }
-                    /**
-                    if (clapped)
-                    {
-                        clapped = false;
-                        fistTimer = 40;
-                        NPC.netUpdate = true;
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            FistAttack();
-                        }
-                    }
-                    if (!clapping)
-                    {
-                        clapTimer++;
-                    }
-
-                    if (clapTimer >= 120)
-                    {
-                        clapTimer = 0;
-                        Clap();
-                    }
-                    if (fistTimer > 0)
-                    {
-                        fistTimer--;
-                        if (fistTimer % 15 == 0)
-                        {
-                            FistAttack();
-                            NPC.netUpdate = true;
-                        }
-                    }**/
                     break;
                 case 3:
                     if (Main.expertMode)
@@ -400,13 +372,13 @@ namespace Highlander.NPCs.EnlightenmentIdol
                     }
 
                     blastTimer++;
-                    if (blastTimer > 110)
+                    if (blastTimer > 130)
                     {
                         triangleReady = true;
                         blastTimer = 0;
                         NPC.netUpdate = true;
                     }
-                    else if (blastTimer > 80 && triangleReady)
+                    else if (blastTimer > 100 && triangleReady)
                     {
                         triangleReady = false;
                         NPC.netUpdate = true;
@@ -579,6 +551,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
         public override void FindFrame(int frameHeight)
         {
+            /**
             if (clapping)
             {
                 if(NPC.frameCounter < 6)
@@ -613,7 +586,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
             {
                 NPC.frame.Y = 0;
                 NPC.frameCounter = 0;
-            }
+            }**/
         }
 
         public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
@@ -642,7 +615,7 @@ namespace Highlander.NPCs.EnlightenmentIdol
         {
             Texture2D border = Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/SphereBorder").Value;
 
-            spriteBatch.Draw(Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/IdolSphere").Value, NPC.Center - screenPos, null, Color.White * (40f / 255f) * ((255 - NPC.alpha) / 255f), 0f, new Vector2(SPHERE_RADIUS, SPHERE_RADIUS), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Request<Texture2D>("Highlander/NPCs/EnlightenmentIdol/IdolSphere").Value, NPC.Center - screenPos, null, Color.White * (20f / 255f) * ((255 - NPC.alpha) / 255f), 0f, new Vector2(SPHERE_RADIUS, SPHERE_RADIUS), 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(border, NPC.Center - screenPos, null, Color.White * ((255 - NPC.alpha) / 255f), 0f, new Vector2(border.Width / 2, border.Height / 2), 1f, SpriteEffects.None, 0f);
 
             return true;
@@ -654,18 +627,28 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
             Vector2 drawPos = NPC.position - screenPos + new Vector2(NPC.width / 2, NPC.height / 2 + 9);
 
-            int TopArmsFrameHeight = TopArms.Height / 6;
+            int TopArmsFrameHeight = TopArms.Height / 12;
             Vector2 TopArmsOrigin = new Vector2(TopArms.Width / 2, TopArmsFrameHeight / 2);
             
             Rectangle TopArmsFrame = new Rectangle(0, topFrame * TopArmsFrameHeight, TopArms.Width, TopArmsFrameHeight);
 
             spriteBatch.Draw(TopArms, drawPos, TopArmsFrame, Color.White * ((float)(255 - NPC.alpha) / 255f), NPC.rotation, TopArmsOrigin, 1.0f, flip, 0);
 
+
+            int ClapFrameHeight = ClapArms.Height / 10;
+            Vector2 ClapOrigin = new Vector2(ClapArms.Width / 2, ClapFrameHeight / 2);
+
+            Rectangle ClapFrame = new Rectangle(0, clapFrame * ClapFrameHeight, ClapArms.Width, ClapFrameHeight);
+
+            spriteBatch.Draw(ClapArms, drawPos, ClapFrame, Color.White * ((float)(255 - NPC.alpha) / 255f), NPC.rotation, ClapOrigin, 1.0f, flip, 0);
+
+
             int MiddleArmsFrameHeight = MiddleArms.Height / 27;
             Vector2 MiddleArmsOrigin = new Vector2(MiddleArms.Width / 2, MiddleArmsFrameHeight / 2);
             Rectangle MiddleArmsFrame = new Rectangle(0, middleFrame * MiddleArmsFrameHeight, MiddleArms.Width, MiddleArmsFrameHeight);
 
             spriteBatch.Draw(MiddleArms, drawPos, MiddleArmsFrame, Color.White * ((float)(255 - NPC.alpha) / 255f), NPC.rotation, MiddleArmsOrigin, 1.0f, flip, 0);
+
 
             int ChargeBlastFrameHeight = ChargeBlast.Height / 4;
             int ChargeBlastFrameWidth = ChargeBlast.Width / 5;
@@ -681,41 +664,49 @@ namespace Highlander.NPCs.EnlightenmentIdol
 
             if (triangleStance)
             {
-                if (topArmsCounter < 4)
+                if (topArmsCounter < 6)
                 {
                     newTopFrame = 1;
                 }
-                else if (topArmsCounter < 8)
+                else if (topArmsCounter < 18)
                 {
                     newTopFrame = 2;
                 }
-                else if (topArmsCounter < 12)
+                else if (topArmsCounter < 21)
                 {
                     newTopFrame = 3;
                 }
-                else if (topArmsCounter < 16)
+                else if (topArmsCounter < 27)
                 {
                     newTopFrame = 4;
                 }
-                else if (topArmsCounter < 44)
+                else if (topArmsCounter < 33)
                 {
                     newTopFrame = 5;
                 }
-                else if (topArmsCounter < 48)
+                else if (topArmsCounter < 39)
                 {
-                    newTopFrame = 4;
+                    newTopFrame = 6;
                 }
-                else if (topArmsCounter < 53)
+                else if (topArmsCounter < 57)
                 {
-                    newTopFrame = 3;
+                    newTopFrame = 7; // Shoot frame
                 }
-                else if (topArmsCounter < 56)
+                else if (topArmsCounter < 63)
                 {
-                    newTopFrame = 2;
+                    newTopFrame = 8;
                 }
-                else if (topArmsCounter < 60)
+                else if (topArmsCounter < 69)
                 {
-                    newTopFrame = 1;
+                    newTopFrame = 9;
+                }
+                else if (topArmsCounter < 75)
+                {
+                    newTopFrame = 10;
+                }
+                else if (topArmsCounter < 80)
+                {
+                    newTopFrame = 11;
                 }
                 else
                 {
@@ -733,6 +724,70 @@ namespace Highlander.NPCs.EnlightenmentIdol
             if (newTopFrame != topFrame)
             {
                 topFrame = newTopFrame;
+                NPC.netUpdate = true;
+            }
+
+            byte newClapFrame = 0;
+
+            if (clapping)
+            {
+                if (NPC.frameCounter < 9)
+                {
+                    newClapFrame = 1;
+                }
+                else if (NPC.frameCounter < 18)
+                {
+                    newClapFrame = 2;
+                }
+                else if (NPC.frameCounter < 42)
+                {
+                    newClapFrame = 3;
+                }
+                else if (NPC.frameCounter < 45)
+                {
+                    newClapFrame = 4;
+                }
+                else if (NPC.frameCounter < 48)
+                {
+                    newClapFrame = 5;
+                }
+                else if (NPC.frameCounter < 54)
+                {
+                    newClapFrame = 6; // First Clap Hit Frame
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item37 with { Volume = 0.9f, Pitch = -0.5f }, NPC.position);
+                    }
+                }
+                else if (NPC.frameCounter < 60)
+                {
+                    newClapFrame = 7;
+                }
+                else if (NPC.frameCounter < 66)
+                {
+                    newClapFrame = 8;
+                }
+                else if (NPC.frameCounter < 72)
+                {
+                    newClapFrame = 9;
+                }
+                else
+                {
+                    NPC.netUpdate = true;
+                    newTopFrame = 0;
+                    clapping = false;
+                    clapped = true;
+                }
+                NPC.frameCounter++;
+            }
+            else
+            {
+                newClapFrame = 0;
+                NPC.frameCounter = 0;
+            }
+            if (newClapFrame != clapFrame)
+            {
+                clapFrame = newClapFrame;
                 NPC.netUpdate = true;
             }
 

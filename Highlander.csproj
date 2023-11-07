@@ -9,6 +9,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="changelog.txt" />
+    <None Remove="NPCs\EnlightenmentIdol\EnlightenmentIdol_Charge.png" />
+    <None Remove="NPCs\EnlightenmentIdol\EnlightenmentIdol_Triangle.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
